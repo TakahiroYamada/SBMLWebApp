@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Select the analysis</title>
+	<script type="text/javascript">
+	function frameshiftAnalyze(){
+		var AnalyzeList = document.getElementsByName("Analyze")
+		if( AnalyzeList[ 0 ].checked ){
+			document.location.href = "http://localhost:8080/GSOC_WebMavenProject/SimulationFileReader.html"	
+		}
+		else if( AnalyzeList[ 1 ].checked ){
+			document.location.href = "http://localhost:8080/GSOC_WebMavenProject/SteadyStateFileReader.html";
+		}
+		else if( AnalyzeList[ 2 ].checked ){
+			console.log("Opti")
+		}
+	}
+	</script>
+</head>
+<body>
+	<form name="mainForm">
+	<p>
+	<input type="radio" name="Analyze" value="1" checked="checked"> Simulation <br/>
+	<input type="radio" name="Analyze" value="2"> Steady State Analysis <br/>
+	<input type="radio" name="Analyze" value="3"> Parameter Fitting <br/>
+	</p>
+	<p>
+	<input type="button" name = "EnterButton" value="Enter" onclick="frameshiftAnalyze();">
+	</p>
+	</form> 
+</body>
+</html>
