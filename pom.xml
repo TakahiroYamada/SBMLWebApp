@@ -43,6 +43,10 @@
   		<scope>system</scope>
   		<systemPath>${basedir}/lib/COPASI-4.19.140-Java-Bindings-Darwin/copasi.jar</systemPath>
   	</dependency>
+  	<dependency>
+  		<groupId>commons-fileupload</groupId>
+  		<artifactId>commons-fileupload</artifactId>
+  	</dependency>
   </dependencies>
   <dependencyManagement>
   	<dependencies>
@@ -60,6 +64,11 @@
   			<groupId>copasi.jar</groupId>
   			<artifactId>copasi.jar</artifactId>
   			<version>1.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>commons-fileupload</groupId>
+  			<artifactId>commons-fileupload</artifactId>
+  			<version>1.2.2</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>
