@@ -21,9 +21,9 @@ pom.xml          Maven pom file
 This project is created as Maven project. However the application of apache tomcat is not contatined to configure.
 In development environment, Apache tomcat version 6.0.48 is used and it is stably worked.
 Apache tomcat version 6.0.48 can be installed from following URL. The file name is apache-tomcat-6.0.48.tar.gz. When you download this file, the direcotry should be distributed in your proper position(ex:/Applications/). 
-### Eclipse tomcat plugin installation
 Tomcat : https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.48/bin/
 
+### Eclipse tomcat plugin installation
 When you use Eclipse , eclipse tomcat plugin is needed. This file can be downloaded following Task.
 1. Select Help - Eclipse Marketplace
 1. Type "tomcat" in find text box
