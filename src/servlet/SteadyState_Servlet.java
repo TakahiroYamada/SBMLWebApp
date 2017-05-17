@@ -33,9 +33,8 @@ public class SteadyState_Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String path = getServletContext().getRealPath("WEB-INF/tmp");
+		String path = getServletContext().getRealPath("/tmp");
 		response.setContentType("text/plane");
-		
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		
@@ -58,8 +57,7 @@ public class SteadyState_Servlet extends HttpServlet {
 					SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( path + "/result_steadystate.txt", analyzeFile.getPath());
 					response.setHeader("Content-Disposition", "attachment; filename=result_steadystate.txt");
 					ServletContext ctx = getServletContext();
-					InputStream is = ctx.getResourceAsStream( "WEB-INF/tmp/result_steadystate.txt");
-					System.out.println( is );
+					InputStream is = ctx.getResourceAsStream( "/tmp/result_steadystate.txt");
 					int read = 0;
 					byte[] bytes = new byte[ 1024 ];
 					OutputStream os = response.getOutputStream();

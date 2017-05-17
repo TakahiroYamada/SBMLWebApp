@@ -2,15 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Simulation : SBML File Read and Analyze</title>
+<script type="text/javascript" src = "steadyAjax.js"> </script>
+<title>Steady State Analysis : SBML File Read and Analyze</title>
 </head>
 <body>
-	<form name = "simForm" id = "simForm" action = "SteadyState_Servlet" method ="post" enctype = "multipart/form-data">
 	Files to upload:
 	<br/>
-	<input type = "file" size = "50" name = "simFile">
+	<input id = "stedFile" type = "file" size = "50" onchange = "getSteadyResult();">
 	<br/>
-	<input type = "submit" value = "Upload">
-	</form>
+	<progress id = "progress" value = "0"> </progress>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class Simulation_Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub 
-		String path = getServletContext().getRealPath("/WEB-INF/tmp");
+		String path = getServletContext().getRealPath("/tmp");
 		response.setContentType("text/csv");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
@@ -60,8 +60,7 @@ public class Simulation_Servlet extends HttpServlet {
 					simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
 					response.setHeader("Content-Disposition", "attachment; filename=result.csv");
 					ServletContext ctx = getServletContext();
-					InputStream is = ctx.getResourceAsStream("WEB-INF/tmp/result.csv");
-					
+					InputStream is = ctx.getResourceAsStream("/tmp/result.csv");
 					int read = 0;
 					byte[] bytes = new byte[ 1024 ];
 					OutputStream os = response.getOutputStream();
