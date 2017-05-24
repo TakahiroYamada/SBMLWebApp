@@ -120,8 +120,8 @@ public class Simulation_Servlet extends HttpServlet {
 				allXYDataBeans[ j ] = new Simulation_XYDataBeans();
 				allXYDataBeans[ j ].setX( timeSeries.getConcentrationData( j , 0));
 				allXYDataBeans[ j ].setY( timeSeries.getConcentrationData( j, i ));
-				if( maxCandidate < timeSeries.getData( j , i)){
-					maxCandidate = timeSeries.getData( j , i );
+				if( maxCandidate < timeSeries.getConcentrationData( j , i)){
+					maxCandidate = timeSeries.getConcentrationData( j , i );
 				}
 			}
 			allDataSets[ i - 1 ].setData( allXYDataBeans );
