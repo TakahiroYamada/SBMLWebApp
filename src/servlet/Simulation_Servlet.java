@@ -74,16 +74,16 @@ public class Simulation_Servlet extends HttpServlet {
 					PrintWriter out = response.getWriter();
 					out.print( jsonSimulation );
 					//Following code is future deleted
-					for( int i = 0 ; i < simCOPASI.getTimeSeries().getNumVariables() ; i ++){
-						System.out.print( simCOPASI.getTimeSeries().getTitle( i ) +"\t");
-					}
-					System.out.println();
-					for( int i = 0 ; i < simCOPASI.getTimeSeries().getRecordedSteps() ; i ++){
-						for( int j = 0 ; j < simCOPASI.getTimeSeries().getNumVariables() ; j ++){
-							System.out.print( simCOPASI.getTimeSeries().getConcentrationData( i , j ) + "\t");
-						}
-						System.out.println();
-					}
+					//for( int i = 0 ; i < simCOPASI.getTimeSeries().getNumVariables() ; i ++){
+					//	System.out.print( simCOPASI.getTimeSeries().getTitle( i ) +"\t");
+					//}
+					//System.out.println();
+					//for( int i = 0 ; i < simCOPASI.getTimeSeries().getRecordedSteps() ; i ++){
+					//	for( int j = 0 ; j < simCOPASI.getTimeSeries().getNumVariables() ; j ++){
+					//		System.out.print( simCOPASI.getTimeSeries().getConcentrationData( i , j ) + "\t");
+					//	}
+					//	System.out.println();
+					//}
 					
 					//response.setHeader("Content-Disposition", "attachment; filename=result.csv");
 					//ServletContext ctx = getServletContext();
@@ -128,7 +128,7 @@ public class Simulation_Servlet extends HttpServlet {
 		}
 		
 		simAllBeans.setData( allDataSets );
-		simAllBeans.setXmax( timeSeries.getData( 0 , numOfTimePoints - 1));
+		simAllBeans.setXmax( timeSeries.getData( numOfTimePoints - 1 , 0));
 		simAllBeans.setYmax( maxCandidate );
 		return simAllBeans;
 	}
