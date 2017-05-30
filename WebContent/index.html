@@ -7,13 +7,13 @@
 	function frameshiftAnalyze(){
 		var AnalyzeList = document.getElementsByName("Analyze")
 		if( AnalyzeList[ 0 ].checked ){
-			document.location.href = "http://localhost:8080/GSOC_WebMavenProject/SimulationFileReader.html"	
+			document.location.href = "SimulationFileReader.html"	
 		}
 		else if( AnalyzeList[ 1 ].checked ){
-			document.location.href = "http://localhost:8080/GSOC_WebMavenProject/SteadyStateFileReader.html";
+			document.location.href = "SteadyStateFileReader.html";
 		}
 		else if( AnalyzeList[ 2 ].checked ){
-			console.log("Opti")
+			document.location.href = "ParameterEstimation.html";
 		}
 	}
 	</script>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src = "parameterAjax.js"> </script>
+<title>Parameter Estimation : SBML File and Experiment Data : Read and Analyze</title>
+</head>
+<body>
+	Files to upload:
+	<br/>
+	Model File(SBML) : 
+	<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();">
+	<br/>
+	<div id = expFile style="display:none">
+	Experiment Data :
+	<input id = "expData" type = "file" size = "50" onchange = "analyzeData();">
+	</div>
+	<br/>
+	<progress id = "progress" value = "0"> </progress>
+</body>
+</html>

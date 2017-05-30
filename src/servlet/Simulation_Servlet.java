@@ -42,7 +42,7 @@ public class Simulation_Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub 
 		String path = getServletContext().getRealPath("/tmp");
-		response.setContentType("text/csv");
+		//response.setContentType("text/csv");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		
@@ -74,6 +74,7 @@ public class Simulation_Servlet extends HttpServlet {
 					PrintWriter out = response.getWriter();
 					out.print( jsonSimulation );
 					//Following code is future deleted
+					
 					//for( int i = 0 ; i < simCOPASI.getTimeSeries().getNumVariables() ; i ++){
 					//	System.out.print( simCOPASI.getTimeSeries().getTitle( i ) +"\t");
 					//}

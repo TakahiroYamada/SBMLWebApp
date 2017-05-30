@@ -29,4 +29,14 @@
     <servlet-name>SteadyState_Servlet</servlet-name>
     <url-pattern>/SteadyState_Servlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ParameterEstimation_Servlet</display-name>
+    <servlet-name>ParameterEstimation_Servlet</servlet-name>
+    <servlet-class>servlet.ParameterEstimation_Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ParameterEstimation_Servlet</servlet-name>
+    <url-pattern>/ParameterEstimation_Servlet</url-pattern>
+  </servlet-mapping>
 </web-app>
