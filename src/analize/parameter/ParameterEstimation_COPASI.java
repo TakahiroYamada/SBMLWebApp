@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -27,6 +29,11 @@ import org.COPASI.CMetab;
 import org.COPASI.COptItem;
 import org.COPASI.CReaction;
 import org.COPASI.CTaskEnum;
+import org.COPASI.FloatMatrix;
+
+
+import beans.simulation.Simulation_DatasetsBeans;
+import beans.simulation.Simulation_XYDataBeans;
 
 
 
@@ -37,13 +44,19 @@ public class ParameterEstimation_COPASI {
 	private int ExpRow;
 	private int ExpCol;
 	private HashMap<String, Double> optimizedParam;
+	private CCopasiDataModel dataModel;
+	private CExperimentSet experimentSet;
 	public ParameterEstimation_COPASI( File SBML , File Exp){
 		this.SBMLFile = SBML;
 		this.ExperimentFile = Exp;
 	}
 	
+	public CCopasiDataModel getDataModel() {
+		return dataModel;
+	}
+
 	public void estimateParameter(){
-		CCopasiDataModel dataModel = CCopasiRootContainer.addDatamodel();
+		this.dataModel = CCopasiRootContainer.addDatamodel();
 		try{
 			dataModel.importSBML( SBMLFile.getPath() );
 		}
@@ -77,7 +90,7 @@ public class ParameterEstimation_COPASI {
 		
 		// The problem for task is set. Detail configuration is continued
 		CFitProblem fitProblem = (CFitProblem) fitTask.getProblem();
-		CExperimentSet experimentSet = (CExperimentSet) fitProblem.getParameter("Experiment Set");
+		experimentSet = (CExperimentSet) fitProblem.getParameter("Experiment Set");
 		
 		CExperiment experiment = new CExperiment( dataModel );
 		experiment.setFileName( ExperimentFile.getPath().toString());
@@ -113,6 +126,8 @@ public class ParameterEstimation_COPASI {
 		
 		//Preprocess : Preparing the optimized parameter set
 		CCopasiParameterGroup optimizationItemGroup = (CCopasiParameterGroup) fitProblem.getParameter("OptimizationItemList");
+		List<CCopasiParameter> paramList = new ArrayList<>();
+		
 		for( int i = 0 ; i < dataModel.getModel().getNumReactions() ; i ++){
 			CReaction reaction = dataModel.getModel().getReaction( i );
 			for( int j = 0 ; j < reaction.getParameters().size() ; j ++){
@@ -125,12 +140,16 @@ public class ParameterEstimation_COPASI {
 				fitItem.setLowerBound( new CCopasiObjectName( new Double( parameter.getDblValue() / 1000).toString()));
 				fitItem.setUpperBound( new CCopasiObjectName( new Double( parameter.getDblValue() * 10 ).toString() ));
 				optimizationItemGroup.addParameter( fitItem );
+				
+				// paramList contains the parameter for each order of parameter in COptItemList got by CFitProblem
+				paramList.add( parameter );
 			}
 		}
 		
 		//Execution of parameter estimation
 		try{
 			boolean result = fitTask.processWithOutputFlags( true , ( int ) CCopasiTask.ONLY_TIME_SERIES );
+			System.out.println( experimentSet.getExperiment( 0 ).getTimeData().size());
 		}
 		catch(Exception ex)
         {
@@ -150,9 +169,16 @@ public class ParameterEstimation_COPASI {
 		for( int i = 0 ; i < fitProblem.getOptItemList().size() ; i ++){
 			COptItem tmpOptItem = fitProblem.getOptItemList().get( i );
 			optimizedParam.put( tmpOptItem.getObjectDisplayName() , fitProblem.getSolutionVariables().get( i ));
-			System.out.println( tmpOptItem.getObjectDisplayName() + "->" + fitProblem.getSolutionVariables().get( i ));
+			
+			// The parameter value in current model is changed by following line
+			paramList.get( i ).setDblValue( fitProblem.getSolutionVariables().get( i ));
+			dataModel.getModel().updateInitialValues( paramList.get( i ));
 		}
 	}
+	public HashMap<String, Double> getOptimizedParam() {
+		return optimizedParam;
+	}
+	
 	private void analyzeRowColumn(){
 		int RowCount = 0;
 		try {
@@ -170,7 +196,24 @@ public class ParameterEstimation_COPASI {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}	
+	}
+	public Simulation_DatasetsBeans[] configureParamEstBeans(){
+		CExperiment experiment = this.experimentSet.getExperiment( 0 );
+		Simulation_DatasetsBeans expDataBeans[] = new Simulation_DatasetsBeans[ (int ) experiment.getDependentData().numCols()];
+		for( int i = 0 ; i < experiment.getDependentData().numCols() ; i ++){
+			expDataBeans[ i ] = new Simulation_DatasetsBeans();
+			Simulation_XYDataBeans tmpXYDataBeans[] = new Simulation_XYDataBeans[ (int ) experiment.getDependentData().numRows() ];
+			for( int j = 0 ; j < experiment.getDependentData().numRows() ; j ++){
+				tmpXYDataBeans[ j ] = new Simulation_XYDataBeans();
+				tmpXYDataBeans[ j ].setX( experiment.getTimeData().get( j ));
+				tmpXYDataBeans[ j ].setY( experiment.getDependentData().get( j , i ));
+			}
+			expDataBeans[ i ].setData( tmpXYDataBeans );
+			expDataBeans[ i ].setLabel( experiment.getColumnNames().get( i + 1 ) + " Experiment Data");
+			expDataBeans[ i ].setShowLine( false );
+			expDataBeans[ i ].setPointStyle("crossRot");
 		}
-		
+		return expDataBeans;
 	}
 }

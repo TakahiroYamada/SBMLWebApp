@@ -6,19 +6,31 @@ public class Simulation_DatasetsBeans {
 	//Following name of variable will be used as JSON key data
 	private String label;
 	private Simulation_XYDataBeans data[];
+	private String type;
+	private boolean showLine;
 	private boolean fill;
 	private String backgroundColor;
 	private String borderColor;
 	private String pointBorderColor;
 	private String pointBackgroundColor;
 	private int borderWidth;
+	private String pointStyle;
 	public Simulation_DatasetsBeans(){
 		this.fill = false;
 		this.backgroundColor = "rgba(179,181,198,0.2)";
 		this.borderColor = "rgba(179,181,198,1)";
 		this.pointBorderColor = "rgba(179,181,198,1)";
 		this.pointBackgroundColor = "#fff";
-		this.borderWidth = 1;
+		this.borderWidth = 3;
+		this.type = "scatter";
+		this.showLine = true;
+		this.pointStyle = "circle";
+	}
+	public String getPointStyle() {
+		return pointStyle;
+	}
+	public void setPointStyle(String pointStyle) {
+		this.pointStyle = pointStyle;
 	}
 	public String getLabel() {
 		return label;
@@ -67,5 +79,17 @@ public class Simulation_DatasetsBeans {
 	}
 	public void setData(Simulation_XYDataBeans[] data) {
 		this.data = data;
+	}
+	public String getType(){
+		return type;
+	}
+	public void setType( String type){
+		this.type = type;
+	}
+	public boolean getShowLine(){
+		return showLine;
+	}
+	public void setShowLine( boolean showLine){
+		this.showLine = showLine;
 	}
 }

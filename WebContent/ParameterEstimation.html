@@ -2,20 +2,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
 <script type="text/javascript" src = "parameterAjax.js"> </script>
 <title>Parameter Estimation : SBML File and Experiment Data : Read and Analyze</title>
 </head>
 <body>
-	Files to upload:
+	Files to upload:　
 	<br/>
 	Model File(SBML) : 
 	<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();">
 	<br/>
-	<div id = expFile style="display:none">
+	<div id = "expFile" style="display:none">
 	Experiment Data :
 	<input id = "expData" type = "file" size = "50" onchange = "analyzeData();">
 	</div>
 	<br/>
 	<progress id = "progress" value = "0"> </progress>
+	<br/>
+	<canvas id="beforeCanvas" height="50" width="100"></canvas>
+	<br/>
+	<div id = "canvas_item" style="display:none">
+	&#9660
+	</div>
+	<br/>
+	<canvas id="afterCanvas" height="50" width="100"></canvas>
+	<br/>
 </body>
 </html>
