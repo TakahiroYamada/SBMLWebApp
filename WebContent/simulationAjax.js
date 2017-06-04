@@ -50,6 +50,8 @@ function getSimulationResult(){
 	req.onloadend = function( e ){
 		progressBar.value = e.loaded;
 	}
+	
+	configureFormData( filedata );
 	req.open("POST" , "/GSOC_WebMavenProject/Simulation_Servlet" , true);
 	req.onreadystatechange = callback;
 	req.send( filedata );
@@ -74,4 +76,9 @@ function configureCanvas(){
 	canvas_jsondata.options.scales.xAxes[0].ticks.max = tmpData.xmax;
 	canvas_jsondata.options.scales.yAxes[0].ticks.max = tmpData.ymax;
 	var myChart = new Chart(canvas , canvas_jsondata );
+}
+function configureFormData( formdata ){
+	formdata.append("endpoint" , document.getElementById("endtime").value)
+	formdata.append("numpoint" , document.getElementById("numpoint").value)
+	formdata.append("library", document.getElementById("library").value)
 }

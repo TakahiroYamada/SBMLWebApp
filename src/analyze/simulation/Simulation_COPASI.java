@@ -7,12 +7,16 @@ import org.COPASI.*;
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
+import parameter.Simulation_Parameter;
 
 
 public class Simulation_COPASI {
 	private CTimeSeries simTimeSeries;
 	private CCopasiDataModel dataModel;
-	public Simulation_COPASI( String sbmlFile ){
+	private Simulation_Parameter simParam;
+	public Simulation_COPASI( String sbmlFile , Simulation_Parameter simParam){
+		this.simParam = simParam;
+		
 		dataModel = CCopasiRootContainer.addDatamodel();
 		try {
 			dataModel.importSBML( sbmlFile );
@@ -63,11 +67,14 @@ public class Simulation_COPASI {
         simTrajekTask.getReport().setTarget( "SimulationResult.txt");
         simTrajekTask.getReport().setAppend( false );
         
+        // Simulation Emvironment Configuration
         
         CTrajectoryProblem simProblem = ( CTrajectoryProblem )simTrajekTask.getProblem();
-        simProblem.setStepNumber( 100 );
+        //simProblem.setStepNumber( 100 );
+        simProblem.setStepNumber((long) simParam.getNumTime());
         dataModel.getModel().setInitialTime( 0.0 );
-        simProblem.setDuration( 100 );
+        //simProblem.setDuration( 100 );
+        simProblem.setDuration((long) simParam.getEndTime() );
         simProblem.setTimeSeriesRequested( true );
         
         CTrajectoryMethod simMethod = ( CTrajectoryMethod )simTrajekTask.getMethod();

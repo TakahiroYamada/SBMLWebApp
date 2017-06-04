@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.COPASI.CTimeSeries;
+import org.COPASI.SWIGTYPE_p_CMath__SimulationType;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -29,58 +30,47 @@ import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import net.arnx.jsonic.JSON;
+import parameter.Simulation_Parameter;
 
 /**
  * Servlet implementation class simulation_servlet
  */
+
 public class Simulation_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private String filename;   
+	private String path;
+    private String filename;
+    private File newFile;
+    private Simulation_Parameter param;
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub 
-		String path = getServletContext().getRealPath("/tmp");
-		//response.setContentType("text/csv");
+		path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
-		File newFile = null;
-		try {
-			List<FileItem> fields = upload.parseRequest( request );
-			Iterator< FileItem > it = fields.iterator();
-			while( it.hasNext()){
-				FileItem item = it.next();
-				if(!item.isFormField()){
-					filename = item.getName();
-					newFile = new File( path + "/" + filename);
-					File tmpDir = new File( path );
-					tmpDir.mkdir();
-					try {
-						item.write( newFile );
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		} catch (FileUploadException e) {
-			e.printStackTrace();
-		}
 		
-		try{
-			Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath());
-			//TimeSeries data contais the following data structure:
-			//Title : the ID of each species
-			//Data : the amout of each species and this is indicated by intended number of time and variables
-			simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
-			Simulation_AllBeans simulationBeans = simCOPASI.configureSimulationBeans();
-			String jsonSimulation = JSON.encode( simulationBeans );
-			response.setContentType("application/json;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.print( jsonSimulation );
-		} catch( NullPointerException e){
-			e.printStackTrace();
+		configureAnalysisEmviroment( request , upload );
+		
+		if( param.getLibrary().equals("copasi")){
+			try{
+				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);
+				//TimeSeries data contais the following data structure:
+				//Title : the ID of each species
+				//Data : the amout of each species and this is indicated by intended number of time and variables
+				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
+				Simulation_AllBeans simulationBeans = simCOPASI.configureSimulationBeans();
+				String jsonSimulation = JSON.encode( simulationBeans );
+				response.setContentType("application/json;charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.print( jsonSimulation );
+			} catch( NullPointerException e){
+				e.printStackTrace();
+			}
+		}
+		else if( param.getLibrary().equals("simulationcore")){
+			
 		}
 		//Following code is future deleted
 		
@@ -106,5 +96,44 @@ public class Simulation_Servlet extends HttpServlet {
 		//}
 		//os.flush();
 		//os.close();
+	}
+	private void configureAnalysisEmviroment( HttpServletRequest request , ServletFileUpload upload  ) {
+		// TODO Auto-generated method stub
+		this.newFile = null;
+		this.param = new Simulation_Parameter();
+		
+		try {
+			List<FileItem> fields = upload.parseRequest( request );
+			Iterator< FileItem > it = fields.iterator();
+			while( it.hasNext()){
+				FileItem item = it.next();
+				
+				// SBML model file is got.
+				if(item.getFieldName().equals("file")){
+					filename = item.getName();
+					newFile = new File( path + "/" + filename);
+					File tmpDir = new File( path );
+					tmpDir.mkdir();
+					try {
+						item.write( newFile );
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				// Parameter to analyze is set
+				else if( item.getFieldName().equals("endpoint")){
+					param.setEndTime( new Integer( Integer.parseInt( item.getString() )));
+				}
+				else if( item.getFieldName().equals("numpoint")){
+					param.setNumTime( new Integer( Integer.parseInt( item.getString() )));;
+				}
+				else if( item.getFieldName().equals("library")){
+					param.setLibrary( item.getString() );
+				}
+			}
+		} catch (FileUploadException e) {
+			e.printStackTrace();
+		}
 	}
 }

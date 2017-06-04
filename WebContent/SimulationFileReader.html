@@ -11,6 +11,15 @@
 	<br/>
 	<input id = "simFile" type = "file" size = "50" onchange = "getSimulationResult();">
 	<br/>
+	End time <input type = "number" id = "endtime" value = "100" onchange = "getSimulationResult();">
+	<br/> 
+	Number of time point <input type ="number" id = "numpoint" value = "100" onchange = "getSimulationResult();">
+	<br/>
+	Library to analyze <select id = "library" size = "1">
+	<option value ="copasi"> COPASI API </option>
+	<option value ="simulationcore"> Simulation Core </option>
+	</select>
+	<br/>
 	<progress id = "progress" value = "0"> </progress>
 	<br/>
 	<canvas id="simulationCanvas" height="450" width="600"></canvas>
