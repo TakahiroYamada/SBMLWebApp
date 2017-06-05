@@ -1,6 +1,6 @@
 package servlet;
 
-import java.io.BufferedReader;
+import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,33 +17,76 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import analize.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
 import beans.parameter.ParameterEstimation_AllBeans;
 import net.arnx.jsonic.JSON;
+import parameter.ParameterEstimation_Parameter;
+import parameter.Simulation_Parameter;
 
 /**
  * Servlet implementation class ParameterEstimation_Servlet
  */
 public class ParameterEstimation_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private String path;
 	private File SBMLFile;
 	private File ExperimentFile;
 	private ParameterEstimation_AllBeans paramBeans;
+	private ParameterEstimation_Parameter paramestParam;
+	private Simulation_Parameter paramSim;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String path = getServletContext().getRealPath("/tmp");
+		path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		paramBeans = new ParameterEstimation_AllBeans();
+			
+		configureAnalysisEmvironment(request , upload);
+			
+		//COPASI ParameterEstimation Execution
+		ParameterEstimation_COPASI paramEstCopasi = new ParameterEstimation_COPASI( paramestParam , SBMLFile, ExperimentFile);
+		paramEstCopasi.estimateParameter();
+		
+		// The simulation in order to visualize in Client side using parameters before parameter fitting
+		simulateFittedResult( paramEstCopasi );
+		
+		//Experiment data is set to beans
+		paramBeans.setExpDataSets( paramEstCopasi.configureParamEstBeans() );
+		
+		// response to client side sending JSON format data
+		String jsonParamEst = JSON.encode( paramBeans , true);
+		response.setContentType("application/json;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print( jsonParamEst );
+	}
+	private void simulateFittedResult( ParameterEstimation_COPASI paramEstCopasi) {
+		//Simulation condition is set
+
+		int endTime =  (int) Math.ceil( paramEstCopasi.getTimeData().get( paramEstCopasi.getTimeData().size() -1 ));
+		this.paramSim = new Simulation_Parameter();
+		this.paramSim.setLibrary("copasi");
+		this.paramSim.setNumTime( endTime );
+		this.paramSim.setEndTime( endTime );
+		
+		// Simulation execution using parameters before and after fitting
+		Simulation_COPASI beforeFitting = new Simulation_COPASI( SBMLFile.getPath() , paramSim);
+		paramBeans.setBeforeFitting( beforeFitting.configureSimulationBeans() );
+				
+		Simulation_COPASI afterFitting = new Simulation_COPASI( paramEstCopasi.getDataModel() , paramSim);
+		paramBeans.setAfterFitting( afterFitting.configureSimulationBeans());
+	}
+	private void configureAnalysisEmvironment(HttpServletRequest request, ServletFileUpload upload) {
+		// TODO Auto-generated method stub
+		paramestParam = new ParameterEstimation_Parameter();
 		
 		try {
 			List<FileItem> fields = upload.parseRequest( request );
 			Iterator< FileItem > it = fields.iterator();
 			while( it.hasNext() ){
 				FileItem item = it.next();
+				
 				// SBML Model file is inputed
 				if( item.getFieldName().equals("SBMLFile")){
 					String filename = item.getName();
@@ -57,7 +100,6 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 						e.printStackTrace();
 					}
 				}
-				
 				// Experiment Data file is inputed
 				else if( item.getFieldName().equals( "ExpFile")){
 					String filename = item.getName();
@@ -69,31 +111,25 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 						e.printStackTrace();
 					}
 				}
-				
+				else if( item.getFieldName().equals("algorithm")){
+					paramestParam.setMethod( item.getString() );
+				}
+				// If Leven-Berg or Nelder is selected
+				else if( item.getFieldName().equals("itermax")){
+					paramestParam.setIteLimit( Integer.parseInt( item.getString()));
+				}
+				else if( item.getFieldName().equals("tolerance")){
+					paramestParam.setTolerance( Double.parseDouble(item.getString()));
+				}
+				// If GA is selected
+				else if( item.getFieldName().equals("generation")){
+					paramestParam.setNumGenerations( Integer.parseInt( item.getString()));
+				}
+				else if( item.getFieldName().equals("population")){
+					paramestParam.setPopSize( Integer.parseInt( item.getString()));
+				}
 			}
-			// The simulation in order to visualize in Client side using parameters before parameter fitting
-			Simulation_COPASI beforeFitting = new Simulation_COPASI( SBMLFile.getPath() );
-			paramBeans.setBeforeFitting( beforeFitting.configureSimulationBeans() );
-			
-			//COPASI ParameterEstimation Execution
-			ParameterEstimation_COPASI paramEstCopasi = new ParameterEstimation_COPASI( SBMLFile, ExperimentFile);
-			paramEstCopasi.estimateParameter();
-			
-			// The simulation in order to visualize in Client side using parameters after parameter fitting
-			
-			//Following code can change the model parameter!!!!!! Should be Bug!!
-			Simulation_COPASI afterFitting = new Simulation_COPASI( paramEstCopasi.getDataModel() );
-			paramBeans.setAfterFitting( afterFitting.configureSimulationBeans());
-			
-			//Experiment data is set to beans
-			paramBeans.setExpDataSets( paramEstCopasi.configureParamEstBeans() );
-			
-			// response to client side sending JSON format data
-			String jsonParamEst = JSON.encode( paramBeans , true);
-			response.setContentType("application/json;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.print( jsonParamEst );
-		} catch (FileUploadException e) {
+		}catch (FileUploadException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 

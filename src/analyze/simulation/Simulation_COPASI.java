@@ -27,7 +27,8 @@ public class Simulation_COPASI {
 		}
 		simulation();
 	}
-	public Simulation_COPASI( CCopasiDataModel dataModel ){
+	public Simulation_COPASI( CCopasiDataModel dataModel , Simulation_Parameter simParam){
+		this.simParam = simParam;
 		this.dataModel = dataModel;
 		simulation();
 	}

@@ -5,6 +5,14 @@ var canvas_jsondata = {
 	    	  datasets : []
 	      },
 	      options: {
+	    	  legend : {
+	    		  position : 'top',
+	    		  labels : {
+	    			  fontSize : 12,
+	    			  boxWidth : 12,
+	    			  usePointStyle : true,
+	    		  }
+	    	  },
 	          scales: {
 	            xAxes: [{
 	              type: 'linear',

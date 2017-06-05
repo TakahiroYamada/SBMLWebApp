@@ -30,10 +30,11 @@ import org.COPASI.COptItem;
 import org.COPASI.CReaction;
 import org.COPASI.CTaskEnum;
 import org.COPASI.FloatMatrix;
-
+import org.COPASI.FloatVector;
 
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
+import parameter.ParameterEstimation_Parameter;
 
 
 
@@ -43,10 +44,14 @@ public class ParameterEstimation_COPASI {
 	private File ExperimentFile;
 	private int ExpRow;
 	private int ExpCol;
+	private FloatMatrix dependentData;
+	private FloatVector timeData;
 	private HashMap<String, Double> optimizedParam;
 	private CCopasiDataModel dataModel;
 	private CExperimentSet experimentSet;
-	public ParameterEstimation_COPASI( File SBML , File Exp){
+	private ParameterEstimation_Parameter paramestParam;
+	public ParameterEstimation_COPASI( ParameterEstimation_Parameter paramestParam , File SBML , File Exp){
+		this.paramestParam = paramestParam;
 		this.SBMLFile = SBML;
 		this.ExperimentFile = Exp;
 	}
@@ -54,7 +59,8 @@ public class ParameterEstimation_COPASI {
 	public CCopasiDataModel getDataModel() {
 		return dataModel;
 	}
-
+	// Public Method :
+	//Main function to estimate parameter
 	public void estimateParameter(){
 		this.dataModel = CCopasiRootContainer.addDatamodel();
 		try{
@@ -64,7 +70,6 @@ public class ParameterEstimation_COPASI {
 			System.err.println("Error while importing the model");
 			ex.printStackTrace();
 		}
-		
 		
 		//Preprocess : Preparing the metabolite data
 		CKeyFactory keyFactory = CCopasiRootContainer.getKeyFactory();
@@ -79,15 +84,8 @@ public class ParameterEstimation_COPASI {
 		
 		// CFitTask is selected to fit the parameter
 		CFitTask fitTask = (CFitTask) dataModel.addTask( CTaskEnum.parameterFitting);
-		
-		// CAUTION : Following code select the algorithm to optimize the parameter.
-		// In Future following code should be bifurcated in order to let user select the algorithm
-		fitTask.setMethodType( CTaskEnum.LevenbergMarquardt);
-		CCopasiParameter iteMax = fitTask.getMethod().getParameter("Iteration Limit");
-		iteMax.setIntValue( 2000 );
-		CCopasiParameter tolerance = fitTask.getMethod().getParameter("Tolerance");
-		tolerance.setDblValue( 1.0e-6 );
-		
+		configureTaskParameter( fitTask );
+				
 		// The problem for task is set. Detail configuration is continued
 		CFitProblem fitProblem = (CFitProblem) fitTask.getProblem();
 		experimentSet = (CExperimentSet) fitProblem.getParameter("Experiment Set");
@@ -149,7 +147,6 @@ public class ParameterEstimation_COPASI {
 		//Execution of parameter estimation
 		try{
 			boolean result = fitTask.processWithOutputFlags( true , ( int ) CCopasiTask.ONLY_TIME_SERIES );
-			System.out.println( experimentSet.getExperiment( 0 ).getTimeData().size());
 		}
 		catch(Exception ex)
         {
@@ -174,9 +171,75 @@ public class ParameterEstimation_COPASI {
 			paramList.get( i ).setDblValue( fitProblem.getSolutionVariables().get( i ));
 			dataModel.getModel().updateInitialValues( paramList.get( i ));
 		}
+		
+		// Get the information of experiment
+		this.dependentData = experimentSet.getExperiment( 0 ).getDependentData();
+		this.timeData = experimentSet.getExperiment( 0 ).getTimeData();
+	}
+	
+	// If the result should be sent to cliend side as JSON format, following code can be useful and the "expDataBeans" contains it.
+	public Simulation_DatasetsBeans[] configureParamEstBeans(){
+		CExperiment experiment = this.experimentSet.getExperiment( 0 );
+		Simulation_DatasetsBeans expDataBeans[] = new Simulation_DatasetsBeans[ (int ) experiment.getDependentData().numCols()];
+		for( int i = 0 ; i < experiment.getDependentData().numCols() ; i ++){
+			expDataBeans[ i ] = new Simulation_DatasetsBeans();
+			Simulation_XYDataBeans tmpXYDataBeans[] = new Simulation_XYDataBeans[ (int ) experiment.getDependentData().numRows() ];
+			for( int j = 0 ; j < experiment.getDependentData().numRows() ; j ++){
+				tmpXYDataBeans[ j ] = new Simulation_XYDataBeans();
+				tmpXYDataBeans[ j ].setX( experiment.getTimeData().get( j ));
+				tmpXYDataBeans[ j ].setY( experiment.getDependentData().get( j , i ));
+			}
+			expDataBeans[ i ].setData( tmpXYDataBeans );
+			expDataBeans[ i ].setLabel( experiment.getColumnNames().get( i + 1 ) + " Experiment Data");
+			expDataBeans[ i ].setShowLine( false );
+			expDataBeans[ i ].setPointStyle("cross");
+			expDataBeans[ i ].setPointRadius( 5 );
+		}
+		return expDataBeans;
 	}
 	public HashMap<String, Double> getOptimizedParam() {
 		return optimizedParam;
+	}
+	public FloatMatrix getDependentData() {
+		return dependentData;
+	}
+	public FloatVector getTimeData() {
+		return timeData;
+	}
+	
+	// Private Method : 	
+	// Configure the parameter of task( algorithm to execute parameter estimation , iteration and tolerance)
+	private void configureTaskParameter(CFitTask fitTask) {
+		// Algorithm Setting
+		if( this.paramestParam.getMethod().equals("lv")){
+			fitTask.setMethodType( CTaskEnum.LevenbergMarquardt );
+			// Iteration to analyze is set
+			CCopasiParameter iteMax = fitTask.getMethod().getParameter("Iteration Limit");
+			iteMax.setIntValue( paramestParam.getIteLimit() );
+			// Tolerance to analyze is set
+			CCopasiParameter tolerance = fitTask.getMethod().getParameter("Tolerance");
+			tolerance.setDblValue( paramestParam.getTolerance() );
+		}
+		else if( this.paramestParam.getMethod().equals("ga")){
+			fitTask.setMethodType( CTaskEnum.GeneticAlgorithm );
+			
+			CCopasiParameter generations = fitTask.getMethod().getParameter("Number of Generations");
+			generations.setIntValue( paramestParam.getNumGenerations());
+			
+			CCopasiParameter populations = fitTask.getMethod().getParameter("Population Size");
+			populations.setIntValue( paramestParam.getPopSize());
+		}
+		else if( this.paramestParam.getMethod().equals("nelder")){
+			fitTask.setMethodType( CTaskEnum.NelderMead );
+			
+			// Iteration to analyze is set
+			CCopasiParameter iteMax = fitTask.getMethod().getParameter("Iteration Limit");
+			iteMax.setIntValue( paramestParam.getIteLimit() );
+			
+			// Tolerance to analyze is set
+			CCopasiParameter tolerance = fitTask.getMethod().getParameter("Tolerance");
+			tolerance.setDblValue( paramestParam.getTolerance() );
+		}
 	}
 	
 	private void analyzeRowColumn(){
@@ -197,23 +260,5 @@ public class ParameterEstimation_COPASI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-	}
-	public Simulation_DatasetsBeans[] configureParamEstBeans(){
-		CExperiment experiment = this.experimentSet.getExperiment( 0 );
-		Simulation_DatasetsBeans expDataBeans[] = new Simulation_DatasetsBeans[ (int ) experiment.getDependentData().numCols()];
-		for( int i = 0 ; i < experiment.getDependentData().numCols() ; i ++){
-			expDataBeans[ i ] = new Simulation_DatasetsBeans();
-			Simulation_XYDataBeans tmpXYDataBeans[] = new Simulation_XYDataBeans[ (int ) experiment.getDependentData().numRows() ];
-			for( int j = 0 ; j < experiment.getDependentData().numRows() ; j ++){
-				tmpXYDataBeans[ j ] = new Simulation_XYDataBeans();
-				tmpXYDataBeans[ j ].setX( experiment.getTimeData().get( j ));
-				tmpXYDataBeans[ j ].setY( experiment.getDependentData().get( j , i ));
-			}
-			expDataBeans[ i ].setData( tmpXYDataBeans );
-			expDataBeans[ i ].setLabel( experiment.getColumnNames().get( i + 1 ) + " Experiment Data");
-			expDataBeans[ i ].setShowLine( false );
-			expDataBeans[ i ].setPointStyle("crossRot");
-		}
-		return expDataBeans;
 	}
 }

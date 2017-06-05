@@ -15,16 +15,32 @@
 	<div id = "expFile" style="display:none">
 	Experiment Data :
 	<input id = "expData" type = "file" size = "50" onchange = "analyzeData();">
+	<br/>
+	Algorithm <select id = "algorithm" size = "1" onchange = "analyzeData()">
+	<option value = "lv">Leven-Berg Marquardt</option>
+	<option value = "ga"> Genetic Algorithm</option>
+	<option value = "nelder"> NelderMead </option>
+	</select>
 	</div>
 	<br/>
+	<div id = "lvparam" style = "display:none" onchange = "analyzeData();">
+	Iteration Limit : <input id = "lvite" type = "number" value = "2000"> <br/>
+	Tolerance : <input id = "lvtol" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+	</div>
+	<div id = "gaparam" style = "display:none" onchange = "analyzeData();">
+	Number of generations : <input id = "gagene" type = "number" value = "200"> <br/>
+	Population size : <input id = "gapopu" type = "number" value = "20"> <br/>
+	</div>
+	<div id = "nelparam" style = "display:none" onchange = "analyzeData();">
+	Iteration Limit : <input id = "nelite" type = "number" value = "2000"> <br/>
+	Tolerance : <input id = "neltol" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+	</div>
 	<progress id = "progress" value = "0"> </progress>
 	<br/>
 	<canvas id="beforeCanvas" height="50" width="100"></canvas>
-	<br/>
 	<div id = "canvas_item" style="display:none">
 	&#9660
-	</div>
-	<br/>
+	</div>	
 	<canvas id="afterCanvas" height="50" width="100"></canvas>
 	<br/>
 </body>

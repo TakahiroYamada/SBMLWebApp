@@ -13,6 +13,7 @@ public class Simulation_DatasetsBeans {
 	private String borderColor;
 	private String pointBorderColor;
 	private String pointBackgroundColor;
+	private int pointRadius;
 	private int borderWidth;
 	private String pointStyle;
 	public Simulation_DatasetsBeans(){
@@ -22,9 +23,10 @@ public class Simulation_DatasetsBeans {
 		this.pointBorderColor = "rgba(179,181,198,1)";
 		this.pointBackgroundColor = "#fff";
 		this.borderWidth = 3;
-		this.type = "scatter";
+		this.type = "line";
 		this.showLine = true;
-		this.pointStyle = "circle";
+		this.pointStyle = "line";
+		this.pointRadius = 3;
 	}
 	public String getPointStyle() {
 		return pointStyle;
@@ -91,5 +93,11 @@ public class Simulation_DatasetsBeans {
 	}
 	public void setShowLine( boolean showLine){
 		this.showLine = showLine;
+	}
+	public int getPointRadius() {
+		return pointRadius;
+	}
+	public void setPointRadius(int pointRadius) {
+		this.pointRadius = pointRadius;
 	}
 }

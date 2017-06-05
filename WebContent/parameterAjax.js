@@ -6,6 +6,14 @@ var canvas_jsondata_Before = {
 	    	  datasets : []
 	      },
 	      options: {
+	    	  legend : {
+	    		  position : 'top',
+	    		  labels : {
+	    			  fontSize : 12,
+	    			  boxWidth : 12,
+	    			  usePointStyle : true,
+	    		  }
+	    	  },
 	          scales: {
 	            xAxes: [{
 	              type: 'linear',
@@ -35,6 +43,14 @@ var canvas_jsondata_After = {
 	    	  datasets : []
 	      },
 	      options: {
+	    	  legend : {
+	    		  position : 'top',
+	    		  labels : {
+	    			  fontSize : 12,
+	    			  boxWidth : 12,
+	    			  usePointStyle : true,
+	    		  }
+	    	  },
 	          scales: {
 	            xAxes: [{
 	              type: 'linear',
@@ -61,7 +77,9 @@ var canvas_jsondata_After = {
 
 function showExpFile(){
 	var exp_file = document.getElementById("expFile");
-	exp_file.style.display = "block"
+	var algorithm = document.getElementById("lvparam");
+	exp_file.style.display = "block";
+	algorithm.style.display ="block";
 }
 
 function analyzeData(){
@@ -69,15 +87,23 @@ function analyzeData(){
 	var model_file = document.getElementById("paraFile");
 	var exp_file = document.getElementById("expData");
 	var progressBar = document.getElementById("progress");
+
 	
 	var SBML_file = model_file.files[ 0 ];
 	var Exp_file = exp_file.files[ 0 ];
 	
 	// filedata contains all data transfered to Server side Servlet
 	var filedata = new FormData();
+	
 	//Transfered data is added in filedata
 	filedata.append("SBMLFile" , SBML_file );
 	filedata.append("ExpFile" , Exp_file);
+	
+	// Algorithm form is changed
+	configureAlgorithmForm();
+
+	// Parameter data is set to filedata(FormData)
+	configureFormData( filedata );
 	
 	// Progress bar's configuration
 	if( window.XMLHttpRequest ){
@@ -109,6 +135,7 @@ function callback(){
 function configureCanvas(){
 	var canvas_before = document.getElementById("beforeCanvas");
 	var canvas_after = document.getElementById("afterCanvas");
+		
 	
 	var tmpData = JSON.parse( req.response || "null");
 	
@@ -130,4 +157,40 @@ function configureCanvas(){
 	var afterChart = new Chart(canvas_after , canvas_jsondata_After );
 	var canvas = document.getElementById("canvas_item");
 	canvas.style.display = "block";
+}
+
+function configureFormData( formdata ){
+	
+	formdata.append("algorithm" , document.getElementById("algorithm").value);
+	
+	if( document.getElementById("lvparam").style.display == "block"){
+		formdata.append("itermax" , document.getElementById("lvite").value);
+		formdata.append("tolerance" , document.getElementById("lvtol").value);
+	}
+	else if( document.getElementById("gaparam").style.display == "block" ){
+		formdata.append("generation" , document.getElementById("gagene").value);
+		formdata.append("population" , document.getElementById("gapopu").value);
+	}
+	else if( document.getElementById("nelparam").style.display == "block"){
+		formdata.append("itermax" , document.getElementById("nelite").value);
+		formdata.append("tolerance" , document.getElementById("neltol").value);
+	}
+}
+function configureAlgorithmForm(){
+	var algorithm = document.getElementById("algorithm");
+	if( algorithm.value == "lv"){
+		document.getElementById("lvparam").style = "display:block";
+		document.getElementById("gaparam").style = "display:none";
+		document.getElementById("nelparam").style = "display:none";		
+	}
+	else if( algorithm.value == "ga"){
+		document.getElementById("lvparam").style = "display:none";
+		document.getElementById("gaparam").style = "display:block";
+		document.getElementById("nelparam").style = "display:none";		
+	}
+	if( algorithm.value == "nelder"){
+		document.getElementById("lvparam").style = "display:none";
+		document.getElementById("gaparam").style = "display:none";
+		document.getElementById("nelparam").style = "display:block";		
+	}
 }
