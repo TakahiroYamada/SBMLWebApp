@@ -71,10 +71,10 @@ public class Simulation_COPASI {
         // Simulation Emvironment Configuration
         
         CTrajectoryProblem simProblem = ( CTrajectoryProblem )simTrajekTask.getProblem();
-        //simProblem.setStepNumber( 100 );
+        
         simProblem.setStepNumber((long) simParam.getNumTime());
         dataModel.getModel().setInitialTime( 0.0 );
-        //simProblem.setDuration( 100 );
+        
         simProblem.setDuration((long) simParam.getEndTime() );
         simProblem.setTimeSeriesRequested( true );
         
@@ -94,7 +94,7 @@ public class Simulation_COPASI {
         }
         
         simTimeSeries = simTrajekTask.getTimeSeries();
-        
+
 	}
 	public CTimeSeries getTimeSeries(){
 		return( this.simTimeSeries );
@@ -106,21 +106,24 @@ public class Simulation_COPASI {
 		double maxCandidate = 0.0;
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
 		Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) (numOfSpecies - 1)];
-		//i == 0 means the value of time point! this is considered as the value of x axis!
-		for( int i = 1 ; i < numOfSpecies ; i ++ ){
-			allDataSets[ i - 1 ] = new Simulation_DatasetsBeans();
-			allDataSets[ i - 1 ].setLabel( simTimeSeries.getTitle( i ));
-			
-			Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
-			for( int j = 0 ; j < numOfTimePoints ; j ++){
-				allXYDataBeans[ j ] = new Simulation_XYDataBeans();
-				allXYDataBeans[ j ].setX( simTimeSeries.getConcentrationData( j , 0));
-				allXYDataBeans[ j ].setY( simTimeSeries.getConcentrationData( j, i ));
-				if( maxCandidate < simTimeSeries.getConcentrationData( j , i)){
-					maxCandidate = simTimeSeries.getConcentrationData( j , i );
+		for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
+		//j == 0 means the value of time point! this is considered as the value of x axis!
+			for( int j = 1 ; j < numOfSpecies ; j ++ ){
+				if( dataModel.getModel().getMetabolite( i ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
+					allDataSets[ i ] = new Simulation_DatasetsBeans();
+					allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+					Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
+					for( int k = 0 ; k < numOfTimePoints ; k ++){
+						allXYDataBeans[ k ] = new Simulation_XYDataBeans();
+						allXYDataBeans[ k ].setX( simTimeSeries.getConcentrationData( k , 0));
+						allXYDataBeans[ k ].setY( simTimeSeries.getConcentrationData( k, j ));
+						if( maxCandidate < simTimeSeries.getConcentrationData( k , j)){
+							maxCandidate = simTimeSeries.getConcentrationData( k , j );
+						}
+					}
+					allDataSets[ i ].setData( allXYDataBeans );
 				}
 			}
-			allDataSets[ i - 1 ].setData( allXYDataBeans );
 		}
 			
 		simAllBeans.setData( allDataSets );
