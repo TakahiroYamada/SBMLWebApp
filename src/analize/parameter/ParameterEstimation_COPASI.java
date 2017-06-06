@@ -34,6 +34,7 @@ import org.COPASI.FloatVector;
 
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
+import coloring.Coloring;
 import parameter.ParameterEstimation_Parameter;
 
 
@@ -178,7 +179,7 @@ public class ParameterEstimation_COPASI {
 	}
 	
 	// If the result should be sent to cliend side as JSON format, following code can be useful and the "expDataBeans" contains it.
-	public Simulation_DatasetsBeans[] configureParamEstBeans(){
+	public Simulation_DatasetsBeans[] configureParamEstBeans( Coloring colorOfVis ){
 		CExperiment experiment = this.experimentSet.getExperiment( 0 );
 		Simulation_DatasetsBeans expDataBeans[] = new Simulation_DatasetsBeans[ (int ) experiment.getDependentData().numCols()];
 		for( int i = 0 ; i < experiment.getDependentData().numCols() ; i ++){
@@ -194,6 +195,8 @@ public class ParameterEstimation_COPASI {
 			expDataBeans[ i ].setShowLine( false );
 			expDataBeans[ i ].setPointStyle("cross");
 			expDataBeans[ i ].setPointRadius( 5 );
+			expDataBeans[ i ].setBorderColor( colorOfVis.getColor( i ));
+			expDataBeans[ i ].setPointBorderColor( colorOfVis.getColor( i ));
 		}
 		return expDataBeans;
 	}

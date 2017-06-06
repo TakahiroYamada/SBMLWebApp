@@ -1,5 +1,6 @@
 package servlet;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import analize.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
 import beans.parameter.ParameterEstimation_AllBeans;
+import coloring.Coloring;
 import net.arnx.jsonic.JSON;
 import parameter.ParameterEstimation_Parameter;
 import parameter.Simulation_Parameter;
@@ -36,6 +38,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 	private ParameterEstimation_AllBeans paramBeans;
 	private ParameterEstimation_Parameter paramestParam;
 	private Simulation_Parameter paramSim;
+	private Coloring colorOfVis;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		path = getServletContext().getRealPath("/tmp");
@@ -53,7 +56,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		simulateFittedResult( paramEstCopasi );
 		
 		//Experiment data is set to beans
-		paramBeans.setExpDataSets( paramEstCopasi.configureParamEstBeans() );
+		paramBeans.setExpDataSets( paramEstCopasi.configureParamEstBeans( colorOfVis ) );
 		
 		// response to client side sending JSON format data
 		String jsonParamEst = JSON.encode( paramBeans , true);
@@ -63,19 +66,19 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 	}
 	private void simulateFittedResult( ParameterEstimation_COPASI paramEstCopasi) {
 		//Simulation condition is set
-
 		int endTime =  (int) Math.ceil( paramEstCopasi.getTimeData().get( paramEstCopasi.getTimeData().size() -1 ));
 		this.paramSim = new Simulation_Parameter();
 		this.paramSim.setLibrary("copasi");
 		this.paramSim.setNumTime( endTime );
 		this.paramSim.setEndTime( endTime );
 		
+		colorOfVis = new Coloring( (int) paramEstCopasi.getDependentData().size(), 1.0);
 		// Simulation execution using parameters before and after fitting
 		Simulation_COPASI beforeFitting = new Simulation_COPASI( SBMLFile.getPath() , paramSim);
-		paramBeans.setBeforeFitting( beforeFitting.configureSimulationBeans() );
+		paramBeans.setBeforeFitting( beforeFitting.configureSimulationBeans( colorOfVis ) );
 				
 		Simulation_COPASI afterFitting = new Simulation_COPASI( paramEstCopasi.getDataModel() , paramSim);
-		paramBeans.setAfterFitting( afterFitting.configureSimulationBeans());
+		paramBeans.setAfterFitting( afterFitting.configureSimulationBeans( colorOfVis ));
 	}
 	private void configureAnalysisEmvironment(HttpServletRequest request, ServletFileUpload upload) {
 		// TODO Auto-generated method stub

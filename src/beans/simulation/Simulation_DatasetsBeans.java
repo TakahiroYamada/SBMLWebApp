@@ -1,6 +1,6 @@
 package beans.simulation;
 
-import javax.swing.Box.Filler;
+
 
 public class Simulation_DatasetsBeans {
 	//Following name of variable will be used as JSON key data
@@ -27,6 +27,7 @@ public class Simulation_DatasetsBeans {
 		this.showLine = true;
 		this.pointStyle = "line";
 		this.pointRadius = 3;
+		
 	}
 	public String getPointStyle() {
 		return pointStyle;

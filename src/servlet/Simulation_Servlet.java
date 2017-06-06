@@ -1,5 +1,6 @@
 package servlet;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import analyze.simulation.Simulation_COPASI;
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
+import coloring.Coloring;
 import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
 
@@ -42,6 +44,7 @@ public class Simulation_Servlet extends HttpServlet {
     private String filename;
     private File newFile;
     private Simulation_Parameter param;
+    private Coloring colorOfVis;
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -56,11 +59,13 @@ public class Simulation_Servlet extends HttpServlet {
 		if( param.getLibrary().equals("copasi")){
 			try{
 				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);
+				colorOfVis = new Coloring( (int) (simCOPASI.getTimeSeries().getNumVariables() - 1) , 1.0);
+				
 				//TimeSeries data contais the following data structure:
 				//Title : the ID of each species
 				//Data : the amout of each species and this is indicated by intended number of time and variables
 				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
-				Simulation_AllBeans simulationBeans = simCOPASI.configureSimulationBeans();
+				Simulation_AllBeans simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
 				String jsonSimulation = JSON.encode( simulationBeans );
 				response.setContentType("application/json;charset=UTF-8");
 				PrintWriter out = response.getWriter();

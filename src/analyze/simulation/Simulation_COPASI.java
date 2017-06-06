@@ -7,6 +7,7 @@ import org.COPASI.*;
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
+import coloring.Coloring;
 import parameter.Simulation_Parameter;
 
 
@@ -100,7 +101,7 @@ public class Simulation_COPASI {
 		return( this.simTimeSeries );
 	}
 	//Following code sum up with the Beans of JSONIC and the return value will be encoded as JSON format and responsed to Client side.
-	public Simulation_AllBeans configureSimulationBeans() {
+	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis ) {
 		long numOfSpecies = simTimeSeries.getNumVariables();
 		long numOfTimePoints = simTimeSeries.getRecordedSteps();
 		double maxCandidate = 0.0;
@@ -122,6 +123,10 @@ public class Simulation_COPASI {
 						}
 					}
 					allDataSets[ i ].setData( allXYDataBeans );
+					allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
+					allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
+					allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
+					allDataSets[ i ].setPointRadius( 0 );
 				}
 			}
 		}
