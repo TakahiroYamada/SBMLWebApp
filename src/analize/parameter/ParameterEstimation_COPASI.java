@@ -50,6 +50,7 @@ public class ParameterEstimation_COPASI {
 	private CCopasiDataModel dataModel;
 	private CExperimentSet experimentSet;
 	private ParameterEstimation_Parameter paramestParam;
+	
 	public ParameterEstimation_COPASI( ParameterEstimation_Parameter paramestParam , File SBML , File Exp){
 		this.paramestParam = paramestParam;
 		this.SBMLFile = SBML;
@@ -85,7 +86,6 @@ public class ParameterEstimation_COPASI {
 		// CFitTask is selected to fit the parameter
 		CFitTask fitTask = (CFitTask) dataModel.addTask( CTaskEnum.parameterFitting);
 		configureTaskParameter( fitTask );
-				
 		// The problem for task is set. Detail configuration is continued
 		CFitProblem fitProblem = (CFitProblem) fitTask.getProblem();
 		experimentSet = (CExperimentSet) fitProblem.getParameter("Experiment Set");

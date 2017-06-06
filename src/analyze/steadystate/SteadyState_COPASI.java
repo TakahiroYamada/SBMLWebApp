@@ -6,46 +6,75 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.naming.ConfigurationException;
+
 import org.COPASI.CArrayAnnotation;
 import org.COPASI.CCopasiDataModel;
+import org.COPASI.CCopasiParameter;
 import org.COPASI.CCopasiRootContainer;
 import org.COPASI.CCopasiTask;
 import org.COPASI.CSteadyStateTask;
 import org.COPASI.SizeTStdVector;
 import org.COPASI.StringStdVector;
 
+import parameter.SteadyStateAnalysis_Parameter;
+
 public class SteadyState_COPASI {
-	private CCopasiDataModel dataModel;
-	private CSteadyStateTask task;
 	private String saveFilePath;
-	public SteadyState_COPASI( String saveFilePath , String filename){
+	private String sbmlModelName;
+	private CCopasiDataModel dataModel;
+	
+	private SteadyStateAnalysis_Parameter stedParam;
+	public SteadyState_COPASI( SteadyStateAnalysis_Parameter stedParam , String saveFilePath , String filename){
+		this.stedParam = stedParam;
 		this.saveFilePath = saveFilePath;
+		this.sbmlModelName = filename;
+		
+		
+	}
+	public void executeSteadyStateAnalysis(){
+		
 		dataModel = CCopasiRootContainer.addDatamodel();
 		boolean result = true;
 		
+		// Data import from SBML model file which user sends.
 		try {
-			result = dataModel.importSBML( filename );
+			result = dataModel.importSBML( sbmlModelName );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		task = ( CSteadyStateTask ) dataModel.getTask("Steady-State");
+		
+		CSteadyStateTask task = ( CSteadyStateTask ) dataModel.getTask("Steady-State");
+		configureTaskParameter( task );
+		
+		// Execute Steady state analysis
 		try{
 			task.processWithOutputFlags( true , ( int ) CCopasiTask.ONLY_TIME_SERIES );
 		} catch( Exception e ){
 			e.printStackTrace();
 		}
 		
-		this.saveSteadyStateAnalysisResult();
-		
+		// Save the result of steady state analysis which contains steady state expression of each species and Jacobian of steady state point.
+		this.saveSteadyStateAnalysisResult( task );
 	}
-	private void saveSteadyStateAnalysisResult( ){
+	private void configureTaskParameter(CSteadyStateTask task) {
+		CCopasiParameter resolution = task.getMethod().getParameter("Resolution");
+		resolution.setDblValue( stedParam.getResolution() );
+		
+		CCopasiParameter derivation_factor = task.getMethod().getParameter("Derivation Factor");
+		derivation_factor.setDblValue( stedParam.getDerivation_factor() );
+		
+		CCopasiParameter iterationLimit = task.getMethod().getParameter("Iteration Limit");
+		iterationLimit.setIntValue( stedParam.getIterationLimit() );
+	}
+	private void saveSteadyStateAnalysisResult( CSteadyStateTask task ){
 		
 		File file = new File( this.saveFilePath);
 		try {
 			PrintWriter pw = new PrintWriter( new BufferedWriter( new FileWriter( file )));
-			CArrayAnnotation aj = this.task.getJacobianAnnotated();
+			CArrayAnnotation aj = task.getJacobianAnnotated();
 			if( aj != null ){
 				SizeTStdVector index = new SizeTStdVector( 2 );
 				pw.println("Equilibrium Point");

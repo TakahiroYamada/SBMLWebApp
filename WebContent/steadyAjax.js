@@ -8,6 +8,10 @@ function getSteadyResult(){
 	var filedata = new FormData();
 	filedata.append("file" , file )
 	
+	var libSelect = document.getElementById("libselect");
+	libSelect.style.display = "block";
+	configureStedParameter( filedata );
+	
 	if( window.XMLHttpRequest ){
 		req = new XMLHttpRequest();
 	}
@@ -33,9 +37,27 @@ function getSteadyResult(){
 function callback(){
 	if( req.readyState == 4 ){
 		if( req.status == 200 ){
+			// If the result file is downloaded, following code is useful and uncomment it
 			link.download = "result_steadystate.txt";
 			link.href = "/GSOC_WebMavenProject/tmp/result_steadystate.txt";
 			link.click()
+			
 		}
+	}
+}
+function configureStedParameter( formdata ){
+	var library = document.getElementById("library");
+	if( library.value == "copasi"){
+		document.getElementById("copasipara").style.display = "block";
+		document.getElementById("libpara").style.display = "none";
+		formdata.append("library" , library.value);
+		formdata.append("resolution" , document.getElementById("resolution").value);
+		formdata.append("derivation" , document.getElementById("derivation").value);
+		formdata.append("itelimit" , document.getElementById("itelimit").value )
+	}
+	else if( library.value == "libroad"){
+		document.getElementById("copasipara").style.display = "none";
+		document.getElementById("libpara").style.display = "block";
+		formdata.append("library",library.value)
 	}
 }

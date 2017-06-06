@@ -10,6 +10,22 @@
 	<br/>
 	<input id = "stedFile" type = "file" size = "50" onchange = "getSteadyResult();">
 	<br/>
+	
+	<div id = "libselect" style = "display:none">
+	Library : <select id = "library" size = "1" onchange = "getSteadyResult();">
+	<option value = "copasi">COPASI API</option>
+	<option value ="libroad"> libRoadRunner </option>
+	</select>
+	</div>
+	<br/>
+	<div id = "copasipara" style = "display:none" onchange = "getSteadyResult();">
+	Resolution : <input id = "resolution" type = "number" step = "1.0e-12" value = "1.0e-9"> <br/>
+	Derivation Factor : <input id = "derivation" type = "number" step = "1.0e-5"  value = "1.0e-3"> <br/>
+	Iteration Limit : <input id = "itelimit" type = "number" value = "50"> <br/>
+	</div>
+	<div id = "libpara" style = "display:none" onchange = "getSteadyResult();">
+	</div>
+	<br/>
 	<progress id = "progress" value = "0"> </progress>
 </body>
 </html>
