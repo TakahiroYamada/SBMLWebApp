@@ -4,7 +4,7 @@
 In systems biology, it is very important to standardize the model for a given biological phenomenon 
 and analyze the system based on this model. Such a model is most of the time based on ordinary differential equation (ODE).
  
-Such a systems biology  model is normally described in a standard format, with Systems Biology Markup Language (SBML) 
+Such a systems biology  model is normally described in a standard format, with [Systems Biology Markup Language (SBML)](http://sbml.org) 
 being the de-facto standard in the field. Several software tools exist to create SBML models easily. 
 Regarding the analysis of such models, which is mainly via simulation, steady state analysis, or parameter estimation. 
 
@@ -17,10 +17,13 @@ understand the dynamical variation of species in model.
 in the model based on experimental data. 
 
 Time course simulation, steady state simulation and parameter estimation are implemented in multiple 
-libraries and tools for SBML, e.g. COPASI or libroadrunner. However, establishing the environment for such analysis 
+libraries and tools for SBML, e.g. COPASI, libroadrunner, or the Simulation Core Library. However, establishing the environment for such analysis 
 is often difficult for biologists and a major obstacle to analyze ODE models easily.
 ### Project goals
-This project aims at developing a Web App for SBML models which provides functionality for
+
+![GSOC 2017](./docs/images/gsoc-icon.png)
+This project is part of [Google Summer of Code 2017](https://summerofcode.withgoogle.com/) with the goal of
+developing a Web App for SBML models which provides functionality for
 
 * `time course simulation`
 * `steady state analysis`
