@@ -81,6 +81,8 @@ After finishing the tomcat configuration one can run the server in Eclipse via:
 1. Select `Properties -> Java Build Path -> Libraries - add library - Server Runtime - Apache Tomcat v6.0`
 
 ### pycharm
-`Run | Edit Configurations | + | Tomcat Server | Local`  
-`Configure -> Select apache-tomcat-6.0.48`  
+* `Run | Edit Configurations | + | Tomcat Server | Local`  
+* Select tomcat: `Configure -> Select apache-tomcat-6.0.48`  
+* Select artifact to deploy: `Artifact GSOC_WebMavenProject:war`
+
 see also https://www.jetbrains.com/help/idea/2017.1/run-debug-configuration-tomcat-server.html
