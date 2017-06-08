@@ -32,6 +32,7 @@ simulations with the models.
 ### Repository Content
 This repository includes the following files and directories 
 
+* `docs/` SBML example files for analysis
 * `examples/` SBML example files for analysis
 * `lib/` Library dependencies
 * `src/` Source code for web app
