@@ -58,8 +58,8 @@ Apache tomcat is not contained in the installation, but must be installed separa
 `https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.48/bin/`
 
 After download the files should be unpacked in the correct position (e.g. :`/Applications/`). 
-
-### Eclipse tomcat plugin installation
+### Eclipse
+#### Eclipse tomcat plugin installation
 When you use Eclipse , eclipse tomcat plugin is needed. This file can be downloaded following Task.
 1. Select Help - Eclipse Marketplace
 1. Type "tomcat" in find text box
@@ -67,15 +67,20 @@ When you use Eclipse , eclipse tomcat plugin is needed. This file can be downloa
 
 Then you start-up eclipse. When you can see the icon of tomcat in Eclipse , the install is accomplished.
 
-### Tomcat installation in Eclipse
+#### Tomcat installation in Eclipse
 After you complete installation of eclipse tomcat plugin, you should choose the `tomcat version` 
 and `tomcat home` from `Environment -> Tomcat`. For version, please check version 6.x and select 
 the aforementioned distribution of `apache-tomcat-6.0.48`.
 
-## Run Server
+#### Run Server
 After finishing the tomcat configuration one can run the server in Eclipse via:
 
 1. Clone repository `git clone https://github.com/TakahiroYamada/GSOC2017_SBMLModelAnalysisWebApp.git`
 1. Select `File -> Open Projects from File System`
 1. Choose the directory of this project in `Import source`
 1. Select `Properties -> Java Build Path -> Libraries - add library - Server Runtime - Apache Tomcat v6.0`
+
+### pycharm
+`Run | Edit Configurations | + | Tomcat Server | Local`  
+`Configure -> Select apache-tomcat-6.0.48`  
+see also https://www.jetbrains.com/help/idea/2017.1/run-debug-configuration-tomcat-server.html
