@@ -5,3 +5,7 @@
 .project
 build/
 target/
+
+# idea
+.idea
+GSOC_WebMavenProject.iml
