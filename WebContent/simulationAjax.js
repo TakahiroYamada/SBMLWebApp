@@ -60,7 +60,7 @@ function getSimulationResult(){
 	}
 	
 	configureFormData( filedata );
-	req.open("POST" , "/GSOC_WebMavenProject/Simulation_Servlet" , true);
+	req.open("POST" , "/Simulation_Servlet" , true);
 	req.onreadystatechange = callback;
 	req.send( filedata );
 }

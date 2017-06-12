@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
+import java.util.logging.Logger;
+
 import javax.naming.ConfigurationException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -39,6 +41,7 @@ import parameter.Simulation_Parameter;
  */
 
 public class Simulation_Servlet extends HttpServlet {
+	private static final Logger logger = Logger.getLogger(Simulation_Servlet.class.getName());
 	private static final long serialVersionUID = 1L;
 	private String path;
     private String filename;
@@ -46,10 +49,13 @@ public class Simulation_Servlet extends HttpServlet {
     private Simulation_Parameter param;
     private Coloring colorOfVis;
 	/**
+	 * Method called on post.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub 
+		logger.info("Simulation_Servlet.doPost()");
+
 		path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
@@ -75,7 +81,8 @@ public class Simulation_Servlet extends HttpServlet {
 			}
 		}
 		else if( param.getLibrary().equals("simulationcore")){
-			
+			logger.warning("Simulation core not implemented !");
+			// TODO: implement
 		}
 		//Following code is future deleted
 		
