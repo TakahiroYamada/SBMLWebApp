@@ -27,7 +27,7 @@ function getSteadyResult(){
 		progressBar.value = e.loaded;
 	}
 	
-	req.open("POST" , "/GSOC_WebMavenProject/SteadyState_Servlet" , true);
+	req.open("POST" , "./SteadyState_Servlet" , true);
 	req.onreadystatechange = callback;
 	req.send( filedata )
 	window.onload = callback;

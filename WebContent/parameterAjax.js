@@ -119,7 +119,7 @@ function analyzeData(){
 	req.onloadend = function( e ){
 		progressBar.value = e.loaded;
 	}
-	req.open("POST" , "/GSOC_WebMavenProject/ParameterEstimation_Servlet" , true);
+	req.open("POST" , "./ParameterEstimation_Servlet" , true);
 	req.onreadystatechange = callback;
 	req.send( filedata );
 }
