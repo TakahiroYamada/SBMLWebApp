@@ -1,4 +1,4 @@
-package analize.parameter;
+package analyze.parameter;
 
 import java.io.BufferedReader;
 import java.io.File;

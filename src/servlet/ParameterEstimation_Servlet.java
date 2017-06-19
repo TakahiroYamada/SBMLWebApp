@@ -19,7 +19,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import analize.parameter.ParameterEstimation_COPASI;
+import analyze.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
 import beans.parameter.ParameterEstimation_AllBeans;
 import coloring.Coloring;

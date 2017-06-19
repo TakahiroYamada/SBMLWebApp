@@ -29,6 +29,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 
 import analyze.simulation.Simulation_COPASI;
+import analyze.simulation.Simulation_SBSCL;
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
@@ -81,8 +82,14 @@ public class Simulation_Servlet extends HttpServlet {
 			}
 		}
 		else if( param.getLibrary().equals("simulationcore")){
-			logger.warning("Simulation core not implemented !");
 			// TODO: implement
+			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
+			colorOfVis = new Coloring( (int) simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
+			Simulation_AllBeans simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
+			String jsonSimulation = JSON.encode( simulationBeans );
+			response.setContentType( "application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print( jsonSimulation );
 		}
 		//Following code is future deleted
 		
