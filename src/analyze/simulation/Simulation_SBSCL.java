@@ -43,7 +43,6 @@ public class Simulation_SBSCL {
 	public void simulation(){
 		double stepSize = (double) simParam.getEndTime() / (double) simParam.getNumTime();
 		double timeEnd = (double) simParam.getEndTime();
-		System.out.println( stepSize );
 		DESSolver solver = new RosenbrockSolver();
 		solver.setStepSize( stepSize);
 		try {

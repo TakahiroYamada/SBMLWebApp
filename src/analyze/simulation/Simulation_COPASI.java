@@ -1,6 +1,7 @@
 package analyze.simulation;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import org.COPASI.*;
 
@@ -102,38 +103,83 @@ public class Simulation_COPASI {
 	}
 	//Following code sum up with the Beans of JSONIC and the return value will be encoded as JSON format and responsed to Client side.
 	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis ) {
-		long numOfSpecies = simTimeSeries.getNumVariables();
 		long numOfTimePoints = simTimeSeries.getRecordedSteps();
 		double maxCandidate = 0.0;
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
-		Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) (numOfSpecies - 1)];
-		for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
-		//j == 0 means the value of time point! this is considered as the value of x axis!
-			for( int j = 1 ; j < numOfSpecies ; j ++ ){
-				if( dataModel.getModel().getMetabolite( i ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
-					allDataSets[ i ] = new Simulation_DatasetsBeans();
-					allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
-					Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
-					for( int k = 0 ; k < numOfTimePoints ; k ++){
-						allXYDataBeans[ k ] = new Simulation_XYDataBeans();
-						allXYDataBeans[ k ].setX( simTimeSeries.getConcentrationData( k , 0));
-						allXYDataBeans[ k ].setY( simTimeSeries.getConcentrationData( k, j ));
-						if( maxCandidate < simTimeSeries.getConcentrationData( k , j)){
-							maxCandidate = simTimeSeries.getConcentrationData( k , j );
+		
+		// All species information is contained in listOfSpecies
+		if( dataModel.getModel().getNumMetabs() != 0 ){
+			long numOfSpecies = simTimeSeries.getNumVariables();
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) (numOfSpecies - 1)];
+			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
+				//j == 0 means the value of time point! this is considered as the value of x axis!
+				for( int j = 1 ; j < numOfSpecies ; j ++ ){
+					if( dataModel.getModel().getMetabolite( i ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
+						allDataSets[ i ] = new Simulation_DatasetsBeans();
+						allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
+						for( int k = 0 ; k < numOfTimePoints ; k ++){
+							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
+							allXYDataBeans[ k ].setX( simTimeSeries.getConcentrationData( k , 0));
+							allXYDataBeans[ k ].setY( simTimeSeries.getConcentrationData( k, j ));
+							if( maxCandidate < simTimeSeries.getConcentrationData( k , j)){
+								maxCandidate = simTimeSeries.getConcentrationData( k , j );
+							}
 						}
+						allDataSets[ i ].setData( allXYDataBeans );
+						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointRadius( 0 );
 					}
-					allDataSets[ i ].setData( allXYDataBeans );
-					allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
-					allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
-					allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
-					allDataSets[ i ].setPointRadius( 0 );
 				}
 			}
+			simAllBeans.setData( allDataSets );
 		}
+		// If the species data is contained in Model Value.
+		else{
 			
-		simAllBeans.setData( allDataSets );
+			ArrayList< Integer > orderODESpeceis = getODESpeciesOrder();
+			int numOfSpeceis = orderODESpeceis.size();
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpeceis ];
+			
+			for( int i = 0 ; i < numOfSpeceis ; i ++){
+				//j == 0 means the value of time point! this is considered as the value of x axis!
+				for( int j = 1 ; j < simTimeSeries.getNumVariables() ; j ++ ){
+					if( dataModel.getModel().getModelValue( orderODESpeceis.get( i ) ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
+						allDataSets[ i ] = new Simulation_DatasetsBeans();
+						allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
+						for( int k = 0 ; k < numOfTimePoints ; k ++){
+							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
+							allXYDataBeans[ k ].setX( simTimeSeries.getConcentrationData( k , 0));
+							allXYDataBeans[ k ].setY( simTimeSeries.getConcentrationData( k, j ));
+							if( maxCandidate < simTimeSeries.getConcentrationData( k , j)){
+								maxCandidate = simTimeSeries.getConcentrationData( k , j );
+							}
+						}
+						allDataSets[ i ].setData( allXYDataBeans );
+						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointRadius( 0 );
+					}
+				}
+			}
+			simAllBeans.setData( allDataSets );
+		}
+
 		simAllBeans.setXmax( simTimeSeries.getData( numOfTimePoints - 1 , 0));
 		simAllBeans.setYmax( maxCandidate );
 		return simAllBeans;
+	}
+	private ArrayList<Integer> getODESpeciesOrder(){
+		ArrayList<Integer> orderODESpecies = new ArrayList<Integer>();
+		for( int i = 0 ; i < dataModel.getModel().getNumModelValues() ; i ++){
+			if( dataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE){
+				orderODESpecies.add( new Integer( i ));
+			}
+		}
+		return orderODESpecies;
 	}
 }
