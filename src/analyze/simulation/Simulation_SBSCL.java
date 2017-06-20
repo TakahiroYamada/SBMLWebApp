@@ -4,9 +4,11 @@ package analyze.simulation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.MalformedInputException;
+import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.COPASI.DataModelVector;
 import org.apache.commons.math.ode.DerivativeException;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
@@ -63,38 +65,80 @@ public class Simulation_SBSCL {
 		return( this.solution );
 	}
 	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis){
-		int numOfSpecies = model.getListOfSpecies().size();
 		int numOfTimePoints = solution.getTimePoints().length;
 		double maxCnadidate = 0.0;
 		
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
-		Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
-		
-		for( int i = 0 ; i < numOfSpecies ; i ++){
-			for( int j = 0 ; j < solution.getColumnCount() ; j ++){
-				if( model.getListOfSpecies().get( i ).getId().equals( solution.getColumnName( j ))){
-					allDataSets[ i ] = new Simulation_DatasetsBeans();
-					allDataSets[ i ].setLabel( solution.getColumnName( j ));
-					Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
-					for( int k = 0 ; k < numOfTimePoints ; k ++){
-						allXYDataBeans[ k ] = new Simulation_XYDataBeans();
-						allXYDataBeans[ k ].setX( solution.getTimePoint( k ));
-						allXYDataBeans[ k ].setY( solution.getValueAt( k , j ));
-						if( maxCnadidate < solution.getValueAt( k , j )){
-							maxCnadidate = solution.getValueAt( k , j );
+		// The spicies information is contained in listOfSpecies
+		if( model.getNumSpecies() != 0 ){ 
+			int numOfSpecies = model.getListOfSpecies().size();
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
+			
+			for( int i = 0 ; i < numOfSpecies ; i ++){
+				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
+					if( model.getListOfSpecies().get( i ).getId().equals( solution.getColumnName( j ))){
+						allDataSets[ i ] = new Simulation_DatasetsBeans();
+						allDataSets[ i ].setLabel( solution.getColumnName( j ));
+						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
+						for( int k = 0 ; k < numOfTimePoints ; k ++){
+							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
+							allXYDataBeans[ k ].setX( solution.getTimePoint( k ));
+							allXYDataBeans[ k ].setY( solution.getValueAt( k , j ));
+							if( maxCnadidate < solution.getValueAt( k , j )){
+								maxCnadidate = solution.getValueAt( k , j );
+							}
 						}
+						allDataSets[ i ].setData( allXYDataBeans );
+						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointRadius( 0 );
 					}
-					allDataSets[ i ].setData( allXYDataBeans );
-					allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
-					allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
-					allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
-					allDataSets[ i ].setPointRadius( 0 );
 				}
 			}
+			simAllBeans.setData( allDataSets );
 		}
-		simAllBeans.setData( allDataSets );
+		// The species information is contained in listOfParameters( ordinal fomat of SBML for FBA)
+		else{
+			ArrayList< Integer > orderOfODESpecies = getOrderODESpecies();
+			int numOfSpecies = orderOfODESpecies.size();
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
+			for( int i = 0 ; i < numOfSpecies ; i ++){
+				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
+					if( model.getListOfParameters().get( orderOfODESpecies.get( i ) ).getId().equals( solution.getColumnName( j ))){
+						allDataSets[ i ] = new Simulation_DatasetsBeans();
+						allDataSets[ i ].setLabel( solution.getColumnName( j ));
+						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
+						for( int k = 0 ; k < numOfTimePoints ; k ++){
+							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
+							allXYDataBeans[ k ].setX( solution.getTimePoint( k ));
+							allXYDataBeans[ k ].setY( solution.getValueAt( k , j ));
+							if( maxCnadidate < solution.getValueAt( k , j )){
+								maxCnadidate = solution.getValueAt( k , j );
+							}
+						}
+						allDataSets[ i ].setData( allXYDataBeans );
+						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
+						allDataSets[ i ].setPointRadius( 0 );
+					}
+				}
+			}
+			simAllBeans.setData( allDataSets );
+		}
 		simAllBeans.setXmax( solution.getTimePoint( numOfTimePoints - 1));
 		simAllBeans.setYmax( maxCnadidate );
 		return simAllBeans;
+	}
+	private ArrayList getOrderODESpecies(){
+		ArrayList< Integer > orderODESpecies = new ArrayList<>();
+		for( int i = 0 ; i < model.getListOfParameters().size() ; i ++ ){
+			if( ! model.getListOfParameters().get( i ).getConstant() ){
+				orderODESpecies.add( new Integer( i ));
+			}
+		}
+		
+		return orderODESpecies;
 	}
 }
