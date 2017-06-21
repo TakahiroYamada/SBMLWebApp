@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import analyze.steadystate.SteadyState_COPASI;
+import beans.steadystate.SteadyState_AllBeans;
+import net.arnx.jsonic.JSON;
 import parameter.SteadyStateAnalysis_Parameter;
 
 /**
@@ -50,6 +53,11 @@ public class SteadyState_Servlet extends HttpServlet {
 		if( stedParam.getLibrary().equals("copasi") ){
 			SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( stedParam , saveFileName , analyzeFile.getPath());
 			analyzeSteadyState.executeSteadyStateAnalysis();
+			SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
+			String jsonSteadyState = JSON.encode( stedBeans );
+			response.setContentType("application/json;charset=UTF=8");
+			PrintWriter out = response.getWriter();
+			out.print( jsonSteadyState);
 		}
 		// Execute steady state analysis with libRoadRunner
 		else if( stedParam.getLibrary().equals("libroad")){
@@ -59,17 +67,17 @@ public class SteadyState_Servlet extends HttpServlet {
 		// Output the result. In future these code should be changed to output the result file when the "download button" is pushed in client side.
 		// Moreover the visualization of the result is significant. In order to do that, class of beans will be prepared and it will send the result as JSON configuring to client side JavaScript objects.
 		
-		response.setHeader("Content-Disposition", "attachment; filename=result_steadystate.txt");
-		ServletContext ctx = getServletContext();
-		InputStream is = ctx.getResourceAsStream( "/tmp/result_steadystate.txt");
-		int read = 0;
-		byte[] bytes = new byte[ 1024 ];
-		OutputStream os = response.getOutputStream();
-		while(( read = is.read(bytes)) != -1 ){
-			os.write( bytes , 0 , read);
-		}
-		os.flush();
-		os.close();
+		//response.setHeader("Content-Disposition", "attachment; filename=result_steadystate.txt");
+		//ServletContext ctx = getServletContext();
+		//InputStream is = ctx.getResourceAsStream( "/tmp/result_steadystate.txt");
+		//int read = 0;
+		//byte[] bytes = new byte[ 1024 ];
+		//OutputStream os = response.getOutputStream();
+		//while(( read = is.read(bytes)) != -1 ){
+		//	os.write( bytes , 0 , read);
+		//}
+		//os.flush();
+		//os.close();
 	}
 	private void configureAnalysisEmvironment(HttpServletRequest request, ServletFileUpload upload) {
 		

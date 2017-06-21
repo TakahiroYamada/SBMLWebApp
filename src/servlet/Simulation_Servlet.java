@@ -62,7 +62,6 @@ public class Simulation_Servlet extends HttpServlet {
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		
 		configureAnalysisEmviroment( request , upload );
-		
 		if( param.getLibrary().equals("copasi")){
 			try{
 				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);

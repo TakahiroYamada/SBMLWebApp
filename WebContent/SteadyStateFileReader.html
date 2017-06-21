@@ -2,6 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<link href="./tabulator/dist/css/tabulator.min.css" rel="stylesheet">
+<script type="text/javascript" src="./tabulator/dist/js/tabulator.min.js"></script>
 <script type="text/javascript" src = "steadyAjax.js"> </script>
 <title>Steady State Analysis : SBML File Read and Analyze</title>
 </head>
@@ -10,7 +17,6 @@
 	<br/>
 	<input id = "stedFile" type = "file" size = "50" onchange = "getSteadyResult();">
 	<br/>
-	
 	<div id = "libselect" style = "display:none">
 	Library : <select id = "library" size = "1" onchange = "getSteadyResult();">
 	<option value = "copasi">COPASI API</option>
@@ -27,5 +33,32 @@
 	</div>
 	<br/>
 	<progress id = "progress" value = "0"> </progress>
+	
+	<div class = "tabResut">
+		<p class = "tabs">
+			<a href="#stedAmount" class = "stedAmount" onclick = "changeTab('stedAmount');return false;"> Species Amount</a>
+			<a href="#jacobian" class = "jacobian" onclick = "changeTab('jacobian');return false"> Jacobian Matrix</a>
+		</p>
+		<div id = "stedAmount" class = "tab">
+			<div id = "sted-table">
+			</div>
+		</div>
+		<div id = "jacobian" class = "tab">
+			<div id = "jacobian-table">
+			</div>
+		</div>
+	</div>	
+	<script type = "text/javascript">
+	changeTab("stedAmount");
+	$("#sted-table").tabulator({
+		  columns:[
+		    {title:"Name", field:"name", sortable:true, width:100},
+		    {title:"Type", field:"type", sortable:true , width:100},
+		    {title:"Concentration", field:"concentration", sortable:true , width:200},
+		    {title:"Rate", field:"rate", sortable:true, width:200},
+		    {title:"Transition Time", field:"transition", sortable:true , width:200},
+		  ],
+		});
+	</script>
 </body>
 </html>

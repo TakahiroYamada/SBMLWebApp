@@ -1,5 +1,6 @@
 var req;
 var link;
+
 function getSteadyResult(){
 	var form_file = document.getElementById("stedFile");
 	var progressBar = document.getElementById("progress");
@@ -38,10 +39,11 @@ function callback(){
 	if( req.readyState == 4 ){
 		if( req.status == 200 ){
 			// If the result file is downloaded, following code is useful and uncomment it
-			link.download = "result_steadystate.txt";
-			link.href = "/GSOC_WebMavenProject/tmp/result_steadystate.txt";
-			link.click()
-			
+			//link.download = "result_steadystate.txt";
+			//link.href = "/GSOC_WebMavenProject/tmp/result_steadystate.txt";
+			//link.click()
+			var jsonResponse = JSON.parse( req.response)
+			$("#sted-table").tabulator("setData", jsonResponse.steadyAmount)
 		}
 	}
 }
@@ -60,4 +62,10 @@ function configureStedParameter( formdata ){
 		document.getElementById("libpara").style.display = "block";
 		formdata.append("library",library.value)
 	}
+}
+function changeTab( tabname ){
+	document.getElementById("stedAmount").style.display = "none";
+	document.getElementById("jacobian").style.display = "none";
+	
+	document.getElementById( tabname ).style.display = "block";
 }
