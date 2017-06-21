@@ -158,14 +158,18 @@ public class SteadyState_COPASI {
 			jacobBeans.setColumns( jacobColumnBeans );
 			HashMap<String, String>[] jacobValueBeans = new HashMap[ (int) dataModel.getModel().getNumMetabs()];
 			CArrayAnnotation jacobAnnotation = task.getJacobianAnnotated();
-			StringStdVector jacobianAnnotatedID = jacobAnnotation.getAnnotationsString( 1 );
+			StringStdVector jacobianAnnotatedID = jacobAnnotation.getAnnotationsString( 0 );
 			for( int i = 0 ; i < dataModel.getModel().getNumMetabs(); i ++){
 				jacobValueBeans[ i ] = new HashMap<>();
-				jacobValueBeans[ i ].put( "speciesid", jacobianAnnotatedID.get( i ));
-				index.set( 0 , i );
-				for( int j = 0 ; j < jacobianAnnotatedID.size() ; j ++){
-					index.set( 1 , j );
-					jacobValueBeans[ i ].put( jacobianAnnotatedID.get( j ), String.valueOf( jacobAnnotation.array().get( index )));
+				for( int j = 0 ; j < jacobianAnnotatedID.size(); j ++){
+					if( dataModel.getModel().getMetabolite( i ).getObjectDisplayName().equals( jacobianAnnotatedID.get( j ))){
+						jacobValueBeans[ i ].put( "speciesid", jacobianAnnotatedID.get( j ));
+						index.set( 0 , j );
+						for( int k = 0 ; k < jacobianAnnotatedID.size() ; k ++){
+							index.set( 1 , k );
+							jacobValueBeans[ i ].put( jacobianAnnotatedID.get( k ), String.valueOf( jacobAnnotation.array().get( index )));
+						}
+					}
 				}
 			}
 			jacobBeans.setJacob_Amount( jacobValueBeans);
