@@ -49,16 +49,18 @@
 		</div>
 	</div>	
 	<script type = "text/javascript">
-	changeTab("stedAmount");
 	$("#sted-table").tabulator({
+		  fitColumns: true , 
 		  columns:[
-		    {title:"Name", field:"name", sortable:true, width:100},
+		    {title:"Name",field:"name",  sortable:true, width:100},
 		    {title:"Type", field:"type", sortable:true , width:100},
-		    {title:"Concentration", field:"concentration", sortable:true , width:200},
-		    {title:"Rate", field:"rate", sortable:true, width:200},
-		    {title:"Transition Time", field:"transition", sortable:true , width:200},
-		  ],
+		    {title:"Concentration", field:"concentration", sortable:true},
+		    {title:"Rate", field:"rate", sortable:true},
+		    {title:"Transition Time", field:"transition", sortable:true },
+		  ]
 		});
+	$("#jacobian-table").tabulator({ fitColumns:true,});
+	changeTab("stedAmount");
 	</script>
 </body>
 </html>

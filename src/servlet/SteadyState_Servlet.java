@@ -54,7 +54,7 @@ public class SteadyState_Servlet extends HttpServlet {
 			SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( stedParam , saveFileName , analyzeFile.getPath());
 			analyzeSteadyState.executeSteadyStateAnalysis();
 			SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
-			String jsonSteadyState = JSON.encode( stedBeans );
+			String jsonSteadyState = JSON.encode( stedBeans , true );
 			response.setContentType("application/json;charset=UTF=8");
 			PrintWriter out = response.getWriter();
 			out.print( jsonSteadyState);

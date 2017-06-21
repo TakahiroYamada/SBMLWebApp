@@ -1,6 +1,6 @@
 var req;
 var link;
-
+var currentTab;
 function getSteadyResult(){
 	var form_file = document.getElementById("stedFile");
 	var progressBar = document.getElementById("progress");
@@ -43,7 +43,19 @@ function callback(){
 			//link.href = "/GSOC_WebMavenProject/tmp/result_steadystate.txt";
 			//link.click()
 			var jsonResponse = JSON.parse( req.response)
+			//Clear only the data in table not header
+			$("#sted-table").tabulator("clearData")
 			$("#sted-table").tabulator("setData", jsonResponse.steadyAmount)
+			//var columnTxt = '{"fitColumns":true , "columns":' + JSON.stringify( jsonResponse.steadyJacobian.columns) + '}';
+			//var columnJSON = JSON.parse( columnTxt );
+			
+			// Setting Column data is ignored when style.display is set as "none"
+			document.getElementById("jacobian").style.display = "block";
+			// Clear all data of jacobian
+			$("#jacobian-table").tabulator( "setColumns" , jsonResponse.steadyJacobian.columns );
+			$("#jacobian-table").tabulator("clearData");
+			$("#jacobian-table").tabulator("setData" , jsonResponse.steadyJacobian.jacob_Amount);
+			changeTab( currentTab );
 		}
 	}
 }
@@ -68,4 +80,5 @@ function changeTab( tabname ){
 	document.getElementById("jacobian").style.display = "none";
 	
 	document.getElementById( tabname ).style.display = "block";
+	currentTab = tabname;
 }

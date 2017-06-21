@@ -4,7 +4,6 @@ public class SteadyState_JacobianColumnBeans {
 	private String title;
 	private String field;
 	private boolean sortable;
-	private int width;
 	public String getTitle() {
 		return title;
 	}
@@ -22,11 +21,5 @@ public class SteadyState_JacobianColumnBeans {
 	}
 	public void setSortable(boolean sortable) {
 		this.sortable = sortable;
-	}
-	public int getWidth() {
-		return width;
-	}
-	public void setWidth(int width) {
-		this.width = width;
 	}
 }

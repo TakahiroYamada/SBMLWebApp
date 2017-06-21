@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 
 import javax.naming.ConfigurationException;
 
@@ -25,6 +26,8 @@ import com.ctc.wstx.sw.EncodingXmlWriter;
 import com.thoughtworks.xstream.core.util.Fields;
 
 import beans.steadystate.SteadyState_AllBeans;
+import beans.steadystate.SteadyState_JacobianBeans;
+import beans.steadystate.SteadyState_JacobianColumnBeans;
 import beans.steadystate.SteadyState_SteadyAmountBeans;
 import parameter.SteadyStateAnalysis_Parameter;
 
@@ -117,6 +120,7 @@ public class SteadyState_COPASI {
 	}
 	public SteadyState_AllBeans configureSteadyBeans(){
 		SteadyState_AllBeans allBeans = new SteadyState_AllBeans();
+		SizeTStdVector index = new SizeTStdVector( 2 );
 		Field[] typeFields = CModelEntity.class.getDeclaredFields();
 		// if species information is contained in listOfSpecies
 		if( dataModel.getModel().getNumMetabs() != 0 ){
@@ -135,8 +139,37 @@ public class SteadyState_COPASI {
 			}
 			
 			allBeans.setSteadyAmount( stedAmount );
-			// Jacobian is contained JacobianBeans
 			
+			// Jacobian is contained JacobianBeans
+			SteadyState_JacobianBeans jacobBeans = new SteadyState_JacobianBeans();
+			SteadyState_JacobianColumnBeans[] jacobColumnBeans = new SteadyState_JacobianColumnBeans[ (int) dataModel.getModel().getNumMetabs() + 1];
+			
+			jacobColumnBeans[ 0 ] = new SteadyState_JacobianColumnBeans();
+			jacobColumnBeans[ 0 ].setTitle("");
+			jacobColumnBeans[ 0 ].setField("speciesid");
+			jacobColumnBeans[ 0 ].setSortable( false );
+			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
+				jacobColumnBeans[ i + 1 ] = new SteadyState_JacobianColumnBeans();
+				jacobColumnBeans[ i + 1 ].setTitle( dataModel.getModel().getMetabolite( i ).getObjectDisplayName() );
+				jacobColumnBeans[ i + 1 ].setTitle( dataModel.getModel().getMetabolite( i ).getObjectDisplayName() );
+				jacobColumnBeans[ i + 1 ].setField( dataModel.getModel().getMetabolite( i ).getObjectDisplayName() );
+				jacobColumnBeans[ i + 1 ].setSortable( false );
+			}
+			jacobBeans.setColumns( jacobColumnBeans );
+			HashMap<String, String>[] jacobValueBeans = new HashMap[ (int) dataModel.getModel().getNumMetabs()];
+			CArrayAnnotation jacobAnnotation = task.getJacobianAnnotated();
+			StringStdVector jacobianAnnotatedID = jacobAnnotation.getAnnotationsString( 1 );
+			for( int i = 0 ; i < dataModel.getModel().getNumMetabs(); i ++){
+				jacobValueBeans[ i ] = new HashMap<>();
+				jacobValueBeans[ i ].put( "speciesid", jacobianAnnotatedID.get( i ));
+				index.set( 0 , i );
+				for( int j = 0 ; j < jacobianAnnotatedID.size() ; j ++){
+					index.set( 1 , j );
+					jacobValueBeans[ i ].put( jacobianAnnotatedID.get( j ), String.valueOf( jacobAnnotation.array().get( index )));
+				}
+			}
+			jacobBeans.setJacob_Amount( jacobValueBeans);
+			allBeans.setSteadyJacobian( jacobBeans );
 		}
 		//if species information is contained in listOfParameters( The ordinal format of SBML for FBA)
 		else{
