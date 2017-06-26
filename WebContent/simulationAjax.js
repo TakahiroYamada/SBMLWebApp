@@ -71,6 +71,7 @@ function callback(){
 		if( req.status == 200 ){
 			//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
 			configureCanvas();
+			addInitialValueSlider();
 		}
 	}
 }
@@ -89,4 +90,48 @@ function configureFormData( formdata ){
 	formdata.append("endpoint" , document.getElementById("endtime").value)
 	formdata.append("numpoint" , document.getElementById("numpoint").value)
 	formdata.append("library", document.getElementById("library").value)
+}
+function addInitialValueSlider(){
+	var JSONResponse = JSON.parse( req.response );
+	var initialValue = JSONResponse.modelParameters.initValue;
+	var initValueSlider = document.getElementById("initialValue-slider");
+	$("#initialValue-slider").empty();
+	for( var i = 0 ; i < initialValue.length ; i ++){
+		var newDiv = document.createElement("div");
+		
+		var newParam = document.createElement("h5");
+		newParam.appendChild( document.createTextNode( initialValue[ i ].sbmlID));
+		
+		var newParamSlider = document.createElement("div");
+		newParamSlider.setAttribute("id", initialValue[ i ].sbmlID);
+		
+		var newInputText = document.createElement("input");
+		newInputText.setAttribute("id", initialValue[ i ].sbmlID + "input");
+		newInputText.setAttribute("type","text")
+		newInputText.setAttribute("readonly","readonly")
+		
+		newDiv.appendChild( newParam );
+		newDiv.appendChild( newParamSlider );
+		newDiv.appendChild( newInputText );
+		initValueSlider.appendChild( newDiv );
+		$("#" + initialValue[ i ].sbmlID).slider({
+			min : 0,
+			max : initialValue[ i ].initialValue * 2,
+			step : 0.01,
+			value : initialValue[ i ].initialValue ,
+			change : function( e , ui ){
+				$( "#" + this.id + "input").val( ui.value);
+			},
+			create : function( e , ui){
+				$( "#" + this.id + "input").val($(this).slider('option','value'));
+			}
+		});
+	}
+}
+function changeTab( tabname ){
+	document.getElementById("initialValue").style.display = "none";
+	document.getElementById("localParam").style.display = "none";
+	document.getElementById("globalParam").style.display= "none";
+	
+	document.getElementById( tabname).style.display = "block";
 }

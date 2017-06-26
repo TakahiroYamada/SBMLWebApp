@@ -1,9 +1,18 @@
 package beans.simulation;
 
+import beans.modelparameter.ModelParameter_Beans;
+
 public class Simulation_AllBeans {
+	private ModelParameter_Beans modelParameters;
 	private double Xmax;
 	private double Ymax;
 	private Simulation_DatasetsBeans data[];
+	public ModelParameter_Beans getModelParameters() {
+		return modelParameters;
+	}
+	public void setModelParameters(ModelParameter_Beans modelParameters) {
+		this.modelParameters = modelParameters;
+	}
 	public double getXmax() {
 		return Xmax;
 	}

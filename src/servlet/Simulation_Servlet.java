@@ -34,6 +34,7 @@ import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
+import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
 
@@ -56,22 +57,26 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
-
+		
 		path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
-		
+		// Save the SBML file in server side directory
 		configureAnalysisEmviroment( request , upload );
+		// Edit and get parameters value in SBML model
+		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( newFile );
+		
 		if( param.getLibrary().equals("copasi")){
 			try{
 				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);
 				colorOfVis = new Coloring( (int) (simCOPASI.getTimeSeries().getNumVariables() - 1) , 1.0);
 				
-				//TimeSeries data contais the following data structure:
+				//TimeSeries data contains the following data structure:
 				//Title : the ID of each species
-				//Data : the amout of each species and this is indicated by intended number of time and variables
+				//Data : the amount of each species and this is indicated by intended number of time and variables
 				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
 				Simulation_AllBeans simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
+				simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
 				String jsonSimulation = JSON.encode( simulationBeans );
 				response.setContentType("application/json;charset=UTF-8");
 				PrintWriter out = response.getWriter();

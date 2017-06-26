@@ -3,7 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src = "simulationAjax.js"> </script>
+<script type = "text/javascript">
+</script>
 <title>Simulation : SBML File Read and Analyze</title>
 </head>
 <body>
@@ -23,5 +28,27 @@
 	<progress id = "progress" value = "0"> </progress>
 	<br/>
 	<canvas id="simulationCanvas" height="450" width="600"></canvas>
+	<div class = "tabParameter">
+		<p class = "tabs">
+			<a href="#initialValue" class = "initialValue" onclick = "changeTab('initialValue');return false;"> Initial Amount</a>
+			<a href="#localParam" class = "localParam" onclick = "changeTab('localParam');return false"> Local Parameters</a>
+			<a href="#globalParam" class = "globalParam" onclick = "changeTab('globalParam');return false"> Global Parameters</a>
+		</p>
+		<div id = "initialValue" class = "tab">
+			<div id = "initialValue-slider">
+			</div>
+		</div>
+		<div id = "localParam" class = "tab">
+			<div id = "localParam-slider">
+			</div>
+		</div>
+		<div id = "globalParam" class = "tab">
+			<div id = "globalPram-slider">
+			</div>
+		</div>
+	</div>
+	<script type = "text/javascript">
+	changeTab("initialValue");
+	</script>	
 </body>
 </html>
