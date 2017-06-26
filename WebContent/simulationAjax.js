@@ -71,7 +71,11 @@ function callback(){
 		if( req.status == 200 ){
 			//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
 			configureCanvas();
+			
+			
 			addInitialValueSlider();
+			addLocalParameterValueSlider();
+			addGlobalParameterValueSlider();
 		}
 	}
 }
@@ -97,6 +101,7 @@ function addInitialValueSlider(){
 	var initValueSlider = document.getElementById("initialValue-slider");
 	$("#initialValue-slider").empty();
 	for( var i = 0 ; i < initialValue.length ; i ++){
+		var stepSize = 0;
 		var newDiv = document.createElement("div");
 		
 		var newParam = document.createElement("h5");
@@ -106,25 +111,127 @@ function addInitialValueSlider(){
 		newParamSlider.setAttribute("id", initialValue[ i ].sbmlID);
 		
 		var newInputText = document.createElement("input");
-		newInputText.setAttribute("id", initialValue[ i ].sbmlID + "input");
+		newInputText.setAttribute("id", initialValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","text")
-		newInputText.setAttribute("readonly","readonly")
 		
 		newDiv.appendChild( newParam );
 		newDiv.appendChild( newParamSlider );
 		newDiv.appendChild( newInputText );
 		initValueSlider.appendChild( newDiv );
+		
+		if( initialValue[ i ].initialValue != 0.0 ){
+			stepSize = Math.pow( 10 , (Math.floor( Math.log10( initialValue[ i ].initialValue )) - 1));
+		}
 		$("#" + initialValue[ i ].sbmlID).slider({
 			min : 0,
 			max : initialValue[ i ].initialValue * 2,
-			step : 0.01,
+			step : stepSize,
 			value : initialValue[ i ].initialValue ,
 			change : function( e , ui ){
-				$( "#" + this.id + "input").val( ui.value);
+				$( "#" + this.id + "_input").val( ui.value);
 			},
 			create : function( e , ui){
-				$( "#" + this.id + "input").val($(this).slider('option','value'));
+				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
+		});
+		$("#" + initialValue[ i ].sbmlID + "_input").change( function(){
+			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
+			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
+			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+		});
+	}
+}
+
+function addGlobalParameterValueSlider(){
+	var JSONResponse = JSON.parse( req.response );
+	var parameterValue = JSONResponse.modelParameters.paramValue;
+	var globalParamSlider = document.getElementById("globalParam-slider");
+	$("#globalParam-slider").empty();
+	for( var i = 0 ; i < parameterValue.length ; i ++){
+		var stepSize = 0;
+		var newDiv = document.createElement("div");
+		
+		var newParam = document.createElement("h5");
+		newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlID));
+		
+		var newParamSlider = document.createElement("div");
+		newParamSlider.setAttribute("id", parameterValue[ i ].sbmlID);
+		
+		var newInputText = document.createElement("input");
+		newInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_input");
+		newInputText.setAttribute("type","text")
+		
+		newDiv.appendChild( newParam );
+		newDiv.appendChild( newParamSlider );
+		newDiv.appendChild( newInputText );
+		globalParamSlider.appendChild( newDiv );
+		
+		if( parameterValue[ i ].initialValue != 0.0 ){
+			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
+		}
+		$("#" + parameterValue[ i ].sbmlID).slider({
+			min : 0,
+			max : parameterValue[ i ].parameterValue * 2,
+			step : stepSize,
+			value : parameterValue[ i ].parameterValue ,
+			change : function( e , ui ){
+				$( "#" + this.id + "_input").val( ui.value);
+			},
+			create : function( e , ui){
+				$( "#" + this.id + "_input").val($(this).slider('option','value'));
+			}
+		});
+		$("#" + parameterValue[ i ].sbmlID + "_input").change( function(){
+			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
+			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
+			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+		});
+	}
+}
+
+function addLocalParameterValueSlider(){
+	var JSONResponse = JSON.parse( req.response );
+	var parameterValue = JSONResponse.modelParameters.localParamValue;
+	var localParamSlider = document.getElementById("localParam-slider");
+	$("#localParam-slider").empty();
+	for( var i = 0 ; i < parameterValue.length ; i ++){
+		var stepSize = 0;
+		var newDiv = document.createElement("div");
+		
+		var newParam = document.createElement("h5");
+		newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionID + " : " +parameterValue[ i ].sbmlID));
+		
+		var newParamSlider = document.createElement("div");
+		newParamSlider.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID);
+		
+		var newInputText = document.createElement("input");
+		newInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input");
+		newInputText.setAttribute("type","text")
+		
+		newDiv.appendChild( newParam );
+		newDiv.appendChild( newParamSlider );
+		newDiv.appendChild( newInputText );
+		localParamSlider.appendChild( newDiv );
+		
+		if( parameterValue[ i ].initialValue != 0.0 ){
+			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
+		}
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider({
+			min : 0,
+			max : parameterValue[ i ].parameterValue * 2,
+			step : stepSize,
+			value : parameterValue[ i ].parameterValue ,
+			change : function( e , ui ){
+				$( "#" + this.id + "_input").val( ui.value);
+			},
+			create : function( e , ui){
+				$( "#" + this.id + "_input").val($(this).slider('option','value'));
+			}
+		});
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input").change( function(){
+			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
+			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
+			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
 		});
 	}
 }
