@@ -10,7 +10,9 @@ import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 
 import beans.modelparameter.InitialValue_Beans;
 import beans.modelparameter.LocalParameters_Beans;
@@ -39,8 +41,37 @@ public class SBML_Manipulator {
 		modelParam.setInitValue( this.getInitValue());
 		return modelParam;
 	}
-	public void editModelParameter(){
-		
+	public void editModelParameter(ModelParameter_Beans sbmlParam){
+		// initial value is changed
+		for( int i = 0 ; i < sbmlParam.getInitValue().length ; i ++){
+			InitialValue_Beans initValue = sbmlParam.getInitValue()[ i ];
+			document.getModel().getListOfSpecies().get( initValue.getSbmlID() ).setInitialAmount( initValue.getInitialValue() );
+			System.out.println( initValue.getSbmlID() + ":" + initValue.getInitialValue() );
+		}
+		// local parameter value is changed
+		for( int i = 0 ; i < sbmlParam.getLocalParamValue().length ; i ++){
+			LocalParameters_Beans localParam = sbmlParam.getLocalParamValue()[ i ];
+			document.getModel().getReaction( localParam.getReactionID() ).getKineticLaw().getLocalParameter( localParam.getSbmlID()).setValue( localParam.getParameterValue() );
+		}
+		// global parameter value is changed
+		for( int i = 0 ; i < sbmlParam.getParamValue().length ; i ++){
+			Parameters_Beans globalParam = sbmlParam.getParamValue()[ i ];
+			document.getModel().getParameter( globalParam.getSbmlID() ).setValue( globalParam.getParameterValue() );
+		}
+		// the result is save in  sbmlFile path
+		SBMLWriter writer = new SBMLWriter();
+		try {
+			writer.write( document , sbmlFile );
+		} catch (SBMLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private Parameters_Beans[] getParameters(){
 		Parameters_Beans[] param_Beans = new Parameters_Beans[ document.getModel().getNumParameters() ];

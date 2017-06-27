@@ -1,4 +1,10 @@
 var req;
+var currentFile = null;
+var parameter_jsondata ={
+		initValue : [],
+		localParamValue : [],
+		paramValue : []
+};
 var canvas_jsondata = {
 	      type: 'line',
 	      data: {
@@ -34,11 +40,23 @@ var canvas_jsondata = {
 	            }]
 	          }
 	    }
-}
+};
 
 function getSimulationResult(){
 	var form_file = document.getElementById("simFile");
 	var progressBar = document.getElementById("progress");
+	//Check file change , if file is changed , JSON data and parameter contents are initialized.
+	if( currentFile != form_file.files[ 0 ].name){
+		parameter_jsondata ={
+				initValue : [],
+				localParamValue : [],
+				paramValue : []
+		};
+		$("#initialValue-slider").empty();
+		$("#globalParam-slider").empty();
+		$("#localParam-slider").empty();
+		currentFile = form_file.files[ 0 ].name;
+	}
 	
 	var file = form_file.files[ 0 ];
 	var filedata = new FormData();
@@ -70,9 +88,7 @@ function callback(){
 	if( req.readyState == 4 ){
 		if( req.status == 200 ){
 			//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
-			configureCanvas();
-			
-			
+			configureCanvas();			
 			addInitialValueSlider();
 			addLocalParameterValueSlider();
 			addGlobalParameterValueSlider();
@@ -91,16 +107,19 @@ function configureCanvas(){
 	var myChart = new Chart(canvas , canvas_jsondata );
 }
 function configureFormData( formdata ){
-	formdata.append("endpoint" , document.getElementById("endtime").value)
-	formdata.append("numpoint" , document.getElementById("numpoint").value)
-	formdata.append("library", document.getElementById("library").value)
+	formdata.append("endpoint" , document.getElementById("endtime").value);
+	formdata.append("numpoint" , document.getElementById("numpoint").value);
+	formdata.append("library", document.getElementById("library").value);
+	formdata.append("parameter" , JSON.stringify( parameter_jsondata));
 }
 function addInitialValueSlider(){
 	var JSONResponse = JSON.parse( req.response );
 	var initialValue = JSONResponse.modelParameters.initValue;
 	var initValueSlider = document.getElementById("initialValue-slider");
 	$("#initialValue-slider").empty();
+	parameter_jsondata.initValue = [];
 	for( var i = 0 ; i < initialValue.length ; i ++){
+		// html dynamical setting
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
 		
@@ -122,6 +141,10 @@ function addInitialValueSlider(){
 		if( initialValue[ i ].initialValue != 0.0 ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( initialValue[ i ].initialValue )) - 1));
 		}
+		// JSON format edition
+		parameter_jsondata.initValue.push({sbmlID : initialValue[ i ].sbmlID , initialValue : initialValue[ i ].initialValue});
+		
+		// slider edition
 		$("#" + initialValue[ i ].sbmlID).slider({
 			min : 0,
 			max : initialValue[ i ].initialValue * 2,
@@ -129,15 +152,28 @@ function addInitialValueSlider(){
 			value : initialValue[ i ].initialValue ,
 			change : function( e , ui ){
 				$( "#" + this.id + "_input").val( ui.value);
+				var sbmlId = this.id;
+				var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
+					return( elem.sbmlID == sbmlId);
+				});
+				filtered[ 0 ].initialValue = ui.value;
+				getSimulationResult();
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
+		// text box edition
 		$("#" + initialValue[ i ].sbmlID + "_input").change( function(){
 			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
 			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
 			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+			var sbmlId = this.id.replace("_input","");
+			var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
+				return( elem.sbmlID == sbmlId);
+			});
+			filtered[ 0 ].initialValue = $(this).val();
+			getSimulationResult();
 		});
 	}
 }

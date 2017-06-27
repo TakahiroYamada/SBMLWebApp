@@ -30,6 +30,7 @@ import org.apache.commons.io.IOUtils;
 
 import analyze.simulation.Simulation_COPASI;
 import analyze.simulation.Simulation_SBSCL;
+import beans.modelparameter.ModelParameter_Beans;
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
@@ -49,6 +50,7 @@ public class Simulation_Servlet extends HttpServlet {
     private String filename;
     private File newFile;
     private Simulation_Parameter param;
+    private ModelParameter_Beans sbmlParam;
     private Coloring colorOfVis;
 	/**
 	 * Method called on post.
@@ -63,9 +65,9 @@ public class Simulation_Servlet extends HttpServlet {
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		// Save the SBML file in server side directory
 		configureAnalysisEmviroment( request , upload );
-		// Edit and get parameters value in SBML model
+		// Get and edit parameters value in SBML model
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( newFile );
-		
+		sbml_Manipulator.editModelParameter( this.sbmlParam );
 		if( param.getLibrary().equals("copasi")){
 			try{
 				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);
@@ -153,6 +155,9 @@ public class Simulation_Servlet extends HttpServlet {
 				}
 				else if( item.getFieldName().equals("library")){
 					param.setLibrary( item.getString() );
+				}
+				else if( item.getFieldName().equals("parameter")){
+					this.sbmlParam = JSON.decode( item.getString() , ModelParameter_Beans.class);
 				}
 			}
 		} catch (FileUploadException e) {
