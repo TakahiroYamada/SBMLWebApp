@@ -173,7 +173,6 @@ function addInitialValueSlider(){
 				return( elem.sbmlID == sbmlId);
 			});
 			filtered[ 0 ].initialValue = $(this).val();
-			getSimulationResult();
 		});
 	}
 }

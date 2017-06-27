@@ -46,7 +46,6 @@ public class SBML_Manipulator {
 		for( int i = 0 ; i < sbmlParam.getInitValue().length ; i ++){
 			InitialValue_Beans initValue = sbmlParam.getInitValue()[ i ];
 			document.getModel().getListOfSpecies().get( initValue.getSbmlID() ).setInitialAmount( initValue.getInitialValue() );
-			System.out.println( initValue.getSbmlID() + ":" + initValue.getInitialValue() );
 		}
 		// local parameter value is changed
 		for( int i = 0 ; i < sbmlParam.getLocalParamValue().length ; i ++){
