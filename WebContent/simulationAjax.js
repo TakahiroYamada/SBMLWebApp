@@ -168,11 +168,6 @@ function addInitialValueSlider(){
 			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
 			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
 			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
-			var sbmlId = this.id.replace("_input","");
-			var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
-				return( elem.sbmlID == sbmlId);
-			});
-			filtered[ 0 ].initialValue = $(this).val();
 		});
 	}
 }
@@ -182,6 +177,7 @@ function addGlobalParameterValueSlider(){
 	var parameterValue = JSONResponse.modelParameters.paramValue;
 	var globalParamSlider = document.getElementById("globalParam-slider");
 	$("#globalParam-slider").empty();
+	parameter_jsondata.paramValue = [];
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
@@ -204,6 +200,9 @@ function addGlobalParameterValueSlider(){
 		if( parameterValue[ i ].initialValue != 0.0 ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
 		}
+		
+		parameter_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue});
+		
 		$("#" + parameterValue[ i ].sbmlID).slider({
 			min : 0,
 			max : parameterValue[ i ].parameterValue * 2,
@@ -211,6 +210,12 @@ function addGlobalParameterValueSlider(){
 			value : parameterValue[ i ].parameterValue ,
 			change : function( e , ui ){
 				$( "#" + this.id + "_input").val( ui.value);
+				var sbmlId = this.id;
+				var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
+					return( elem.sbmlID == sbmlId);
+				});
+				filtered[ 0 ].parameterValue = ui.value;
+				getSimulationResult();
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
@@ -229,6 +234,7 @@ function addLocalParameterValueSlider(){
 	var parameterValue = JSONResponse.modelParameters.localParamValue;
 	var localParamSlider = document.getElementById("localParam-slider");
 	$("#localParam-slider").empty();
+	parameter_jsondata.localParamValue = [];
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
@@ -251,6 +257,8 @@ function addLocalParameterValueSlider(){
 		if( parameterValue[ i ].initialValue != 0.0 ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
 		}
+		parameter_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
+		
 		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider({
 			min : 0,
 			max : parameterValue[ i ].parameterValue * 2,
@@ -258,6 +266,12 @@ function addLocalParameterValueSlider(){
 			value : parameterValue[ i ].parameterValue ,
 			change : function( e , ui ){
 				$( "#" + this.id + "_input").val( ui.value);
+				var sbmlId = this.id;
+				var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
+					return( elem.jsID == sbmlId);
+				});
+				filtered[ 0 ].parameterValue = ui.value;
+				getSimulationResult();
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
