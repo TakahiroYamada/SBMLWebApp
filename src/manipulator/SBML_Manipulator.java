@@ -45,7 +45,12 @@ public class SBML_Manipulator {
 		// initial value is changed
 		for( int i = 0 ; i < sbmlParam.getInitValue().length ; i ++){
 			InitialValue_Beans initValue = sbmlParam.getInitValue()[ i ];
-			document.getModel().getListOfSpecies().get( initValue.getSbmlID() ).setInitialAmount( initValue.getInitialValue() );
+			if( initValue.getStatus() == InitialValue_Beans.INIT_AMOUNT ){
+				document.getModel().getListOfSpecies().get( initValue.getSbmlID() ).setInitialAmount( initValue.getInitialValue() );
+			}
+			else if( initValue.getStatus() == InitialValue_Beans.INIT_CONCENTRATION ){
+				document.getModel().getListOfSpecies().get( initValue.getSbmlID() ).setInitialConcentration( initValue.getInitialValue() );
+			}
 		}
 		// local parameter value is changed
 		for( int i = 0 ; i < sbmlParam.getLocalParamValue().length ; i ++){
@@ -85,8 +90,17 @@ public class SBML_Manipulator {
 		InitialValue_Beans[] init_Beans = new InitialValue_Beans[ document.getModel().getNumSpecies() ];
 		for( int i = 0 ; i < document.getModel().getNumSpecies() ; i ++){
 			init_Beans[ i ] = new InitialValue_Beans();
+			Double checker = new Double( document.getModel().getSpecies( i ).getInitialAmount() );
 			init_Beans[ i ].setSbmlID( document.getModel().getSpecies( i ).getId());
-			init_Beans[ i ].setInitialValue( document.getModel().getSpecies( i ).getInitialAmount());
+			
+			if( !checker.isNaN() ){
+				init_Beans[ i ].setInitialValue( document.getModel().getSpecies( i ).getInitialAmount());
+				init_Beans[ i ].setStatus( InitialValue_Beans.INIT_AMOUNT );
+			}
+			else{
+				init_Beans[ i ].setInitialValue( document.getModel().getSpecies( i ).getInitialConcentration() );
+				init_Beans[ i ].setStatus( InitialValue_Beans.INIT_CONCENTRATION );
+			}
 		}
 		return init_Beans;
 	}

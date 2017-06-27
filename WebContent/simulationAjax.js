@@ -142,7 +142,7 @@ function addInitialValueSlider(){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( initialValue[ i ].initialValue )) - 1));
 		}
 		// JSON format edition
-		parameter_jsondata.initValue.push({sbmlID : initialValue[ i ].sbmlID , initialValue : initialValue[ i ].initialValue});
+		parameter_jsondata.initValue.push({sbmlID : initialValue[ i ].sbmlID , initialValue : initialValue[ i ].initialValue , status : initialValue[ i ].status});
 		
 		// slider edition
 		$("#" + initialValue[ i ].sbmlID).slider({
