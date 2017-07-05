@@ -2,7 +2,7 @@ package beans.modelparameter;
 
 public class InitialValue_Beans {
 	public static int INIT_CONCENTRATION = 0;
-	public static int INIT_AMOUNT = 0;
+	public static int INIT_AMOUNT = 1;
 	
 	private String sbmlID;
 	private double initialValue;

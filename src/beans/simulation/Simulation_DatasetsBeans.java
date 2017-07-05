@@ -18,9 +18,9 @@ public class Simulation_DatasetsBeans {
 	private String pointStyle;
 	public Simulation_DatasetsBeans(){
 		this.fill = false;
-		this.backgroundColor = "rgba(179,181,198,0.2)";
-		this.borderColor = "rgba(179,181,198,1)";
-		this.pointBorderColor = "rgba(179,181,198,1)";
+		this.backgroundColor = "rgba(255,255,255,0.1)";
+		this.borderColor = "rgba(255,255,255,0.1)";
+		this.pointBorderColor = "rgba(255,255,255,0.1)";
 		this.pointBackgroundColor = "#fff";
 		this.borderWidth = 3;
 		this.type = "line";

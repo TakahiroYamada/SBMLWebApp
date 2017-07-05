@@ -92,6 +92,7 @@ public class Simulation_Servlet extends HttpServlet {
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
 			colorOfVis = new Coloring( (int) simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
 			Simulation_AllBeans simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
+			simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter());
 			String jsonSimulation = JSON.encode( simulationBeans );
 			response.setContentType( "application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();

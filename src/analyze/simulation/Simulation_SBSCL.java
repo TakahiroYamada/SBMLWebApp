@@ -73,12 +73,12 @@ public class Simulation_SBSCL {
 		if( model.getNumSpecies() != 0 ){ 
 			int numOfSpecies = model.getListOfSpecies().size();
 			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
-			
+			int speciesCount = 0;
 			for( int i = 0 ; i < numOfSpecies ; i ++){
 				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
 					if( model.getListOfSpecies().get( i ).getId().equals( solution.getColumnName( j ))){
-						allDataSets[ i ] = new Simulation_DatasetsBeans();
-						allDataSets[ i ].setLabel( solution.getColumnName( j ));
+						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
+						allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
@@ -88,11 +88,12 @@ public class Simulation_SBSCL {
 								maxCnadidate = solution.getValueAt( k , j );
 							}
 						}
-						allDataSets[ i ].setData( allXYDataBeans );
-						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setPointRadius( 0 );
+						allDataSets[ speciesCount ].setData( allXYDataBeans );
+						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setBackgroundColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointRadius( 0 );
+						speciesCount += 1;
 					}
 				}
 			}
@@ -102,12 +103,13 @@ public class Simulation_SBSCL {
 		else{
 			ArrayList< Integer > orderOfODESpecies = getOrderODESpecies();
 			int numOfSpecies = orderOfODESpecies.size();
+			int speciesCount = 0;
 			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
 			for( int i = 0 ; i < numOfSpecies ; i ++){
 				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
 					if( model.getListOfParameters().get( orderOfODESpecies.get( i ) ).getId().equals( solution.getColumnName( j ))){
-						allDataSets[ i ] = new Simulation_DatasetsBeans();
-						allDataSets[ i ].setLabel( solution.getColumnName( j ));
+						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
+						allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
@@ -117,11 +119,12 @@ public class Simulation_SBSCL {
 								maxCnadidate = solution.getValueAt( k , j );
 							}
 						}
-						allDataSets[ i ].setData( allXYDataBeans );
-						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setPointRadius( 0 );
+						allDataSets[ speciesCount ].setData( allXYDataBeans );
+						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setBackgroundColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointRadius( 0 );
+						speciesCount += 1;
 					}
 				}
 			}

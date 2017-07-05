@@ -110,13 +110,14 @@ public class Simulation_COPASI {
 		// All species information is contained in listOfSpecies
 		if( dataModel.getModel().getNumMetabs() != 0 ){
 			long numOfSpecies = simTimeSeries.getNumVariables();
+			int speciesCount = 0;
 			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) (numOfSpecies - 1)];
 			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
 				//j == 0 means the value of time point! this is considered as the value of x axis!
 				for( int j = 1 ; j < numOfSpecies ; j ++ ){
 					if( dataModel.getModel().getMetabolite( i ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
-						allDataSets[ i ] = new Simulation_DatasetsBeans();
-						allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
+						allDataSets[ speciesCount ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
@@ -126,11 +127,12 @@ public class Simulation_COPASI {
 								maxCandidate = simTimeSeries.getConcentrationData( k , j );
 							}
 						}
-						allDataSets[ i ].setData( allXYDataBeans );
-						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setPointRadius( 0 );
+						allDataSets[ speciesCount ].setData( allXYDataBeans );
+						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setBackgroundColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointRadius( 0 );
+						speciesCount += 1;
 					}
 				}
 			}

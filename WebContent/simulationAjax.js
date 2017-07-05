@@ -26,16 +26,14 @@ var canvas_jsondata = {
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
-	                max: 100,
-	                stepSize: 1
+	                max: 100
 	              }
 	            }],
 	            yAxes: [{
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
-	                max: 200,
-	                stepSize: 1
+	                max: 100
 	              }
 	            }]
 	          }
@@ -101,9 +99,9 @@ function configureCanvas(){
 	var tmpData = JSON.parse( req.response || "null");
 	
 	canvas_jsondata.data.datasets = tmpData.data;
-	
 	canvas_jsondata.options.scales.xAxes[0].ticks.max = tmpData.xmax;
 	canvas_jsondata.options.scales.yAxes[0].ticks.max = tmpData.ymax;
+	var myChart = new Chart(canvas , canvas_jsondata );
 	var myChart = new Chart(canvas , canvas_jsondata );
 }
 function configureFormData( formdata ){
@@ -290,4 +288,19 @@ function changeTab( tabname ){
 	document.getElementById("globalParam").style.display= "none";
 	
 	document.getElementById( tabname).style.display = "block";
+}
+function logarithmicFigure(){
+	var checkBox = document.getElementById("logarithmic");
+	var tmpData = JSON.parse( req.response || "null");
+	
+	if( checkBox.checked ){
+		var canvas = document.getElementById("simulationCanvas");
+		canvas_jsondata.options.scales.yAxes[0].type = "logarithmic";
+		var myChart = new Chart(canvas , canvas_jsondata );
+	}
+	else{
+		var canvas = document.getElementById("simulationCanvas");
+		canvas_jsondata.options.scales.yAxes[0].type = "linear";
+		var myChart = new Chart(canvas , canvas_jsondata );
+	}
 }
