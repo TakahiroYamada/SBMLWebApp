@@ -57,7 +57,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		
 		//Experiment data is set to beans
 		paramBeans.setExpDataSets( paramEstCopasi.configureParamEstBeans( colorOfVis ) );
-		
+		paramBeans.setUpdateParam( paramEstCopasi.configureParameterUpdateInformationBeans() );
 		// response to client side sending JSON format data
 		String jsonParamEst = JSON.encode( paramBeans , true);
 		response.setContentType("application/json;charset=UTF-8");
@@ -76,7 +76,6 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		// Simulation execution using parameters before and after fitting
 		Simulation_COPASI beforeFitting = new Simulation_COPASI( SBMLFile.getPath() , paramSim);
 		paramBeans.setBeforeFitting( beforeFitting.configureSimulationBeans( colorOfVis ) );
-				
 		Simulation_COPASI afterFitting = new Simulation_COPASI( paramEstCopasi.getDataModel() , paramSim);
 		paramBeans.setAfterFitting( afterFitting.configureSimulationBeans( colorOfVis ));
 	}

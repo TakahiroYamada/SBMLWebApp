@@ -124,8 +124,8 @@ function configureTable(){
 		column.push( tmpColumn)
 	}
 	document.getElementById("numTable").style.display = "block";
-	$("#numTable").tabulator("setColumns" , column );
-	$("#numTable").tabulator("clearData");
+	$("#num-table").tabulator("setColumns" , column );
+	$("#num-table").tabulator("clearData");
 	
 	var jsonNumData = [];
 	var timePoint = simData[ 0 ].data.length
@@ -138,7 +138,7 @@ function configureTable(){
 		}
 		jsonNumData.push( keyValueData);
 	}
-	$("#numTable").tabulator("setData" , jsonNumData );
+	$("#num-table").tabulator("setData" , jsonNumData );
 	changeGNTab( currentTab);
 }
 function configureFormData( formdata ){

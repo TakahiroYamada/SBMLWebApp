@@ -7,6 +7,7 @@ public class ParameterEstimation_AllBeans {
 	private Simulation_AllBeans beforeFitting;
 	private Simulation_AllBeans afterFitting;
 	private Simulation_DatasetsBeans expDataSets[];
+	private ParameterEstimation_UpdateInformationBeans updateParam[];
 	public Simulation_AllBeans getBeforeFitting() {
 		return beforeFitting;
 	}
@@ -25,5 +26,10 @@ public class ParameterEstimation_AllBeans {
 	public void setExpDataSets(Simulation_DatasetsBeans[] expDataSets) {
 		this.expDataSets = expDataSets;
 	}
-	
+	public ParameterEstimation_UpdateInformationBeans[] getUpdateParam() {
+		return updateParam;
+	}
+	public void setUpdateParam(ParameterEstimation_UpdateInformationBeans[] updateParam) {
+		this.updateParam = updateParam;
+	}
 }

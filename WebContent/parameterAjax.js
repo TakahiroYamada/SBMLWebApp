@@ -1,5 +1,5 @@
 var req;
-
+var currentTab = "graph";
 var canvas_jsondata_Before = {
 	      type: 'line',
 	      data: {
@@ -128,6 +128,7 @@ function callback(){
 	if( req.readyState == 4 ){
 		if( req.status == 200 ){
 			configureCanvas();
+			configureTable();
 		}
 	}
 }
@@ -158,7 +159,34 @@ function configureCanvas(){
 	var canvas = document.getElementById("canvas_item");
 	canvas.style.display = "block";
 }
-
+function configureTable(){
+	var jsonData = JSON.parse( req.response );
+	var parameterTransitData = jsonData.updateParam;
+	
+	var column = [
+		{ field : "Reaction" , sortable : false , title : "Reaction ID"},
+		{ field : "Parameter" , sortable : false , title : "Parameter ID"},
+		{ field : "Start" , sortable : false , title : "Start value"},
+		{ field : "Update" , sortable : false , title : "Updated Value"}
+		];
+	
+	document.getElementById("numTable").style.display = "block";
+	$("#num-table").tabulator("setColumns" , column);
+	$("#num-table").tabulator("clearData");
+	
+	var transitData = [];
+	for( var i = 0 ; i < parameterTransitData.length ; i ++){
+		var tmpData = {};
+		paramData = parameterTransitData[ i ].parameterId;
+		tmpData["Reaction"] = paramData.match(/\((.+)\)/)[1];
+		tmpData["Parameter"] = paramData.substr( paramData.indexOf(".") + 1);
+		tmpData["Start"] = parameterTransitData[ i ].startValue;
+		tmpData["Update"] = parameterTransitData[ i ].updatedValue;
+		transitData.push( tmpData );
+	}
+	$("#num-table").tabulator("setData" , transitData );
+	changeTab( currentTab );
+}
 function configureFormData( formdata ){
 	
 	formdata.append("algorithm" , document.getElementById("algorithm").value);
@@ -193,4 +221,11 @@ function configureAlgorithmForm(){
 		document.getElementById("gaparam").style = "display:none";
 		document.getElementById("nelparam").style = "display:block";		
 	}
+}
+function changeTab( tabname){
+	document.getElementById("graph").style.display = "none";
+	document.getElementById("numTable").style.display = "none";
+	
+	document.getElementById( tabname ).style.display = "block";
+	currentTab = tabname;
 }

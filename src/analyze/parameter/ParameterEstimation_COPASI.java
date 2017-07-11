@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -31,7 +32,9 @@ import org.COPASI.CReaction;
 import org.COPASI.CTaskEnum;
 import org.COPASI.FloatMatrix;
 import org.COPASI.FloatVector;
+import org.w3c.jigsaw.ssi.commands.CountCommand;
 
+import beans.parameter.ParameterEstimation_UpdateInformationBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
@@ -47,7 +50,8 @@ public class ParameterEstimation_COPASI {
 	private int ExpCol;
 	private FloatMatrix dependentData;
 	private FloatVector timeData;
-	private HashMap<String, Double> optimizedParam;
+	private LinkedHashMap<String, Double> boptimizedParam;
+	private LinkedHashMap<String, Double> optimizedParam;
 	private CCopasiDataModel dataModel;
 	private CExperimentSet experimentSet;
 	private ParameterEstimation_Parameter paramestParam;
@@ -163,11 +167,12 @@ public class ParameterEstimation_COPASI {
         }
 		
 		//Get the optimized Parameter value
-		optimizedParam = new HashMap<>();
+		boptimizedParam = new LinkedHashMap<>();
+		optimizedParam = new LinkedHashMap<>();
 		for( int i = 0 ; i < fitProblem.getOptItemList().size() ; i ++){
 			COptItem tmpOptItem = fitProblem.getOptItemList().get( i );
+			boptimizedParam.put( tmpOptItem.getObjectDisplayName() , paramList.get( i ).getDblValue() );
 			optimizedParam.put( tmpOptItem.getObjectDisplayName() , fitProblem.getSolutionVariables().get( i ));
-			
 			// The parameter value in current model is changed by following line
 			paramList.get( i ).setDblValue( fitProblem.getSolutionVariables().get( i ));
 			dataModel.getModel().updateInitialValues( paramList.get( i ));
@@ -199,6 +204,18 @@ public class ParameterEstimation_COPASI {
 			expDataBeans[ i ].setPointBorderColor( colorOfVis.getColor( i ));
 		}
 		return expDataBeans;
+	}
+	public ParameterEstimation_UpdateInformationBeans[] configureParameterUpdateInformationBeans(){
+		ParameterEstimation_UpdateInformationBeans paramEstInfo[] = new ParameterEstimation_UpdateInformationBeans[ optimizedParam.size()];
+		int count = 0;
+		for( String key : optimizedParam.keySet() ){
+			paramEstInfo[ count ] = new ParameterEstimation_UpdateInformationBeans();
+			paramEstInfo[ count ].setParameterId( key );
+			paramEstInfo[ count ].setStartValue( boptimizedParam.get( key ));
+			paramEstInfo[ count ].setUpdatedValue( optimizedParam.get( key ));
+			count += 1;
+		}
+		return paramEstInfo;
 	}
 	public HashMap<String, Double> getOptimizedParam() {
 		return optimizedParam;
