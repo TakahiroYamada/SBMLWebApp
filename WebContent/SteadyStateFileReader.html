@@ -15,7 +15,7 @@
 <body>
 	Files to upload:
 	<br/>
-	<input id = "stedFile" type = "file" size = "50" onchange = "getSteadyResult();">
+	<input id = "stedFile" type = "file" size = "50" onchange = "getSteadyResult();" accept = ".xml">
 	<br/>
 	<div id = "libselect" style = "display:none">
 	Library : <select id = "library" size = "1" onchange = "getSteadyResult();">
@@ -36,7 +36,7 @@
 	
 	<div class = "tabResult">
 		<p class = "tabs">
-			<a href="#stedAmount" class = "stedAmount" onclick = "changeTab('stedAmount');return false;"> Species Amount</a>
+			<a href="#stedAmount" class = "stedAmount" onclick = "changeTab('stedAmount');return false;"> Species</a>
 			<a href="#jacobian" class = "jacobian" onclick = "changeTab('jacobian');return false"> Jacobian Matrix</a>
 		</p>
 		<div id = "stedAmount" class = "tab">

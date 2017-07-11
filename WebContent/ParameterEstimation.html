@@ -10,11 +10,11 @@
 	Files to upload:　
 	<br/>
 	Model File(SBML) : 
-	<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();">
+	<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();" accept = ".xml">
 	<br/>
 	<div id = "expFile" style="display:none">
 	Experiment Data :
-	<input id = "expData" type = "file" size = "50" onchange = "analyzeData();">
+	<input id = "expData" type = "file" size = "50" onchange = "analyzeData();" accept = ".txt , .csv">
 	<br/>
 	Algorithm <select id = "algorithm" size = "1" onchange = "analyzeData()">
 	<option value = "lv">Leven-Berg Marquardt</option>
