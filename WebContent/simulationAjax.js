@@ -1,4 +1,5 @@
 var req;
+var currentTab = "graph";
 var currentFile = null;
 var parameter_jsondata ={
 		initValue : [],
@@ -86,7 +87,8 @@ function callback(){
 	if( req.readyState == 4 ){
 		if( req.status == 200 ){
 			//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
-			configureCanvas();			
+			configureCanvas();
+			configureTable();
 			addInitialValueSlider();
 			addLocalParameterValueSlider();
 			addGlobalParameterValueSlider();
@@ -103,6 +105,41 @@ function configureCanvas(){
 	canvas_jsondata.options.scales.yAxes[0].ticks.max = tmpData.ymax;
 	var myChart = new Chart(canvas , canvas_jsondata );
 	var myChart = new Chart(canvas , canvas_jsondata );
+}
+function configureTable(){
+	var jsonResponse = JSON.parse(req.response);
+	var simData = jsonResponse.data;
+	
+	var column = [{
+		field : "Time",
+		sortable : false,
+		title : "Time"
+	}];
+	for( var i = 0 ; i < simData.length ; i ++){
+		var tmpColumn = {
+				field : simData[ i ].label,
+				sortable : false,
+				title : simData[ i ].label
+		};
+		column.push( tmpColumn)
+	}
+	document.getElementById("numTable").style.display = "block";
+	$("#numTable").tabulator("setColumns" , column );
+	$("#numTable").tabulator("clearData");
+	
+	var jsonNumData = [];
+	var timePoint = simData[ 0 ].data.length
+	
+	for( var i = 0 ; i < timePoint ; i ++){
+		var keyValueData = {};
+		keyValueData["Time"] = simData[ 0 ].data[ i ].x;
+		for( var j = 0 ; j < simData.length ; j ++){
+			keyValueData[ simData[ j ].label ] = simData[ j ].data[ i ].y;
+		}
+		jsonNumData.push( keyValueData);
+	}
+	$("#numTable").tabulator("setData" , jsonNumData );
+	changeGNTab( currentTab);
 }
 function configureFormData( formdata ){
 	formdata.append("endpoint" , document.getElementById("endtime").value);
@@ -288,6 +325,13 @@ function changeTab( tabname ){
 	document.getElementById("globalParam").style.display= "none";
 	
 	document.getElementById( tabname).style.display = "block";
+}
+function changeGNTab( tabname){
+	document.getElementById("graph").style.display = "none";
+	document.getElementById("numTable").style.display = "none";
+	
+	document.getElementById( tabname ).style.display = "block";
+	currentTab = tabname;
 }
 function logarithmicFigure(){
 	var checkBox = document.getElementById("logarithmic");
