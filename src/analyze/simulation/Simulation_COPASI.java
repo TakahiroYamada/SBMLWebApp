@@ -83,7 +83,7 @@ public class Simulation_COPASI {
         CTrajectoryMethod simMethod = ( CTrajectoryMethod )simTrajekTask.getMethod();
         
         CCopasiParameter simParameter = simMethod.getParameter("Absolute Tolerance");
-        simParameter.setDblValue( 1.0e-12 );
+        simParameter.setDblValue( simParam.getTolerance() );
         
         boolean result=true;
         try

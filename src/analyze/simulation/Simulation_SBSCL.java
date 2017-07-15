@@ -50,8 +50,10 @@ public class Simulation_SBSCL {
 	public void simulation(){
 		double stepSize = (double) simParam.getEndTime() / (double) simParam.getNumTime();
 		double timeEnd = (double) simParam.getEndTime();
-		DESSolver solver = new RosenbrockSolver();
+		//DESSolver solver = new RosenbrockSolver();
+		RosenbrockSolver solver = new RosenbrockSolver();
 		solver.setStepSize( stepSize);
+		solver.setAbsTol( simParam.getTolerance() );
 		try {
 			SBMLinterpreter interpreter = new SBMLinterpreter( model );
 			solution = solver.solve( interpreter, interpreter.getInitialValues() ,0d, timeEnd);

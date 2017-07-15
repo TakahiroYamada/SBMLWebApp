@@ -154,6 +154,9 @@ public class Simulation_Servlet extends HttpServlet {
 				else if( item.getFieldName().equals("numpoint")){
 					param.setNumTime( new Integer( Integer.parseInt( item.getString() )));;
 				}
+				else if( item.getFieldName().equals( "tolerance")){
+					param.setTolerance( new Double( Double.parseDouble( item.getString() )));
+				}
 				else if( item.getFieldName().equals("library")){
 					param.setLibrary( item.getString() );
 				}

@@ -146,6 +146,7 @@ function configureTable(){
 function configureFormData( formdata ){
 	formdata.append("endpoint" , document.getElementById("endtime").value);
 	formdata.append("numpoint" , document.getElementById("numpoint").value);
+	formdata.append("tolerance" , document.getElementById("tolerance").value)
 	formdata.append("library", document.getElementById("library").value);
 	formdata.append("parameter" , JSON.stringify( parameter_jsondata));
 }
