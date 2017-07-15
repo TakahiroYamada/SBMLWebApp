@@ -95,7 +95,7 @@ public class Simulation_SBSCL {
 						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
 						allDataSets[ speciesCount ].setPointBorderColor( colorOfVis.getColor( speciesCount ));
 						allDataSets[ speciesCount ].setBackgroundColor( colorOfVis.getColor( speciesCount ));
-						allDataSets[ speciesCount ].setPointRadius( 0 );
+						allDataSets[ speciesCount ].setPointRadius( 1 );
 						speciesCount += 1;
 					}
 				}
@@ -129,7 +129,7 @@ public class Simulation_SBSCL {
 						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
 						allDataSets[ speciesCount ].setPointBorderColor( colorOfVis.getColor( speciesCount ));
 						allDataSets[ speciesCount ].setBackgroundColor( colorOfVis.getColor( speciesCount ));
-						allDataSets[ speciesCount ].setPointRadius( 0 );
+						allDataSets[ speciesCount ].setPointRadius( 1 );
 						speciesCount += 1;
 					}
 				}

@@ -38,7 +38,9 @@ var canvas_jsondata = {
 	              }
 	            }]
 	          }
-	    }
+	    },
+	    animation : true,
+	    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
 };
 
 function getSimulationResult(){

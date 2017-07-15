@@ -135,7 +135,7 @@ public class Simulation_COPASI {
 						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
 						allDataSets[ speciesCount ].setPointBorderColor( colorOfVis.getColor( speciesCount ));
 						allDataSets[ speciesCount ].setBackgroundColor( colorOfVis.getColor( speciesCount ));
-						allDataSets[ speciesCount ].setPointRadius( 0 );
+						allDataSets[ speciesCount ].setPointRadius( 1 );
 						speciesCount += 1;
 					}
 				}
@@ -171,7 +171,7 @@ public class Simulation_COPASI {
 						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
 						allDataSets[ i ].setPointBorderColor( colorOfVis.getColor( i ));
 						allDataSets[ i ].setBackgroundColor( colorOfVis.getColor( i ));
-						allDataSets[ i ].setPointRadius( 0 );
+						allDataSets[ i ].setPointRadius( 1 );
 					}
 				}
 			}
