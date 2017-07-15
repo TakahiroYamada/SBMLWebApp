@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.COPASI.CCopasiDataModel;
+import org.COPASI.CCopasiRootContainer;
+import org.COPASI.CModelEntity;
 import org.COPASI.DataModelVector;
 import org.apache.commons.math.ode.DerivativeException;
 import org.sbml.jsbml.Model;
@@ -29,8 +32,10 @@ public class Simulation_SBSCL {
 	private Simulation_Parameter simParam;
 	private Model model;
 	private MultiTable solution;
+	private String sbmlFile;
 	public Simulation_SBSCL( String sbmlFile , Simulation_Parameter simParam){
 		this.simParam = simParam;
+		this.sbmlFile = sbmlFile;
 		try {
 			this.model = SBMLReader.read( new File( sbmlFile )).getModel();
 		} catch (XMLStreamException e) {
@@ -104,13 +109,13 @@ public class Simulation_SBSCL {
 		}
 		// The species information is contained in listOfParameters( ordinal fomat of SBML for FBA)
 		else{
-			ArrayList< Integer > orderOfODESpecies = getOrderODESpecies();
-			int numOfSpecies = orderOfODESpecies.size();
+			ArrayList< String > sbmlIDOfODESpecies = getSBMLIDODESpecies();
+			int numOfSpecies = sbmlIDOfODESpecies.size();
 			int speciesCount = 0;
 			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
 			for( int i = 0 ; i < numOfSpecies ; i ++){
 				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
-					if( model.getListOfParameters().get( orderOfODESpecies.get( i ) ).getId().equals( solution.getColumnName( j ))){
+					if( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i ) ).getId().equals( solution.getColumnName( j ))){
 						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
 						allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
@@ -141,11 +146,19 @@ public class Simulation_SBSCL {
 		simAllBeans.setYmin( minCandidate );
 		return simAllBeans;
 	}
-	private ArrayList getOrderODESpecies(){
-		ArrayList< Integer > orderODESpecies = new ArrayList<>();
-		for( int i = 0 ; i < model.getListOfParameters().size() ; i ++ ){
-			if( ! model.getListOfParameters().get( i ).getConstant() ){
-				orderODESpecies.add( new Integer( i ));
+	private ArrayList getSBMLIDODESpecies(){
+		ArrayList< String > orderODESpecies = new ArrayList<>();
+		CCopasiDataModel cdataModel = CCopasiRootContainer.addDatamodel();
+		try {
+			cdataModel.importSBML( this.sbmlFile );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for( int i = 0 ; i < cdataModel.getModel().getNumModelValues() ; i ++ ){
+			if( cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE ){
+				orderODESpecies.add( cdataModel.getModel().getModelValue( i ).getSBMLId() );
 			}
 		}
 		
