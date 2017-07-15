@@ -105,6 +105,7 @@ public class Simulation_COPASI {
 	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis ) {
 		long numOfTimePoints = simTimeSeries.getRecordedSteps();
 		double maxCandidate = 0.0;
+		double minCandidate = Double.MAX_VALUE;
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
 		
 		// All species information is contained in listOfSpecies
@@ -125,6 +126,9 @@ public class Simulation_COPASI {
 							allXYDataBeans[ k ].setY( simTimeSeries.getConcentrationData( k, j ));
 							if( maxCandidate < simTimeSeries.getConcentrationData( k , j)){
 								maxCandidate = simTimeSeries.getConcentrationData( k , j );
+							}
+							if( minCandidate > simTimeSeries.getConcentrationData( k , j) && simTimeSeries.getConcentrationData( k , j) > 0.0){
+								minCandidate = simTimeSeries.getConcentrationData( k , j);
 							}
 						}
 						allDataSets[ speciesCount ].setData( allXYDataBeans );
@@ -159,6 +163,9 @@ public class Simulation_COPASI {
 							if( maxCandidate < simTimeSeries.getConcentrationData( k , j)){
 								maxCandidate = simTimeSeries.getConcentrationData( k , j );
 							}
+							if( minCandidate > simTimeSeries.getConcentrationData( k , j) && simTimeSeries.getConcentrationData( k , j) > 0.0){
+								minCandidate = simTimeSeries.getConcentrationData( k , j);
+							}
 						}
 						allDataSets[ i ].setData( allXYDataBeans );
 						allDataSets[ i ].setBorderColor( colorOfVis.getColor( i ));
@@ -173,6 +180,7 @@ public class Simulation_COPASI {
 
 		simAllBeans.setXmax( simTimeSeries.getData( numOfTimePoints - 1 , 0));
 		simAllBeans.setYmax( maxCandidate );
+		simAllBeans.setYmin( minCandidate );
 		return simAllBeans;
 	}
 	private ArrayList<Integer> getODESpeciesOrder(){

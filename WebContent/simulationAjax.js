@@ -336,16 +336,24 @@ function changeGNTab( tabname){
 function logarithmicFigure( axis ){
 	var checkBox = document.getElementById( axis );
 	var tmpData = JSON.parse( req.response || "null");
-	
 	if( axis == 'logarithmicY'){
 		if( checkBox.checked ){
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.yAxes[0].type = "logarithmic";
+			// Chart.js is crushed when the minimum of scale is less than 1.0e-10
+			// I should ask it to developer!
+			if( Math.pow( 10 , (Math.floor( Math.log10( tmpData.ymin )))) < 1.0e-10){
+				canvas_jsondata.options.scales.yAxes[0].ticks.min = 1.0e-10;
+			}
+			else{
+				canvas_jsondata.options.scales.yAxes[0].ticks.min = Math.pow( 10 , (Math.floor( Math.log10( tmpData.ymin ))));
+			}
 			var myChart = new Chart(canvas , canvas_jsondata );
 		}
 		else{
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.yAxes[0].type = "linear";
+			canvas_jsondata.options.scales.yAxes[0].ticks.min = 0;
 			var myChart = new Chart(canvas , canvas_jsondata );
 		}
 	}

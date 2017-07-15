@@ -6,6 +6,7 @@ public class Simulation_AllBeans {
 	private ModelParameter_Beans modelParameters;
 	private double Xmax;
 	private double Ymax;
+	private double Ymin;
 	private Simulation_DatasetsBeans data[];
 	public ModelParameter_Beans getModelParameters() {
 		return modelParameters;
@@ -24,6 +25,12 @@ public class Simulation_AllBeans {
 	}
 	public void setYmax(double ymax) {
 		Ymax = ymax;
+	}
+	public double getYmin() {
+		return Ymin;
+	}
+	public void setYmin(double ymin) {
+		Ymin = ymin;
 	}
 	public Simulation_DatasetsBeans[] getData() {
 		return data;

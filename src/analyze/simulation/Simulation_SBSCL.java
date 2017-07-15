@@ -67,7 +67,7 @@ public class Simulation_SBSCL {
 	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis){
 		int numOfTimePoints = solution.getTimePoints().length;
 		double maxCnadidate = 0.0;
-		
+		double minCandidate = Double.MAX_VALUE;
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
 		// The spicies information is contained in listOfSpecies
 		if( model.getNumSpecies() != 0 ){ 
@@ -86,6 +86,9 @@ public class Simulation_SBSCL {
 							allXYDataBeans[ k ].setY( solution.getValueAt( k , j ));
 							if( maxCnadidate < solution.getValueAt( k , j )){
 								maxCnadidate = solution.getValueAt( k , j );
+							}
+							if( minCandidate > solution.getValueAt( k , j ) && solution.getValueAt( k , j ) > 0.0){
+								minCandidate = solution.getValueAt( k , j );
 							}
 						}
 						allDataSets[ speciesCount ].setData( allXYDataBeans );
@@ -118,6 +121,9 @@ public class Simulation_SBSCL {
 							if( maxCnadidate < solution.getValueAt( k , j )){
 								maxCnadidate = solution.getValueAt( k , j );
 							}
+							if( minCandidate > solution.getValueAt( k , j ) && solution.getValueAt( k , j ) > 0.0){
+								minCandidate = solution.getValueAt( k , j );
+							}
 						}
 						allDataSets[ speciesCount ].setData( allXYDataBeans );
 						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
@@ -132,6 +138,7 @@ public class Simulation_SBSCL {
 		}
 		simAllBeans.setXmax( solution.getTimePoint( numOfTimePoints - 1));
 		simAllBeans.setYmax( maxCnadidate );
+		simAllBeans.setYmin( minCandidate );
 		return simAllBeans;
 	}
 	private ArrayList getOrderODESpecies(){
