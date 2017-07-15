@@ -333,18 +333,34 @@ function changeGNTab( tabname){
 	document.getElementById( tabname ).style.display = "block";
 	currentTab = tabname;
 }
-function logarithmicFigure(){
-	var checkBox = document.getElementById("logarithmic");
+function logarithmicFigure( axis ){
+	var checkBox = document.getElementById( axis );
 	var tmpData = JSON.parse( req.response || "null");
 	
-	if( checkBox.checked ){
-		var canvas = document.getElementById("simulationCanvas");
-		canvas_jsondata.options.scales.yAxes[0].type = "logarithmic";
-		var myChart = new Chart(canvas , canvas_jsondata );
+	if( axis == 'logarithmicY'){
+		if( checkBox.checked ){
+			var canvas = document.getElementById("simulationCanvas");
+			canvas_jsondata.options.scales.yAxes[0].type = "logarithmic";
+			var myChart = new Chart(canvas , canvas_jsondata );
+		}
+		else{
+			var canvas = document.getElementById("simulationCanvas");
+			canvas_jsondata.options.scales.yAxes[0].type = "linear";
+			var myChart = new Chart(canvas , canvas_jsondata );
+		}
 	}
-	else{
-		var canvas = document.getElementById("simulationCanvas");
-		canvas_jsondata.options.scales.yAxes[0].type = "linear";
-		var myChart = new Chart(canvas , canvas_jsondata );
+	else if( axis == 'logarithmicX'){
+		if( checkBox.checked ){
+			var canvas = document.getElementById("simulationCanvas");
+			canvas_jsondata.options.scales.xAxes[0].type = "logarithmic";
+			canvas_jsondata.options.scales.xAxes[0].ticks.min = document.getElementById("endtime").value / document.getElementById("numpoint").value ;
+			var myChart = new Chart(canvas , canvas_jsondata );
+		}
+		else{
+			var canvas = document.getElementById("simulationCanvas");
+			canvas_jsondata.options.scales.xAxes[0].type = "linear";
+			canvas_jsondata.options.scales.xAxes[0].ticks.min = 0;
+			var myChart = new Chart(canvas , canvas_jsondata );
+		}
 	}
 }

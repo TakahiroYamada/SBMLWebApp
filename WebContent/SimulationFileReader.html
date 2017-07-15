@@ -34,8 +34,9 @@
 			<a href="#numTable" class = "numTable" onclick = "changeGNTab('numTable'); return false;"> Numerical Table</a>
 		</p>
 		<div id = "graph" class = "tab">
-			<input type="checkbox" id="logarithmic" onchange="logarithmicFigure();"> logarithmic scale
+			<input type="checkbox" id="logarithmicY" onchange="logarithmicFigure('logarithmicY');"> logarithmic scale of Y axis
 			<canvas id="simulationCanvas" height="450" width="600"></canvas>
+			<input type = "checkbox" id = "logarithmicX" onchange = "logarithmicFigure('logarithmicX')"> logarithmic scale of X axis
 			<div class = "tabParameter">
 				<p class = "tabs">
 					<a href="#initialValue" class = "initialValue" onclick = "changeTab('initialValue');return false;"> Initial Amount</a>
