@@ -6,6 +6,7 @@
 .explain-doc { border : solid 1px;}
 .explain-doc p{ font-size : 15px;}
 
+#overall-analysis { margin : 1em;}
 #simulation-box , #steady-box , #parameter-box {border : solid 2px;
 				 border-radius : 3px;
 				 margin : 2em 0;
@@ -13,7 +14,6 @@
 				 padding : 1em;
 				 position : relative;
 				 width : 32%;
-				 height : 13em;
 				 display : inline-block;
 				 margin : .1em;
 				 vertical-align : top;
