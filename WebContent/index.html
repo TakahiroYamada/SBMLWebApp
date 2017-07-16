@@ -2,32 +2,67 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>Select the analysis</title>
-	<script type="text/javascript">
-	function frameshiftAnalyze(){
-		var AnalyzeList = document.getElementsByName("Analyze")
-		if( AnalyzeList[ 0 ].checked ){
-			document.location.href = "SimulationFileReader.html"	
-		}
-		else if( AnalyzeList[ 1 ].checked ){
-			document.location.href = "SteadyStateFileReader.html";
-		}
-		else if( AnalyzeList[ 2 ].checked ){
-			document.location.href = "ParameterEstimation.html";
-		}
-	}
-	</script>
+<meta http-equiv="X-UA-Compatible" content = "IE=edge">
+<meta name = "viewport" content = "width=device-width,initial-scale = 1">
+<link href="./bootflat.github.io-master/css/bootstrap.min.css" rel = "stylesheet">
+<link href="./css/Header.css" rel = "stylesheet">
+<link href="./css/index_contents.css" rel = "stylesheet">
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<title>SBML Web Model Analyzer</title>
 </head>
 <body>
-	<form name="mainForm">
-	<p>
-	<input type="radio" name="Analyze" value="1" checked="checked"> Simulation <br/>
-	<input type="radio" name="Analyze" value="2"> Steady State Analysis <br/>
-	<input type="radio" name="Analyze" value="3"> Parameter Fitting <br/>
-	</p>
-	<p>
-	<input type="button" name = "EnterButton" value="Enter" onclick="frameshiftAnalyze();">
-	</p>
-	</form> 
+	<header id = "page-header" role = "banner">
+		<div class = "header-div">
+			<nav class = "header-nav" id = "head-navcontent" role = "navigation">
+				<a id = "page-header-nrnb" class = "nrnb"> NRNB : National Resource for Network Biology</a>
+			</nav>
+			<div class = "div-nav" id = "divnavcontent">
+				<nav class = "top-nav" id = "navcontent" role = "navigation">
+					<a class = "lf" href = "./index.html"> SWA </a>
+					<span id = "brc"></span>
+					<span class = "rf">
+						<ul id = "swnav">
+							<li class = "first-nav"> 
+								<a href = "./index.html" title = "SWA home"> Home</a>
+							</li>
+							<li class = "download">
+								<a title = "download"> Download</a>
+							</li>
+							<li class = "doc">
+								<a title = "document"> Document</a>
+							</li>
+							<li class = "help">
+								<a title = "help"> Help</a>
+							</li>
+						</ul>
+					</span>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<div class = "explain">
+		<h3> SBML Web model Analyzer</h3>
+		<div class = "explain-doc">
+			<p> <b>SWA</b> is web based application to analyze SBML model. <br/>In systems biology, it is very important to standardize the model for a given biological phenomenon and analyze the system based on this model. Such a model is most of the time based on ordinary differential equation(ODE). This application provides the analysis of <b>"Time Course Simulation"</b> , <b>"Steady State Analysis"</b> and <b>"Parameter Estimation"</b>.</p>
+		</div>
+	</div>
+	<div id = "overall-analysis">
+		<a href = "./SimulationFileReader.html">
+			<div id = "simulation-box">
+				<img src="./img/Simulation.png" width = "100%" alt = "Simulation">
+			</div>
+		</a>
+		<a href = "./SteadyStateFileReader.html">
+			<div id = "steady-box">
+				<img src="./img/Steady.png" width = "100%" alt = "Steady State Analysis">
+			</div>
+		</a>
+		<a href = "ParameterEstimation.html">
+			<div id = "parameter-box">
+				<img src="./img/ParameterEstimation.png" width = "100%" alt = "Parameter Estimation">
+			</div>
+		</a>
+	</div>
 </body>
 </html>

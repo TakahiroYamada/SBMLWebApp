@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+/* Header CSS */
+#page-header {	font-size :15px;
+				clear:both;
+				min-width:800px;
+				}
+#page-header a {text-decoration : none;}
+
+#page-header .header-nav {	margin : 0 ; 
+							height : 30px;
+							width : auto;
+							background-color : #005295;
+						 	}
+#page-header .header-nav a{ top : 0px;
+							margin-left : 0em;
+							color : white;
+							background-color : #005295;
+							font-weight : bold;
+							vertical-align : middle;
+							}
+#divnavcontent { border : solid 1px}
+#navcontent { background-color : #EAEAEA;
+}
+#navcontent a.lf , #navcontent span{ display : inline-block;
+									 font-weight : bold;
+									 margin : 0.2em 0 0 1em;
+									 font-size : 24px;
+									 border-top : inherit;
+									 background-color : #EAEAEA;
+}
+#navcontent a.lf { color : black;}
+#navcontent ul,li { display : inline-block;
+					margin-right : 1em;
+				 	vertical-align : middle;
+				 	font-size : 15px;
+}
+.rf{ float : right;
+	 height : 10px;
+}
