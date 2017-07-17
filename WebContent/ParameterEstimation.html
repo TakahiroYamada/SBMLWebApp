@@ -7,38 +7,74 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <link href="./tabulator/dist/css/tabulator.min.css" rel="stylesheet">
+<link href="./bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel = "stylesheet">
+<link href="./css/Header.css" rel = "stylesheet">
 <script type="text/javascript" src="./tabulator/dist/js/tabulator.min.js"></script>
 <script type="text/javascript" src = "parameterAjax.js"> </script>
+<script type="text/javascript" src = "./tether-master/dist/js/tether.min.js"></script>
+<script type="text/javascript" src="./bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
 <title>Parameter Estimation : SBML File and Experiment Data : Read and Analyze</title>
 </head>
 <body>
-	Files to upload:　
-	<br/>
-	Model File(SBML) : 
-	<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();" accept = ".xml">
-	<br/>
-	<div id = "expFile" style="display:none">
-	Experiment Data :
-	<input id = "expData" type = "file" size = "50" onchange = "analyzeData();" accept = ".txt , .csv">
-	<br/>
-	Algorithm <select id = "algorithm" size = "1" onchange = "analyzeData()">
-	<option value = "lv">Leven-Berg Marquardt</option>
-	<option value = "ga"> Genetic Algorithm</option>
-	<option value = "nelder"> NelderMead </option>
-	</select>
-	</div>
-	<br/>
-	<div id = "lvparam" style = "display:none" onchange = "analyzeData();">
-	Iteration Limit : <input id = "lvite" type = "number" value = "2000"> <br/>
-	Tolerance : <input id = "lvtol" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
-	</div>
-	<div id = "gaparam" style = "display:none" onchange = "analyzeData();">
-	Number of generations : <input id = "gagene" type = "number" value = "200"> <br/>
-	Population size : <input id = "gapopu" type = "number" value = "20"> <br/>
-	</div>
-	<div id = "nelparam" style = "display:none" onchange = "analyzeData();">
-	Iteration Limit : <input id = "nelite" type = "number" value = "2000"> <br/>
-	Tolerance : <input id = "neltol" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+	<header id = "page-header" role = "banner">
+		<div class = "header-div">
+			<nav class = "header-nav" id = "head-navcontent" role = "navigation">
+				<a id = "page-header-nrnb" class = "nrnb"> NRNB : National Resource for Network Biology</a>
+			</nav>
+			<div class = "div-nav" id = "divnavcontent">
+				<nav class = "top-nav" id = "navcontent" role = "navigation">
+					<a class = "lf" href = "./index.html"> SWA </a>
+					<p> - Parameter Estimation </p>
+					<span id = "brc"></span>
+					<span class = "rf">
+						<ul id = "swnav">
+							<li class = "first-nav"> 
+								<a href = "./index.html" title = "SWA home"> Home</a>
+							</li>
+							<li class = "download">
+								<a title = "download"> Download</a>
+							</li>
+							<li class = "doc">
+								<a title = "document"> Document</a>
+							</li>
+							<li class = "help">
+								<a title = "help"> Help</a>
+							</li>
+						</ul>
+					</span>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<div id = "setting">
+		Files to upload:　
+		<br/>
+		Model File(SBML) : 
+		<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();" accept = ".xml">
+		<br/>
+		<div id = "expFile" style="display:none">
+			Experiment Data :
+			<input id = "expData" type = "file" size = "50" onchange = "analyzeData();" accept = ".txt , .csv">
+			<br/>
+			Algorithm <select id = "algorithm" size = "1" onchange = "analyzeData()">
+			<option value = "lv">Leven-Berg Marquardt</option>
+			<option value = "ga"> Genetic Algorithm</option>
+			<option value = "nelder"> NelderMead </option>
+			</select>
+		</div>
+		<br/>
+		<div id = "lvparam" style = "display:none" onchange = "analyzeData();">
+			Iteration Limit : <input id = "lvite" type = "number" value = "2000"> <br/>
+			Tolerance : <input id = "lvtol" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+		</div>
+		<div id = "gaparam" style = "display:none" onchange = "analyzeData();">
+			Number of generations : <input id = "gagene" type = "number" value = "200"> <br/>
+			Population size : <input id = "gapopu" type = "number" value = "20"> <br/>
+		</div>
+		<div id = "nelparam" style = "display:none" onchange = "analyzeData();">
+			Iteration Limit : <input id = "nelite" type = "number" value = "2000"> <br/>
+			Tolerance : <input id = "neltol" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+		</div>
 	</div>
 	<button type = "button" name = "paramButton" onclick = "analyzeData();"> Execute </button>
 	<progress id = "progress" value = "0"> </progress>

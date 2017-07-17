@@ -21,7 +21,7 @@
 #divnavcontent { border : solid 1px}
 #navcontent { background-color : #EAEAEA;
 }
-#navcontent a.lf , #navcontent span{ display : inline-block;
+#navcontent a.lf ,#navcontent p, #navcontent span{ display : inline-block;
 									 font-weight : bold;
 									 margin : 0.2em 0 0 1em;
 									 font-size : 24px;

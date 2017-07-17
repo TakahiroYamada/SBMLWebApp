@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+#setting { border : solid 1px;
+    	   position : relative;
+    	   right : 20px;
+    	   left : 20px;
+}
+#file-upload , #simFile { display : inline-block; }
+#set-end , #endtime { display : inline-block;}
+#set-point , #numpoint { display : inline-block;}
+#set-tolerance , #tolerance { display : inline-block;}
+#set-library , #library { display : inline-block;}
+#setting p{ font-size : 15px;
+			margin-left : 10px;
+}
+#part-execution { margin-top : 5px;
+				  margin-left : 10px;
+
+}
+
+.nav-item { border : solid 1px;}
+
+.tab-content { border : solid 1px;}
+#graph input { display : inline-block;}
+.graph-contents { display : inline-block;
+				  vertical-align : top;
+				  margin : 5px;
+}
+#graph-contents { width : 60%;
+				  height : auto;
+				  border : solid : 1px;
+}
+#tabParameter { width : 30%;
+				height : auto;
+				border : solid 1px;
+}

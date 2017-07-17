@@ -107,6 +107,9 @@ function configureCanvas(){
 	canvas_jsondata.options.scales.yAxes[0].ticks.max = tmpData.ymax;
 	var myChart = new Chart(canvas , canvas_jsondata );
 	var myChart = new Chart(canvas , canvas_jsondata );
+	
+	document.getElementById("graph-contents").style = "display:inline-block";
+	document.getElementById("tabParameter").style = "display:inline-block";
 }
 function configureTable(){
 	var jsonResponse = JSON.parse(req.response);
@@ -141,7 +144,7 @@ function configureTable(){
 		jsonNumData.push( keyValueData);
 	}
 	$("#num-table").tabulator("setData" , jsonNumData );
-	changeGNTab( currentTab);
+	document.getElementById("numTable").style.display = "";
 }
 function configureFormData( formdata ){
 	formdata.append("endpoint" , document.getElementById("endtime").value);
@@ -321,20 +324,6 @@ function addLocalParameterValueSlider(){
 			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
 		});
 	}
-}
-function changeTab( tabname ){
-	document.getElementById("initialValue").style.display = "none";
-	document.getElementById("localParam").style.display = "none";
-	document.getElementById("globalParam").style.display= "none";
-	
-	document.getElementById( tabname).style.display = "block";
-}
-function changeGNTab( tabname){
-	document.getElementById("graph").style.display = "none";
-	document.getElementById("numTable").style.display = "none";
-	
-	document.getElementById( tabname ).style.display = "block";
-	currentTab = tabname;
 }
 function logarithmicFigure( axis ){
 	var checkBox = document.getElementById( axis );

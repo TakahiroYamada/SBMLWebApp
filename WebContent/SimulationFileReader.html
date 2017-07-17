@@ -2,72 +2,128 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content = "IE=edge">
+<meta name = "viewport" content = "width=device-width,initial-scale = 1">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <link href="./tabulator/dist/css/tabulator.min.css" rel="stylesheet">
+<link href="./bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel = "stylesheet">
+<link href="./css/Header.css" rel = "stylesheet">
+<link href="./css/Simulation.css" rel="stylesheet">
 <script type="text/javascript" src="./tabulator/dist/js/tabulator.min.js"></script>
 <script type="text/javascript" src = "simulationAjax.js"> </script>
+<script type="text/javascript" src = "./tether-master/dist/js/tether.min.js"></script>
+<script type="text/javascript" src="./bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
 <title>Simulation : SBML File Read and Analyze</title>
 </head>
 <body>
-	Files to upload:
+		<header id = "page-header" role = "banner">
+		<div class = "header-div">
+			<nav class = "header-nav" id = "head-navcontent" role = "navigation">
+				<a id = "page-header-nrnb" class = "nrnb"> NRNB : National Resource for Network Biology</a>
+			</nav>
+			<div class = "div-nav" id = "divnavcontent">
+				<nav class = "top-nav" id = "navcontent" role = "navigation">
+					<a class = "lf" href = "./index.html"> SWA </a>
+					<p> - Simulation </p>
+					<span id = "brc"></span>
+					<span class = "rf">
+						<ul id = "swnav">
+							<li class = "first-nav"> 
+								<a href = "./index.html" title = "SWA home"> Home</a>
+							</li>
+							<li class = "download">
+								<a title = "download"> Download</a>
+							</li>
+							<li class = "doc">
+								<a title = "document"> Document</a>
+							</li>
+							<li class = "help">
+								<a title = "help"> Help</a>
+							</li>
+						</ul>
+					</span>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<h3> Settings of Analysis </h3>
+	<div id = "setting">
+		<p id = "file-upload"> Files to upload  :  </p> 
+		<input id = "simFile" type = "file" size = "50" onchange = "getSimulationResult();" accept = ".xml">
+		<br/>
+		<p id = "set-end"> End time  :  </p> <input type = "number" id = "endtime" value = "100" onchange = "getSimulationResult();">
+		<br/> 
+		<p id = "set-point"> Number of time point  :  </p> <input type ="number" id = "numpoint" value = "100" onchange = "getSimulationResult();">
+		<br/>
+		<p id = "set-tolerance"> Absolute Tolerance  :  </p> <input type = "number" id = "tolerance" value = "1.0e-12" step = "1.0e-14" onchange = "getSimulationResult();">
+		<br/>
+		<p id = "set-library"> Library to analyze  :  </p> <select id = "library" size = "1">
+			<option value ="copasi"> COPASI API </option>
+			<option value ="simulationcore"> Simulation Core </option>
+		</select>
+		<br/>
+	</div>
+	<div id = "part-execution">
+		<button type = "button" id = "runbottun" name = "simButton" onclick = "getSimulationResult();"> Execute</button>
+		<progress id = "progress" value = "0"> </progress>
+	</div>
 	<br/>
-	<input id = "simFile" type = "file" size = "50" onchange = "getSimulationResult();" accept = ".xml">
-	<br/>
-	End time <input type = "number" id = "endtime" value = "100" onchange = "getSimulationResult();">
-	<br/> 
-	Number of time point <input type ="number" id = "numpoint" value = "100" onchange = "getSimulationResult();">
-	<br/>
-	Absolute Tolerance <input type = "number" id = "tolerance" value = "1.0e-12" step = "1.0e-14" onchange = "getSimulationResult();">
-	<br/>
-	Library to analyze <select id = "library" size = "1">
-	<option value ="copasi"> COPASI API </option>
-	<option value ="simulationcore"> Simulation Core </option>
-	</select>
-	<br/>
-	<button type = "button" name = "simButton" onclick = "getSimulationResult();"> Execute</button>
-	<progress id = "progress" value = "0"> </progress>
-	<br/>
+	<h3> Result of Analysis</h3>
 	<div class = "tabResult">
-		<p class = "tabs">
-			<a href="#graph" class = "graph" onclick = "changeGNTab('graph') ; return false;"> Graphical View</a>
-			<a href="#numTable" class = "numTable" onclick = "changeGNTab('numTable'); return false;"> Numerical Table</a>
-		</p>
-		<div id = "graph" class = "tab">
-			<input type="checkbox" id="logarithmicY" onchange="logarithmicFigure('logarithmicY');"> logarithmic scale of Y axis
-			<canvas id="simulationCanvas" height="450" width="600"></canvas>
-			<input type = "checkbox" id = "logarithmicX" onchange = "logarithmicFigure('logarithmicX')"> logarithmic scale of X axis
-			<div class = "tabParameter">
-				<p class = "tabs">
-					<a href="#initialValue" class = "initialValue" onclick = "changeTab('initialValue');return false;"> Initial Amount</a>
-					<a href="#localParam" class = "localParam" onclick = "changeTab('localParam');return false"> Local Parameters</a>
-					<a href="#globalParam" class = "globalParam" onclick = "changeTab('globalParam');return false"> Global Parameters</a>
-				</p>
-				<div id = "initialValue" class = "tab">
-					<div id = "initialValue-slider">
-					</div>
+		<ul class = "nav nav-tabs">
+			<li class = "nav-item">
+				<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View</a>
+			</li>
+			<li class = "nav-item">
+				<a href="#numTable" class = "nav-link" data-toggle = "tab"> Numerical Table</a>
+			</li>
+		</ul>
+		<div class = "tab-content">
+			<div id = "graph" class = "tab-pane active">
+				<div class = "graph-contents" id = "graph-contents" style = "display:none">
+					<input type="checkbox" id="logarithmicY" onchange="logarithmicFigure('logarithmicY');"> log scale of Y
+					<input type = "checkbox" id = "logarithmicX" onchange = "logarithmicFigure('logarithmicX')"> log scale of X
+					<canvas id="simulationCanvas"></canvas>
 				</div>
-				<div id = "localParam" class = "tab">
-					<div id = "localParam-slider">
-					</div>
-				</div>
-				<div id = "globalParam" class = "tab">
-					<div id = "globalParam-slider">
+				<div class = "graph-contents" id = "tabParameter" style = "display:none">
+					<ul class = "nav nav-tabs">
+						<li class="nav-item">
+							<a href="#initialValue" class = "nav-link" data-toggle="tab"> Initial Amount</a>
+						</li>
+						<li class ="nav-item">
+							<a href="#localParam" class = "nav-link" data-toggle="tab"> Local Parameters</a>
+						</li>
+						<li class = "nav-item">
+							<a href="#globalParam" class = "nav-link" data-toggle = "tab"> Global Parameters</a>
+						</li>
+					</ul>
+					<div class = "tab-content">
+						<div id = "initialValue" class = "tab-pane active">
+							<div id = "initialValue-slider">
+							</div>
+						</div>
+						<div id = "localParam" class = "tab-pane">
+							<div id = "localParam-slider">
+							</div>
+						</div>
+						<div id = "globalParam" class = "tab-pane">
+							<div id = "globalParam-slider">
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id = "numTable" class = "tab">
-			<div id = "num-table">
+			<div id = "numTable" class = "tab-pane">
+				<div id = "num-table">
+				</div>
 			</div>
 		</div>
 	</div>
 	<script type = "text/javascript">
 	$("#num-table").tabulator({ fitColumns : true,});
-	changeTab("initialValue");
-	changeGNTab("graph");
 	</script>	
 </body>
 </html>
