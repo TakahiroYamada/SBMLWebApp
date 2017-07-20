@@ -4,14 +4,14 @@
     	   right : 20px;
     	   left : 20px;
 }
+#setting p{ font-size : 15px;
+			margin-left : 10px;
+}
 #file-upload , #simFile { display : inline-block; }
 #set-end , #endtime { display : inline-block;}
 #set-point , #numpoint { display : inline-block;}
 #set-tolerance , #tolerance { display : inline-block;}
 #set-library , #library { display : inline-block;}
-#setting p{ font-size : 15px;
-			margin-left : 10px;
-}
 #part-execution { margin-top : 5px;
 				  margin-left : 10px;
 
@@ -19,17 +19,31 @@
 
 .nav-item { border : solid 1px;}
 
-.tab-content { border : solid 1px;}
+.tabResult { border : solid 1px;
+			 width : 90%;
+			 height : auto;
+			 margin : auto;
+}
+
 #graph input { display : inline-block;}
 .graph-contents { display : inline-block;
 				  vertical-align : top;
 				  margin : 5px;
 }
 #graph-contents { width : 60%;
-				  height : auto;
+				  height : 35em;
 				  border : solid : 1px;
 }
-#tabParameter { width : 30%;
-				height : auto;
+#tabParameter { width : 35%;
+				height : 35em;
 				border : solid 1px;
+				overflow : scroll;
+}
+#tab-parameter .nav-item{ width : 33%;
+}
+#initialValue-slider , #localParam-slider , #globalParam-slider { overflow : scroll;
+																  height : 31em;
+}
+#numTable { overflow : scroll;
+			height : 35em
 }

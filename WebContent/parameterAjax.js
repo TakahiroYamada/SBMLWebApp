@@ -1,5 +1,4 @@
 var req;
-var currentTab = "graph";
 var canvas_jsondata_Before = {
 	      type: 'line',
 	      data: {
@@ -156,8 +155,6 @@ function configureCanvas(){
 	canvas_jsondata_After.options.scales.yAxes[0].ticks.max = tmpData.afterFitting.ymax;
 	var beforeChart = new Chart(canvas_before , canvas_jsondata_Before );
 	var afterChart = new Chart(canvas_after , canvas_jsondata_After );
-	var canvas = document.getElementById("canvas_item");
-	canvas.style.display = "block";
 }
 function configureTable(){
 	var jsonData = JSON.parse( req.response );
@@ -185,7 +182,7 @@ function configureTable(){
 		transitData.push( tmpData );
 	}
 	$("#num-table").tabulator("setData" , transitData );
-	changeTab( currentTab );
+	document.getElementById("numTable").style.display = "";
 }
 function configureFormData( formdata ){
 	
@@ -222,10 +219,15 @@ function configureAlgorithmForm(){
 		document.getElementById("nelparam").style = "display:block";		
 	}
 }
-function changeTab( tabname){
-	document.getElementById("graph").style.display = "none";
-	document.getElementById("numTable").style.display = "none";
-	
-	document.getElementById( tabname ).style.display = "block";
-	currentTab = tabname;
+
+function showBeforeFitting(){
+	var checkBox = document.getElementById("before-fitting");
+	if( checkBox.checked ){
+		document.getElementById("before-graph").style = "display:block";
+		document.getElementById("after-graph").style = "display:none";
+	}
+	else{
+		document.getElementById("before-graph").style = "display:none";
+		document.getElementById("after-graph").style = "display:block";
+	}
 }

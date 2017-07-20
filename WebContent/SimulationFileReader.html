@@ -73,6 +73,9 @@
 	<br/>
 	<h3> Result of Analysis</h3>
 	<div class = "tabResult">
+		<div id = "loading" style="display:none">
+			<img src="./img/indicator.gif">
+		</div>
 		<ul class = "nav nav-tabs">
 			<li class = "nav-item">
 				<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View</a>
@@ -89,9 +92,9 @@
 					<canvas id="simulationCanvas"></canvas>
 				</div>
 				<div class = "graph-contents" id = "tabParameter" style = "display:none">
-					<ul class = "nav nav-tabs">
+					<ul class = "nav nav-tabs" id = "tab-parameter">
 						<li class="nav-item">
-							<a href="#initialValue" class = "nav-link" data-toggle="tab"> Initial Amount</a>
+							<a href="#initialValue" class = "nav-link" data-toggle="tab">Initial Amount</a>
 						</li>
 						<li class ="nav-item">
 							<a href="#localParam" class = "nav-link" data-toggle="tab"> Local Parameters</a>

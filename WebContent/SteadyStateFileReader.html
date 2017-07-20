@@ -12,6 +12,7 @@
 <link href="./tabulator/dist/css/tabulator.min.css" rel="stylesheet">
 <link href="./bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel = "stylesheet">
 <link href="./css/Header.css" rel = "stylesheet">
+<link href="./css/SteadyState.css" rel="stylesheet">
 <script type="text/javascript" src="./tabulator/dist/js/tabulator.min.js"></script>
 <script type="text/javascript" src = "steadyAjax.js"> </script>
 <script type="text/javascript" src = "./tether-master/dist/js/tether.min.js"></script>
@@ -49,39 +50,44 @@
 			</div>
 		</div>
 	</header>
-	Files to upload:
-	<br/>
-	<input id = "stedFile" type = "file" size = "50" onchange = "getSteadyResult();" accept = ".xml">
-	<br/>
-	<div id = "libselect" style = "display:none">
-	Library : <select id = "library" size = "1" onchange = "getSteadyResult();">
-	<option value = "copasi">COPASI API</option>
-	<option value ="libroad"> libRoadRunner </option>
-	</select>
+	<h3> Settings of Analysis</h3>
+	<div id = "setting">
+		<p id = "file-upload"> Files to upload : </p>
+		<input id = "stedFile" type = "file" size = "50" onchange = "getSteadyResult();" accept = ".xml">
+		<div id = "libselect" style = "display:none">
+			<p id = "set-library"> Library : </p> <select id = "library" size = "1" onchange = "getSteadyResult();">
+				<option value = "copasi">COPASI API</option>
+			</select>
+		</div>
+		<div id = "copasipara" style = "display:none" onchange = "getSteadyResult();">
+			<p id = "set-resolution"> Resolution : </p> <input id = "resolution" type = "number" step = "1.0e-12" value = "1.0e-9">
+			<br/>
+			<p id = "set-derivationfactor"> Derivation Factor : </p> <input id = "derivation" type = "number" step = "1.0e-5"  value = "1.0e-3">
+			<br/>
+			<p id = "set-iterationlimit">Iteration Limit : </p> <input id = "itelimit" type = "number" value = "50"> <br/>
+		</div>
 	</div>
-	<br/>
-	<div id = "copasipara" style = "display:none" onchange = "getSteadyResult();">
-	Resolution : <input id = "resolution" type = "number" step = "1.0e-12" value = "1.0e-9"> <br/>
-	Derivation Factor : <input id = "derivation" type = "number" step = "1.0e-5"  value = "1.0e-3"> <br/>
-	Iteration Limit : <input id = "itelimit" type = "number" value = "50"> <br/>
-	</div>
-	<div id = "libpara" style = "display:none" onchange = "getSteadyResult();">
-	</div>
-	<br/>
 	<button type = "button" name = "stedButton" onclick = "getSteadyResult();"> Execute </button>
 	<progress id = "progress" value = "0"> </progress>
-	
+	<br/>
+	<h3> Results of Analysis</h3>
 	<div class = "tabResult">
-		<p class = "tabs">
-			<a href="#stedAmount" class = "stedAmount" onclick = "changeTab('stedAmount');return false;"> Species</a>
-			<a href="#jacobian" class = "jacobian" onclick = "changeTab('jacobian');return false"> Jacobian Matrix</a>
-		</p>
-		<div id = "stedAmount" class = "tab">
-			<div id = "sted-table">
+		<ul class = "nav nav-tabs">
+			<li class ="nav-item">
+				<a href="#stedAmount" class = "nav-link" data-toggle = "tab"> Species</a>
+			</li>
+			<li class ="nav-item">
+				<a href="#jacobian" class = "nav-link" data-toggle = "tab"> Jacobian Matrix</a>
+			</li>
+		</ul>
+		<div class = "tab-content">
+			<div id = "stedAmount" class = "tab-pane active">
+				<div id = "sted-table">
+				</div>
 			</div>
-		</div>
-		<div id = "jacobian" class = "tab">
-			<div id = "jacobian-table">
+			<div id = "jacobian" class = "tab-pane">
+				<div id = "jacobian-table">
+				</div>
 			</div>
 		</div>
 	</div>	
@@ -97,7 +103,6 @@
 		  ]
 		});
 	$("#jacobian-table").tabulator({ fitColumns:true,});
-	changeTab("stedAmount");
 	</script>
 </body>
 </html>

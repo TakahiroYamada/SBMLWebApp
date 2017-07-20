@@ -1,6 +1,5 @@
 var req;
 var link;
-var currentTab;
 function getSteadyResult(){
 	var form_file = document.getElementById("stedFile");
 	var progressBar = document.getElementById("progress");
@@ -55,7 +54,7 @@ function callback(){
 			$("#jacobian-table").tabulator( "setColumns" , jsonResponse.steadyJacobian.columns );
 			$("#jacobian-table").tabulator("clearData");
 			$("#jacobian-table").tabulator("setData" , jsonResponse.steadyJacobian.jacob_Amount);
-			changeTab( currentTab );
+			document.getElementById("jacobian").style.display = "";
 		}
 	}
 }
@@ -63,22 +62,9 @@ function configureStedParameter( formdata ){
 	var library = document.getElementById("library");
 	if( library.value == "copasi"){
 		document.getElementById("copasipara").style.display = "block";
-		document.getElementById("libpara").style.display = "none";
 		formdata.append("library" , library.value);
 		formdata.append("resolution" , document.getElementById("resolution").value);
 		formdata.append("derivation" , document.getElementById("derivation").value);
 		formdata.append("itelimit" , document.getElementById("itelimit").value )
 	}
-	else if( library.value == "libroad"){
-		document.getElementById("copasipara").style.display = "none";
-		document.getElementById("libpara").style.display = "block";
-		formdata.append("library",library.value)
-	}
-}
-function changeTab( tabname ){
-	document.getElementById("stedAmount").style.display = "none";
-	document.getElementById("jacobian").style.display = "none";
-	
-	document.getElementById( tabname ).style.display = "block";
-	currentTab = tabname;
 }

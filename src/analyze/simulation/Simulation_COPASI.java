@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import org.COPASI.*;
 
+import com.thoughtworks.xstream.alias.ClassMapper.Null;
+
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
@@ -83,7 +85,12 @@ public class Simulation_COPASI {
         CTrajectoryMethod simMethod = ( CTrajectoryMethod )simTrajekTask.getMethod();
         
         CCopasiParameter simParameter = simMethod.getParameter("Absolute Tolerance");
-        simParameter.setDblValue( simParam.getTolerance() );
+        if( simParam.getTolerance() != null){
+        	simParameter.setDblValue( simParam.getTolerance() );
+        }
+        else{
+        	simParameter.setDblValue( 1.0e-12 );
+        }
         
         boolean result=true;
         try

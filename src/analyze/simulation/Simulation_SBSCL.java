@@ -53,7 +53,12 @@ public class Simulation_SBSCL {
 		//DESSolver solver = new RosenbrockSolver();
 		RosenbrockSolver solver = new RosenbrockSolver();
 		solver.setStepSize( stepSize);
-		solver.setAbsTol( simParam.getTolerance() );
+		if( simParam.getTolerance() != null ){
+			solver.setAbsTol( simParam.getTolerance() );
+		}
+		else{
+			solver.setAbsTol( 1.0e-12 );
+		}
 		try {
 			SBMLinterpreter interpreter = new SBMLinterpreter( model );
 			solution = solver.solve( interpreter, interpreter.getInitialValues() ,0d, timeEnd);

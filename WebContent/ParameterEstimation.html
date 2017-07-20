@@ -9,6 +9,7 @@
 <link href="./tabulator/dist/css/tabulator.min.css" rel="stylesheet">
 <link href="./bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel = "stylesheet">
 <link href="./css/Header.css" rel = "stylesheet">
+<link href="./css/ParameterEstimation.css" rel="stylesheet">
 <script type="text/javascript" src="./tabulator/dist/js/tabulator.min.js"></script>
 <script type="text/javascript" src = "parameterAjax.js"> </script>
 <script type="text/javascript" src = "./tether-master/dist/js/tether.min.js"></script>
@@ -46,14 +47,13 @@
 			</div>
 		</div>
 	</header>
+	<h3> Settings of Analysis</h3>
 	<div id = "setting">
-		Files to upload:　
-		<br/>
-		Model File(SBML) : 
+		<p id = "file-upload"> Files to upload :  </p>
+		<p id = "model-upload"> Model File(SBML) : </p>
 		<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();" accept = ".xml">
-		<br/>
 		<div id = "expFile" style="display:none">
-			Experiment Data :
+			<p id = "exp-upload"> Experiment Data : </p>
 			<input id = "expData" type = "file" size = "50" onchange = "analyzeData();" accept = ".txt , .csv">
 			<br/>
 			Algorithm <select id = "algorithm" size = "1" onchange = "analyzeData()">
@@ -78,27 +78,34 @@
 	</div>
 	<button type = "button" name = "paramButton" onclick = "analyzeData();"> Execute </button>
 	<progress id = "progress" value = "0"> </progress>
-	<br/>
+	<h3> Result of Analysis</h3>
 	<div class = "tabResult">
-		<p class = "tabs">
-			<a href="#graph" class = "graph" onclick = "changeTab('graph'); return false"> Graphical View </a>
-			<a href="#numTable" class = "numTable" onclick = "changeTab('numTable'); return false;" > Numerical Table</a>
-		</p>
-		<div id = "graph" class = "tab">
-			<canvas id="beforeCanvas" height="50" width="100"></canvas>
-			<div id = "canvas_item" style="display:none">
-			&#9660
-			</div>	
-			<canvas id="afterCanvas" height="50" width="100"></canvas>
-		</div>
-		<div id = "numTable" class = "tab">
-			<div id = "num-table">
+		<ul class = "nav nav-tabs">
+			<li class = "nav-item">
+				<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View </a>
+			</li>
+			<li class = "nav-item">	
+				<a href="#numTable" class = "nav-link" data-toggle = "tab" > Numerical Table</a>
+			</li>
+		</ul>
+		<div class = "tab-content">
+			<div id = "graph" class = "tab-pane active">
+				<input type="checkbox" id = "before-fitting" onchange="showBeforeFitting();"> Before Fitting
+				<div id="before-graph" style="display:none">
+					<canvas id="beforeCanvas" height="50" width="100"></canvas>
+				</div>
+				<div id = "after-graph" style="display:block">
+					<canvas id="afterCanvas" height="50" width="100"></canvas>
+				</div>	
+			</div>
+			<div id = "numTable" class = "tab-pane">
+				<div id = "num-table">
+				</div>
 			</div>
 		</div>
 	</div>	
 	<script type = "text/javascript">
 	$("#num-table").tabulator({ fitColumns : true,});
-	changeTab("graph");
 	</script>	
 </body>
 </html>

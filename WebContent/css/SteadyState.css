@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+#setting { border : solid 1px;
+    	   position : relative;
+    	   right : 20px;
+    	   left : 20px;
+}
+#setting p{ font-size : 15px;
+			margin-left : 10px;
+}
+#file-upload , #stedFile { display : inline-block; }
+#set-library , #library { display : inline-block;}
+#set-resolution , #resolution {display : inline-block;}
+#set-derivationfactor , #derivation { display : inline-block;}
+#set-iterationlimit , #itelimit { display : inline-block;}
+
+.nav-item { border : solid 1px;}
+.tabResult { border : solid 1px;
+			 width : 90%;
+			 height : 20em;
+			 margin : auto;
+}
+#stedAmound { overflow : scroll;
+}
+#jacobian { overflow : scroll;
+}
