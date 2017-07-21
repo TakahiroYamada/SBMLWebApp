@@ -192,10 +192,6 @@ function configureFormData( formdata ){
 		formdata.append("itermax" , document.getElementById("lvite").value);
 		formdata.append("tolerance" , document.getElementById("lvtol").value);
 	}
-	else if( algorithm.value == "ga" ){
-		formdata.append("generation" , document.getElementById("gagene").value);
-		formdata.append("population" , document.getElementById("gapopu").value);
-	}
 	else if( algorithm.value == "nelder"){
 		formdata.append("itermax" , document.getElementById("nelite").value);
 		formdata.append("tolerance" , document.getElementById("neltol").value);
@@ -219,9 +215,6 @@ function configureAlgorithmForm(){
 	if( algorithm.value == "lv"){
 		configureAlgorithmVisualization("lvparam");
 	}
-	else if( algorithm.value == "ga"){
-		configureAlgorithmVisualization("gaparam");
-	}
 	else if( algorithm.value == "nelder"){
 		configureAlgorithmVisualization("nelparam");
 	}
@@ -234,7 +227,6 @@ function configureAlgorithmForm(){
 }
 function configureAlgorithmVisualization( algorithm ){
 	document.getElementById("lvparam").style = "display:none";
-	document.getElementById("gaparam").style = "display:none";
 	document.getElementById("nelparam").style = "display:none";
 	document.getElementById("partparam").style = "display:none";
 	document.getElementById("difevolparam").style = "display:none";
