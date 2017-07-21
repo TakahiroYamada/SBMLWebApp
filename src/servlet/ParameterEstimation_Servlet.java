@@ -42,8 +42,9 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 	private Coloring colorOfVis;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession( true );
-		path = getServletContext().getRealPath("/tmp/" + session.getId() );
+		//HttpSession session = request.getSession( true );
+		//path = getServletContext().getRealPath("/tmp/" + session.getId() );
+		path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		paramBeans = new ParameterEstimation_AllBeans();

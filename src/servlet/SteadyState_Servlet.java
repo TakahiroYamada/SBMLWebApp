@@ -42,8 +42,9 @@ public class SteadyState_Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession( true );
-		path = getServletContext().getRealPath("/tmp/" + session.getId() );
+		//HttpSession session = request.getSession( true );
+		//path = getServletContext().getRealPath("/tmp/" + session.getId() );
+		path = getServletContext().getRealPath("/tmp");
 		saveFileName =  path + "/result_steadystate.txt";
 		
 		response.setContentType("text/plane");

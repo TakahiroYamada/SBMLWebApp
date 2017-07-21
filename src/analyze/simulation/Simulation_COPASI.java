@@ -125,7 +125,12 @@ public class Simulation_COPASI {
 				for( int j = 1 ; j < numOfSpecies ; j ++ ){
 					if( dataModel.getModel().getMetabolite( i ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
 						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
-						allDataSets[ speciesCount ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						if( !dataModel.getModel().getMetabolite( i ).getObjectDisplayName().equals("")){
+							allDataSets[ speciesCount ].setLabel( dataModel.getModel().getMetabolite( i ).getObjectDisplayName() );
+						}
+						else{
+							allDataSets[ speciesCount ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						}
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();

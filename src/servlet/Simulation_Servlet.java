@@ -60,8 +60,9 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
-		HttpSession session = request.getSession( true );
-		path = getServletContext().getRealPath("/tmp/" + session.getId() );
+		//HttpSession session = request.getSession( true );
+		//path = getServletContext().getRealPath("/tmp/" + session.getId() );
+		path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		// Save the SBML file in server side directory
