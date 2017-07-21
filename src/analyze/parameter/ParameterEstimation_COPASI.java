@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formattable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -231,7 +232,7 @@ public class ParameterEstimation_COPASI {
 	// Configure the parameter of task( algorithm to execute parameter estimation , iteration and tolerance)
 	private void configureTaskParameter(CFitTask fitTask) {
 		// Algorithm Setting
-		if( this.paramestParam.getMethod().equals("lv")){
+		if( this.paramestParam.getMethod() == CTaskEnum.LevenbergMarquardt){
 			fitTask.setMethodType( CTaskEnum.LevenbergMarquardt );
 			// Iteration to analyze is set
 			CCopasiParameter iteMax = fitTask.getMethod().getParameter("Iteration Limit");
@@ -240,7 +241,7 @@ public class ParameterEstimation_COPASI {
 			CCopasiParameter tolerance = fitTask.getMethod().getParameter("Tolerance");
 			tolerance.setDblValue( paramestParam.getTolerance() );
 		}
-		else if( this.paramestParam.getMethod().equals("ga")){
+		else if( this.paramestParam.getMethod() == CTaskEnum.GeneticAlgorithm){
 			fitTask.setMethodType( CTaskEnum.GeneticAlgorithm );
 			
 			CCopasiParameter generations = fitTask.getMethod().getParameter("Number of Generations");
@@ -249,7 +250,7 @@ public class ParameterEstimation_COPASI {
 			CCopasiParameter populations = fitTask.getMethod().getParameter("Population Size");
 			populations.setIntValue( paramestParam.getPopSize());
 		}
-		else if( this.paramestParam.getMethod().equals("nelder")){
+		else if( this.paramestParam.getMethod() == CTaskEnum.NelderMead){
 			fitTask.setMethodType( CTaskEnum.NelderMead );
 			
 			// Iteration to analyze is set
@@ -260,6 +261,33 @@ public class ParameterEstimation_COPASI {
 			CCopasiParameter tolerance = fitTask.getMethod().getParameter("Tolerance");
 			tolerance.setDblValue( paramestParam.getTolerance() );
 		}
+		else if( this.paramestParam.getMethod() == CTaskEnum.ParticleSwarm){
+			fitTask.setMethodType( CTaskEnum.ParticleSwarm );
+			
+			// Swarm Size to analyze is set
+			CCopasiParameter swarmSize = fitTask.getMethod().getParameter("Swarm Size");
+			swarmSize.setIntValue( paramestParam.getSwarmSize() );
+			
+			// std deviation to analyze is set
+			CCopasiParameter stdDeviation = fitTask.getMethod().getParameter("Std. Deviation");
+			stdDeviation.setDblValue( paramestParam.getStdDeviation() );
+			
+			// Random Number Generator to analyze is set
+			CCopasiParameter randomNumGenerator = fitTask.getMethod().getParameter("Random Number Generator");
+			randomNumGenerator.setIntValue( paramestParam.getRandomNumGenerator() );
+			
+			// Iteraiton Limit to analyze is set
+			CCopasiParameter IterationLimit = fitTask.getMethod().getParameter("Iteration Limit");
+			IterationLimit.setIntValue( paramestParam.getIteLimit() );
+			
+			// Seed to analyze is set
+			CCopasiParameter Seed = fitTask.getMethod().getParameter("Seed");
+			Seed.setIntValue( paramestParam.getSeed() );
+		}
+		else if( this.paramestParam.getMethod() == CTaskEnum.DifferentialEvolution){
+			
+		}
+		
 	}
 	
 	private void analyzeRowColumn(){

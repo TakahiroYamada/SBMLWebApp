@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.COPASI.CTimeSeries;
 import org.COPASI.SWIGTYPE_p_CMath__SimulationType;
@@ -59,8 +60,8 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
-		
-		path = getServletContext().getRealPath("/tmp");
+		HttpSession session = request.getSession( true );
+		path = getServletContext().getRealPath("/tmp/" + session.getId() );
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		// Save the SBML file in server side directory

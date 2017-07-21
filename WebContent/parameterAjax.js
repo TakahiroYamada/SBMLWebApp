@@ -187,39 +187,58 @@ function configureTable(){
 function configureFormData( formdata ){
 	
 	formdata.append("algorithm" , document.getElementById("algorithm").value);
-	
-	if( document.getElementById("lvparam").style.display == "block"){
+	var algorithm = document.getElementById("algorithm");
+	if( algorithm.value == "lv"){
 		formdata.append("itermax" , document.getElementById("lvite").value);
 		formdata.append("tolerance" , document.getElementById("lvtol").value);
 	}
-	else if( document.getElementById("gaparam").style.display == "block" ){
+	else if( algorithm.value == "ga" ){
 		formdata.append("generation" , document.getElementById("gagene").value);
 		formdata.append("population" , document.getElementById("gapopu").value);
 	}
-	else if( document.getElementById("nelparam").style.display == "block"){
+	else if( algorithm.value == "nelder"){
 		formdata.append("itermax" , document.getElementById("nelite").value);
 		formdata.append("tolerance" , document.getElementById("neltol").value);
 	}
+	else if( algorithm.value == "particleSwarm" ){
+		formdata.append("itermax" , document.getElementById("partite").value);
+		formdata.append("swarmsize" , document.getElementById("partsize").value);
+		formdata.append("stdDeviation" , document.getElementById("partstd").value);
+		formdata.append("randomNumGenerator" , document.getElementById("partran").value);
+		formdata.append("seed" , document.getElementById("partseed").value);
+	}
+	else if( algorithm.value == "diffEvol"){
+		
+	}
+		
 }
 function configureAlgorithmForm(){
 	var algorithm = document.getElementById("algorithm");
 	if( algorithm.value == "lv"){
-		document.getElementById("lvparam").style = "display:block";
-		document.getElementById("gaparam").style = "display:none";
-		document.getElementById("nelparam").style = "display:none";		
+		configureAlgorithmVisualization("lvparam");
 	}
 	else if( algorithm.value == "ga"){
-		document.getElementById("lvparam").style = "display:none";
-		document.getElementById("gaparam").style = "display:block";
-		document.getElementById("nelparam").style = "display:none";		
+		configureAlgorithmVisualization("gaparam");
 	}
-	if( algorithm.value == "nelder"){
-		document.getElementById("lvparam").style = "display:none";
-		document.getElementById("gaparam").style = "display:none";
-		document.getElementById("nelparam").style = "display:block";		
+	else if( algorithm.value == "nelder"){
+		configureAlgorithmVisualization("nelparam");
+	}
+	else if( algorithm.value == "particleSwarm"){
+		configureAlgorithmVisualization("partparam");
+	}
+	else if( algorithm.value == "diffEvol"){
+		configureAlgorithmVisualization("difevolparam");
 	}
 }
-
+function configureAlgorithmVisualization( algorithm ){
+	document.getElementById("lvparam").style = "display:none";
+	document.getElementById("gaparam").style = "display:none";
+	document.getElementById("nelparam").style = "display:none";
+	document.getElementById("partparam").style = "display:none";
+	document.getElementById("difevolparam").style = "display:none";
+	
+	document.getElementById( algorithm ).style = "diplay:block";
+}
 function showBeforeFitting(){
 	var checkBox = document.getElementById("before-fitting");
 	if( checkBox.checked ){

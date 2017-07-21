@@ -60,6 +60,8 @@
 			<option value = "lv">Leven-Berg Marquardt</option>
 			<option value = "ga"> Genetic Algorithm</option>
 			<option value = "nelder"> NelderMead </option>
+			<option value = "particleSwarm"> Particle Swarm Optimization</option>
+			<option value = "diffEvol"> Differential Evolution</option>
 			</select>
 		</div>
 		<br/>
@@ -74,6 +76,16 @@
 		<div id = "nelparam" style = "display:none" onchange = "analyzeData();">
 			Iteration Limit : <input id = "nelite" type = "number" value = "2000"> <br/>
 			Tolerance : <input id = "neltol" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+		</div>
+		<div id = "partparam" style = "display:none" onchange = "analyzeData();">
+			Iteration Limit : <input id = "partite" type = "number" value = "2000"> <br/>
+			Swarm Size : <input id = "partsize" type = "number" value = "50"> <br/>
+			Std. Deviation : <input id = "partstd" type = "number" value = "1.0e-6" step = "1.0e-9>"> <br/>
+			Random Number Generator : <input id = "partran" type = "number"  value = "1"> <br/>
+			Seed : <input id = "partseed" type = "number" value = "0"><br/>
+		</div>
+		<div id = "difevolparam" style = "display:none" onchange = "analyzeData();">
+		
 		</div>
 	</div>
 	<button type = "button" name = "paramButton" onclick = "analyzeData();"> Execute </button>

@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -41,7 +42,8 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 	private Coloring colorOfVis;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		path = getServletContext().getRealPath("/tmp");
+		HttpSession session = request.getSession( true );
+		path = getServletContext().getRealPath("/tmp/" + session.getId() );
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		paramBeans = new ParameterEstimation_AllBeans();
@@ -116,7 +118,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 				else if( item.getFieldName().equals("algorithm")){
 					paramestParam.setMethod( item.getString() );
 				}
-				// If Leven-Berg or Nelder is selected
+				// If Leven-Berg , Nelder or Particle Swarm is selected
 				else if( item.getFieldName().equals("itermax")){
 					paramestParam.setIteLimit( Integer.parseInt( item.getString()));
 				}
@@ -129,6 +131,19 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 				}
 				else if( item.getFieldName().equals("population")){
 					paramestParam.setPopSize( Integer.parseInt( item.getString()));
+				}
+				// If Particle Swarm is selected
+				else if( item.getFieldName().equals("swarmsize")){
+					paramestParam.setSwarmSize( Integer.parseInt( item.getString()));
+				}
+				else if( item.getFieldName().equals("stdDeviation")){
+					paramestParam.setStdDeviation( Double.parseDouble( item.getString() ));
+				}
+				else if( item.getFieldName().equals("randomNumGenerator")){
+					paramestParam.setRandomNumGenerator( Integer.parseInt( item.getString() ));
+				}
+				else if( item.getFieldName().equals("seed")){
+					paramestParam.setSeed( Integer.parseInt( item.getString() ));
 				}
 			}
 		}catch (FileUploadException e) {

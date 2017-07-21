@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.COPASI.UIntStdVector;
 import org.apache.commons.fileupload.FileItem;
@@ -41,7 +42,8 @@ public class SteadyState_Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		path = getServletContext().getRealPath("/tmp");
+		HttpSession session = request.getSession( true );
+		path = getServletContext().getRealPath("/tmp/" + session.getId() );
 		saveFileName =  path + "/result_steadystate.txt";
 		
 		response.setContentType("text/plane");
