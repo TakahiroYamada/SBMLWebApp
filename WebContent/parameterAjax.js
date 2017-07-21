@@ -208,7 +208,9 @@ function configureFormData( formdata ){
 		formdata.append("seed" , document.getElementById("partseed").value);
 	}
 	else if( algorithm.value == "diffEvol"){
-		
+		formdata.append("population" , document.getElementById("difevolpopu").value);
+		formdata.append("randomNumGenerator" , document.getElementById("difevolran").value);
+		formdata.append("seed" , document.getElementById("difevolseed").value);
 	}
 		
 }

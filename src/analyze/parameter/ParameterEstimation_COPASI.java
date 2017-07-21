@@ -285,7 +285,16 @@ public class ParameterEstimation_COPASI {
 			Seed.setIntValue( paramestParam.getSeed() );
 		}
 		else if( this.paramestParam.getMethod() == CTaskEnum.DifferentialEvolution){
+			fitTask.setMethodType( CTaskEnum.DifferentialEvolution );
 			
+			CCopasiParameter populations = fitTask.getMethod().getParameter("Population Size");
+			populations.setIntValue( paramestParam.getPopSize() );
+			
+			CCopasiParameter randomNumGenerator = fitTask.getMethod().getParameter("Random Number Generator");
+			randomNumGenerator.setIntValue( paramestParam.getRandomNumGenerator() );
+			
+			CCopasiParameter seed = fitTask.getMethod().getParameter("Seed");
+			seed.setIntValue( paramestParam.getSeed() );
 		}
 		
 	}
