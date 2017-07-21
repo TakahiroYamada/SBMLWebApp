@@ -90,7 +90,12 @@ public class Simulation_SBSCL {
 				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
 					if( model.getListOfSpecies().get( i ).getId().equals( solution.getColumnName( j ))){
 						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
-						allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
+						if( !model.getListOfSpecies().get( i ).getName().equals("")){
+							allDataSets[ speciesCount ].setLabel( model.getListOfSpecies().get( i ).getName());
+						}
+						else{
+							allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
+						}
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
@@ -124,7 +129,13 @@ public class Simulation_SBSCL {
 				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
 					if( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i ) ).getId().equals( solution.getColumnName( j ))){
 						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
-						allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
+						
+						if( !model.getListOfParameters().get(sbmlIDOfODESpecies.get( i )).getName().equals("")){
+							allDataSets[ speciesCount ].setLabel( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i )).getName());
+						}
+						else{
+							allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
+						}
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
