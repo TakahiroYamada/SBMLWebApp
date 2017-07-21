@@ -165,8 +165,12 @@ function addInitialValueSlider(){
 		var newDiv = document.createElement("div");
 		
 		var newParam = document.createElement("h5");
-		newParam.appendChild( document.createTextNode( initialValue[ i ].sbmlID));
-		
+		if( initialValue[ i ].sbmlName ){
+			newParam.appendChild( document.createTextNode( initialValue[ i ].sbmlName));
+		}
+		else{
+			newParam.appendChild( document.createTextNode( initialValue[ i ].sbmlID));
+		}
 		var newParamSlider = document.createElement("div");
 		newParamSlider.setAttribute("id", initialValue[ i ].sbmlID);
 		
@@ -224,8 +228,12 @@ function addGlobalParameterValueSlider(){
 		var newDiv = document.createElement("div");
 		
 		var newParam = document.createElement("h5");
-		newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlID));
-		
+		if( parameterValue[ i ].sbmlName ){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlName));
+		}
+		else{
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlName));
+		}
 		var newParamSlider = document.createElement("div");
 		newParamSlider.setAttribute("id", parameterValue[ i ].sbmlID);
 		
@@ -281,8 +289,19 @@ function addLocalParameterValueSlider(){
 		var newDiv = document.createElement("div");
 		
 		var newParam = document.createElement("h5");
-		newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionID + " : " +parameterValue[ i ].sbmlID));
 		
+		if(  parameterValue[ i ].reactionName && parameterValue[ i ].sbmlName){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionName + " : " +parameterValue[ i ].sbmlName));
+		}
+		else if( !(parameterValue[ i ].reactionName) && parameterValue[ i ].sbmlName){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionID + " : " +parameterValue[ i ].sbmlName));
+		}
+		else if ( parameterValue[ i ].reactionName && !(parameterValue[ i ].sbmlName)){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionName + " : " +parameterValue[ i ].sbmlID));
+		}
+		else{
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionID + " : " +parameterValue[ i ].sbmlID));
+		}
 		var newParamSlider = document.createElement("div");
 		newParamSlider.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID);
 		

@@ -5,6 +5,13 @@ public class InitialValue_Beans {
 	public static int INIT_AMOUNT = 1;
 	
 	private String sbmlID;
+	private String sbmlName;
+	public String getSbmlName() {
+		return sbmlName;
+	}
+	public void setSbmlName(String sbmlName) {
+		this.sbmlName = sbmlName;
+	}
 	private double initialValue;
 	private int status;
 	public int getStatus() {

@@ -166,7 +166,12 @@ public class Simulation_COPASI {
 				for( int j = 1 ; j < simTimeSeries.getNumVariables() ; j ++ ){
 					if( dataModel.getModel().getModelValue( orderODESpeceis.get( i ) ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
 						allDataSets[ i ] = new Simulation_DatasetsBeans();
-						allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						if( dataModel.getModel().getModelValue( orderODESpeceis.get( i )).getObjectDisplayName().equals("")){
+							allDataSets[ i ].setLabel( dataModel.getModel().getModelValue( orderODESpeceis.get( i )).getObjectDisplayName() );
+						}
+						else{
+							allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						}
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();

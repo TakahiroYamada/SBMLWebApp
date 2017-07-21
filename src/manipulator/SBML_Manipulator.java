@@ -83,12 +83,8 @@ public class SBML_Manipulator {
 			param_Beans[ i ] = new Parameters_Beans();
 			param_Beans[ i ].setParameterValue( document.getModel().getParameter( i ).getValue() );
 			
-			if( !document.getModel().getParameter( i ).getName().equals("") ){
-				param_Beans[ i ].setSbmlID( document.getModel().getParameter( i ).getName() );
-			}
-			else{
-				param_Beans[ i ].setSbmlID( document.getModel().getParameter( i ).getId());
-			}
+			param_Beans[ i ].setSbmlName( document.getModel().getParameter( i ).getName() );
+			param_Beans[ i ].setSbmlID( document.getModel().getParameter( i ).getId());
 			
 		}
 		return param_Beans;
@@ -98,13 +94,8 @@ public class SBML_Manipulator {
 		for( int i = 0 ; i < document.getModel().getNumSpecies() ; i ++){
 			init_Beans[ i ] = new InitialValue_Beans();
 			Double checker = new Double( document.getModel().getSpecies( i ).getInitialAmount() );
-			//If the Name of species is defined, the name is selected as visualization identifier
-			if( !document.getModel().getSpecies( i ).getName().equals("") ){
-				init_Beans[ i ].setSbmlID( document.getModel().getSpecies( i ).getName() );
-			}
-			else{
-				init_Beans[ i ].setSbmlID( document.getModel().getSpecies( i ).getId());
-			}
+			init_Beans[ i ].setSbmlName( document.getModel().getSpecies( i ).getName() );
+			init_Beans[ i ].setSbmlID( document.getModel().getSpecies( i ).getId());
 			
 			// If the value of species is defined as Initial Amount
 			if( !checker.isNaN() ){
@@ -127,19 +118,11 @@ public class SBML_Manipulator {
 				localParam_Beans[ localParamCount ] = new LocalParameters_Beans();
 				localParam_Beans[ localParamCount ].setParameterValue( reaction.getKineticLaw().getLocalParameter( j ).getValue() );
 				
-				if( !reaction.getName().equals("")){
-					localParam_Beans[ localParamCount ].setReactionID( reaction.getName() );
-				}
-				else{
-					localParam_Beans[ localParamCount ].setReactionID( reaction.getId() );
-				}
+				localParam_Beans[ localParamCount ].setReactionName( reaction.getName() );
+				localParam_Beans[ localParamCount ].setReactionID( reaction.getId() );
 				
-				if( !reaction.getKineticLaw().getLocalParameter( j ).getName().equals("")){
-					localParam_Beans[ localParamCount ].setSbmlID( reaction.getKineticLaw().getLocalParameter( j ).getName() );
-				}
-				else{
-					localParam_Beans[ localParamCount ].setSbmlID( reaction.getKineticLaw().getLocalParameter( j ).getId());
-				}
+				localParam_Beans[ localParamCount ].setSbmlName( reaction.getKineticLaw().getLocalParameter( j ).getName() );
+				localParam_Beans[ localParamCount ].setSbmlID( reaction.getKineticLaw().getLocalParameter( j ).getId());
 				
 				localParamCount ++;
 			}
