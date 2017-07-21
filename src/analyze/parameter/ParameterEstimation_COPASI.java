@@ -33,6 +33,8 @@ import org.COPASI.CReaction;
 import org.COPASI.CTaskEnum;
 import org.COPASI.FloatMatrix;
 import org.COPASI.FloatVector;
+import org.apache.naming.java.javaURLContextFactory;
+import org.omg.CosNaming._BindingIteratorImplBase;
 import org.w3c.jigsaw.ssi.commands.CountCommand;
 
 import beans.parameter.ParameterEstimation_UpdateInformationBeans;
@@ -197,7 +199,17 @@ public class ParameterEstimation_COPASI {
 				tmpXYDataBeans[ j ].setY( experiment.getDependentData().get( j , i ));
 			}
 			expDataBeans[ i ].setData( tmpXYDataBeans );
-			expDataBeans[ i ].setLabel( experiment.getColumnNames().get( i + 1 ) + " Experiment Data");
+			
+			for( int j = 0 ; j < dataModel.getModel().getNumMetabs() ; j ++ ){
+				if( dataModel.getModel().getMetabolite( j ).getSBMLId().equals( experiment.getColumnNames().get( i + 1))){
+					if( !dataModel.getModel().getMetabolite( j ).getObjectDisplayName().equals("")){
+						expDataBeans[ i ].setLabel( dataModel.getModel().getMetabolite( j ).getObjectDisplayName() + " Experiment Data");
+					}
+					else{
+						expDataBeans[ i ].setLabel( experiment.getColumnNames().get( i + 1 ) + " Experiment Data");
+					}
+				}
+			}
 			expDataBeans[ i ].setShowLine( false );
 			expDataBeans[ i ].setPointStyle("cross");
 			expDataBeans[ i ].setPointRadius( 5 );
