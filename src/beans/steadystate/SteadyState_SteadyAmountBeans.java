@@ -4,17 +4,17 @@ import java.util.jar.Attributes.Name;
 
 public class SteadyState_SteadyAmountBeans {
 	private int id;
+	private String name;
+	private String type;
+	private double concentration;
+	private double rate;
+	private double transition;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	private String name;
-	private String type;
-	private double concentration;
-	private double rate;
-	private double transition;
 	public String getName() {
 		return name;
 	}

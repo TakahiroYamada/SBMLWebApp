@@ -137,7 +137,6 @@ public class SteadyState_COPASI {
 				stedAmount[ i ].setRate( dataModel.getModel().getMetabolite( i ).getConcentrationRate());
 				stedAmount[ i ].setTransition( dataModel.getModel().getMetabolite( i ).getTransitionTime() );
 			}
-			
 			allBeans.setSteadyAmount( stedAmount );
 			
 			// Jacobian is contained JacobianBeans
@@ -174,6 +173,9 @@ public class SteadyState_COPASI {
 			}
 			jacobBeans.setJacob_Amount( jacobValueBeans);
 			allBeans.setSteadyJacobian( jacobBeans );
+			allBeans.setConcentrationUnit( dataModel.getModel().getMetabolite( 0 ).getConcentrationReference().getUnits() );
+			allBeans.setRateUnit( dataModel.getModel().getMetabolite( 0 ).getRateReference().getUnits().replaceFirst("#", allBeans.getConcentrationUnit() ));
+			allBeans.setTransitiontimeUnit( dataModel.getModel().getMetabolite( 0 ).getTransitionTimeReference().getUnits() );
 		}
 		//if species information is contained in listOfParameters( The ordinal format of SBML for FBA)
 		else{

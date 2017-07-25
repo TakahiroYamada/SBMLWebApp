@@ -43,8 +43,17 @@ function callback(){
 			//link.click()
 			var jsonResponse = JSON.parse( req.response)
 			//Clear only the data in table not header
-			$("#sted-table").tabulator("clearData")
-			$("#sted-table").tabulator("setData", jsonResponse.steadyAmount)
+			document.getElementById("stedAmount").style.display = "block";
+			var columnStedTable = $("#sted-table").tabulator("getColumnDefinitions");
+			columnStedTable[ 2 ].title = "Concentration (" + jsonResponse.concentrationUnit + ")";
+			columnStedTable[ 3 ].title = "Rate (" + jsonResponse.rateUnit + ")";
+			columnStedTable[ 4 ].title =  "Transition Time (" + jsonResponse.transitiontimeUnit + ")";;;
+			$("#sted-table").tabulator("setColumns" , columnStedTable);
+			$("#sted-table").tabulator("clearData");
+			
+			$("#sted-table").tabulator("setData", jsonResponse.steadyAmount);
+			document.getElementById("stedAmount").style.display = "";
+			
 			//var columnTxt = '{"fitColumns":true , "columns":' + JSON.stringify( jsonResponse.steadyJacobian.columns) + '}';
 			//var columnJSON = JSON.parse( columnTxt );
 			
