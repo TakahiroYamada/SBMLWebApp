@@ -14,7 +14,6 @@
 #set-library , #library { display : inline-block;}
 #part-execution { margin-top : 5px;
 				  margin-left : 10px;
-
 }
 
 .nav-item { border : solid 1px;}
@@ -37,17 +36,12 @@
 #canvas { width : 100%;
 		  height : 33em;
 }
-
-
 #tabParameter { width : 35%;
 				height : 35em;
 				border : solid 1px;
 				overflow : scroll;
 }
-#tab-parameter .nav-item{ width : 33%;
-}
-#initialValue-slider , #localParam-slider , #globalParam-slider { overflow : scroll;
-																  height : 31em;
+#initialValue-slider , #localParam-slider , #globalParam-slider { overflow : scroll;																  height : 31em;
 }
 #numTable { overflow : scroll;
 			height : 35em

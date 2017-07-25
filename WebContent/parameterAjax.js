@@ -1,4 +1,6 @@
 var req;
+var beforeChart;
+var afterChart;
 var canvas_jsondata_Before = {
 	      type: 'line',
 	      data: {
@@ -153,8 +155,12 @@ function configureCanvas(){
 	
 	canvas_jsondata_After.options.scales.xAxes[0].ticks.max = tmpData.afterFitting.xmax;
 	canvas_jsondata_After.options.scales.yAxes[0].ticks.max = tmpData.afterFitting.ymax;
-	var beforeChart = new Chart(canvas_before , canvas_jsondata_Before );
-	var afterChart = new Chart(canvas_after , canvas_jsondata_After );
+	if( beforeChart != undefined ){
+		beforeChart.destroy();
+		afterChart.destroy();
+	}
+	beforeChart = new Chart(canvas_before , canvas_jsondata_Before );
+	afterChart = new Chart(canvas_after , canvas_jsondata_After );
 }
 function configureTable(){
 	var jsonData = JSON.parse( req.response );

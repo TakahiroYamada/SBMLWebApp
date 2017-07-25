@@ -96,13 +96,14 @@
 				<div class = "graph-contents" id = "tabParameter" style = "display:none">
 					<ul class = "nav nav-tabs" id = "tab-parameter">
 						<li class="nav-item">
-							<a href="#initialValue" class = "nav-link" data-toggle="tab">Initial Amount</a>
+							<a href="#initialValue" class = "nav-link" data-toggle="tab">Species ( Initial Amount )</a>
 						</li>
-						<li class ="nav-item">
-							<a href="#localParam" class = "nav-link" data-toggle="tab"> Local Parameters</a>
-						</li>
-						<li class = "nav-item">
-							<a href="#globalParam" class = "nav-link" data-toggle = "tab"> Global Parameters</a>
+						<li class ="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
+							<div class = "dropdown-menu">
+								<a href="#localParam" class = "dropdown-item" data-toggle = "tab"> Local Parameters</a>
+								<a href="#globalParam" class = "dropdown-item" data-toggle = "tab"> Global Parameters</a>
+							</div>
 						</li>
 					</ul>
 					<div class = "tab-content">

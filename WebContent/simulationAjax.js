@@ -166,8 +166,7 @@ function addInitialValueSlider(){
 		// html dynamical setting
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
-		
-		var newParam = document.createElement("h5");
+		var newParam = document.createElement("p");
 		if( initialValue[ i ].sbmlName ){
 			newParam.appendChild( document.createTextNode( initialValue[ i ].sbmlName));
 		}
@@ -181,10 +180,15 @@ function addInitialValueSlider(){
 		newInputText.setAttribute("id", initialValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","text")
 		
+		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
+		newParamSlider.setAttribute("style","display:inline-block;width:50%;text-align:center");
+		newInputText.setAttribute("style","display:inline-block;width:20%;text-align:center");
+		
 		newDiv.appendChild( newParam );
 		newDiv.appendChild( newParamSlider );
 		newDiv.appendChild( newInputText );
 		initValueSlider.appendChild( newDiv );
+		
 		
 		if( initialValue[ i ].initialValue != 0.0 ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( initialValue[ i ].initialValue )) - 1));
@@ -230,7 +234,7 @@ function addGlobalParameterValueSlider(){
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
 		
-		var newParam = document.createElement("h5");
+		var newParam = document.createElement("p");
 		if( parameterValue[ i ].sbmlName ){
 			newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlName));
 		}
@@ -243,6 +247,10 @@ function addGlobalParameterValueSlider(){
 		var newInputText = document.createElement("input");
 		newInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","text")
+		
+		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
+		newParamSlider.setAttribute("style","display:inline-block;width:50%;text-align:center");
+		newInputText.setAttribute("style","display:inline-block;width:20%;text-align:center");
 		
 		newDiv.appendChild( newParam );
 		newDiv.appendChild( newParamSlider );
@@ -291,7 +299,7 @@ function addLocalParameterValueSlider(){
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
 		
-		var newParam = document.createElement("h5");
+		var newParam = document.createElement("p");
 		
 		if(  parameterValue[ i ].reactionName && parameterValue[ i ].sbmlName){
 			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionName + " : " +parameterValue[ i ].sbmlName));
@@ -311,6 +319,10 @@ function addLocalParameterValueSlider(){
 		var newInputText = document.createElement("input");
 		newInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","text")
+		
+		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
+		newParamSlider.setAttribute("style","display:inline-block;width:50%;text-align:center");
+		newInputText.setAttribute("style","display:inline-block;width:20%;text-align:center");
 		
 		newDiv.appendChild( newParam );
 		newDiv.appendChild( newParamSlider );
