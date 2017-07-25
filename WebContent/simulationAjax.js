@@ -100,6 +100,7 @@ function callback(){
 			addCompartmentSlider();
 			addLocalParameterValueSlider();
 			addGlobalParameterValueSlider();
+			checkActivePanel();
 		}
 	}
 }
@@ -168,13 +169,10 @@ function addInitialValueSlider(){
 	parameter_jsondata.initValue = [];
 	if( initialValue.length == 0){
 		$("#init-item").addClass("disabled");
-		$("#initialValue").removeClass("active");
+		$("#initialValue").removeClass("active")
 	}
 	else{
 		$("#init-item").removeClass("disabled");
-		$("#initialValue").addClass("active");
-		$("#localParam").removeClass("active");
-		$("#globalParam").removeClass("active");
 	}
 	for( var i = 0 ; i < initialValue.length ; i ++){
 		// html dynamical setting
@@ -250,9 +248,6 @@ function addGlobalParameterValueSlider(){
 	}
 	else{
 		$("#global-item").removeClass("disabled");
-		if( !($("#initialValue").hasClass("active") || $("localParam").hasClass("active"))){
-			$("#globalParam").addClass("active");
-		}
 	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -316,6 +311,13 @@ function addCompartmentSlider(){
 	var JSONResponse = JSON.parse( req.response );
 	var compartmentValue = JSONResponse.modelParameters.compartmentValue;
 	var compartmentSlider = document.getElementById("compartmentValue-slider");
+	if( compartmentValue.length == 0){
+		$("#comp-item").addClass("disabled");
+		$("#compartmentValue").removeClass("active");
+	}
+	else{
+		$("#comp-item").removeClass("disabled");
+	}
 	$("#compartmentValue-slider").empty();
 	parameter_jsondata.compartmentValue = [];
 
@@ -390,10 +392,6 @@ function addLocalParameterValueSlider(){
 	}
 	else{
 		$("#local-item").removeClass("disabled");
-		if( ! $("#initialValue").hasClass("active")){
-			$("#localParam").addClass("active");
-		}
-		$("#globalParam").removeClass("active");
 	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -499,6 +497,27 @@ function logarithmicFigure( axis ){
 			canvas_jsondata.options.scales.xAxes[0].ticks.min = 0;
 			myChart.destroy();
 			myChart = new Chart(canvas , canvas_jsondata );
+		}
+	}
+}
+function checkActivePanel(){
+	var initActive = $("#initialValue").hasClass("active");
+	var compActive = $("#compartmentValue").hasClass("active");
+	var localActive = $("#localParam").hasClass("active");
+	var globalActive = $("#globalParam").hasClass("active");
+	
+	if( !(initActive || compActive || localActive || globalActive)){
+		if( ! $("#init-item").hasClass("disabled")){
+			$("#initialValue").addClass("active");
+		}
+		else if( ! $("#comp-item").hasClass("disabled")){
+			$("#compartmentValue").addClass("active");
+		}
+		else if( ! $("#local-item").hasClass("disabled")){
+			$("#localParam").addClass("active");
+		}
+		else if( ! $("#global-item").hasClass("disabled")){
+			$("#globalParam").addClass("active");
 		}
 	}
 }
