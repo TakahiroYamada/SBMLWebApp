@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.COPASI.DataModelVector;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Parameter;
@@ -16,6 +17,7 @@ import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.validator.SyntaxChecker;
 
+import beans.modelparameter.Compartment_Beans;
 import beans.modelparameter.InitialValue_Beans;
 import beans.modelparameter.LocalParameters_Beans;
 import beans.modelparameter.ModelParameter_Beans;
@@ -41,6 +43,7 @@ public class SBML_Manipulator {
 	public ModelParameter_Beans getModelParameter(){
 		ModelParameter_Beans modelParam = new ModelParameter_Beans();
 		modelParam.setParamValue( this.getParameters() );
+		modelParam.setCompartmentValue( this.getCompartment());
 		modelParam.setLocalParamValue( this.getLocalParameters());
 		modelParam.setInitValue( this.getInitValue());
 		return modelParam;
@@ -56,6 +59,12 @@ public class SBML_Manipulator {
 				document.getModel().getListOfSpecies().get( initValue.getSbmlID() ).setInitialConcentration( initValue.getInitialValue() );
 			}
 		}
+		// compartmet size is changed
+		for( int i = 0 ; i < sbmlParam.getCompartmentValue().length ; i ++){
+			Compartment_Beans compartment = sbmlParam.getCompartmentValue()[ i ];
+			document.getModel().getCompartment( compartment.getSbmlID()).setSize( compartment.getSize() );
+		}
+		
 		// local parameter value is changed
 		for( int i = 0 ; i < sbmlParam.getLocalParamValue().length ; i ++){
 			LocalParameters_Beans localParam = sbmlParam.getLocalParamValue()[ i ];
@@ -118,6 +127,17 @@ public class SBML_Manipulator {
 		}
 		return param_Beans;
 	}
+	private Compartment_Beans[] getCompartment() {
+		// TODO Auto-generated method stub
+		Compartment_Beans[] comp_Beans = new Compartment_Beans[ document.getModel().getNumCompartments() ];
+		for( int i = 0 ; i < document.getModel().getNumCompartments() ; i ++){
+			comp_Beans[ i ] = new Compartment_Beans();
+			comp_Beans[ i ].setSbmlName( document.getModel().getCompartment( i ).getName());
+			comp_Beans[ i ].setSbmlID( document.getModel().getCompartment( i ).getId());
+			comp_Beans[ i ].setSize( document.getModel().getCompartment( i ).getSize() );
+		}
+		return comp_Beans;
+ 	}
 	private InitialValue_Beans[] getInitValue(){
 		InitialValue_Beans[] init_Beans = new InitialValue_Beans[ document.getModel().getNumSpecies() ];
 		for( int i = 0 ; i < document.getModel().getNumSpecies() ; i ++){
