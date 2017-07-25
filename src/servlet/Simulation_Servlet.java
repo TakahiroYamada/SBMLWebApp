@@ -51,6 +51,7 @@ public class Simulation_Servlet extends HttpServlet {
 	private String path;
     private String filename;
     private File newFile;
+    private Simulation_AllBeans simulationBeans;
     private Simulation_Parameter param;
     private ModelParameter_Beans sbmlParam;
     private Coloring colorOfVis;
@@ -81,16 +82,8 @@ public class Simulation_Servlet extends HttpServlet {
 				//Title : the ID of each species
 				//Data : the amount of each species and this is indicated by intended number of time and variables
 				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
-				Simulation_AllBeans simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
+				this.simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
 				
-				// add the units of each species
-				sbml_Manipulator.addUnitForEachSpecies( simulationBeans );
-				
-				simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
-				String jsonSimulation = JSON.encode( simulationBeans );
-				response.setContentType("application/json;charset=UTF-8");
-				PrintWriter out = response.getWriter();
-				out.print( jsonSimulation );
 			} catch( NullPointerException e){
 				e.printStackTrace();
 			}
@@ -99,16 +92,19 @@ public class Simulation_Servlet extends HttpServlet {
 			// TODO: implement
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
 			colorOfVis = new Coloring( (int) simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
-			Simulation_AllBeans simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
-			// add the units of each species
-			sbml_Manipulator.addUnitForEachSpecies( simulationBeans );
-			
-			simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter());
-			String jsonSimulation = JSON.encode( simulationBeans );
-			response.setContentType( "application/json;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.print( jsonSimulation );
+			this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
 		}
+		
+		
+		// add the units of each species
+		sbml_Manipulator.addUnitForEachSpecies( this.simulationBeans );
+		
+		this.simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
+		String jsonSimulation = JSON.encode( this.simulationBeans );
+		response.setContentType("application/json;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print( jsonSimulation );
+		
 		//Following code is future deleted
 		
 		//for( int i = 0 ; i < simCOPASI.getTimeSeries().getNumVariables() ; i ++){
