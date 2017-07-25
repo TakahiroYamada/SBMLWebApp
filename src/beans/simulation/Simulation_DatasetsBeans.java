@@ -5,6 +5,7 @@ package beans.simulation;
 public class Simulation_DatasetsBeans {
 	//Following name of variable will be used as JSON key data
 	private String label;
+	private String units;
 	private Simulation_XYDataBeans data[];
 	private String type;
 	private boolean showLine;
@@ -100,5 +101,11 @@ public class Simulation_DatasetsBeans {
 	}
 	public void setPointRadius(int pointRadius) {
 		this.pointRadius = pointRadius;
+	}
+	public String getUnits() {
+		return units;
+	}
+	public void setUnits(String units) {
+		this.units = units;
 	}
 }

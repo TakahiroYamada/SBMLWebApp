@@ -13,6 +13,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 import beans.modelparameter.InitialValue_Beans;
 import beans.modelparameter.LocalParameters_Beans;
@@ -33,6 +34,7 @@ public class SBML_Manipulator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	public ModelParameter_Beans getModelParameter(){
 		ModelParameter_Beans modelParam = new ModelParameter_Beans();

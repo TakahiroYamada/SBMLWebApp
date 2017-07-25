@@ -125,11 +125,20 @@ public class Simulation_COPASI {
 				for( int j = 1 ; j < numOfSpecies ; j ++ ){
 					if( dataModel.getModel().getMetabolite( i ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){
 						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
+						// If the name of species is defined, the name is used as identifier in client side
 						if( !dataModel.getModel().getMetabolite( i ).getObjectDisplayName().equals("")){
 							allDataSets[ speciesCount ].setLabel( dataModel.getModel().getMetabolite( i ).getObjectDisplayName() );
 						}
 						else{
 							allDataSets[ speciesCount ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						}
+						
+						// If the unit of species is defined , this unit is used as identifier in client side
+						if( !dataModel.getModel().getMetabolite( i ).getUnitExpression().equals("")){
+							allDataSets[ speciesCount ].setUnits( dataModel.getModel().getMetabolite( i ).getUnitExpression() );
+						}
+						else{
+							allDataSets[ speciesCount ].setUnits("Unit-less");
 						}
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
@@ -171,6 +180,12 @@ public class Simulation_COPASI {
 						}
 						else{
 							allDataSets[ i ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
+						}
+						if( !dataModel.getModel().getModelValue( orderODESpeceis.get( i ) ).getUnitExpression().equals("")){
+							allDataSets[ i ].setUnits( dataModel.getModel().getModelValue( orderODESpeceis.get( i ) ).getUnitExpression() );
+						}
+						else{
+							allDataSets[ i ].setUnits( "Unit-less");
 						}
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){

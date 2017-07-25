@@ -124,7 +124,7 @@ function configureTable(){
 		var tmpColumn = {
 				field : simData[ i ].label,
 				sortable : false,
-				title : simData[ i ].label
+				title : simData[ i ].label + "(" + simData[ i ].units + ")"
 		};
 		column.push( tmpColumn)
 	}

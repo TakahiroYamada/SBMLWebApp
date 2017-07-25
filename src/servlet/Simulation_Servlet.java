@@ -28,6 +28,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 import analyze.simulation.Simulation_COPASI;
 import analyze.simulation.Simulation_SBSCL;
@@ -60,6 +61,7 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
+		
 		//HttpSession session = request.getSession( true );
 		//path = getServletContext().getRealPath("/tmp/" + session.getId() );
 		path = getServletContext().getRealPath("/tmp");
