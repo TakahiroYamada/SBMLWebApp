@@ -164,9 +164,13 @@ function addInitialValueSlider(){
 	parameter_jsondata.initValue = [];
 	if( initialValue.length == 0){
 		$("#init-item").addClass("disabled");
+		$("#initialValue").removeClass("active");
 	}
 	else{
 		$("#init-item").removeClass("disabled");
+		$("#initialValue").addClass("active");
+		$("#localParam").removeClass("active");
+		$("#globalParam").removeClass("active");
 	}
 	for( var i = 0 ; i < initialValue.length ; i ++){
 		// html dynamical setting
@@ -238,9 +242,13 @@ function addGlobalParameterValueSlider(){
 	parameter_jsondata.paramValue = [];
 	if( parameterValue.length == 0){
 		$("#global-item").addClass("disabled");
+		$("#globalParam").removeClass("active");
 	}
 	else{
 		$("#global-item").removeClass("disabled");
+		if( !($("#initialValue").hasClass("active") || $("localParam").hasClass("active"))){
+			$("#globalParam").addClass("active");
+		}
 	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -309,9 +317,14 @@ function addLocalParameterValueSlider(){
 	parameter_jsondata.localParamValue = [];
 	if( parameterValue.length == 0){
 		$("#local-item").addClass("disabled");
+		$("#localParam").removeClass("active");
 	}
 	else{
 		$("#local-item").removeClass("disabled");
+		if( ! $("#initialValue").hasClass("active")){
+			$("#localParam").addClass("active");
+		}
+		$("#globalParam").removeClass("active");
 	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
