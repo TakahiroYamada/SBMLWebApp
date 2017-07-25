@@ -1,6 +1,7 @@
 var req;
 var currentTab = "graph";
 var currentFile = null;
+var myChart;
 var parameter_jsondata ={
 		initValue : [],
 		localParamValue : [],
@@ -12,6 +13,7 @@ var canvas_jsondata = {
 	    	  datasets : []
 	      },
 	      options: {
+	    	  maintainAspectRatio : false,
 	    	  legend : {
 	    		  position : 'top',
 	    		  labels : {
@@ -105,9 +107,10 @@ function configureCanvas(){
 	canvas_jsondata.data.datasets = tmpData.data;
 	canvas_jsondata.options.scales.xAxes[0].ticks.max = tmpData.xmax;
 	canvas_jsondata.options.scales.yAxes[0].ticks.max = tmpData.ymax;
-	var myChart = new Chart(canvas , canvas_jsondata );
-	var myChart = new Chart(canvas , canvas_jsondata );
-	
+	if( myChart != undefined ){
+		myChart.destroy();
+	}
+	myChart = new Chart(canvas , canvas_jsondata );
 	document.getElementById("graph-contents").style = "display:inline-block";
 	document.getElementById("tabParameter").style = "display:inline-block";
 }
@@ -359,13 +362,15 @@ function logarithmicFigure( axis ){
 			else{
 				canvas_jsondata.options.scales.yAxes[0].ticks.min = Math.pow( 10 , (Math.floor( Math.log10( tmpData.ymin ))));
 			}
-			var myChart = new Chart(canvas , canvas_jsondata );
+			myChart.destroy();
+			myChart = new Chart(canvas , canvas_jsondata );
 		}
 		else{
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.yAxes[0].type = "linear";
 			canvas_jsondata.options.scales.yAxes[0].ticks.min = 0;
-			var myChart = new Chart(canvas , canvas_jsondata );
+			myChart.destroy();
+			myChart = new Chart(canvas , canvas_jsondata );
 		}
 	}
 	else if( axis == 'logarithmicX'){
@@ -373,13 +378,15 @@ function logarithmicFigure( axis ){
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.xAxes[0].type = "logarithmic";
 			canvas_jsondata.options.scales.xAxes[0].ticks.min = document.getElementById("endtime").value / document.getElementById("numpoint").value ;
-			var myChart = new Chart(canvas , canvas_jsondata );
+			myChart.destroy();
+			myChart = new Chart(canvas , canvas_jsondata );
 		}
 		else{
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.xAxes[0].type = "linear";
 			canvas_jsondata.options.scales.xAxes[0].ticks.min = 0;
-			var myChart = new Chart(canvas , canvas_jsondata );
+			myChart.destroy();
+			myChart = new Chart(canvas , canvas_jsondata );
 		}
 	}
 }
