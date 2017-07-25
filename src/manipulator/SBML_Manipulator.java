@@ -2,23 +2,25 @@ package manipulator;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Parameter;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.validator.SyntaxChecker;
 
 import beans.modelparameter.InitialValue_Beans;
 import beans.modelparameter.LocalParameters_Beans;
 import beans.modelparameter.ModelParameter_Beans;
 import beans.modelparameter.Parameters_Beans;
+import beans.simulation.Simulation_AllBeans;
 
 public class SBML_Manipulator {
 	private File sbmlFile;
@@ -77,6 +79,31 @@ public class SBML_Manipulator {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	public void addUnitForEachSpecies( Simulation_AllBeans allBeans ){
+		for( int i = 0 ; i < allBeans.getData().length ; i ++){
+			if( document.getModel().getSpecies( allBeans.getData()[ i ].getSBMLId()) != null ){
+				Species tmpSpecies = document.getModel().getSpecies( allBeans.getData()[ i ].getSBMLId());
+				if( !tmpSpecies.getUnits().isEmpty() ){
+					allBeans.getData()[ i ].setUnits( tmpSpecies.getUnits() );
+				}
+				else if( !tmpSpecies.getSubstanceUnits().isEmpty()){
+					allBeans.getData()[ i ].setUnits( tmpSpecies.getSubstanceUnits() );
+				}
+				else{
+					allBeans.getData()[ i ].setUnits("UnitLess");
+				}
+			}
+			else if( document.getModel().getParameter( allBeans.getData()[ i ].getSBMLId()) != null ){
+				Parameter tmpParaeter = document.getModel().getParameter( allBeans.getData()[ i ].getSBMLId() );
+				if( !tmpParaeter.getUnits().isEmpty()){
+					allBeans.getData()[ i ].setUnits( tmpParaeter.getUnits() );
+				}
+				else{
+					allBeans.getData()[ i ].setUnits( "UnitLess");
+				}
+			}
 		}
 	}
 	private Parameters_Beans[] getParameters(){

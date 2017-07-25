@@ -4,6 +4,7 @@ package beans.simulation;
 
 public class Simulation_DatasetsBeans {
 	//Following name of variable will be used as JSON key data
+	private String SBMLId;
 	private String label;
 	private String units;
 	private Simulation_XYDataBeans data[];
@@ -17,6 +18,12 @@ public class Simulation_DatasetsBeans {
 	private int pointRadius;
 	private int borderWidth;
 	private String pointStyle;
+	public String getSBMLId() {
+		return SBMLId;
+	}
+	public void setSBMLId(String sBMLId) {
+		SBMLId = sBMLId;
+	}
 	public Simulation_DatasetsBeans(){
 		this.fill = false;
 		this.backgroundColor = "rgba(255,255,255,0.1)";

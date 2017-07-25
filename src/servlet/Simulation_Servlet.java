@@ -82,6 +82,10 @@ public class Simulation_Servlet extends HttpServlet {
 				//Data : the amount of each species and this is indicated by intended number of time and variables
 				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
 				Simulation_AllBeans simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
+				
+				// add the units of each species
+				sbml_Manipulator.addUnitForEachSpecies( simulationBeans );
+				
 				simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
 				String jsonSimulation = JSON.encode( simulationBeans );
 				response.setContentType("application/json;charset=UTF-8");
@@ -96,6 +100,9 @@ public class Simulation_Servlet extends HttpServlet {
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
 			colorOfVis = new Coloring( (int) simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
 			Simulation_AllBeans simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
+			// add the units of each species
+			sbml_Manipulator.addUnitForEachSpecies( simulationBeans );
+			
 			simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter());
 			String jsonSimulation = JSON.encode( simulationBeans );
 			response.setContentType( "application/json;charset=UTF-8");

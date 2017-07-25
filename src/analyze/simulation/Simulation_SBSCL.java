@@ -96,6 +96,8 @@ public class Simulation_SBSCL {
 						else{
 							allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
 						}
+						allDataSets[ speciesCount ].setSBMLId( solution.getColumnName( j ));
+						
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
@@ -136,6 +138,8 @@ public class Simulation_SBSCL {
 						else{
 							allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
 						}
+						allDataSets[ speciesCount ].setSBMLId( solution.getColumnName( j ));
+						
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
