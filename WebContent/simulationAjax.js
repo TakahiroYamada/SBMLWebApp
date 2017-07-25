@@ -162,6 +162,12 @@ function addInitialValueSlider(){
 	var initValueSlider = document.getElementById("initialValue-slider");
 	$("#initialValue-slider").empty();
 	parameter_jsondata.initValue = [];
+	if( initialValue.length == 0){
+		$("#init-item").addClass("disabled");
+	}
+	else{
+		$("#init-item").removeClass("disabled");
+	}
 	for( var i = 0 ; i < initialValue.length ; i ++){
 		// html dynamical setting
 		var stepSize = 0;
@@ -230,6 +236,12 @@ function addGlobalParameterValueSlider(){
 	var globalParamSlider = document.getElementById("globalParam-slider");
 	$("#globalParam-slider").empty();
 	parameter_jsondata.paramValue = [];
+	if( parameterValue.length == 0){
+		$("#global-item").addClass("disabled");
+	}
+	else{
+		$("#global-item").removeClass("disabled");
+	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
@@ -295,6 +307,12 @@ function addLocalParameterValueSlider(){
 	var localParamSlider = document.getElementById("localParam-slider");
 	$("#localParam-slider").empty();
 	parameter_jsondata.localParamValue = [];
+	if( parameterValue.length == 0){
+		$("#local-item").addClass("disabled");
+	}
+	else{
+		$("#local-item").removeClass("disabled");
+	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
 		var newDiv = document.createElement("div");
