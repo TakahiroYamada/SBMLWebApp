@@ -4,6 +4,7 @@ public class ParameterEstimation_UpdateInformationBeans {
 	private String parameterId;
 	private double startValue;
 	private double updatedValue;
+	private String unit;
 	public String getParameterId() {
 		return parameterId;
 	}
@@ -21,6 +22,12 @@ public class ParameterEstimation_UpdateInformationBeans {
 	}
 	public void setUpdatedValue(double updatedValue) {
 		this.updatedValue = updatedValue;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 	
 }

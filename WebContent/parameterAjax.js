@@ -164,7 +164,8 @@ function configureTable(){
 		{ field : "Reaction" , sortable : false , title : "Reaction ID"},
 		{ field : "Parameter" , sortable : false , title : "Parameter ID"},
 		{ field : "Start" , sortable : false , title : "Start value"},
-		{ field : "Update" , sortable : false , title : "Updated Value"}
+		{ field : "Update" , sortable : false , title : "Updated Value"},
+		{ field : "Unit" , sortable : false , title : "Unit"}
 		];
 	
 	document.getElementById("numTable").style.display = "block";
@@ -179,6 +180,7 @@ function configureTable(){
 		tmpData["Parameter"] = paramData.substr( paramData.indexOf(".") + 1);
 		tmpData["Start"] = parameterTransitData[ i ].startValue;
 		tmpData["Update"] = parameterTransitData[ i ].updatedValue;
+		tmpData["Unit"] = parameterTransitData[ i ].unit;
 		transitData.push( tmpData );
 	}
 	$("#num-table").tabulator("setData" , transitData );
