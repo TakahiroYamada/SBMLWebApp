@@ -1,53 +1,9 @@
 @CHARSET "UTF-8";
 /* Explanation CSS*/
-.explain { width : 50%;
-		   margin : 1em;
+#explain { margin : 1em;
 }
-.explain-doc { border : solid 1px;}
-.explain-doc p{ font-size : 15px;}
+#explain-doc { border : solid 1px;}
+#explain-doc p{ font-size : 15px;}
+#tool-box { margin-top : 1em;}
+#tool-item div{ border : solid 2px;}
 
-#overall-analysis { margin : 1em;}
-#simulation-box , #steady-box , #parameter-box {border : solid 2px;
-				 border-radius : 3px;
-				 margin : 2em 0;
-				 top : 20px;
-				 padding : 1em;
-				 position : relative;
-				 width : 32%;
-				 display : inline-block;
-				 margin : .1em;
-				 vertical-align : top;
-}
-#simulation-box::before {
-	background-color : #fff;
-	color : black;
-	font-size : 20px;
-	content : "Simulation";
-	font-weight : bold;
-	left : .5em;
-	padding : 0 .5em;
-	position : absolute;
-	top : -1em;
-}
-#steady-box::before {
-	background-color : #fff;
-	color : black;
-	font-size : 20px;
-	content : "Steady State Analysis";
-	font-weight : bold;
-	left : .5em;
-	padding : 0 .5em;
-	position : absolute;
-	top : -1em;
-}
-#parameter-box::before {
-	background-color : #fff;
-	color : black;
-	font-size : 20px;
-	content : "Parameter Estimation";
-	font-weight : bold;
-	left : .5em;
-	padding : 0 .5em;
-	position : absolute;
-	top : -1em;
-}

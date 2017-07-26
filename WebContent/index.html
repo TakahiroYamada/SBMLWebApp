@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content = "IE=edge">
 <meta name = "viewport" content = "width=device-width,initial-scale = 1">
 <link href="./bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel = "stylesheet">
+<link href="./MDB_Free/css/mdb.min.css" rel = "stylesheet">
 <link href="./css/Header.css" rel = "stylesheet">
 <link href="./css/index_contents.css" rel = "stylesheet">
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -42,29 +43,43 @@
 			</div>
 		</div>
 	</header>
-	<div class = "explain">
-		<h3> SBML Web model Analyzer</h3>
-		<div class = "explain-doc">
-			<p> <b>SWA</b> is web based application to analyze SBML model. <br/>In systems biology, it is very important to standardize the model for a given biological phenomenon and analyze the system based on this model. Such a model is most of the time based on ordinary differential equation(ODE). This application provides the analysis of <b>"Time Course Simulation"</b> , <b>"Steady State Analysis"</b> and <b>"Parameter Estimation"</b>.</p>
+	<div class = "container-fluid" id = "explain">
+		<div class = "row">
+			<div class = "col-12">
+				<h3> <strong> SBML Web model Analyzer</strong></h3>
+			</div>
+		</div>
+		<div class = "row">
+			<div class = "col-6" id = "explain-doc">
+				<p> <b>SWA</b> is web based application to analyze SBML model. <br/>In systems biology, it is very important to standardize the model for a given biological phenomenon and analyze the system based on this model. Such a model is most of the time based on ordinary differential equation(ODE). This application provides the analysis of <b>"Time Course Simulation"</b> , <b>"Steady State Analysis"</b> and <b>"Parameter Estimation"</b>.</p>
+			</div>
+		</div>
+		<div class = "row" id = "tool-box">
+			<div class = "col-12">
+				<h3> <strong> Analysis Tool</strong></h3>
+			</div>
+		</div>
+		<div class = "row" id = "tool-item">
+			<div class = "col-4 view overlay hm-blue-light">
+				<img src="./img/Simulation.png" width = "90%" alt = "Simulation">
+				<div class="mask flex-center">
+        			<a href = "./SimulationFileReader.html" class = "black-text" style = "font-size:30px"> <i><strong>Simulation</strong></i></a>
+    			</div>
+			</div>
+			<div class = "col-4 view overlay hm-blue-light">
+				<img src="./img/Steady.png" width = "79%" alt = "Steady State Analysis">
+				<div class = "mask flex-center">
+					<a href = "./SteadyStateFileReader.html" class = "black-text" style = "font-size:30px"> <i><strong>Steady State Analysis</strong></i></a>
+				</div>
+			</div>
+			<div class = "col-4 view overlay hm-blue-light">
+				<img src="./img/ParameterEstimation.png" width = "100%" alt = "Parameter Estimation">
+				<div class = "mask flex-center">
+					<a href = "ParameterEstimation.html" class = "black-text" style = "font-size:30px"> <i><strong>Parameter Estimation</strong></i></a>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div id = "overall-analysis">
-		<h3> Analysis Tool</h3>
-		<a href = "./SimulationFileReader.html">
-			<div id = "simulation-box">
-				<img src="./img/Simulation.png" width = "86%" alt = "Simulation">
-			</div>
-		</a>
-		<a href = "./SteadyStateFileReader.html">
-			<div id = "steady-box">
-				<img src="./img/Steady.png" width = "79%" alt = "Steady State Analysis">
-			</div>
-		</a>
-		<a href = "ParameterEstimation.html">
-			<div id = "parameter-box">
-				<img src="./img/ParameterEstimation.png" width = "100%" alt = "Parameter Estimation">
-			</div>
-		</a>
-	</div>
+<script type = "text/javascript" src = "./MDB_Free/js/mdb.min.js"></script>
 </body>
 </html>
