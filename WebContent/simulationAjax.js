@@ -48,7 +48,6 @@ var canvas_jsondata = {
 function getSimulationResult(){
 	displayLoading();
 	var form_file = document.getElementById("simFile");
-	var progressBar = document.getElementById("progress");
 	//Check file change , if file is changed , JSON data and parameter contents are initialized.
 	if( currentFile != form_file.files[ 0 ].name){
 		parameter_jsondata ={
@@ -74,7 +73,17 @@ function getSimulationResult(){
 		dataType : "text",
 		data : filedata,
 		processData : false,
-		contentType : false
+		contentType : false,
+		xhr : function(){
+			XHR = $.ajaxSettings.xhr();
+			if( XHR.upload){
+				XHR.upload.addEventListener("progress" , function( e ){
+					per_progress = parseInt( e.loaded/e.total*10000)/100;
+					$("#progress").val( per_progress);
+				});
+			}
+			return XHR;
+		}
 	}).done( function( result ){
 		responseData = JSON.parse( result )
 		callback( responseData );

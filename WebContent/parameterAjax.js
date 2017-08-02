@@ -110,7 +110,17 @@ function analyzeData(){
 		type : "post" ,
 		data : filedata , 
 		processData : false ,
-		contentType : false
+		contentType : false,
+		xhr : function(){
+			XHR = $.ajaxSettings.xhr();
+			if( XHR.upload){
+				XHR.upload.addEventListener("progress" , function( e ){
+					per_progress = parseInt( e.loaded/e.total*10000)/100;
+					$("#progress").val( per_progress);
+				});
+			}
+			return XHR;
+		}
 	}).done( function( result ){
 		responseData = result;
 		callback( responseData );
