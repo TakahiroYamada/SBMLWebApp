@@ -62,7 +62,6 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
-		
 		//HttpSession session = request.getSession( true );
 		//path = getServletContext().getRealPath("/tmp/" + session.getId() );
 		path = getServletContext().getRealPath("/tmp");
@@ -100,7 +99,7 @@ public class Simulation_Servlet extends HttpServlet {
 		sbml_Manipulator.addUnitForEachSpecies( this.simulationBeans );
 		
 		this.simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
-		String jsonSimulation = JSON.encode( this.simulationBeans );
+		String jsonSimulation = JSON.encode( this.simulationBeans , true  );
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print( jsonSimulation );

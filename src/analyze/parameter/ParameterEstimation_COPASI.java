@@ -6,12 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Formattable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
-
 
 import org.COPASI.CCopasiDataModel;
 import org.COPASI.CCopasiObject;
@@ -33,18 +31,11 @@ import org.COPASI.CReaction;
 import org.COPASI.CTaskEnum;
 import org.COPASI.FloatMatrix;
 import org.COPASI.FloatVector;
-import org.apache.naming.java.javaURLContextFactory;
-import org.omg.CosNaming._BindingIteratorImplBase;
-import org.w3c.jigsaw.ssi.commands.CountCommand;
-
 import beans.parameter.ParameterEstimation_UpdateInformationBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
 import parameter.ParameterEstimation_Parameter;
-
-
-
 
 public class ParameterEstimation_COPASI {
 	private File SBMLFile;

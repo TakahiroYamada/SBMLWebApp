@@ -1,4 +1,3 @@
-var req;
 var beforeChart;
 var afterChart;
 var canvas_jsondata_Before = {
@@ -106,40 +105,30 @@ function analyzeData(){
 	// Parameter data is set to filedata(FormData)
 	configureFormData( filedata );
 	
-	// Progress bar's configuration
-	if( window.XMLHttpRequest ){
-		req = new XMLHttpRequest();
-	}
-	req.onprogress = function( e ){
-		progressBar.max = e.total;
-		progressBar.value = e.loaded;
-	}
-	req.onloadstart = function( e ){
-		progressBar.value = 0;
-	}
-	req.onloadend = function( e ){
-		progressBar.value = e.loaded;
-	}
-	req.open("POST" , "./ParameterEstimation_Servlet" , true);
-	req.onreadystatechange = callback;
-	req.send( filedata );
+	$.ajax("./ParameterEstimation_Servlet" , {
+		async : true ,
+		type : "post" ,
+		data : filedata , 
+		processData : false ,
+		contentType : false
+	}).done( function( result ){
+		responseData = result;
+		callback( responseData );
+	});
 }
 
-function callback(){
-	if( req.readyState == 4 ){
-		if( req.status == 200 ){
-			configureCanvas();
-			configureTable();
-		}
-	}
+function callback( responseData ){
+	configureCanvas( responseData );
+	configureTable( responseData );
+	
 }
 
-function configureCanvas(){
+function configureCanvas( responseData ){
 	var canvas_before = document.getElementById("beforeCanvas");
 	var canvas_after = document.getElementById("afterCanvas");
 		
 	
-	var tmpData = JSON.parse( req.response || "null");
+	var tmpData = responseData;
 	
 	canvas_jsondata_Before.data.datasets = tmpData.beforeFitting.data;
 	canvas_jsondata_After.data.datasets = tmpData.afterFitting.data;
@@ -162,8 +151,8 @@ function configureCanvas(){
 	beforeChart = new Chart(canvas_before , canvas_jsondata_Before );
 	afterChart = new Chart(canvas_after , canvas_jsondata_After );
 }
-function configureTable(){
-	var jsonData = JSON.parse( req.response );
+function configureTable( responseData ){
+	var jsonData = responseData;
 	var parameterTransitData = jsonData.updateParam;
 	
 	var column = [

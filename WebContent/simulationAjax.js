@@ -1,4 +1,4 @@
-var req;
+var Ymin;
 var currentTab = "graph";
 var currentFile = null;
 var myChart;
@@ -45,8 +45,8 @@ var canvas_jsondata = {
 	    animation : true,
 	    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
 };
-
 function getSimulationResult(){
+	displayLoading();
 	var form_file = document.getElementById("simFile");
 	var progressBar = document.getElementById("progress");
 	//Check file change , if file is changed , JSON data and parameter contents are initialized.
@@ -67,46 +67,49 @@ function getSimulationResult(){
 	var file = form_file.files[ 0 ];
 	var filedata = new FormData();
 	filedata.append("file" , file )
-	
-	if( window.XMLHttpRequest ){
-		req = new XMLHttpRequest();
-	}
-	
-	req.onprogress = function( e ){
-		progressBar.max = e.total;
-		progressBar.value = e.loaded;
-	}
-	req.onloadstart = function( e ){
-		progressBar.value = 0;
-	}
-	req.onloadend = function( e ){
-		progressBar.value = e.loaded;
-	}
-	
 	configureFormData( filedata );
-	req.open("POST" , "./Simulation_Servlet" , true);
-	req.onreadystatechange = callback;
-	req.send( filedata );
+	$.ajax("./Simulation_Servlet" , {
+		async : true,
+		type : "post",
+		dataType : "text",
+		data : filedata,
+		processData : false,
+		contentType : false
+	}).done( function( result ){
+		responseData = JSON.parse( result )
+		callback( responseData );
+		removeLoading();
+	});
 }
 
 
-function callback(){
-	if( req.readyState == 4 ){
-		if( req.status == 200 ){
-			//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
-			configureCanvas();
-			configureTable();
-			addInitialValueSlider();
-			addCompartmentSlider();
-			addLocalParameterValueSlider();
-			addGlobalParameterValueSlider();
-		}
+function callback( responseData ){
+	//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
+	configureCanvas( responseData );
+	configureTable( responseData );
+	addInitialValueSlider( responseData );
+	addCompartmentSlider( responseData );
+	addLocalParameterValueSlider( responseData );
+	addGlobalParameterValueSlider( responseData );
+}
+function displayLoading(){
+	$("#loading").html("<img src='./img/indicator.gif'/>");
+}
+function removeLoading(){
+	$("#loading").empty();
+}
+function loopLoading(){
+	var element = $("#loading");
+	var child = element.children("div");
+	var childnum = child.length;
+	if( childnum != 0 ){
+		$("#loading").empty();
+		$("#loading").html("<img src='./img/indicator.gif'/>");
 	}
 }
-
-function configureCanvas(){
+function configureCanvas( responseData ){
 	var canvas = document.getElementById("simulationCanvas");
-	var tmpData = JSON.parse( req.response || "null");
+	var tmpData = responseData;
 	
 	canvas_jsondata.data.datasets = tmpData.data;
 	canvas_jsondata.options.scales.xAxes[0].ticks.max = tmpData.xmax;
@@ -117,9 +120,10 @@ function configureCanvas(){
 	myChart = new Chart(canvas , canvas_jsondata );
 	document.getElementById("graph-contents").style = "display:inline-block";
 	document.getElementById("tabParameter").style = "display:inline-block";
+	Ymin = responseData.ymin;
 }
-function configureTable(){
-	var jsonResponse = JSON.parse(req.response);
+function configureTable( responseData ){
+	var jsonResponse = responseData;
 	var simData = jsonResponse.data;
 	
 	var column = [{
@@ -160,8 +164,8 @@ function configureFormData( formdata ){
 	formdata.append("library", document.getElementById("library").value);
 	formdata.append("parameter" , JSON.stringify( parameter_jsondata));
 }
-function addInitialValueSlider(){
-	var JSONResponse = JSON.parse( req.response );
+function addInitialValueSlider( responseData){
+	var JSONResponse = responseData;
 	var initialValue = JSONResponse.modelParameters.initValue;
 	var initValueSlider = document.getElementById("initialValue-slider");
 	$("#initialValue-slider").empty();
@@ -239,7 +243,7 @@ function addInitialValueSlider(){
 }
 
 function addGlobalParameterValueSlider(){
-	var JSONResponse = JSON.parse( req.response );
+	var JSONResponse = responseData;
 	var parameterValue = JSONResponse.modelParameters.paramValue;
 	var globalParamSlider = document.getElementById("globalParam-slider");
 	$("#globalParam-slider").empty();
@@ -313,7 +317,7 @@ function addGlobalParameterValueSlider(){
 	}
 }
 function addCompartmentSlider(){
-	var JSONResponse = JSON.parse( req.response );
+	var JSONResponse = responseData;
 	var compartmentValue = JSONResponse.modelParameters.compartmentValue;
 	var compartmentSlider = document.getElementById("compartmentValue-slider");
 	$("#compartmentValue-slider").empty();
@@ -379,7 +383,7 @@ function addCompartmentSlider(){
 }
 
 function addLocalParameterValueSlider(){
-	var JSONResponse = JSON.parse( req.response );
+	var JSONResponse = responseData;
 	var parameterValue = JSONResponse.modelParameters.localParamValue;
 	var localParamSlider = document.getElementById("localParam-slider");
 	$("#localParam-slider").empty();
@@ -461,18 +465,17 @@ function addLocalParameterValueSlider(){
 }
 function logarithmicFigure( axis ){
 	var checkBox = document.getElementById( axis );
-	var tmpData = JSON.parse( req.response || "null");
 	if( axis == 'logarithmicY'){
 		if( checkBox.checked ){
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.yAxes[0].type = "logarithmic";
 			// Chart.js is crushed when the minimum of scale is less than 1.0e-10
 			// I should ask it to developer!
-			if( Math.pow( 10 , (Math.floor( Math.log10( tmpData.ymin )))) < 1.0e-10){
+			if( Math.pow( 10 , (Math.floor( Math.log10( Ymin )))) < 1.0e-10){
 				canvas_jsondata.options.scales.yAxes[0].ticks.min = 1.0e-10;
 			}
 			else{
-				canvas_jsondata.options.scales.yAxes[0].ticks.min = Math.pow( 10 , (Math.floor( Math.log10( tmpData.ymin ))));
+				canvas_jsondata.options.scales.yAxes[0].ticks.min = Math.pow( 10 , (Math.floor( Math.log10( Ymin ))));
 			}
 			myChart.destroy();
 			myChart = new Chart(canvas , canvas_jsondata );

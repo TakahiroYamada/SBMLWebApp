@@ -73,9 +73,7 @@
 	<br/>
 	<h3> Result of Analysis</h3>
 	<div class = "tabResult">
-		<div id = "loading" style="display:none">
-			<img src="./img/indicator.gif">
-		</div>
+		<div id = "loading"></div>
 		<ul class = "nav nav-tabs">
 			<li class = "nav-item">
 				<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View</a>
@@ -137,6 +135,7 @@
 	</div>
 	<script type = "text/javascript">
 	$("#num-table").tabulator({ fitColumns : true,});
+	setInterval( loopLoading , 100)
 	</script>	
 </body>
 </html>

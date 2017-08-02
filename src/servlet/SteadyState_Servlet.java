@@ -47,7 +47,6 @@ public class SteadyState_Servlet extends HttpServlet {
 		path = getServletContext().getRealPath("/tmp");
 		saveFileName =  path + "/result_steadystate.txt";
 		
-		response.setContentType("text/plane");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		
@@ -58,7 +57,7 @@ public class SteadyState_Servlet extends HttpServlet {
 			analyzeSteadyState.executeSteadyStateAnalysis();
 			SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
 			String jsonSteadyState = JSON.encode( stedBeans , true );
-			response.setContentType("application/json;charset=UTF=8");
+			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print( jsonSteadyState);
 		}

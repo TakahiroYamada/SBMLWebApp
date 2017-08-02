@@ -1,7 +1,5 @@
 package servlet;
 
-import java.awt.Color;
-import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,8 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -48,7 +44,6 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		paramBeans = new ParameterEstimation_AllBeans();
-			
 		configureAnalysisEmvironment(request , upload);
 			
 		//COPASI ParameterEstimation Execution
