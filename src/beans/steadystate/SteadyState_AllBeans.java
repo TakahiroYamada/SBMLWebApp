@@ -1,6 +1,8 @@
 package beans.steadystate;
 
-public class SteadyState_AllBeans {
+import beans.superclass_beans.SuperClass_Beans;
+
+public class SteadyState_AllBeans extends SuperClass_Beans{
 	private SteadyState_SteadyAmountBeans steadyAmount[];
 	private SteadyState_JacobianBeans steadyJacobian;
 	private String concentrationUnit;

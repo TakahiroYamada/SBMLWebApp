@@ -86,7 +86,6 @@ function downloadData(){
 		var jacob_csvContent = tabulatorToCsv("#jacobian-table")
 		var jacob_blob = new Blob([jacob_csvContent] , {type : "text/csv;charset=utf-8"});
 		zip.file("result_JacobianMatrix.csv" , jacob_blob);
-		
 		zip.generateAsync({type:"blob"}).then( function( content){
 			saveAs( content , "result.zip");
 		});

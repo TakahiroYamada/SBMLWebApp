@@ -1,8 +1,9 @@
 package beans.simulation;
 
 import beans.modelparameter.ModelParameter_Beans;
+import beans.superclass_beans.SuperClass_Beans;
 
-public class Simulation_AllBeans {
+public class Simulation_AllBeans extends SuperClass_Beans{
 	private ModelParameter_Beans modelParameters;
 	private double Xmax;
 	private double Ymax;

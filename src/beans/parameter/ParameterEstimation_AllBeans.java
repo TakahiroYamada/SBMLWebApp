@@ -2,8 +2,9 @@ package beans.parameter;
 
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
+import beans.superclass_beans.SuperClass_Beans;
 
-public class ParameterEstimation_AllBeans {
+public class ParameterEstimation_AllBeans extends SuperClass_Beans{
 	private Simulation_AllBeans beforeFitting;
 	private Simulation_AllBeans afterFitting;
 	private Simulation_DatasetsBeans expDataSets[];

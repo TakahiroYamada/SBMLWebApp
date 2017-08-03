@@ -24,6 +24,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import analyze.steadystate.SteadyState_COPASI;
 import beans.steadystate.SteadyState_AllBeans;
+import general.unique_id.UniqueId;
 import net.arnx.jsonic.JSON;
 import parameter.SteadyStateAnalysis_Parameter;
 
@@ -32,6 +33,7 @@ import parameter.SteadyStateAnalysis_Parameter;
  */
 public class SteadyState_Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private String sessionId;
 	private String path;
 	private String filename;
 	private String saveFileName;
@@ -42,9 +44,9 @@ public class SteadyState_Servlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//HttpSession session = request.getSession( true );
-		//path = getServletContext().getRealPath("/tmp/" + session.getId() );
-		path = getServletContext().getRealPath("/tmp");
+		
+		sessionId = UniqueId.getUniqueId();
+		path = getServletContext().getRealPath("/tmp/" + sessionId );
 		saveFileName =  path + "/result_steadystate.txt";
 		
 		FileItemFactory factory = new DiskFileItemFactory();
@@ -56,6 +58,7 @@ public class SteadyState_Servlet extends HttpServlet {
 			SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( stedParam , saveFileName , analyzeFile.getPath());
 			analyzeSteadyState.executeSteadyStateAnalysis();
 			SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
+			stedBeans.setSessionId( this.sessionId );
 			String jsonSteadyState = JSON.encode( stedBeans , true );
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();

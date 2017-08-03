@@ -37,6 +37,7 @@ import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
+import general.unique_id.UniqueId;
 import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
@@ -48,6 +49,7 @@ import parameter.Simulation_Parameter;
 public class Simulation_Servlet extends HttpServlet {
 	private static final Logger logger = Logger.getLogger(Simulation_Servlet.class.getName());
 	private static final long serialVersionUID = 1L;
+	private String sessionId;
 	private String path;
     private String filename;
     private File newFile;
@@ -62,9 +64,8 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
-		//HttpSession session = request.getSession( true );
-		//path = getServletContext().getRealPath("/tmp/" + session.getId() );
-		path = getServletContext().getRealPath("/tmp");
+		sessionId = UniqueId.getUniqueId();
+		path = getServletContext().getRealPath("/tmp/" + sessionId);
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		// Save the SBML file in server side directory
@@ -82,6 +83,7 @@ public class Simulation_Servlet extends HttpServlet {
 				//Data : the amount of each species and this is indicated by intended number of time and variables
 				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
 				this.simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
+				this.simulationBeans.setSessionId( this.sessionId);
 				
 			} catch( NullPointerException e){
 				e.printStackTrace();
@@ -92,6 +94,7 @@ public class Simulation_Servlet extends HttpServlet {
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
 			colorOfVis = new Coloring( (int) simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
 			this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
+			this.simulationBeans.setSessionId( this.sessionId );
 		}
 		
 		

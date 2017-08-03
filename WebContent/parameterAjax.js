@@ -1,3 +1,4 @@
+var sessionId = "";
 var beforeChart;
 var afterChart;
 var canvas_jsondata_Before = {
@@ -98,7 +99,7 @@ function analyzeData(){
 	//Transfered data is added in filedata
 	filedata.append("SBMLFile" , SBML_file );
 	filedata.append("ExpFile" , Exp_file);
-	
+	filedata.append("SessionId" , sessionId);
 	// Algorithm form is changed
 	configureAlgorithmForm();
 
@@ -122,6 +123,7 @@ function analyzeData(){
 			return XHR;
 		}
 	}).done( function( result ){
+		sessionId = result.sessionId;
 		responseData = result;
 		callback( responseData );
 	});
@@ -273,8 +275,18 @@ function downloadData(){
 		var csvContent = tabulatorToCsv("#num-table");
 		var csv_blob = new Blob( [csvContent] , {type : "text/csv;charset=utf-8"})
 		zip.file( "result.csv" , csv_blob);
-		zip.generateAsync({type:"blob"}).then( function( content){
-			saveAs( content , "result.zip");
+		
+		//Updated Model
+		$.ajax("./tmp/" + sessionId + "/Updated_" + $("#paraFile").prop('files')[0].name , {
+			async : true,
+			dataType:"xml"
+		}).done( function( result){
+			var xs = new XMLSerializer();
+			result_text = xs.serializeToString( result );
+			zip.file("updated_"+  $("#paraFile").prop('files')[0].name , result_text);
+			zip.generateAsync({type:"blob"}).then( function( content){
+				saveAs( content , "result.zip");
+			});
 		});
 	}
 }
