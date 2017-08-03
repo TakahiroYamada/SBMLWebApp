@@ -45,6 +45,7 @@ var canvas_jsondata = {
 	    animation : true,
 	    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
 };
+
 function getSimulationResult(){
 	displayLoading();
 	var form_file = document.getElementById("simFile");
@@ -99,6 +100,7 @@ function callback( responseData ){
 	addCompartmentSlider( responseData );
 	addLocalParameterValueSlider( responseData );
 	addGlobalParameterValueSlider( responseData );
+	$("#download").removeClass("disabled");
 }
 function displayLoading(){
 	$("#loading").html("<img src='./img/indicator.gif'/>");
@@ -529,5 +531,27 @@ function checkActivePanel(){
 		else if( ! $("#global-item").hasClass("disabled")){
 			$("#globalParam").addClass("active");
 		}
+	}
+}
+function downloadData(){
+	if( !$("#download").hasClass("disabled")){
+		// Canvas URL
+		var canvas = document.getElementById("simulationCanvas");
+		var url = canvas.toDataURL();
+		var zip = new JSZip();
+		var savable = new Image();
+		savable.src = url;
+		zip.file("result.png" , savable.src.substr(savable.src.indexOf(',')+1) , {base64 : true});
+	
+		// get the result of csv and save the result as zip file
+		$.ajax("./tmp/result.csv",{
+			async : true
+		}).done( function( result ){
+			
+			zip.file( "result.csv" , result )
+			zip.generateAsync({type:"blob"}).then( function( content){
+				saveAs( content , "result.zip");
+			});
+		});
 	}
 }
