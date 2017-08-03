@@ -128,7 +128,6 @@ public class SteadyState_COPASI {
 			SteadyState_SteadyAmountBeans[] stedAmount = new SteadyState_SteadyAmountBeans[ (int) dataModel.getModel().getNumMetabs()];
 			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i++ ){
 				stedAmount[ i ] = new SteadyState_SteadyAmountBeans();
-				stedAmount[ i ].setId( i );
 				stedAmount[ i ].setName( dataModel.getModel().getMetabolite( i ).getObjectDisplayName() );
 				// typeFields contains following data
 				// 1:swigCPtr , 2:expressionReference , 3:FIXED , 4:ASSIGNMENT, 5:REACTIONS,6:ODE,7:TIME  
