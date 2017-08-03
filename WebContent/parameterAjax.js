@@ -130,7 +130,7 @@ function analyzeData(){
 function callback( responseData ){
 	configureCanvas( responseData );
 	configureTable( responseData );
-	
+	$("#download").removeClass("disabled")
 }
 
 function configureCanvas( responseData ){
@@ -249,5 +249,32 @@ function showBeforeFitting(){
 	else{
 		document.getElementById("before-graph").style = "display:none";
 		document.getElementById("after-graph").style = "display:block";
+	}
+}
+function downloadData(){
+	if(!$("#download").hasClass("disabled")){
+		var zip = new JSZip();
+		//Before Canvas
+		var before_canvas = document.getElementById("beforeCanvas");
+		var before_url = before_canvas.toDataURL();
+		var before_savable = new Image();
+		before_savable.src = before_url;
+		zip.file("result_beforeFitting.png" , before_savable.src.substr( before_savable.src.indexOf(',')+1) , {base64 : true})
+		
+		// After Canvas
+		var after_canvas = document.getElementById("afterCanvas");
+		var after_url = after_canvas.toDataURL();
+		var after_savable = new Image();
+		after_savable.src = after_url;
+		zip.file("result_afterFitting.png" , after_savable.src.substr(after_savable.src.indexOf(',')+1) , {base64 : true});
+		
+		//csv data from tabulator
+		
+		var csvContent = tabulatorToCsv("#num-table");
+		var csv_blob = new Blob( [csvContent] , {type : "text/csv;charset=utf-8"})
+		zip.file( "result.csv" , csv_blob);
+		zip.generateAsync({type:"blob"}).then( function( content){
+			saveAs( content , "result.zip");
+		});
 	}
 }

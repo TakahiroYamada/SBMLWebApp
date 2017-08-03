@@ -535,7 +535,7 @@ function checkActivePanel(){
 }
 function downloadData(){
 	if( !$("#download").hasClass("disabled")){
-		// Canvas URL
+		// Canvas
 		var canvas = document.getElementById("simulationCanvas");
 		var url = canvas.toDataURL();
 		var zip = new JSZip();
