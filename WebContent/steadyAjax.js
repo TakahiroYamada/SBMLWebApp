@@ -61,6 +61,7 @@ function callback( responseData ){
 	$("#jacobian-table").tabulator("clearData");
 	$("#jacobian-table").tabulator("setData" , jsonResponse.steadyJacobian.jacob_Amount);
 	document.getElementById("jacobian").style.display = "";
+	$("#download").removeClass("disabled")
 }
 function configureStedParameter( formdata ){
 	var library = document.getElementById("library");
@@ -70,5 +71,24 @@ function configureStedParameter( formdata ){
 		formdata.append("resolution" , document.getElementById("resolution").value);
 		formdata.append("derivation" , document.getElementById("derivation").value);
 		formdata.append("itelimit" , document.getElementById("itelimit").value )
+	}
+}
+function downloadData(){
+	if( !$("#download").hasClass("disabled")){
+		var zip = new JSZip();
+		
+		// csv data of steady state
+		var sted_csvContent = tabulatorToCsv("#sted-table");
+		var sted_blob = new Blob([sted_csvContent]  , {type : "text/csv;charset=utf-8"})
+		zip.file("result_SteadyState.csv" , sted_blob);
+		
+		//csv data of jacobian
+		var jacob_csvContent = tabulatorToCsv("#jacobian-table")
+		var jacob_blob = new Blob([jacob_csvContent] , {type : "text/csv;charset=utf-8"});
+		zip.file("result_JacobianMatrix.csv" , jacob_blob);
+		
+		zip.generateAsync({type:"blob"}).then( function( content){
+			saveAs( content , "result.zip");
+		});
 	}
 }

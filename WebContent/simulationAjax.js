@@ -544,15 +544,9 @@ function downloadData(){
 		zip.file("result.png" , savable.src.substr(savable.src.indexOf(',')+1) , {base64 : true});
 	
 		// csv Data from tabulator
-		var data = $("#num-table").tabulator("getData");
-		//generate header row
-		var csvContent = [Object.keys(data[0]).join(",")];
-		//generate each row of the table
-		data.forEach(function(row){
-			var rowString = Object.values(row).join(",");
-			csvContent.push(rowString);
-		});
-		var csv_blob = new Blob([csvContent.join("\n")] , {type : "text/csv;charset=utf-8"})
+		
+		var csvContent = tabulatorToCsv("#num-table");
+		var csv_blob = new Blob([csvContent ] , {type : "text/csv;charset=utf-8"})
 		zip.file( "result.csv" , csv_blob);
 		zip.generateAsync({type:"blob"}).then( function( content){
 			saveAs( content , "result.zip");
