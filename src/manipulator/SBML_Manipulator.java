@@ -38,7 +38,6 @@ public class SBML_Manipulator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	public ModelParameter_Beans getModelParameter(){
 		ModelParameter_Beans modelParam = new ModelParameter_Beans();
