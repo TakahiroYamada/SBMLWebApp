@@ -1,5 +1,6 @@
 # CentOS configuration
 FROM tomcat:7.0-jre8
+MAINTAINER takahiroyamada
 # Java8 configuration 
 ENV JAVA_HOME /docker-java-home/
 ENV PATH $PATH:$JAVA_HOME/bin
