@@ -48,7 +48,14 @@ var canvas_jsondata = {
 
 function getSimulationResult(){
 	displayLoading();
+	var tmpLegend = [];
 	var form_file = document.getElementById("simFile");
+	
+	if( myChart != undefined ){
+		for( var i = 0 ; i < myChart.data.datasets.length ; i ++){
+			tmpLegend.push( myChart.getDatasetMeta( i ).hidden);
+		}
+	}
 	//Check file change , if file is changed , JSON data and parameter contents are initialized.
 	if( currentFile != form_file.files[ 0 ].name){
 		parameter_jsondata ={
@@ -87,14 +94,14 @@ function getSimulationResult(){
 		}
 	}).done( function( result ){
 		responseData = JSON.parse( result )
-		callback( responseData );
+		callback( responseData  ,  tmpLegend);
 		removeLoading();
 	});
 }
 
-function callback( responseData ){
+function callback( responseData , tmpLegend ){
 	//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
-	configureCanvas( responseData );
+	configureCanvas( responseData  , tmpLegend);
 	configureTable( responseData );
 	addInitialValueSlider( responseData );
 	addCompartmentSlider( responseData );
@@ -117,34 +124,42 @@ function loopLoading(){
 		$("#loading").html("<img src='./img/indicator.gif'/>");
 	}
 }
-function configureCanvas( responseData ){
+function configureCanvas( responseData  , tmpLegend){
 	var canvas = document.getElementById("simulationCanvas");
 	var tmpData = responseData;
-	
 	canvas_jsondata.data.datasets = tmpData.data;
 	canvas_jsondata.options.scales.xAxes[0].ticks.max = tmpData.xmax;
 	canvas_jsondata.options.scales.yAxes[0].ticks.max = tmpData.ymax;
-	if( myChart != undefined ){
-		myChart.destroy();
-	}
-	myChart = new Chart(canvas , canvas_jsondata );
+	configureMyChartLegend( canvas , canvas_jsondata  , tmpLegend );
 	$("#graph-contents").show();
 	$("#tabParameter").show();
 	Ymin = responseData.ymin;
 }
-function configureMyChartLegend( canvas , jsondata ){
+
+function configureMyChartLegend( canvas , jsondata  , tmpLegend){
 	var tmp = [];
-	var tmpDataSets = myChart.data.datasets;
-	for( var i = 0 ; i < tmpDataSets.length ; i ++){
-		tmp.push( tmpDataSets[ i ]._meta[ Object.keys( tmpDataSets[ i ]._meta).length - 1 ].hidden );
+	if( myChart != undefined ){
+		if( tmpLegend == null ){
+			for( var i = 0 ; i < myChart.data.datasets.length ; i ++){
+				tmp.push( myChart.getDatasetMeta( i ).hidden );
+			}
+		}
+		else{
+			tmp = tmpLegend;
+		}
+		
+		myChart.destroy();
+		myChart = new Chart( canvas , jsondata );
+		if( tmp.length == myChart.data.datasets.length ){
+			for( var i = 0 ; i < tmp.length ; i ++){
+				myChart.getDatasetMeta( i ).hidden = tmp[ i ];
+			}
+			myChart.update();
+		}
 	}
-	myChart.destroy();
-	myChart = new Chart( canvas , jsondata );
-	
-	for( var i = 0 ; i < tmp.length ; i ++){
-		myChart.data.datasets[ i ]._meta[ Object.keys( tmpDataSets[ i ]._meta).length - 1 ].hidden = tmp[ i ];
+	else{
+		myChart = new Chart( canvas , canvas_jsondata);
 	}
-	myChart.update();
 }
 function configureTable( responseData ){
 	var jsonResponse = responseData;
@@ -498,13 +513,13 @@ function logarithmicFigure( axis ){
 			else{
 				canvas_jsondata.options.scales.yAxes[0].ticks.min = Math.pow( 10 , (Math.floor( Math.log10( Ymin ))));
 			}
-			configureMyChartLegend( canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata  , null);
 		}
 		else{
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.yAxes[0].type = "linear";
 			canvas_jsondata.options.scales.yAxes[0].ticks.min = 0;
-			configureMyChartLegend( canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata  , null);
 		}
 	}
 	else if( axis == 'logarithmicX'){
@@ -512,13 +527,13 @@ function logarithmicFigure( axis ){
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.xAxes[0].type = "logarithmic";
 			canvas_jsondata.options.scales.xAxes[0].ticks.min = document.getElementById("endtime").value / document.getElementById("numpoint").value ;
-			configureMyChartLegend( canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata  , null);
 		}
 		else{
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.xAxes[0].type = "linear";
 			canvas_jsondata.options.scales.xAxes[0].ticks.min = 0;
-			configureMyChartLegend( canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata , null );
 		}
 	}
 }
