@@ -128,7 +128,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 				String filename = item.getName();
 				SBMLFile = new File(path + "/" + filename);
 				File tmpDir = new File(path);
-				tmpDir.mkdir();
+				tmpDir.mkdirs();
 				try {
 					item.write(SBMLFile);
 				} catch (Exception e) {

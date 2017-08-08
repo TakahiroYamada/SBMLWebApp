@@ -99,7 +99,7 @@ public class SteadyState_Servlet extends HttpServlet {
 					filename = item.getName();
 					File tmpDir = new File( path );
 					analyzeFile = new File( path + "/" + filename );
-					tmpDir.mkdir();
+					tmpDir.mkdirs();
 					try {
 						item.write( analyzeFile );
 					} catch (Exception e) {
