@@ -99,4 +99,4 @@ Docker installation : https://docs.docker.com/engine/installation/
 1. `docker pull takahiroyamada/gsoc_sbmlanalysis`
 1. `docker run -it --rm -p 80:8080 takahiroyamada/gsoc_sbmlanalysis`
 
-Then you can execute analysis using your favorite browser with the URL of "http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/SimulationFileReader.html"
+Then you can execute analysis using your favorite browser with the URL of "http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/"
