@@ -128,8 +128,8 @@ function configureCanvas( responseData ){
 		myChart.destroy();
 	}
 	myChart = new Chart(canvas , canvas_jsondata );
-	document.getElementById("graph-contents").style = "display:inline-block";
-	document.getElementById("tabParameter").style = "display:inline-block";
+	$("#graph-contents").show();
+	$("#tabParameter").show();
 	Ymin = responseData.ymin;
 }
 function configureTable( responseData ){
