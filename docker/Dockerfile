@@ -1,4 +1,4 @@
-# CentOS configuration
+# TomCat7.0 configuration
 FROM tomcat:7.0-jre8
 MAINTAINER takahiroyamada
 # Java8 configuration 
