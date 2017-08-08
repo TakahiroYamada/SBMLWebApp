@@ -132,6 +132,20 @@ function configureCanvas( responseData ){
 	$("#tabParameter").show();
 	Ymin = responseData.ymin;
 }
+function configureMyChartLegend( canvas , jsondata ){
+	var tmp = [];
+	var tmpDataSets = myChart.data.datasets;
+	for( var i = 0 ; i < tmpDataSets.length ; i ++){
+		tmp.push( tmpDataSets[ i ]._meta[ Object.keys( tmpDataSets[ i ]._meta).length - 1 ].hidden );
+	}
+	myChart.destroy();
+	myChart = new Chart( canvas , jsondata );
+	
+	for( var i = 0 ; i < tmp.length ; i ++){
+		myChart.data.datasets[ i ]._meta[ Object.keys( tmpDataSets[ i ]._meta).length - 1 ].hidden = tmp[ i ];
+	}
+	myChart.update();
+}
 function configureTable( responseData ){
 	var jsonResponse = responseData;
 	var simData = jsonResponse.data;
@@ -484,15 +498,13 @@ function logarithmicFigure( axis ){
 			else{
 				canvas_jsondata.options.scales.yAxes[0].ticks.min = Math.pow( 10 , (Math.floor( Math.log10( Ymin ))));
 			}
-			myChart.destroy();
-			myChart = new Chart(canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata );
 		}
 		else{
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.yAxes[0].type = "linear";
 			canvas_jsondata.options.scales.yAxes[0].ticks.min = 0;
-			myChart.destroy();
-			myChart = new Chart(canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata );
 		}
 	}
 	else if( axis == 'logarithmicX'){
@@ -500,15 +512,13 @@ function logarithmicFigure( axis ){
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.xAxes[0].type = "logarithmic";
 			canvas_jsondata.options.scales.xAxes[0].ticks.min = document.getElementById("endtime").value / document.getElementById("numpoint").value ;
-			myChart.destroy();
-			myChart = new Chart(canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata );
 		}
 		else{
 			var canvas = document.getElementById("simulationCanvas");
 			canvas_jsondata.options.scales.xAxes[0].type = "linear";
 			canvas_jsondata.options.scales.xAxes[0].ticks.min = 0;
-			myChart.destroy();
-			myChart = new Chart(canvas , canvas_jsondata );
+			configureMyChartLegend( canvas , canvas_jsondata );
 		}
 	}
 }
