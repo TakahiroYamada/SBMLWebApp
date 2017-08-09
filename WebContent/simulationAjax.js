@@ -549,21 +549,22 @@ function checkActivePanel(){
 }
 function downloadData(){
 	if( !$("#download").hasClass("disabled")){
+		var model_name = $("#simFile")[0].files[0].name.replace(".xml" , "");
 		// Canvas
 		var canvas = document.getElementById("simulationCanvas");
 		var url = canvas.toDataURL();
 		var zip = new JSZip();
 		var savable = new Image();
 		savable.src = url;
-		zip.file("result.png" , savable.src.substr(savable.src.indexOf(',')+1) , {base64 : true});
+		zip.file(model_name + "_result.png" , savable.src.substr(savable.src.indexOf(',')+1) , {base64 : true});
 	
 		// csv Data from tabulator
 		
 		var csvContent = tabulatorToCsv("#num-table");
 		var csv_blob = new Blob([csvContent ] , {type : "text/csv;charset=utf-8"})
-		zip.file( "result.csv" , csv_blob);
+		zip.file( model_name + "_result.csv" , csv_blob);
 		zip.generateAsync({type:"blob"}).then( function( content){
-			saveAs( content , "result.zip");
+			saveAs( content , model_name + "_result.zip");
 		});
 	}
 }
