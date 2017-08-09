@@ -83,7 +83,7 @@ function showExpFile(){
 	algorithm.style.display ="block";
 }
 
-function analyzeData(){
+function analyzeData( loadingObject ){
 	//Each form data is got as JavaScript variable
 	var model_file = document.getElementById("paraFile");
 	var exp_file = document.getElementById("expData");
@@ -100,8 +100,6 @@ function analyzeData(){
 	filedata.append("SBMLFile" , SBML_file );
 	filedata.append("ExpFile" , Exp_file);
 	filedata.append("SessionId" , sessionId);
-	// Algorithm form is changed
-	configureAlgorithmForm();
 
 	// Parameter data is set to filedata(FormData)
 	configureFormData( filedata );
@@ -126,6 +124,7 @@ function analyzeData(){
 		sessionId = result.sessionId;
 		responseData = result;
 		callback( responseData );
+		loadingObject.LoadingOverlay("hide");
 	});
 }
 
