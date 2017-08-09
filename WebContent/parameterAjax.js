@@ -255,25 +255,26 @@ function showBeforeFitting(){
 function downloadData(){
 	if(!$("#download").hasClass("disabled")){
 		var zip = new JSZip();
+		var model_name = $("#paraFile")[ 0 ].files[ 0 ].name.replace(".xml" , "");
 		//Before Canvas
 		var before_canvas = document.getElementById("beforeCanvas");
 		var before_url = before_canvas.toDataURL();
 		var before_savable = new Image();
 		before_savable.src = before_url;
-		zip.file("result_beforeFitting.png" , before_savable.src.substr( before_savable.src.indexOf(',')+1) , {base64 : true})
+		zip.file(model_name + "_result_beforeFitting.png" , before_savable.src.substr( before_savable.src.indexOf(',')+1) , {base64 : true})
 		
 		// After Canvas
 		var after_canvas = document.getElementById("afterCanvas");
 		var after_url = after_canvas.toDataURL();
 		var after_savable = new Image();
 		after_savable.src = after_url;
-		zip.file("result_afterFitting.png" , after_savable.src.substr(after_savable.src.indexOf(',')+1) , {base64 : true});
+		zip.file(model_name + "_result_afterFitting.png" , after_savable.src.substr(after_savable.src.indexOf(',')+1) , {base64 : true});
 		
 		//csv data from tabulator
 		
 		var csvContent = tabulatorToCsv("#num-table");
 		var csv_blob = new Blob( [csvContent] , {type : "text/csv;charset=utf-8"})
-		zip.file( "result.csv" , csv_blob);
+		zip.file( model_name + "_result.csv" , csv_blob);
 		
 		//Updated Model
 		$.ajax("./tmp/" + sessionId + "/Updated_" + $("#paraFile").prop('files')[0].name , {
@@ -282,9 +283,9 @@ function downloadData(){
 		}).done( function( result){
 			var xs = new XMLSerializer();
 			result_text = xs.serializeToString( result );
-			zip.file("updated_"+  $("#paraFile").prop('files')[0].name , result_text);
+			zip.file(model_name + "_updated.xml" , result_text);
 			zip.generateAsync({type:"blob"}).then( function( content){
-				saveAs( content , "result.zip");
+				saveAs( content , model_name + "_result.zip");
 			});
 		});
 	}
