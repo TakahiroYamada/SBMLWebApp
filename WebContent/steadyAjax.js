@@ -69,19 +69,20 @@ function configureStedParameter( formdata ){
 }
 function downloadData(){
 	if( !$("#download").hasClass("disabled")){
+		var model_name = $("#stedFile")[ 0 ].files[ 0 ].name.replace(".xml" ,"");
 		var zip = new JSZip();
 		
 		// csv data of steady state
 		var sted_csvContent = tabulatorToCsv("#sted-table");
 		var sted_blob = new Blob([sted_csvContent]  , {type : "text/csv;charset=utf-8"})
-		zip.file("result_SteadyState.csv" , sted_blob);
+		zip.file(model_name + "_result_SteadyState.csv" , sted_blob);
 		
 		//csv data of jacobian
 		var jacob_csvContent = tabulatorToCsv("#jacobian-table")
 		var jacob_blob = new Blob([jacob_csvContent] , {type : "text/csv;charset=utf-8"});
-		zip.file("result_JacobianMatrix.csv" , jacob_blob);
+		zip.file(model_name + "_result_JacobianMatrix.csv" , jacob_blob);
 		zip.generateAsync({type:"blob"}).then( function( content){
-			saveAs( content , "result.zip");
+			saveAs( content , model_name + "_result.zip");
 		});
 	}
 }
