@@ -46,8 +46,7 @@ var canvas_jsondata = {
 	    multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
 };
 
-function getSimulationResult(){
-	displayLoading();
+function getSimulationResult( loadingObject ){
 	var tmpLegend = [];
 	var form_file = document.getElementById("simFile");
 	
@@ -95,7 +94,7 @@ function getSimulationResult(){
 	}).done( function( result ){
 		responseData = JSON.parse( result )
 		callback( responseData  ,  tmpLegend);
-		removeLoading();
+		loadingObject.LoadingOverlay("hide");
 	});
 }
 
@@ -109,21 +108,7 @@ function callback( responseData , tmpLegend ){
 	addGlobalParameterValueSlider( responseData );
 	$("#download").removeClass("disabled");
 }
-function displayLoading(){
-	$("#loading").html("<img src='./img/indicator.gif'/>");
-}
-function removeLoading(){
-	$("#loading").empty();
-}
-function loopLoading(){
-	var element = $("#loading");
-	var child = element.children("div");
-	var childnum = child.length;
-	if( childnum != 0 ){
-		$("#loading").empty();
-		$("#loading").html("<img src='./img/indicator.gif'/>");
-	}
-}
+
 function configureCanvas( responseData  , tmpLegend){
 	var canvas = document.getElementById("simulationCanvas");
 	var tmpData = responseData;
@@ -263,7 +248,8 @@ function addInitialValueSlider( responseData){
 					return( elem.sbmlID == sbmlId);
 				});
 				filtered[ 0 ].initialValue = ui.value;
-				getSimulationResult();
+				$("#simulationCanvas").LoadingOverlay("show");
+				getSimulationResult( $("#simulationCanvas") );
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
@@ -336,7 +322,8 @@ function addGlobalParameterValueSlider(){
 					return( elem.sbmlID == sbmlId);
 				});
 				filtered[ 0 ].parameterValue = ui.value;
-				getSimulationResult();
+				$("#simulationCanvas").LoadingOverlay("show")
+				getSimulationResult($("#simulationCanvas"));
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
@@ -408,7 +395,8 @@ function addCompartmentSlider(){
 					return( elem.sbmlID == sbmlId);
 				});
 				filtered[ 0 ].size = ui.value;
-				getSimulationResult();
+				$("#simulationCanvas").LoadingOverlay("show");
+				getSimulationResult($("#simulationCanvas"));
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
@@ -486,7 +474,8 @@ function addLocalParameterValueSlider(){
 					return( elem.jsID == sbmlId);
 				});
 				filtered[ 0 ].parameterValue = ui.value;
-				getSimulationResult();
+				$("#simulationCanvas").LoadingOverlay("show")
+				getSimulationResult($("#simulationCanvas"));
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));

@@ -245,14 +245,10 @@ function configureAlgorithmVisualization( algorithm ){
 function showBeforeFitting(){
 	var checkBox = document.getElementById("before-fitting");
 	if( checkBox.checked ){
-		//document.getElementById("before-graph").style = "display:block";
-		//document.getElementById("after-graph").style = "display:none";
 		$("#before-graph").show();
 		$("#after-graph").hide();
 	}
 	else{
-		//document.getElementById("before-graph").style = "display:none";
-		//document.getElementById("after-graph").style = "display:block";
 		$("#before-graph").hide();
 		$("#after-graph").show();
 	}
