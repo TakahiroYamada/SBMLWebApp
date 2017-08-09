@@ -1,14 +1,11 @@
 var link;
-function getSteadyResult(){
+function getSteadyResult( loadingObject ){
 	var form_file = document.getElementById("stedFile");
 	var progressBar = document.getElementById("progress");
 	link = document.createElement('a');
 	var file = form_file.files[ 0 ];
 	var filedata = new FormData();
 	filedata.append("file" , file )
-	
-	var libSelect = document.getElementById("libselect");
-	libSelect.style.display = "block";
 	configureStedParameter( filedata );
 	$.ajax("./SteadyState_Servlet" , {
 		async : true,
@@ -29,15 +26,12 @@ function getSteadyResult(){
 	}).done( function( result ){
 		responseData = result;
 		callback( responseData );
+		loadingObject.LoadingOverlay("hide");
 	})
 }
 
 
 function callback( responseData ){
-	// If the result file is downloaded, following code is useful and uncomment it
-	//link.download = "result_steadystate.txt";
-	//link.href = "/GSOC_WebMavenProject/tmp/result_steadystate.txt";
-	//link.click()
 	var jsonResponse = responseData;
 	//Clear only the data in table not header
 	document.getElementById("stedAmount").style.display = "block";
