@@ -53,6 +53,7 @@ public class Simulation_Servlet extends HttpServlet {
 	private String path;
     private String filename;
     private File newFile;
+    private List<FileItem> fields;
     private Simulation_AllBeans simulationBeans;
     private Simulation_Parameter param;
     private ModelParameter_Beans sbmlParam;
@@ -64,11 +65,15 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
-		sessionId = UniqueId.getUniqueId();
-		path = getServletContext().getRealPath("/tmp/" + sessionId);
 		//path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
+		
+		sessionCheck( request , upload );
+		if( sessionId.equals("")){
+			sessionId = UniqueId.getUniqueId();
+		}
+		path = getServletContext().getRealPath("/tmp/" + sessionId);
 		// Save the SBML file in server side directory
 		configureAnalysisEmviroment( request , upload );
 		// Get and edit parameters value in SBML model
@@ -133,49 +138,59 @@ public class Simulation_Servlet extends HttpServlet {
 		//os.flush();
 		//os.close();
 	}
+	private void sessionCheck(HttpServletRequest request, ServletFileUpload upload) {
+		try {
+			this.fields = upload.parseRequest(request);
+			Iterator<FileItem> it = fields.iterator();
+			while (it.hasNext()) {
+				FileItem item = it.next();
+				if (item.getFieldName().equals("SessionId")) {
+					sessionId = item.getString();
+				}
+			}
+		} catch (FileUploadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	private void configureAnalysisEmviroment( HttpServletRequest request , ServletFileUpload upload  ) {
 		// TODO Auto-generated method stub
 		this.newFile = null;
 		this.param = new Simulation_Parameter();
-		
-		try {
-			List<FileItem> fields = upload.parseRequest( request );
-			Iterator< FileItem > it = fields.iterator();
-			while( it.hasNext()){
-				FileItem item = it.next();
-				
-				// SBML model file is got.
-				if(item.getFieldName().equals("file")){
-					filename = item.getName();
-					newFile = new File( path + "/" + filename);
-					File tmpDir = new File( path );
-					tmpDir.mkdirs();
-					try {
-						item.write( newFile );
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				// Parameter to analyze is set
-				else if( item.getFieldName().equals("endpoint")){
-					param.setEndTime( new Integer( Integer.parseInt( item.getString() )));
-				}
-				else if( item.getFieldName().equals("numpoint")){
-					param.setNumTime( new Integer( Integer.parseInt( item.getString() )));;
-				}
-				else if( item.getFieldName().equals( "tolerance")){
-					param.setTolerance( new Double( Double.parseDouble( item.getString() )));
-				}
-				else if( item.getFieldName().equals("library")){
-					param.setLibrary( item.getString() );
-				}
-				else if( item.getFieldName().equals("parameter")){
-					this.sbmlParam = JSON.decode( item.getString() , ModelParameter_Beans.class);
+		Iterator< FileItem > it = this.fields.iterator();
+		while( it.hasNext()){
+			FileItem item = it.next();
+
+			// SBML model file is got.
+			if(item.getFieldName().equals("file")){
+				filename = item.getName();
+				newFile = new File( path + "/" + filename);
+				File tmpDir = new File( path );
+				tmpDir.mkdirs();
+				try {
+					item.write( newFile );
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
-		} catch (FileUploadException e) {
-			e.printStackTrace();
+			// Parameter to analyze is set
+			else if( item.getFieldName().equals("endpoint")){
+				param.setEndTime( new Integer( Integer.parseInt( item.getString() )));
+			}
+			else if( item.getFieldName().equals("numpoint")){
+				param.setNumTime( new Integer( Integer.parseInt( item.getString() )));;
+			}
+			else if( item.getFieldName().equals( "tolerance")){
+				param.setTolerance( new Double( Double.parseDouble( item.getString() )));
+			}
+			else if( item.getFieldName().equals("library")){
+				param.setLibrary( item.getString() );
+			}
+			else if( item.getFieldName().equals("parameter")){
+				this.sbmlParam = JSON.decode( item.getString() , ModelParameter_Beans.class);
+			}
 		}
 	}
 }

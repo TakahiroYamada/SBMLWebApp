@@ -1,4 +1,5 @@
 var Ymin;
+var sessionId= "";
 var currentTab = "graph";
 var currentFile = null;
 var myChart;
@@ -92,6 +93,7 @@ function getSimulationResult( loadingObject ){
 			return XHR;
 		}
 	}).done( function( result ){
+		sessionId = result.sessionId;
 		responseData = JSON.parse( result )
 		callback( responseData  ,  tmpLegend);
 		loadingObject.LoadingOverlay("hide");
@@ -187,6 +189,7 @@ function configureFormData( formdata ){
 	formdata.append("tolerance" , document.getElementById("tolerance").value)
 	formdata.append("library", document.getElementById("library").value);
 	formdata.append("parameter" , JSON.stringify( parameter_jsondata));
+	formdata.append("SessionId" , sessionId );
 }
 function addInitialValueSlider( responseData){
 	var JSONResponse = responseData;
