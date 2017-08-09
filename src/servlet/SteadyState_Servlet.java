@@ -2,20 +2,14 @@ package servlet;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.COPASI.UIntStdVector;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -36,6 +30,7 @@ public class SteadyState_Servlet extends HttpServlet {
 	private String sessionId;
 	private String path;
 	private String filename;
+	private List<FileItem> fields;
 	private String saveFileName;
 	private File analyzeFile;
 	private SteadyStateAnalysis_Parameter stedParam;
@@ -45,13 +40,16 @@ public class SteadyState_Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		sessionId = UniqueId.getUniqueId();
-		path = getServletContext().getRealPath("/tmp/" + sessionId );
 		saveFileName =  path + "/result_steadystate.txt";
 		
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		
+		sessionCheck( request , upload );
+		if( sessionId.equals("")){
+			sessionId = UniqueId.getUniqueId();
+		}
+		path = getServletContext().getRealPath("/tmp/" + sessionId );
 		configureAnalysisEmvironment( request , upload );
 		// Execute steady state analysis with COPASI
 		if( stedParam.getLibrary().equals("copasi") ){
@@ -84,46 +82,56 @@ public class SteadyState_Servlet extends HttpServlet {
 		//os.flush();
 		//os.close();
 	}
-	private void configureAnalysisEmvironment(HttpServletRequest request, ServletFileUpload upload) {
-		
-		stedParam = new SteadyStateAnalysis_Parameter();
+	private void sessionCheck(HttpServletRequest request, ServletFileUpload upload) {
 		try {
-			List<FileItem> fields = upload.parseRequest( request );
-			Iterator< FileItem > it = fields.iterator();
-			// FormData from client side is checked.
-			while( it.hasNext() ){
+			this.fields = upload.parseRequest(request);
+			Iterator<FileItem> it = fields.iterator();
+			while (it.hasNext()) {
 				FileItem item = it.next();
-				
-				// The SBML model is got and saved as tmp file in order to analyze based on importing this file
-				if( item.getFieldName().equals("file")){
-					filename = item.getName();
-					File tmpDir = new File( path );
-					analyzeFile = new File( path + "/" + filename );
-					tmpDir.mkdirs();
-					try {
-						item.write( analyzeFile );
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				else if( item.getFieldName().equals("library")){
-					stedParam.setLibrary( item.getString() );
-				}
-				else if( item.getFieldName().equals("resolution")){
-					stedParam.setResolution( Double.parseDouble( item.getString()));
-				}
-				else if( item.getFieldName().equals("derivation")){
-					stedParam.setDerivation_factor( Double.parseDouble( item.getString() ));
-				}
-				else if( item.getFieldName().equals("itelimit")){
-					stedParam.setIterationLimit( Integer.parseInt( item.getString()));
+				if (item.getFieldName().equals("SessionId")) {
+					sessionId = item.getString();
 				}
 			}
 		} catch (FileUploadException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+
+	}
+	private void configureAnalysisEmvironment(HttpServletRequest request, ServletFileUpload upload) {
+
+		stedParam = new SteadyStateAnalysis_Parameter();
+		Iterator< FileItem > it = this.fields.iterator();
+		// FormData from client side is checked.
+		while( it.hasNext() ){
+			FileItem item = it.next();
+
+			// The SBML model is got and saved as tmp file in order to analyze based on importing this file
+			if( item.getFieldName().equals("file")){
+				filename = item.getName();
+				File tmpDir = new File( path );
+				analyzeFile = new File( path + "/" + filename );
+				tmpDir.mkdirs();
+				try {
+					item.write( analyzeFile );
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			else if( item.getFieldName().equals("library")){
+				stedParam.setLibrary( item.getString() );
+			}
+			else if( item.getFieldName().equals("resolution")){
+				stedParam.setResolution( Double.parseDouble( item.getString()));
+			}
+			else if( item.getFieldName().equals("derivation")){
+				stedParam.setDerivation_factor( Double.parseDouble( item.getString() ));
+			}
+			else if( item.getFieldName().equals("itelimit")){
+				stedParam.setIterationLimit( Integer.parseInt( item.getString()));
+			}
 		}
 	}
 

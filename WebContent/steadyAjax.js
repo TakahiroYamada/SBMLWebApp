@@ -1,11 +1,13 @@
 var link;
+var sessionId = "";
 function getSteadyResult( loadingObject ){
 	var form_file = document.getElementById("stedFile");
 	var progressBar = document.getElementById("progress");
 	link = document.createElement('a');
 	var file = form_file.files[ 0 ];
 	var filedata = new FormData();
-	filedata.append("file" , file )
+	filedata.append("file" , file );
+	filedata.append("SessionId" , sessionId);
 	configureStedParameter( filedata );
 	$.ajax("./SteadyState_Servlet" , {
 		async : true,
@@ -24,6 +26,7 @@ function getSteadyResult( loadingObject ){
 			return XHR;
 		}
 	}).done( function( result ){
+		sessionId = result.sessionId;
 		responseData = result;
 		callback( responseData );
 		loadingObject.LoadingOverlay("hide");
