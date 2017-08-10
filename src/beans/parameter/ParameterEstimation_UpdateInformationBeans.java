@@ -6,6 +6,8 @@ public class ParameterEstimation_UpdateInformationBeans {
 	private double updatedValue;
 	private String unit;
 	private boolean global;
+	private double lower;
+	private double upper;
 	public String getParameterId() {
 		return parameterId;
 	}
@@ -35,6 +37,18 @@ public class ParameterEstimation_UpdateInformationBeans {
 	}
 	public void setGlobal(boolean global) {
 		this.global = global;
+	}
+	public double getLower() {
+		return lower;
+	}
+	public void setLower(double lower) {
+		this.lower = lower;
+	}
+	public double getUpper() {
+		return upper;
+	}
+	public void setUpper(double upper) {
+		this.upper = upper;
 	}
 	
 }

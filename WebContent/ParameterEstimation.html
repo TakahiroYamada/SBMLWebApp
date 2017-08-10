@@ -149,7 +149,17 @@
 		</div>
 	</div>	
 	<script type = "text/javascript">
-	$("#num-table").tabulator({ fitColumns : true,});
+	$("#num-table").tabulator({ fitColumns : true,
+		rowFormatter:function(row){
+	        var data = row.getData();
+	        if(Math.abs( data.Upper - data.Update ) < 1.0e-5){
+	        	row.getElement().css({"background-color":"red"});
+	        }
+	        else if( Math.abs( data.Lower - data.Update) < 1.0e-5){
+	        	row.getElement().css({"background-color":"blue"});
+	        }
+	    }
+	});
 	</script>	
 	<script type = "text/javascript" src ="parameterEvent.js"></script>
 </body>

@@ -49,6 +49,8 @@ public class ParameterEstimation_COPASI {
 	private FloatVector timeData;
 	private LinkedHashMap<String, Double> boptimizedParam;
 	private LinkedHashMap<String, Double> optimizedParam;
+	private LinkedHashMap<String, Double> optimizedLower;
+	private LinkedHashMap<String, Double> optimizedUpper;
 	private LinkedHashMap< String, String> paramUnit;
 	private CCopasiDataModel dataModel;
 	private CExperimentSet experimentSet;
@@ -203,11 +205,15 @@ public class ParameterEstimation_COPASI {
 		//Get the optimized Parameter value
 		boptimizedParam = new LinkedHashMap<>();
 		optimizedParam = new LinkedHashMap<>();
+		optimizedLower = new LinkedHashMap<>();
+		optimizedUpper = new LinkedHashMap<>();
 		paramUnit = new LinkedHashMap<>();
 		for( int i = 0 ; i < fitProblem.getOptItemList().size() ; i ++){
 			COptItem tmpOptItem = fitProblem.getOptItemList().get( i );
 			boptimizedParam.put( tmpOptItem.getObjectDisplayName() , paramList.get( i ).getDblValue() );
 			optimizedParam.put( tmpOptItem.getObjectDisplayName() , fitProblem.getSolutionVariables().get( i ));
+			optimizedLower.put( tmpOptItem.getObjectDisplayName() , fitProblem.getOptItemList().get( i ).getLowerBoundValue());
+			optimizedUpper.put( tmpOptItem.getObjectDisplayName() , fitProblem.getOptItemList().get( i ).getUpperBoundValue());			
 			paramUnit.put( tmpOptItem.getObjectDisplayName() , paramList.get( i ).getUnits() );
 			// The parameter value in current model is changed by following line
 			paramList.get( i ).setDblValue( fitProblem.getSolutionVariables().get( i ));
@@ -265,6 +271,8 @@ public class ParameterEstimation_COPASI {
 			}
 			paramEstInfo[ count ].setStartValue( boptimizedParam.get( key ));
 			paramEstInfo[ count ].setUpdatedValue( optimizedParam.get( key ));
+			paramEstInfo[ count ].setLower( optimizedLower.get( key ));
+			paramEstInfo[ count ].setUpper( optimizedUpper.get( key ));
 			if( !paramUnit.get( key ).isEmpty() ){
 				paramEstInfo[ count ].setUnit( paramUnit.get( key ));
 			}

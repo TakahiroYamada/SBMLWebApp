@@ -185,10 +185,13 @@ function configureTable( responseData ){
 	var jsonData = responseData;
 	var parameterTransitData = jsonData.updateParam;
 	
+	
 	var column = [
 		{ field : "Reaction" , sortable : false , title : "Reaction ID"},
 		{ field : "Parameter" , sortable : false , title : "Parameter ID"},
+		{ field : "Lower" , sortable : false , title : "Lower bound"},
 		{ field : "Start" , sortable : false , title : "Start value"},
+		{ field : "Upper" , sortable : false , title : "Upper bound"},
 		{ field : "Update" , sortable : false , title : "Updated Value"},
 		{ field : "Unit" , sortable : false , title : "Unit"}
 		];
@@ -209,7 +212,9 @@ function configureTable( responseData ){
 			tmpData["Reaction"] = paramData.match(/\((.+)\)/)[1];
 			tmpData["Parameter"] = paramData.substr( paramData.indexOf(".") + 1);
 		}
+		tmpData["Lower"] = parameterTransitData[ i ].lower;
 		tmpData["Start"] = parameterTransitData[ i ].startValue;
+		tmpData["Upper"] = parameterTransitData[ i ].upper;
 		tmpData["Update"] = parameterTransitData[ i ].updatedValue;
 		tmpData["Unit"] = parameterTransitData[ i ].unit;
 		transitData.push( tmpData );
