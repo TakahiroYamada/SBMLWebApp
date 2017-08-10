@@ -39,14 +39,4 @@
     <servlet-name>ParameterEstimation_Servlet</servlet-name>
     <url-pattern>/ParameterEstimation_Servlet</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ModelParameter_Extraction</display-name>
-    <servlet-name>ModelParameter_Extraction</servlet-name>
-    <servlet-class>servlet.ModelParameter_Extraction</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ModelParameter_Extraction</servlet-name>
-    <url-pattern>/ModelParameter_Extraction</url-pattern>
-  </servlet-mapping>
 </web-app>

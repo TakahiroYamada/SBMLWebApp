@@ -16,8 +16,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.thoughtworks.xstream.alias.ClassMapper.Null;
-
 import analyze.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
 import beans.modelparameter.ModelParameter_Beans;
@@ -60,7 +58,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		configureAnalysisEmvironment(request, upload);
 		
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( SBMLFile );
-		
+		sbml_Manipulator.editModelParameter( this.sbmlParam );
 		// COPASI ParameterEstimation Execution
 		ParameterEstimation_COPASI paramEstCopasi = new ParameterEstimation_COPASI(paramestParam, SBMLFile,
 				ExperimentFile , sbmlParam );

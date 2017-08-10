@@ -1,6 +1,5 @@
 package beans.modelparameter;
 
-import org.eclipse.jdt.internal.compiler.ast.ReturnStatement;
 
 public class ModelParameter_Beans {
 	private InitialValue_Beans initValue[];

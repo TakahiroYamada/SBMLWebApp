@@ -26,9 +26,7 @@ import org.COPASI.CFitProblem;
 import org.COPASI.CFitTask;
 import org.COPASI.CKeyFactory;
 import org.COPASI.CMetab;
-import org.COPASI.CModelEntity;
 import org.COPASI.CModelValue;
-import org.COPASI.CObjectInterface;
 import org.COPASI.COptItem;
 import org.COPASI.CReaction;
 import org.COPASI.CTaskEnum;
@@ -147,12 +145,15 @@ public class ParameterEstimation_COPASI {
 				// For local parameter
 				if( dataModel.getModel().getModelValues().getObjectFromCN( parameterReference.getCN() ) != null ){
 					fitItem.setObjectCN( parameterReference.getCN());
-					fitItem.setStartValue( parameter.getDblValue() );
 					if( sbmlParameter.getLocalParamValue().length == 0 ){
+						fitItem.setStartValue( parameter.getDblValue() );
 						fitItem.setLowerBound( new CCopasiObjectName( new Double( parameter.getDblValue() / 1000).toString()));
 						fitItem.setUpperBound( new CCopasiObjectName( new Double( parameter.getDblValue() * 10 ).toString() ));
 					}
 					else{
+						parameter.setDblValue( sbmlParameter.getLocalParametersById( reactionId , parameterId ).getParameterValue() );
+						dataModel.getModel().updateInitialValues( parameter );
+						fitItem.setStartValue( sbmlParameter.getLocalParametersById( reactionId , parameterId ).getParameterValue() );
 						fitItem.setLowerBound( new CCopasiObjectName( sbmlParameter.getLocalParametersById( reactionId , parameterId).getLower().toString()));
 						fitItem.setUpperBound( new CCopasiObjectName( sbmlParameter.getLocalParametersById( reactionId , parameterId).getUpper().toString()));
 					}
@@ -163,14 +164,14 @@ public class ParameterEstimation_COPASI {
 				// For global parameter
 				else if( !globalParamCheck.contains( parameterId )){
 					CModelValue globalParam = dataModel.getModel().getModelValue( parameterId );
-					
 					fitItem.setObjectCN( globalParam.getInitialValueReference().getCN() );
-					fitItem.setStartValue( parameter.getDblValue() );
 					if( sbmlParameter.getParamValue().length == 0 ){
+						fitItem.setStartValue( parameter.getDblValue() );
 						fitItem.setLowerBound( new CCopasiObjectName( new Double( parameter.getDblValue() / 1000).toString()));
 						fitItem.setUpperBound( new CCopasiObjectName( new Double( parameter.getDblValue() * 10 ).toString() ));
 					}
 					else{
+						fitItem.setStartValue( sbmlParameter.getGlobalParameterById( parameterId ).getParameterValue()  );
 						fitItem.setLowerBound( new CCopasiObjectName( sbmlParameter.getGlobalParameterById( parameterId ).getLower().toString()));
 						fitItem.setUpperBound( new CCopasiObjectName( sbmlParameter.getGlobalParameterById( parameterId ).getUpper().toString()));
 					}

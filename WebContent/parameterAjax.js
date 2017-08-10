@@ -3,6 +3,8 @@ var beforeChart;
 var afterChart;
 var currentFile = null;
 var parameter_jsondata ={
+		initValue : [],
+		compartmentValue : [],
 		localParamValue : [],
 		paramValue : []
 }
@@ -135,6 +137,8 @@ function callback( responseData ){
 	configureTable( responseData );
 	if( currentFile != $("#paraFile")[ 0 ].files[ 0 ].name){
 		parameter_jsondata ={
+				initValue : [],
+				compartmentValue : [],
 				localParamValue : [],
 				paramValue : []
 		};
@@ -329,6 +333,7 @@ function addLocalParamSlider( responseData ){
 				})
 				filtered[ 0 ].lower = ui.values[ 0 ];
 				filtered[ 0 ].upper = ui.values[ 1 ];
+				filtered[ 0 ].parameterValue =  (ui.values[ 1 ] + ui.values[ 0 ])  / 2 ;
 			},
 			create : function( e , ui){
 				$("#" + this.id + "_lower_input").val($(this).slider("option","values")[0])
@@ -356,7 +361,7 @@ function addGlobalParamSlider( responseData ){
 	var globalParamSlider = document.getElementById("globalParam-slider");
 	
 	$("#globalParam-slider").empty();
-	parameter_jsondata.globalParamValue = [];
+	parameter_jsondata.paramValue = [];
 	
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -394,7 +399,7 @@ function addGlobalParamSlider( responseData ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
 		}
 		
-		parameter_jsondata.globalParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 });
+		parameter_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 });
 		$("#" + parameterValue[ i ].sbmlID).slider( {
 			min : 0 ,
 			max : parameterValue[ i ].parameterValue * 200,
@@ -405,11 +410,12 @@ function addGlobalParamSlider( responseData ){
 				$("#" + this.id + "_lower_input").val( ui.values[0]);
 				$("#" + this.id + "_upper_input").val( ui.values[1]);
 				var sbmlId = this.id;
-				var filtered = $.grep( parameter_jsondata.globalParamValue , function( elem , index){
+				var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
 					return( elem.sbmlID == sbmlId);
 				})
 				filtered[ 0 ].lower = ui.values[ 0 ];
 				filtered[ 0 ].upper = ui.values[ 1 ];
+				filtered[ 0 ].parameterValue =  (ui.values[ 1 ] + ui.values[ 0 ])  / 2 ;
 			},
 			create : function( e , ui){
 				$("#" + this.id + "_lower_input").val($(this).slider("option","values")[0])
