@@ -11,3 +11,6 @@ $(".param-param").on("keypress" , function( e ){
 $("#algorithm").change( function(){
 	configureAlgorithmForm();
 })
+$("#paraFile").on("change" , function(){
+	showExpFile();
+})

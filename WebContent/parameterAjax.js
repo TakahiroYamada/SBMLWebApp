@@ -1,6 +1,11 @@
 var sessionId = "";
 var beforeChart;
 var afterChart;
+var currentFile = null;
+var parameter_jsondata ={
+		localParamValue : [],
+		paramValue : []
+}
 var canvas_jsondata_Before = {
 	      type: 'line',
 	      data: {
@@ -60,7 +65,6 @@ var canvas_jsondata_After = {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
 	                max: 100,
-	                stepSize: 1
 	              }
 	            }],
 	            yAxes: [{
@@ -68,7 +72,6 @@ var canvas_jsondata_After = {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
 	                max: 200,
-	                stepSize: 1
 	              }
 	            }]
 	          }
@@ -88,7 +91,6 @@ function analyzeData( loadingObject ){
 	var model_file = document.getElementById("paraFile");
 	var exp_file = document.getElementById("expData");
 	var progressBar = document.getElementById("progress");
-
 	
 	var SBML_file = model_file.files[ 0 ];
 	var Exp_file = exp_file.files[ 0 ];
@@ -131,10 +133,23 @@ function analyzeData( loadingObject ){
 function callback( responseData ){
 	configureCanvas( responseData );
 	configureTable( responseData );
+	if( currentFile != $("#paraFile")[ 0 ].files[ 0 ].name){
+		parameter_jsondata ={
+				localParamValue : [],
+				paramValue : []
+		};
+		$("#globalParam-slider").empty();
+		$("#localParam-slider").empty();
+		addLocalParamSlider( responseData );
+		addGlobalParamSlider( responseData );
+		currentFile = $("#paraFile")[ 0 ].files[ 0 ].name;
+	}
 	$("#download").removeClass("disabled")
 }
 
 function configureCanvas( responseData ){
+	$("#graph-contents").show();
+	$("#tabParameter").show();
 	var canvas_before = document.getElementById("beforeCanvas");
 	var canvas_after = document.getElementById("afterCanvas");
 		
@@ -182,8 +197,14 @@ function configureTable( responseData ){
 	for( var i = 0 ; i < parameterTransitData.length ; i ++){
 		var tmpData = {};
 		paramData = parameterTransitData[ i ].parameterId;
-		tmpData["Reaction"] = paramData.match(/\((.+)\)/)[1];
-		tmpData["Parameter"] = paramData.substr( paramData.indexOf(".") + 1);
+		if( parameterTransitData[ i ].global ){
+			tmpData["Reaction"] = "";
+			tmpData["Parameter"] = paramData.substr( paramData.indexOf("[") + 1 , paramData.indexOf("]") - paramData.indexOf("[") - 1);
+		}
+		else{
+			tmpData["Reaction"] = paramData.match(/\((.+)\)/)[1];
+			tmpData["Parameter"] = paramData.substr( paramData.indexOf(".") + 1);
+		}
 		tmpData["Start"] = parameterTransitData[ i ].startValue;
 		tmpData["Update"] = parameterTransitData[ i ].updatedValue;
 		tmpData["Unit"] = parameterTransitData[ i ].unit;
@@ -216,6 +237,7 @@ function configureFormData( formdata ){
 		formdata.append("randomNumGenerator" , document.getElementById("difevolran").value);
 		formdata.append("seed" , document.getElementById("difevolseed").value);
 	}
+	formdata.append("parameter" , JSON.stringify( parameter_jsondata ));
 		
 }
 function configureAlgorithmForm(){
@@ -240,6 +262,171 @@ function configureAlgorithmVisualization( algorithm ){
 	document.getElementById("difevolparam").style = "display:none";
 	
 	document.getElementById( algorithm ).style = "diplay:block";
+}
+function addLocalParamSlider( responseData ){
+	var JSONResponse = responseData;
+	var parameterValue = JSONResponse.modelParameters.localParamValue;
+	var localParamSlider = document.getElementById("localParam-slider");
+	
+	$("#localParam-slider").empty();
+	parameter_jsondata.localParamValue = [];
+	
+	for( var i = 0 ; i < parameterValue.length ; i ++){
+		var stepSize = 0;
+		var newDiv = document.createElement("div");
+		var newParam = document.createElement("p");
+		
+		if(  parameterValue[ i ].reactionName && parameterValue[ i ].sbmlName){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionName + " : " +parameterValue[ i ].sbmlName));
+		}
+		else if( !(parameterValue[ i ].reactionName) && parameterValue[ i ].sbmlName){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionID + " : " +parameterValue[ i ].sbmlName));
+		}
+		else if ( parameterValue[ i ].reactionName && !(parameterValue[ i ].sbmlName)){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionName + " : " +parameterValue[ i ].sbmlID));
+		}
+		else{
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionID + " : " +parameterValue[ i ].sbmlID));
+		}
+		
+		var newParamSlider = document.createElement("div");
+		newParamSlider.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID);
+		
+		var newLowerInputText = document.createElement("input");
+		newLowerInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input");
+		newLowerInputText.setAttribute("type","text")
+		
+		var newUpperInputText = document.createElement("input");
+		newUpperInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input");
+		newUpperInputText.setAttribute("type","text")
+		
+		newLowerInputText.setAttribute("style" , "display:inline-block ;width : 20%; text-align:center")
+		newParamSlider.setAttribute("style" , "display:inline-block ; width : 50% ;text-align:center")
+		newUpperInputText.setAttribute("style" , "display:inline-block ;width : 20% ; text-align:center")
+		
+		newDiv.appendChild( newParam );
+		newDiv.appendChild( newLowerInputText );
+		newDiv.appendChild( newParamSlider );
+		newDiv.appendChild( newUpperInputText );
+		localParamSlider.appendChild( newDiv );
+		if( parameterValue[ i ].parameterValue != 0.0 ){
+			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
+		}
+		
+		parameter_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider( {
+			min : 0 ,
+			max : parameterValue[ i ].parameterValue * 200,
+			step : stepSize,
+			range : true,
+			values : [ parameterValue[ i ].parameterValue * 0.01 , parameterValue[ i ].parameterValue * 100 ],
+			change : function( e , ui ){
+				$("#" + this.id + "_lower_input").val( ui.values[0]);
+				$("#" + this.id + "_upper_input").val( ui.values[1]);
+				var sbmlId = this.id;
+				var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
+					return( elem.jsID == sbmlId);
+				})
+				filtered[ 0 ].lower = ui.values[ 0 ];
+				filtered[ 0 ].upper = ui.values[ 1 ];
+			},
+			create : function( e , ui){
+				$("#" + this.id + "_lower_input").val($(this).slider("option","values")[0])
+				$("#" + this.id + "_upper_input").val($(this).slider("option","values")[1])
+			}
+		});
+		
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input").change( function(){
+			console.log( parameterValue[ i ]);
+			$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
+			$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
+		});
+		
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input").change( function(){
+			$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
+			$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
+		});
+		
+		
+	}
+}
+function addGlobalParamSlider( responseData ){
+	var JSONResponse = responseData;
+	var parameterValue = JSONResponse.modelParameters.paramValue;
+	var globalParamSlider = document.getElementById("globalParam-slider");
+	
+	$("#globalParam-slider").empty();
+	parameter_jsondata.globalParamValue = [];
+	
+	for( var i = 0 ; i < parameterValue.length ; i ++){
+		var stepSize = 0;
+		var newDiv = document.createElement("div");
+		var newParam = document.createElement("p");
+		
+		if( parameterValue[ i ].sbmlName ){
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlName));
+		}
+		else{
+			newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlID));
+		}
+		
+		var newParamSlider = document.createElement("div");
+		newParamSlider.setAttribute("id", parameterValue[ i ].sbmlID);
+		
+		var newLowerInputText = document.createElement("input");
+		newLowerInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_lower_input");
+		newLowerInputText.setAttribute("type","text")
+		
+		var newUpperInputText = document.createElement("input");
+		newUpperInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_upper_input");
+		newUpperInputText.setAttribute("type","text")
+		
+		newLowerInputText.setAttribute("style" , "display:inline-block ;width : 20%; text-align:center")
+		newParamSlider.setAttribute("style" , "display:inline-block ; width : 50% ;text-align:center")
+		newUpperInputText.setAttribute("style" , "display:inline-block ;width : 20% ; text-align:center")
+		
+		newDiv.appendChild( newParam );
+		newDiv.appendChild( newLowerInputText );
+		newDiv.appendChild( newParamSlider );
+		newDiv.appendChild( newUpperInputText );
+		globalParamSlider.appendChild( newDiv );
+		if( parameterValue[ i ].parameterValue != 0.0 ){
+			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
+		}
+		
+		parameter_jsondata.globalParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 });
+		$("#" + parameterValue[ i ].sbmlID).slider( {
+			min : 0 ,
+			max : parameterValue[ i ].parameterValue * 200,
+			step : stepSize,
+			range : true,
+			values : [ parameterValue[ i ].parameterValue * 0.01 , parameterValue[ i ].parameterValue * 100 ],
+			change : function( e , ui ){
+				$("#" + this.id + "_lower_input").val( ui.values[0]);
+				$("#" + this.id + "_upper_input").val( ui.values[1]);
+				var sbmlId = this.id;
+				var filtered = $.grep( parameter_jsondata.globalParamValue , function( elem , index){
+					return( elem.sbmlID == sbmlId);
+				})
+				filtered[ 0 ].lower = ui.values[ 0 ];
+				filtered[ 0 ].upper = ui.values[ 1 ];
+			},
+			create : function( e , ui){
+				$("#" + this.id + "_lower_input").val($(this).slider("option","values")[0])
+				$("#" + this.id + "_upper_input").val($(this).slider("option","values")[1])
+			}
+		});
+		
+		$("#" + parameterValue[ i ].sbmlID + "_lower_input").change( function(){
+			$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
+			$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
+		});
+		
+		$("#" + parameterValue[ i ].sbmlID + "_upper_input").change( function(){
+			$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
+			$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
+		});
+	}
 }
 function showBeforeFitting(){
 	var checkBox = document.getElementById("before-fitting");

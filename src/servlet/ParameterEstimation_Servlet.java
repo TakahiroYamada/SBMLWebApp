@@ -16,13 +16,15 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.thoughtworks.xstream.core.util.Fields;
+import com.thoughtworks.xstream.alias.ClassMapper.Null;
 
 import analyze.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
+import beans.modelparameter.ModelParameter_Beans;
 import beans.parameter.ParameterEstimation_AllBeans;
 import coloring.Coloring;
 import general.unique_id.UniqueId;
+import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
 import parameter.ParameterEstimation_Parameter;
 import parameter.Simulation_Parameter;
@@ -39,13 +41,14 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 	private List<FileItem> fields;
 	private ParameterEstimation_AllBeans paramBeans;
 	private ParameterEstimation_Parameter paramestParam;
+	private ModelParameter_Beans sbmlParam;
 	private Simulation_Parameter paramSim;
 	private Coloring colorOfVis;
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		sessionCheck(request, upload);
@@ -55,12 +58,14 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		path = getServletContext().getRealPath("/tmp/" + sessionId);
 		paramBeans = new ParameterEstimation_AllBeans();
 		configureAnalysisEmvironment(request, upload);
-
+		
+		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( SBMLFile );
+		
 		// COPASI ParameterEstimation Execution
 		ParameterEstimation_COPASI paramEstCopasi = new ParameterEstimation_COPASI(paramestParam, SBMLFile,
-				ExperimentFile);
+				ExperimentFile , sbmlParam );
 		paramEstCopasi.estimateParameter();
-
+		
 		// The simulation in order to visualize in Client side using parameters
 		// before parameter fitting
 		simulateFittedResult(paramEstCopasi);
@@ -71,6 +76,8 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 
 		// Session ID is set
 		paramBeans.setSessionId(this.sessionId);
+		
+		paramBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
 		// response to client side sending JSON format data
 		String jsonParamEst = JSON.encode(paramBeans, true);
 		response.setContentType("application/json;charset=UTF-8");
@@ -146,7 +153,11 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} else if (item.getFieldName().equals("algorithm")) {
+			} 
+			else if( item.getFieldName().equals("parameter")){
+				this.sbmlParam = JSON.decode( item.getString() , ModelParameter_Beans.class );
+			}
+			else if (item.getFieldName().equals("algorithm")) {
 				paramestParam.setMethod(item.getString());
 			}
 			// If Leven-Berg , Nelder or Particle Swarm is selected

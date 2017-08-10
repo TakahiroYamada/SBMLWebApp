@@ -1,7 +1,5 @@
 package beans.steadystate;
 
-import java.util.jar.Attributes.Name;
-
 public class SteadyState_SteadyAmountBeans {
 	private String name;
 	private String type;

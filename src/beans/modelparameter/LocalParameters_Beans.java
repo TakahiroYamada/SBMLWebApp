@@ -18,5 +18,4 @@ public class LocalParameters_Beans extends Parameters_Beans{
 	public void setReactionID(String reactionID) {
 		this.reactionID = reactionID;
 	}
-	
 }

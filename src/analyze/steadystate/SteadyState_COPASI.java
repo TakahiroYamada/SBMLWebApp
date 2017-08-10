@@ -8,23 +8,15 @@ import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import javax.naming.ConfigurationException;
-
 import org.COPASI.CArrayAnnotation;
 import org.COPASI.CCopasiDataModel;
 import org.COPASI.CCopasiParameter;
 import org.COPASI.CCopasiRootContainer;
 import org.COPASI.CCopasiTask;
 import org.COPASI.CModelEntity;
-import org.COPASI.CModelValue;
 import org.COPASI.CSteadyStateTask;
 import org.COPASI.SizeTStdVector;
 import org.COPASI.StringStdVector;
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import com.ctc.wstx.sw.EncodingXmlWriter;
-import com.thoughtworks.xstream.core.util.Fields;
-
 import beans.steadystate.SteadyState_AllBeans;
 import beans.steadystate.SteadyState_JacobianBeans;
 import beans.steadystate.SteadyState_JacobianColumnBeans;

@@ -1,11 +1,7 @@
 package analyze.simulation;
-import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 import org.COPASI.*;
-
-import com.thoughtworks.xstream.alias.ClassMapper.Null;
 
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
@@ -76,10 +72,10 @@ public class Simulation_COPASI {
         
         CTrajectoryProblem simProblem = ( CTrajectoryProblem )simTrajekTask.getProblem();
         
-        simProblem.setStepNumber((long) simParam.getNumTime());
+        simProblem.setStepNumber(simParam.getNumTime());
         dataModel.getModel().setInitialTime( 0.0 );
         
-        simProblem.setDuration((long) simParam.getEndTime() );
+        simProblem.setDuration(simParam.getEndTime() );
         simProblem.setTimeSeriesRequested( true );
         
         CTrajectoryMethod simMethod = ( CTrajectoryMethod )simTrajekTask.getMethod();

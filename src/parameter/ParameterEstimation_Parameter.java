@@ -1,8 +1,6 @@
 package parameter;
 
-import org.COPASI.CCopasiDataModel;
 import org.COPASI.CTaskEnum;
-import org.apache.commons.math.stat.descriptive.StatisticalMultivariateSummary;
 
 public class ParameterEstimation_Parameter extends Abstract_Parameter{
 	

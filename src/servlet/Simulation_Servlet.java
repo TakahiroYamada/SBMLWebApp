@@ -1,41 +1,26 @@
 package servlet;
 
-import java.awt.Color;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
 import java.util.logging.Logger;
 
-import javax.naming.ConfigurationException;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.COPASI.CTimeSeries;
-import org.COPASI.SWIGTYPE_p_CMath__SimulationType;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
-import org.sbml.jsbml.validator.SyntaxChecker;
-
 import analyze.simulation.Simulation_COPASI;
 import analyze.simulation.Simulation_SBSCL;
 import beans.modelparameter.ModelParameter_Beans;
 import beans.simulation.Simulation_AllBeans;
-import beans.simulation.Simulation_DatasetsBeans;
-import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
 import general.unique_id.UniqueId;
 import manipulator.SBML_Manipulator;
@@ -98,7 +83,7 @@ public class Simulation_Servlet extends HttpServlet {
 		else if( param.getLibrary().equals("simulationcore")){
 			// TODO: implement
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
-			colorOfVis = new Coloring( (int) simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
+			colorOfVis = new Coloring( simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
 			this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
 			this.simulationBeans.setSessionId( this.sessionId );
 		}

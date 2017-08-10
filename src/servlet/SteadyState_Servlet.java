@@ -37,10 +37,9 @@ public class SteadyState_Servlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		saveFileName =  path + "/result_steadystate.txt";
 		
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
@@ -50,6 +49,7 @@ public class SteadyState_Servlet extends HttpServlet {
 			sessionId = UniqueId.getUniqueId();
 		}
 		path = getServletContext().getRealPath("/tmp/" + sessionId );
+		saveFileName =  path + "/result_steadystate.txt";
 		configureAnalysisEmvironment( request , upload );
 		// Execute steady state analysis with COPASI
 		if( stedParam.getLibrary().equals("copasi") ){

@@ -26,11 +26,16 @@ import org.COPASI.CFitProblem;
 import org.COPASI.CFitTask;
 import org.COPASI.CKeyFactory;
 import org.COPASI.CMetab;
+import org.COPASI.CModelEntity;
+import org.COPASI.CModelValue;
+import org.COPASI.CObjectInterface;
 import org.COPASI.COptItem;
 import org.COPASI.CReaction;
 import org.COPASI.CTaskEnum;
 import org.COPASI.FloatMatrix;
 import org.COPASI.FloatVector;
+
+import beans.modelparameter.ModelParameter_Beans;
 import beans.parameter.ParameterEstimation_UpdateInformationBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
@@ -50,11 +55,12 @@ public class ParameterEstimation_COPASI {
 	private CCopasiDataModel dataModel;
 	private CExperimentSet experimentSet;
 	private ParameterEstimation_Parameter paramestParam;
-	
-	public ParameterEstimation_COPASI( ParameterEstimation_Parameter paramestParam , File SBML , File Exp){
+	private ModelParameter_Beans sbmlParameter;
+	public ParameterEstimation_COPASI( ParameterEstimation_Parameter paramestParam , File SBML , File Exp , ModelParameter_Beans sbmlParameter){
 		this.paramestParam = paramestParam;
 		this.SBMLFile = SBML;
 		this.ExperimentFile = Exp;
+		this.sbmlParameter = sbmlParameter;
 	}
 	
 	public CCopasiDataModel getDataModel() {
@@ -125,22 +131,54 @@ public class ParameterEstimation_COPASI {
 		//Preprocess : Preparing the optimized parameter set
 		CCopasiParameterGroup optimizationItemGroup = (CCopasiParameterGroup) fitProblem.getParameter("OptimizationItemList");
 		List<CCopasiParameter> paramList = new ArrayList<>();
-		
+		List<String> globalParamCheck = new ArrayList<>();
 		for( int i = 0 ; i < dataModel.getModel().getNumReactions() ; i ++){
-			CReaction reaction = dataModel.getModel().getReaction( i );
+			CReaction reaction = dataModel.getModel().getReaction( i );			
 			for( int j = 0 ; j < reaction.getParameters().size() ; j ++){
+				String objDipName = reaction.getParameters().getParameter( j ).getObjectDisplayName();
+				String reactionId = objDipName.substring( objDipName.indexOf("(") + 1 , objDipName.indexOf(")"));
+				String parameterId = objDipName.substring( objDipName.indexOf(")") + 2);
+				
+				
 				CCopasiParameter parameter = reaction.getParameters().getParameter( j );
 				CCopasiObject parameterReference = parameter.getValueReference();
 				CFitItem fitItem = new CFitItem( dataModel );
-				fitItem.setObjectCN( parameterReference.getCN());
-				fitItem.setStartValue( parameter.getDblValue() );
-				//Following Lower and Upper bound is selected by User in future
-				fitItem.setLowerBound( new CCopasiObjectName( new Double( parameter.getDblValue() / 1000).toString()));
-				fitItem.setUpperBound( new CCopasiObjectName( new Double( parameter.getDblValue() * 10 ).toString() ));
-				optimizationItemGroup.addParameter( fitItem );
 				
-				// paramList contains the parameter for each order of parameter in COptItemList got by CFitProblem
-				paramList.add( parameter );
+				// For local parameter
+				if( dataModel.getModel().getModelValues().getObjectFromCN( parameterReference.getCN() ) != null ){
+					fitItem.setObjectCN( parameterReference.getCN());
+					fitItem.setStartValue( parameter.getDblValue() );
+					if( sbmlParameter.getLocalParamValue().length == 0 ){
+						fitItem.setLowerBound( new CCopasiObjectName( new Double( parameter.getDblValue() / 1000).toString()));
+						fitItem.setUpperBound( new CCopasiObjectName( new Double( parameter.getDblValue() * 10 ).toString() ));
+					}
+					else{
+						fitItem.setLowerBound( new CCopasiObjectName( sbmlParameter.getLocalParametersById( reactionId , parameterId).getLower().toString()));
+						fitItem.setUpperBound( new CCopasiObjectName( sbmlParameter.getLocalParametersById( reactionId , parameterId).getUpper().toString()));
+					}
+					optimizationItemGroup.addParameter( fitItem );
+					// paramList contains the parameter for each order of parameter in COptItemList got by CFitProblem
+					paramList.add( parameter );
+				}
+				// For global parameter
+				else if( !globalParamCheck.contains( parameterId )){
+					CModelValue globalParam = dataModel.getModel().getModelValue( parameterId );
+					
+					fitItem.setObjectCN( globalParam.getInitialValueReference().getCN() );
+					fitItem.setStartValue( parameter.getDblValue() );
+					if( sbmlParameter.getParamValue().length == 0 ){
+						fitItem.setLowerBound( new CCopasiObjectName( new Double( parameter.getDblValue() / 1000).toString()));
+						fitItem.setUpperBound( new CCopasiObjectName( new Double( parameter.getDblValue() * 10 ).toString() ));
+					}
+					else{
+						fitItem.setLowerBound( new CCopasiObjectName( sbmlParameter.getGlobalParameterById( parameterId ).getLower().toString()));
+						fitItem.setUpperBound( new CCopasiObjectName( sbmlParameter.getGlobalParameterById( parameterId ).getUpper().toString()));
+					}
+					optimizationItemGroup.addParameter( fitItem );
+					// paramList contains the parameter for each order of parameter in COptItemList got by CFitProblem
+					paramList.add( parameter );
+					globalParamCheck.add( parameterId );
+				}
 			}
 		}
 		
@@ -218,6 +256,12 @@ public class ParameterEstimation_COPASI {
 		for( String key : optimizedParam.keySet() ){
 			paramEstInfo[ count ] = new ParameterEstimation_UpdateInformationBeans();
 			paramEstInfo[ count ].setParameterId( key );
+			if( key.startsWith("(")){
+				paramEstInfo[ count ].setGlobal( false );
+			}
+			else{
+				paramEstInfo[ count ].setGlobal( true );
+			}
 			paramEstInfo[ count ].setStartValue( boptimizedParam.get( key ));
 			paramEstInfo[ count ].setUpdatedValue( optimizedParam.get( key ));
 			if( !paramUnit.get( key ).isEmpty() ){

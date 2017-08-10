@@ -1,8 +1,5 @@
 package coloring;
 
-import java.awt.Color;
-import java.util.Random;
-
 import inra.ijpb.util.ColorMaps;
 
 public class Coloring {

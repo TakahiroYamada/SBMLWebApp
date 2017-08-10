@@ -5,6 +5,7 @@ public class ParameterEstimation_UpdateInformationBeans {
 	private double startValue;
 	private double updatedValue;
 	private String unit;
+	private boolean global;
 	public String getParameterId() {
 		return parameterId;
 	}
@@ -28,6 +29,12 @@ public class ParameterEstimation_UpdateInformationBeans {
 	}
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+	public boolean isGlobal() {
+		return global;
+	}
+	public void setGlobal(boolean global) {
+		this.global = global;
 	}
 	
 }

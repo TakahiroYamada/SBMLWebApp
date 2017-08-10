@@ -1,5 +1,7 @@
 package beans.modelparameter;
 
+import org.eclipse.jdt.internal.compiler.ast.ReturnStatement;
+
 public class ModelParameter_Beans {
 	private InitialValue_Beans initValue[];
 	private Parameters_Beans paramValue[];
@@ -28,5 +30,21 @@ public class ModelParameter_Beans {
 	}
 	public void setCompartmentValue(Compartment_Beans[] compartmentValue) {
 		this.compartmentValue = compartmentValue;
+	}
+	public LocalParameters_Beans getLocalParametersById( String reId , String paraId){
+		for( int i = 0 ; i < this.localParamValue.length ; i ++){
+			if( this.localParamValue[ i ].getReactionID().equals( reId) && this.localParamValue[ i ].getSbmlID().equals( paraId )){
+				return localParamValue[ i ];
+			}
+		}
+		return null;
+	}
+	public Parameters_Beans getGlobalParameterById( String paraId){
+		for( int i = 0 ; i < this.paramValue.length ; i ++){
+			if( this.paramValue[ i ].getSbmlID().equals( paraId )){
+				return this.paramValue[ i ];
+			}
+		}
+		return null;
 	}
 }

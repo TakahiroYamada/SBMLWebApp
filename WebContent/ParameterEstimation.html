@@ -56,7 +56,7 @@
 	<div id = "setting">
 		<p id = "file-upload"> Files to upload :  </p>
 		<p id = "model-upload"> Model File(SBML) : </p>
-		<input id = "paraFile" type = "file" size = "50" onchange = "showExpFile();" accept = ".xml">
+		<input id = "paraFile" type = "file" size = "50" accept = ".xml">
 		<div id = "expFile" style="display:none">
 			<p id = "exp-upload"> Experiment Data : </p>
 			<input id = "expData" type = "file" size = "50" accept = ".txt , .csv">
@@ -90,33 +90,60 @@
 			Seed :  <input id = "difevolseed" class = "param-param" type = "number" value = "0"> <br/>
 		</div>
 	</div>
-	<button type = "button" id = "paramButton" name = "paramButton"> Execute </button>
+	<button type = "button" class = "btn btn-primary"id = "paramButton" name = "paramButton"> Execute </button>
 	<progress id = "progress" value = "0" max = "100"> </progress>
 	<h3> Result of Analysis</h3>
-	<div class = "tabResult">
-		<ul class = "nav nav-tabs">
-			<li class = "nav-item">
-				<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View </a>
-			</li>
-			<li class = "nav-item">	
-				<a href="#numTable" class = "nav-link" data-toggle = "tab" > Numerical Table</a>
-			</li>
-			<li class = "nav-item">
-				<a href="#" class = "nav-link disabled" id = "download" data-toggle = "tab" onclick = "downloadData();"> Download Data</a>
-			</li>
-		</ul>
-		<div class = "tab-content">
-			<div id = "graph" class = "tab-pane active">
-				<input type="checkbox" id = "before-fitting" onchange="showBeforeFitting();"> Before Fitting
-				<div id="before-graph" style="display:none">
-					<canvas id="beforeCanvas" height="50" width="100"></canvas>
+	<div class = "conteiner-fluid" id = "result-container">
+		<div class = "tabResult">
+			<ul class = "nav nav-tabs">
+				<li class = "nav-item">
+					<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View </a>
+				</li>
+				<li class = "nav-item">	
+					<a href="#numTable" class = "nav-link" data-toggle = "tab" > Numerical Table</a>
+				</li>
+				<li class = "nav-item">
+					<a href="#" class = "nav-link disabled" id = "download" data-toggle = "tab" onclick = "downloadData();"> Download Data</a>
+				</li>
+			</ul>
+			<div class = "tab-content">
+				<div id = "graph" class = "tab-pane active">
+					<div class = "row">
+						<div class = "col-8" id = "graph-contents" style = "display:none">
+							<input type="checkbox" id = "before-fitting" onchange="showBeforeFitting();"> Before Fitting
+							<div id="before-graph" style="display:none">
+								<canvas id="beforeCanvas" height="50" width="100"></canvas>
+							</div>
+							<div id = "after-graph" style="display:block">
+								<canvas id="afterCanvas" height="50" width="100"></canvas>
+							</div>
+						</div>
+						<div class = "col-4" id = "tabParameter" style = "display:none">
+							<ul class = "nav nav-tabs" id = "tab-parameter">
+								<li class = "nav-item dropdown">
+									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
+									<div class = "dropdown-menu">
+										<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle =  "tab"> Local Parameters</a>
+										<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle =  "tab"> Global Parameters</a>
+									</div>									
+								</li>
+							</ul>
+							<div class = "tab-content">
+								<div id = "localParam" class = "tab-pane active">
+									<div id = "localParam-slider">
+									</div>
+								</div>
+								<div id = "globalParam" class = "tab-pane">
+									<div id = "globalParam-slider">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>	
 				</div>
-				<div id = "after-graph" style="display:block">
-					<canvas id="afterCanvas" height="50" width="100"></canvas>
-				</div>	
-			</div>
-			<div id = "numTable" class = "tab-pane">
-				<div id = "num-table">
+				<div id = "numTable" class = "tab-pane">
+					<div id = "num-table">
+					</div>
 				</div>
 			</div>
 		</div>

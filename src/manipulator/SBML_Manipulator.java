@@ -5,9 +5,6 @@ import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.COPASI.DataModelVector;
-import org.sbml.jsbml.KineticLaw;
-import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
@@ -15,8 +12,6 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.validator.SyntaxChecker;
-
 import beans.modelparameter.Compartment_Beans;
 import beans.modelparameter.InitialValue_Beans;
 import beans.modelparameter.LocalParameters_Beans;
@@ -122,7 +117,7 @@ public class SBML_Manipulator {
 			
 			param_Beans[ i ].setSbmlName( document.getModel().getParameter( i ).getName() );
 			param_Beans[ i ].setSbmlID( document.getModel().getParameter( i ).getId());
-			
+			System.out.println( document.getModel().getParameter( i ).getId() );
 		}
 		return param_Beans;
 	}

@@ -3,7 +3,6 @@ package analyze.simulation;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
@@ -11,13 +10,11 @@ import javax.xml.stream.XMLStreamException;
 import org.COPASI.CCopasiDataModel;
 import org.COPASI.CCopasiRootContainer;
 import org.COPASI.CModelEntity;
-import org.COPASI.DataModelVector;
 import org.apache.commons.math.ode.DerivativeException;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.validator.ModelOverdeterminedException;
-import org.simulator.math.odes.DESSolver;
 import org.simulator.math.odes.MultiTable;
 import org.simulator.math.odes.RosenbrockSolver;
 import org.simulator.sbml.SBMLinterpreter;
@@ -49,7 +46,7 @@ public class Simulation_SBSCL {
 	}
 	public void simulation(){
 		double stepSize = (double) simParam.getEndTime() / (double) simParam.getNumTime();
-		double timeEnd = (double) simParam.getEndTime();
+		double timeEnd = simParam.getEndTime();
 		//DESSolver solver = new RosenbrockSolver();
 		RosenbrockSolver solver = new RosenbrockSolver();
 		solver.setStepSize( stepSize);
