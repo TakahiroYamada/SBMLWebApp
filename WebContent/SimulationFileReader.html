@@ -130,39 +130,41 @@
 					</div>
 				</div>
 				<div class = "graph-contents" id = "tabParameter" style = "display:none">
-					<ul class = "nav nav-tabs" id = "tab-parameter">
-						<li class="nav-item">
-							<a href="#initialValue" id = "init-item" class = "nav-link" data-toggle="tab">Species ( Initial Amount )</a>
-						</li>
-						<li class = "nav-item">
-							<a href="#compartmentValue" id = "comp-item" class = "nav-link" data-toggle="tab"> Compartment</a>						
-						</li>
-						<li class ="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
-							<div class = "dropdown-menu">
-								<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle = "tab"> Local Parameters</a>
-								<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle = "tab"> Global Parameters</a>
+					<nav class = "navbar">
+						<ul class = "nav nav-pills nav-stacked" id = "tab-parameter">
+							<li class="nav-item">
+								<a href="#initialValue" id = "init-item" class = "nav-link" data-toggle="tab">Species ( Initial Amount )</a>
+							</li>
+							<li class = "nav-item">
+								<a href="#compartmentValue" id = "comp-item" class = "nav-link" data-toggle="tab"> Compartment</a>						
+							</li>
+							<li class ="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
+								<div class = "dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+									<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle = "tab"> Local Parameters</a>
+									<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle = "tab"> Global Parameters</a>
+								</div>
+							</li>
+						</ul>
+						<div class = "tab-content">
+							<div id = "initialValue" class = "tab-pane active">
+								<div id = "initialValue-slider">
+								</div>
 							</div>
-						</li>
-					</ul>
-					<div class = "tab-content">
-						<div id = "initialValue" class = "tab-pane active">
-							<div id = "initialValue-slider">
+							<div id = "compartmentValue" class = "tab-pane">
+								<div id = "compartmentValue-slider">
+								</div>
+							</div>
+							<div id = "localParam" class = "tab-pane">
+								<div id = "localParam-slider">
+								</div>
+							</div>
+							<div id = "globalParam" class = "tab-pane">
+								<div id = "globalParam-slider">
+								</div>
 							</div>
 						</div>
-						<div id = "compartmentValue" class = "tab-pane">
-							<div id = "compartmentValue-slider">
-							</div>
-						</div>
-						<div id = "localParam" class = "tab-pane">
-							<div id = "localParam-slider">
-							</div>
-						</div>
-						<div id = "globalParam" class = "tab-pane">
-							<div id = "globalParam-slider">
-							</div>
-						</div>
-					</div>
+					</nav>
 				</div>
 			</div>
 			<div id = "numTable" class = "tab-pane">

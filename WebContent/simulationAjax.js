@@ -220,7 +220,7 @@ function addInitialValueSlider( responseData){
 		
 		var newInputText = document.createElement("input");
 		newInputText.setAttribute("id", initialValue[ i ].sbmlID + "_input");
-		newInputText.setAttribute("type","text")
+		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
 		newParamSlider.setAttribute("style","display:inline-block;width:50%;text-align:center");
@@ -259,10 +259,14 @@ function addInitialValueSlider( responseData){
 			}
 		});
 		// text box edition
-		$("#" + initialValue[ i ].sbmlID + "_input").change( function(){
-			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+		$("#" + initialValue[ i ].sbmlID + "_input").on("keypress" , function(e){
+			if( e.which == 13 ){
+				if( !errorCheck()){
+					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
+					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
+					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+				}
+			}
 		});
 	}
 }
@@ -296,7 +300,7 @@ function addGlobalParameterValueSlider(){
 		
 		var newInputText = document.createElement("input");
 		newInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_input");
-		newInputText.setAttribute("type","text")
+		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
 		newParamSlider.setAttribute("style","display:inline-block;width:50%;text-align:center");
@@ -332,10 +336,14 @@ function addGlobalParameterValueSlider(){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
-		$("#" + parameterValue[ i ].sbmlID + "_input").change( function(){
-			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+		$("#" + parameterValue[ i ].sbmlID + "_input").on( "keypress", function( e ){
+			if( e.which == 13 ){
+				if( !errorCheck()){
+					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
+					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
+					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val());
+				}
+			}
 		});
 	}
 }
@@ -369,7 +377,7 @@ function addCompartmentSlider(){
 		
 		var newInputText = document.createElement("input");
 		newInputText.setAttribute("id", compartmentValue[ i ].sbmlID + "_input");
-		newInputText.setAttribute("type","text")
+		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
 		newParamSlider.setAttribute("style","display:inline-block;width:50%;text-align:center");
@@ -405,10 +413,14 @@ function addCompartmentSlider(){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
-		$("#" + compartmentValue[ i ].sbmlID + "_input").change( function(){
-			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+		$("#" + compartmentValue[ i ].sbmlID + "_input").on("keypress" ,  function( e ){
+			if( e.which == 13 ){
+				if( !errorCheck()){
+					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
+					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
+					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+				}
+			}
 		});
 	}
 }
@@ -449,7 +461,7 @@ function addLocalParameterValueSlider(){
 		
 		var newInputText = document.createElement("input");
 		newInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input");
-		newInputText.setAttribute("type","text")
+		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
 		newParamSlider.setAttribute("style","display:inline-block;width:50%;text-align:center");
@@ -484,10 +496,14 @@ function addLocalParameterValueSlider(){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input").change( function(){
-			$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-			$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-			$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input").on("keypress" , function( e ){
+			if( e.which == 13 ){
+				if( !errorCheck()){
+					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
+					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
+					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val());
+				}
+			}
 		});
 	}
 }
