@@ -7,6 +7,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <link href="./tabulator/dist/css/tabulator.min.css" rel="stylesheet">
+<link href="./MDB-Free/css/mdb.min.css" rel ="stylesheet">
 <link href="./bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css" rel = "stylesheet">
 <link href="./css/Header.css" rel = "stylesheet">
 <link href="./css/ParameterEstimation.css" rel="stylesheet">
@@ -53,41 +54,146 @@
 		</div>
 	</header>
 	<h3> Settings of Analysis</h3>
-	<div id = "setting">
-		<p id = "file-upload"> Files to upload :  </p>
-		<p id = "model-upload"> Model File(SBML) : </p>
-		<input id = "paraFile" type = "file" size = "50" accept = ".xml">
-		<div id = "expFile" style="display:none">
-			<p id = "exp-upload"> Experiment Data : </p>
-			<input id = "expData" type = "file" size = "50" accept = ".txt , .csv">
-			<br/>
-			Algorithm <select id = "algorithm" size = "1">
-			<option value = "lv">Leven-Berg Marquardt</option>
-			<option value = "nelder"> NelderMead </option>
-			<option value = "particleSwarm"> Particle Swarm Optimization</option>
-			<option value = "diffEvol"> Differential Evolution</option>
-			</select>
+	<div id = "setting" class = "container-fluid">
+		<div class = "row">
+			<div class = "col-4">
+				<p id = "file-upload"> Files to upload :  </p>
+			</div>
 		</div>
-		<br/>
+		<div class = "row">
+			<div class = "col-4">
+				<p id = "model-upload"> Model File(SBML) : </p>
+			</div>
+			<div class = "col-4">
+				<input id = "paraFile" type = "file" size = "50" accept = ".xml">
+			</div>
+		</div>
+			<div id = "expFile" style="display:none">
+				<div class = "row">
+					<div class = "col-4">
+						<p id = "exp-upload"> Experiment Data : </p>
+					</div>
+					<div class = "col-4">
+						<input id = "expData" type = "file" size = "50" accept = ".txt , .csv">
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-4">
+						<p> Algorithm </p> 
+					</div>
+					<div class = "col-4">
+						<select id = "algorithm" size = "1">
+						<option value = "lv">Leven-Berg Marquardt</option>
+						<option value = "nelder"> NelderMead </option>
+						<option value = "particleSwarm"> Particle Swarm Optimization</option>
+						<option value = "diffEvol"> Differential Evolution</option>
+						</select>
+					</div>
+				</div>
+			</div>
 		<div id = "lvparam" style = "display:none">
-			Iteration Limit : <input id = "lvite" class = "param-param" type = "number" value = "2000"> <br/>
-			Tolerance : <input id = "lvtol" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+			<div class = "row">
+				<div class = "col-4">
+					Iteration Limit : 
+				</div>
+				<div class = "col-4">
+					<input id = "lvite" class = "param-param" type = "number" value = "2000">
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Tolerance :
+				</div>
+				<div class = "col-4">
+				 	<input id = "lvtol" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> 
+				</div>
+			</div>
 		</div>
 		<div id = "nelparam" style = "display:none">
-			Iteration Limit : <input id = "nelite" class = "param-param" type = "number" value = "2000"> <br/>
-			Tolerance : <input id = "neltol" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> <br/>
+			<div class = "row">
+				<div class = "col-4">
+					Iteration Limit : 
+				</div>
+				<div class = "col-4">
+					<input id = "nelite" class = "param-param" type = "number" value = "2000"> 
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Tolerance : 
+				</div>
+				<div class = "col-4">
+					<input id = "neltol" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> 
+				</div>
+			</div>
 		</div>
 		<div id = "partparam" style = "display:none">
-			Iteration Limit : <input id = "partite" class = "param-param" type = "number" value = "2000"> <br/>
-			Swarm Size : <input id = "partsize" class = "param-param" type = "number" value = "50"> <br/>
-			Std. Deviation : <input id = "partstd" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9>"> <br/>
-			Random Number Generator : <input id = "partran" class = "param-param"  type = "number"  value = "1"> <br/>
-			Seed : <input id = "partseed" class = "param-param" type = "number" value = "0"><br/>
+			<div class = "row">
+				<div class = "col-4">
+					Iteration Limit : 
+				</div>
+				<div class = "col-4">
+					<input id = "partite" class = "param-param" type = "number" value = "2000"> 
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Swarm Size :
+				</div>
+				<div class = "col-4">
+					 <input id = "partsize" class = "param-param" type = "number" value = "50">
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Std. Deviation : 
+				</div>
+				<div class = "col-4">
+					<input id = "partstd" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> 
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Random Number Generator : 
+				</div>
+				<div class = "col-4">
+					<input id = "partran" class = "param-param"  type = "number"  value = "1"> 
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Seed : 
+				</div>
+				<div class = "col-4">
+					<input id = "partseed" class = "param-param" type = "number" value = "0">
+				</div>
+			</div>
 		</div>
 		<div id = "difevolparam" style = "display:none">
-			Population Size : <input id = "difevolpopu" class = "param-param" type = "number" value = "10"> <br/>
-			Random Number Generator : <input id = "difevolran" class = "param-param" type = "number" value = "1"> <br/>
-			Seed :  <input id = "difevolseed" class = "param-param" type = "number" value = "0"> <br/>
+			<div class = "row">
+				<div class = "col-4">
+					Population Size : 
+				</div>
+				<div class = "col-4">
+					<input id = "difevolpopu" class = "param-param" type = "number" value = "10"> 
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Random Number Generator : 
+				</div>
+				<div class = "col-4">
+					<input id = "difevolran" class = "param-param" type = "number" value = "1"> 
+				</div>
+			</div>
+			<div class = "row">
+				<div class = "col-4">
+					Seed :  
+				</div>
+				<div class = "col-4">
+					<input id = "difevolseed" class = "param-param" type = "number" value = "0"> 
+				</div>
+			</div>
 		</div>
 	</div>
 	<button type = "button" class = "btn btn-primary"id = "paramButton" name = "paramButton"> Execute </button>
@@ -119,25 +225,27 @@
 							</div>
 						</div>
 						<div class = "col-4" id = "tabParameter" style = "display:none">
-							<ul class = "nav nav-tabs" id = "tab-parameter">
-								<li class = "nav-item dropdown">
-									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
-									<div class = "dropdown-menu">
-										<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle =  "tab"> Local Parameters</a>
-										<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle =  "tab"> Global Parameters</a>
-									</div>									
-								</li>
-							</ul>
-							<div class = "tab-content">
-								<div id = "localParam" class = "tab-pane active">
-									<div id = "localParam-slider">
+							<nav class = "navbar">
+								<ul class = "nav nav-pills nav-stacked" id = "tab-parameter">
+									<li class = "nav-item dropdown">
+										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
+										<div class = "dropdown-menu">
+											<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle =  "tab"> Local Parameters</a>
+											<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle =  "tab"> Global Parameters</a>
+										</div>									
+									</li>
+								</ul>
+								<div class = "tab-content">
+									<div id = "localParam" class = "tab-pane active">
+										<div id = "localParam-slider">
+										</div>
+									</div>
+									<div id = "globalParam" class = "tab-pane">
+										<div id = "globalParam-slider">
+										</div>
 									</div>
 								</div>
-								<div id = "globalParam" class = "tab-pane">
-									<div id = "globalParam-slider">
-									</div>
-								</div>
-							</div>
+							</nav>
 						</div>
 					</div>	
 				</div>
@@ -148,6 +256,20 @@
 			</div>
 		</div>
 	</div>	
+	<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel">
+  		<div class="modal-dialog" role="document">
+    		<div class="modal-content" id = "modal-content">
+      			<div class="modal-header">
+         			<h4 class="modal-title" id="warningModalLabel"></h4>
+      			</div>
+      			<div class="modal-body">
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-default" id = "modalButton"> Confirm</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
 	<script type = "text/javascript">
 	$("#num-table").tabulator({ fitColumns : true,
 		rowFormatter:function(row){
@@ -160,7 +282,8 @@
 	        }
 	    }
 	});
-	</script>	
+	</script>
+	<script type = "text/javascript" src="./MDB-Free/js/mdb.min.js"></script>	
 	<script type = "text/javascript" src ="parameterEvent.js"></script>
 </body>
 </html>

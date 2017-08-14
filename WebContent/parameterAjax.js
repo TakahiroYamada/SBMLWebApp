@@ -303,11 +303,11 @@ function addLocalParamSlider( responseData ){
 		
 		var newLowerInputText = document.createElement("input");
 		newLowerInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input");
-		newLowerInputText.setAttribute("type","text")
+		newLowerInputText.setAttribute("type","number")
 		
 		var newUpperInputText = document.createElement("input");
 		newUpperInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input");
-		newUpperInputText.setAttribute("type","text")
+		newUpperInputText.setAttribute("type","number")
 		
 		newLowerInputText.setAttribute("style" , "display:inline-block ;width : 20%; text-align:center")
 		newParamSlider.setAttribute("style" , "display:inline-block ; width : 50% ;text-align:center")
@@ -347,14 +347,17 @@ function addLocalParamSlider( responseData ){
 		});
 		
 		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input").change( function(){
-			console.log( parameterValue[ i ]);
-			$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
-			$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
+			if( !errorCheck()){
+				$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
+				$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
+			}
 		});
 		
 		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input").change( function(){
-			$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
-			$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
+			if( !errorCheck()){
+				$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
+				$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
+			}
 		});
 		
 		
@@ -385,11 +388,11 @@ function addGlobalParamSlider( responseData ){
 		
 		var newLowerInputText = document.createElement("input");
 		newLowerInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_lower_input");
-		newLowerInputText.setAttribute("type","text")
+		newLowerInputText.setAttribute("type","number")
 		
 		var newUpperInputText = document.createElement("input");
 		newUpperInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_upper_input");
-		newUpperInputText.setAttribute("type","text")
+		newUpperInputText.setAttribute("type","number")
 		
 		newLowerInputText.setAttribute("style" , "display:inline-block ;width : 20%; text-align:center")
 		newParamSlider.setAttribute("style" , "display:inline-block ; width : 50% ;text-align:center")
@@ -429,13 +432,17 @@ function addGlobalParamSlider( responseData ){
 		});
 		
 		$("#" + parameterValue[ i ].sbmlID + "_lower_input").change( function(){
-			$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
-			$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
+			if( !errorCheck()){
+				$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
+				$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
+			}
 		});
 		
 		$("#" + parameterValue[ i ].sbmlID + "_upper_input").change( function(){
-			$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
-			$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
+			if( !errorCheck()){
+				$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
+				$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
+			}
 		});
 	}
 }
