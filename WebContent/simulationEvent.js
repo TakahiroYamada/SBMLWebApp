@@ -8,7 +8,7 @@ $(".sim-param").on("keypress" , function( e ){
 	if( e.which == 13 ){
 		if( !errorCheck()){
 			$("#runbottun").LoadingOverlay("show");
-			getSimulationResult( $(this) );
+			getSimulationResult( $("#runbottun") );
 		}
 	}
 })
