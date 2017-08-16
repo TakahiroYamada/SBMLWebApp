@@ -218,10 +218,10 @@
 						<div class = "col-8" id = "graph-contents" style = "display:none">
 							<input type="checkbox" id = "before-fitting" onchange="showBeforeFitting();"> Before Fitting
 							<div id="before-graph" style="display:none">
-								<canvas id="beforeCanvas" height="50" width="100"></canvas>
+								<canvas id="beforeCanvas"></canvas>
 							</div>
 							<div id = "after-graph" style="display:block">
-								<canvas id="afterCanvas" height="50" width="100"></canvas>
+								<canvas id="afterCanvas"></canvas>
 							</div>
 						</div>
 						<div class = "col-4" id = "tabParameter" style = "display:none">
@@ -229,10 +229,10 @@
 								<ul class = "nav nav-pills nav-stacked" id = "tab-parameter">
 									<li class = "nav-item dropdown">
 										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
-										<div class = "dropdown-menu">
-											<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle =  "tab"> Local Parameters</a>
-											<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle =  "tab"> Global Parameters</a>
-										</div>									
+										<ul class = "dropdown-menu">
+											<li><a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle =  "tab"> Local Parameters</a></li>
+											<li><a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle =  "tab"> Global Parameters</a></li>
+										</ul>									
 									</li>
 								</ul>
 								<div class = "tab-content">

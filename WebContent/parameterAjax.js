@@ -14,6 +14,7 @@ var canvas_jsondata_Before = {
 	    	  datasets : []
 	      },
 	      options: {
+	    	  maintainAspectRatio : false ,
 	    	  legend : {
 	    		  position : 'top',
 	    		  labels : {
@@ -29,16 +30,14 @@ var canvas_jsondata_Before = {
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
-	                max: 100,
-	                stepSize: 1
+	                max: 100
 	              }
 	            }],
 	            yAxes: [{
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
-	                max: 200,
-	                stepSize: 1
+	                max: 200
 	              }
 	            }]
 	          }
@@ -51,6 +50,7 @@ var canvas_jsondata_After = {
 	    	  datasets : []
 	      },
 	      options: {
+	    	  maintainAspectRatio : false,
 	    	  legend : {
 	    		  position : 'top',
 	    		  labels : {
@@ -156,7 +156,6 @@ function configureCanvas( responseData ){
 	$("#tabParameter").show();
 	var canvas_before = document.getElementById("beforeCanvas");
 	var canvas_after = document.getElementById("afterCanvas");
-		
 	
 	var tmpData = responseData;
 	

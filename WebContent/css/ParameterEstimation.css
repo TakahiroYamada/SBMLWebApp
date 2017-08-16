@@ -17,21 +17,32 @@ input[type=number]:focus, textarea:focus {
   margin: 0px 0px 3px 0px;
   border: 1px solid rgba(81, 203, 238, 1);
 }
-#setting { border : solid 1px;}
+.dropdown-menu{
+	background:white; 
+	color:black; 
+}
+
+#setting { border : solid 1px;
+		   margin : 10px;
+}
 #model-upload , #paraFile , #exp-upload , #expData { display : inline-block;}
 #canvas_item { width : 10%;
 			   margin : auto;
 }
 
-.tabResult { border : solid 1px;
-			 width : 90%;
-			 margin : auto;
+#result-container {
+	border : solid 1px;
+	margin : 10px;
 }
 .nav-item { border: solid 1px;}
 #numTable { height : auto;
 			overflow : scroll;
 }
-#beforeCanvas , #afterCanvas { display : block;
-							   width : auto;
-							   height : auto;
+#graph-contents { border : solid : 1px;
+}
+#tabParameter { height : 35em;
+				overflow : scroll;
+}
+#before-graph , #after-graph { width : auto;
+							   height : 33em;
 }
