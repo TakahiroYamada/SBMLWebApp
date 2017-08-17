@@ -31,9 +31,10 @@ input[type=number]:focus, textarea:focus {
 }
 
 #result-container {
-	border : solid 1px;
 	margin : 10px;
 }
+.tabResult { border : solid 1px;}
+.navbar { border : solid 1px;}
 .nav-item { border: solid 1px;}
 #numTable { height : auto;
 			overflow : scroll;

@@ -107,68 +107,72 @@
 	</div>
 	<br/>
 	<h3> Result of Analysis</h3>
-	<div class = "tabResult">
-		<div id = "loading"></div>
-		<ul class = "nav nav-tabs">
-			<li class = "nav-item">
-				<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View</a>
-			</li>
-			<li class = "nav-item">
-				<a href="#numTable" class = "nav-link" data-toggle = "tab"> Numerical Table</a>
-			</li>
-			<li class = "nav-item">
-				<a href="#" class = "nav-link disabled" id = "download" data-toggle = "tab" onclick = "downloadData();"> Download Data</a>
-			</li>
-		</ul>
-		<div class = "tab-content">
-			<div id = "graph" class = "tab-pane active">
-				<div class = "graph-contents" id = "graph-contents" style = "display:none">
-					<input type="checkbox" id="logarithmicY" onchange="logarithmicFigure('logarithmicY');"> log scale of Y
-					<input type = "checkbox" id = "logarithmicX" onchange = "logarithmicFigure('logarithmicX')"> log scale of X
-					<div id = "canvas">
-						<canvas id="simulationCanvas" style = "white"></canvas>
-					</div>
-				</div>
-				<div class = "graph-contents" id = "tabParameter" style = "display:none">
-					<nav class = "navbar">
-						<ul class = "nav nav-pills nav-stacked" id = "tab-parameter">
-							<li class="nav-item">
-								<a href="#initialValue" id = "init-item" class = "nav-link" data-toggle="tab">Species ( Initial Amount )</a>
-							</li>
-							<li class = "nav-item">
-								<a href="#compartmentValue" id = "comp-item" class = "nav-link" data-toggle="tab"> Compartment</a>						
-							</li>
-							<li class ="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
-								<div class = "dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-									<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle = "tab"> Local Parameters</a>
-									<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle = "tab"> Global Parameters</a>
-								</div>
-							</li>
-						</ul>
-						<div class = "tab-content">
-							<div id = "initialValue" class = "tab-pane active">
-								<div id = "initialValue-slider">
-								</div>
-							</div>
-							<div id = "compartmentValue" class = "tab-pane">
-								<div id = "compartmentValue-slider">
-								</div>
-							</div>
-							<div id = "localParam" class = "tab-pane">
-								<div id = "localParam-slider">
-								</div>
-							</div>
-							<div id = "globalParam" class = "tab-pane">
-								<div id = "globalParam-slider">
-								</div>
+	<div class = "container-fluid" id = "result-container">
+		<div class = "tabResult">
+			<div id = "loading"></div>
+			<ul class = "nav nav-tabs">
+				<li class = "nav-item">
+					<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View</a>
+				</li>
+				<li class = "nav-item">
+					<a href="#numTable" class = "nav-link" data-toggle = "tab"> Numerical Table</a>
+				</li>
+				<li class = "nav-item">
+					<a href="#" class = "nav-link disabled" id = "download" data-toggle = "tab" onclick = "downloadData();"> Download Data</a>
+				</li>
+			</ul>
+			<div class = "tab-content">
+				<div id = "graph" class = "tab-pane active">
+					<div class = "row">
+						<div class = "col-8" id = "graph-contents" style = "display:none">
+							<input type="checkbox" id="logarithmicY" onchange="logarithmicFigure('logarithmicY');"> log scale of Y
+							<input type = "checkbox" id = "logarithmicX" onchange = "logarithmicFigure('logarithmicX')"> log scale of X
+							<div id = "canvas">
+								<canvas id="simulationCanvas" style = "white"></canvas>
 							</div>
 						</div>
-					</nav>
+						<div class = "col-4" id = "tabParameter" style = "display:none">
+							<nav class = "navbar">
+								<ul class = "nav nav-pills nav-stacked" id = "tab-parameter">
+									<li class="nav-item">
+										<a href="#initialValue" id = "init-item" class = "nav-link" data-toggle="tab">Species ( Initial Amount )</a>
+									</li>
+									<li class = "nav-item">
+										<a href="#compartmentValue" id = "comp-item" class = "nav-link" data-toggle="tab"> Compartment</a>						
+									</li>
+									<li class ="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
+										<div class = "dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+											<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle = "tab"> Local Parameters</a>
+											<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle = "tab"> Global Parameters</a>
+										</div>
+									</li>
+								</ul>
+								<div class = "tab-content">
+									<div id = "initialValue" class = "tab-pane active">
+										<div id = "initialValue-slider">
+										</div>
+									</div>
+									<div id = "compartmentValue" class = "tab-pane">
+										<div id = "compartmentValue-slider">
+										</div>
+									</div>
+									<div id = "localParam" class = "tab-pane">
+										<div id = "localParam-slider">
+										</div>
+									</div>
+									<div id = "globalParam" class = "tab-pane">
+										<div id = "globalParam-slider">
+										</div>
+									</div>
+								</div>
+							</nav>
+						</div>
+					</div>
 				</div>
-			</div>
-			<div id = "numTable" class = "tab-pane">
-				<div id = "num-table">
+				<div id = "numTable" class = "tab-pane">
+					<div id = "num-table">
+					</div>
 				</div>
 			</div>
 		</div>
