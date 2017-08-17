@@ -50,7 +50,6 @@ var canvas_jsondata = {
 function getSimulationResult( loadingObject ){
 	var tmpLegend = [];
 	var form_file = document.getElementById("simFile");
-	
 	if( myChart != undefined ){
 		for( var i = 0 ; i < myChart.data.datasets.length ; i ++){
 			tmpLegend.push( myChart.getDatasetMeta( i ).hidden);
@@ -68,6 +67,9 @@ function getSimulationResult( loadingObject ){
 		$("#compartmentValue-slider").empty();
 		$("#globalParam-slider").empty();
 		$("#localParam-slider").empty();
+		if( myChart != undefined ){
+			myChart.destroy();
+		}
 		currentFile = form_file.files[ 0 ].name;
 	}
 	
