@@ -70,8 +70,11 @@ public class SBML_Manipulator {
 			document.getModel().getParameter( globalParam.getSbmlID() ).setValue( globalParam.getParameterValue() );
 		}
 		// the result is save in  sbmlFile path
+		writeSBML();
+	}
+	public void writeSBML() throws SBMLException, XMLStreamException, IOException , IllegalArgumentException{
 		SBMLWriter writer = new SBMLWriter();
-		writer.write( document , sbmlFile );
+		writer.write( document, sbmlFile );
 	}
 	public void addUnitForEachSpecies( Simulation_AllBeans allBeans ){
 		for( int i = 0 ; i < allBeans.getData().length ; i ++){

@@ -30,11 +30,21 @@ function getSteadyResult( loadingObject ){
 		responseData = result;
 		callback( responseData );
 		loadingObject.LoadingOverlay("hide");
-	})
+	}).fail( function( result ){
+		errorSetting( result.responseText , "Please check your input file which is really SBML.")
+		$("#warningModal").modal("show");
+		$("#modalButton").off("click");
+		$("#modalButton").on("click" , function(){
+			$("#warningModal").modal("hide");
+			loadingObject.LoadingOverlay("hide");
+		});
+	});
 }
 
 
 function callback( responseData ){
+	addWarningText( responseData );
+	
 	var jsonResponse = responseData;
 	//Clear only the data in table not header
 	document.getElementById("stedAmount").style.display = "block";
@@ -59,6 +69,16 @@ function callback( responseData ){
 	$("#jacobian-table").tabulator("setData" , jsonResponse.steadyJacobian.jacob_Amount);
 	document.getElementById("jacobian").style.display = "";
 	$("#download").removeClass("disabled")
+}
+function addWarningText( responseData){
+	if( responseData.warningText != null){
+		warningSetting(  "Input SBML model is incorrect",responseData.warningText );
+		$("#warningModal").modal("show");
+		$("#modalButton").off("click");
+		$("#modalButton").on("click" , function(){
+			$("#warningModal").modal("hide");
+		});
+	}
 }
 function configureStedParameter( formdata ){
 	var library = document.getElementById("library");

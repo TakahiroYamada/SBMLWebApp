@@ -9,16 +9,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.sbml.jsbml.SBMLException;
 
 import analyze.steadystate.SteadyState_COPASI;
 import beans.steadystate.SteadyState_AllBeans;
+import errorcheck.SBML_ErrorCheck;
 import general.unique_id.UniqueId;
+import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
 import parameter.SteadyStateAnalysis_Parameter;
 
@@ -51,20 +55,40 @@ public class SteadyState_Servlet extends HttpServlet {
 		path = getServletContext().getRealPath("/tmp/" + sessionId );
 		saveFileName =  path + "/result_steadystate.txt";
 		configureAnalysisEmvironment( request , upload );
+		// check the validity of given SBML model
+		SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.analyzeFile.getPath());
+		errorCheck.checkError();
+		
+		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( analyzeFile );
+		try {
+			sbml_Manipulator.writeSBML();
+		} catch (SBMLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			response.setStatus( 400 );
+			PrintWriter out = response.getWriter();
+			out.print( "Unable to write SBML output for documents with undefined SBML Level and Version flag.");
+			out.flush();
+			e.printStackTrace();
+			return;
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("hoge");
 		// Execute steady state analysis with COPASI
 		if( stedParam.getLibrary().equals("copasi") ){
 			SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( stedParam , saveFileName , analyzeFile.getPath());
 			analyzeSteadyState.executeSteadyStateAnalysis();
 			SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
 			stedBeans.setSessionId( this.sessionId );
+			stedBeans.setWarningText( errorCheck.getErrorMessage() );
 			String jsonSteadyState = JSON.encode( stedBeans , true );
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print( jsonSteadyState);
-		}
-		// Execute steady state analysis with libRoadRunner
-		else if( stedParam.getLibrary().equals("libroad")){
-			
 		}
 		
 		// Output the result. In future these code should be changed to output the result file when the "download button" is pushed in client side.

@@ -81,13 +81,15 @@ public class Simulation_Servlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			response.setStatus( 400 );
 			PrintWriter out = response.getWriter();
-			out.print( "Input SBML is invalid. It can't be read.");
+			out.print( "Unable to write SBML output for documents with undefined SBML Level and Version flag.");
 			out.flush();
 			e1.printStackTrace();
+			return;
 		} catch (XMLStreamException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		if( param.getLibrary().equals("copasi")){
 			try{
 				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);
