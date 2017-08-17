@@ -129,10 +129,19 @@ function analyzeData( loadingObject ){
 		responseData = result;
 		callback( responseData );
 		loadingObject.LoadingOverlay("hide");
-	});
+	}).fail( function( result ){
+		errorSetting( result.responseText , "Please check your input file which is really SBML.")
+		$("#warningModal").modal("show");
+		$("#modalButton").off("click");
+		$("#modalButton").on("click" , function(){
+			$("#warningModal").modal("hide");
+			loadingObject.LoadingOverlay("hide");
+		});
+	});;
 }
 
 function callback( responseData ){
+	addWarningText( responseData );
 	configureCanvas( responseData );
 	configureTable( responseData );
 	if( currentFile != $("#paraFile")[ 0 ].files[ 0 ].name){
@@ -150,7 +159,16 @@ function callback( responseData ){
 	}
 	$("#download").removeClass("disabled")
 }
-
+function addWarningText( responseData){
+	if( responseData.warningText != null){
+		warningSetting(  "Input SBML model is incorrect",responseData.warningText );
+		$("#warningModal").modal("show");
+		$("#modalButton").off("click");
+		$("#modalButton").on("click" , function(){
+			$("#warningModal").modal("hide");
+		});
+	}
+}
 function configureCanvas( responseData ){
 	$("#graph-contents").show();
 	$("#tabParameter").show();

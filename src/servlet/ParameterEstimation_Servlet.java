@@ -24,6 +24,7 @@ import analyze.simulation.Simulation_COPASI;
 import beans.modelparameter.ModelParameter_Beans;
 import beans.parameter.ParameterEstimation_AllBeans;
 import coloring.Coloring;
+import errorcheck.SBML_ErrorCheck;
 import general.unique_id.UniqueId;
 import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
@@ -60,6 +61,10 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		paramBeans = new ParameterEstimation_AllBeans();
 		configureAnalysisEmvironment(request, upload);
 		
+		//check the validity of given SBML model
+		SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.SBMLFile.getPath()  );
+		errorCheck.checkError();
+		
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( SBMLFile );
 		try {
 			sbml_Manipulator.editModelParameter( this.sbmlParam );
@@ -68,7 +73,12 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
+			response.setStatus( 400 );
+			PrintWriter out = response.getWriter();
+			out.print( "Unable to write SBML output for documents with undefined SBML Level and Version flag.");
+			out.flush();
 			e.printStackTrace();
+			return;
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,6 +100,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		paramBeans.setSessionId(this.sessionId);
 		
 		paramBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
+		paramBeans.setWarningText( errorCheck.getErrorMessage());
 		// response to client side sending JSON format data
 		String jsonParamEst = JSON.encode(paramBeans, true);
 		response.setContentType("application/json;charset=UTF-8");
