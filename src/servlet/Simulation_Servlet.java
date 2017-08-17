@@ -12,16 +12,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.sbml.jsbml.SBMLException;
+
 import analyze.simulation.Simulation_COPASI;
 import analyze.simulation.Simulation_SBSCL;
 import beans.modelparameter.ModelParameter_Beans;
 import beans.simulation.Simulation_AllBeans;
 import coloring.Coloring;
+import errorcheck.SBML_ErrorCheck;
 import general.unique_id.UniqueId;
 import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
@@ -61,9 +66,28 @@ public class Simulation_Servlet extends HttpServlet {
 		path = getServletContext().getRealPath("/tmp/" + sessionId);
 		// Save the SBML file in server side directory
 		configureAnalysisEmviroment( request , upload );
+		
+		// check the validity of given SBML model
+		SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.newFile.getPath()  );
+		errorCheck.checkError();
 		// Get and edit parameters value in SBML model
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( newFile );
-		sbml_Manipulator.editModelParameter( this.sbmlParam );
+		try {
+			sbml_Manipulator.editModelParameter( this.sbmlParam );
+		} catch (SBMLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalArgumentException e1) {
+			// TODO Auto-generated catch block
+			response.setStatus( 400 );
+			PrintWriter out = response.getWriter();
+			out.print( "Input SBML is invalid. It can't be read.");
+			out.flush();
+			e1.printStackTrace();
+		} catch (XMLStreamException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if( param.getLibrary().equals("copasi")){
 			try{
 				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);
@@ -75,7 +99,8 @@ public class Simulation_Servlet extends HttpServlet {
 				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
 				this.simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
 				this.simulationBeans.setSessionId( this.sessionId);
-				
+				this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
+
 			} catch( NullPointerException e){
 				e.printStackTrace();
 			}
@@ -86,20 +111,21 @@ public class Simulation_Servlet extends HttpServlet {
 			colorOfVis = new Coloring( simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
 			this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
 			this.simulationBeans.setSessionId( this.sessionId );
+			this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
 		}
-		
-		
+
+
 		// add the units of each species
 		sbml_Manipulator.addUnitForEachSpecies( this.simulationBeans );
-		
+
 		this.simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
 		String jsonSimulation = JSON.encode( this.simulationBeans , true  );
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print( jsonSimulation );
-		
+
 		//Following code is future deleted
-		
+
 		//for( int i = 0 ; i < simCOPASI.getTimeSeries().getNumVariables() ; i ++){
 		//	System.out.print( simCOPASI.getTimeSeries().getTitle( i ) +"\t");
 		//}
@@ -110,7 +136,7 @@ public class Simulation_Servlet extends HttpServlet {
 		//	}
 		//	System.out.println();
 		//}
-		
+
 		//response.setHeader("Content-Disposition", "attachment; filename=result.csv");
 		//ServletContext ctx = getServletContext();
 		//InputStream is = ctx.getResourceAsStream("/tmp/result.csv");

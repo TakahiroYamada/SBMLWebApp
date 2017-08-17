@@ -94,14 +94,23 @@ function getSimulationResult( loadingObject ){
 		}
 	}).done( function( result ){
 		sessionId = result.sessionId;
-		responseData = JSON.parse( result )
+		responseData = JSON.parse( result );
 		callback( responseData  ,  tmpLegend);
 		loadingObject.LoadingOverlay("hide");
+	}).fail( function( result ){
+		errorSetting( result.responseText , "Please check your input file which is really SBML.")
+		$("#warningModal").modal("show");
+		$("#modalButton").off("click");
+		$("#modalButton").on("click" , function(){
+			$("#warningModal").modal("hide");
+			loadingObject.LoadingOverlay("hide");
+		});
 	});
 }
 
 function callback( responseData , tmpLegend ){
 	//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
+	addWarningText( responseData );
 	configureCanvas( responseData  , tmpLegend);
 	configureTable( responseData );
 	addInitialValueSlider( responseData );
@@ -110,7 +119,16 @@ function callback( responseData , tmpLegend ){
 	addGlobalParameterValueSlider( responseData );
 	$("#download").removeClass("disabled");
 }
-
+function addWarningText( responseData){
+	if( responseData.warningText != null){
+		warningSetting(  "Input SBML model is incorrect",responseData.warningText );
+		$("#warningModal").modal("show");
+		$("#modalButton").off("click");
+		$("#modalButton").on("click" , function(){
+			$("#warningModal").modal("hide");
+		});
+	}
+}
 function configureCanvas( responseData  , tmpLegend){
 	var canvas = document.getElementById("simulationCanvas");
 	var tmpData = responseData;

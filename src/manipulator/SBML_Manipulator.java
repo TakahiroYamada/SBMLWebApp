@@ -42,7 +42,7 @@ public class SBML_Manipulator {
 		modelParam.setInitValue( this.getInitValue());
 		return modelParam;
 	}
-	public void editModelParameter(ModelParameter_Beans sbmlParam){
+	public void editModelParameter(ModelParameter_Beans sbmlParam) throws SBMLException, XMLStreamException, IOException, IllegalArgumentException{
 		// initial value is changed
 		for( int i = 0 ; i < sbmlParam.getInitValue().length ; i ++){
 			InitialValue_Beans initValue = sbmlParam.getInitValue()[ i ];
@@ -71,18 +71,7 @@ public class SBML_Manipulator {
 		}
 		// the result is save in  sbmlFile path
 		SBMLWriter writer = new SBMLWriter();
-		try {
-			writer.write( document , sbmlFile );
-		} catch (SBMLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		writer.write( document , sbmlFile );
 	}
 	public void addUnitForEachSpecies( Simulation_AllBeans allBeans ){
 		for( int i = 0 ; i < allBeans.getData().length ; i ++){

@@ -10,11 +10,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.sbml.jsbml.SBMLException;
 
 import analyze.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
@@ -58,7 +61,18 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		configureAnalysisEmvironment(request, upload);
 		
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( SBMLFile );
-		sbml_Manipulator.editModelParameter( this.sbmlParam );
+		try {
+			sbml_Manipulator.editModelParameter( this.sbmlParam );
+		} catch (SBMLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// COPASI ParameterEstimation Execution
 		ParameterEstimation_COPASI paramEstCopasi = new ParameterEstimation_COPASI(paramestParam, SBMLFile,
 				ExperimentFile , sbmlParam );
