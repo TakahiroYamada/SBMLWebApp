@@ -45,7 +45,7 @@ input[type=number]:focus, textarea:focus {
 #canvas { width : 100%;
 		  height : 33em;
 }
-.navbar { border : solid 1px;
+.navbar { padding : 0 0 0 0 !important;
 }
 #tabParameter { height : 35em;
 				margin : 0;
