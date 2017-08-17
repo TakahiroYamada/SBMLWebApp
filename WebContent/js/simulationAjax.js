@@ -70,7 +70,6 @@ function getSimulationResult( loadingObject ){
 		if( myChart != undefined ){
 			myChart.destroy();
 		}
-		currentFile = form_file.files[ 0 ].name;
 	}
 	
 	var file = form_file.files[ 0 ];
@@ -112,7 +111,11 @@ function getSimulationResult( loadingObject ){
 
 function callback( responseData , tmpLegend ){
 	//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
-	addWarningText( responseData );
+	var form_file = document.getElementById("simFile");
+	if( currentFile != form_file.files[ 0 ].name){
+		addWarningText( responseData );
+		currentFile = form_file.files[ 0 ].name;
+	}
 	configureCanvas( responseData  , tmpLegend);
 	configureTable( responseData );
 	addInitialValueSlider( responseData );

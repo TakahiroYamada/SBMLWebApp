@@ -1,4 +1,7 @@
 @CHARSET "UTF-8";
+h3 { padding-top : 10px;
+	 padding-left:10px;
+}
 input[type=number], textarea {
   text-align :center;
   -webkit-transition: all 0.30s ease-in-out;
