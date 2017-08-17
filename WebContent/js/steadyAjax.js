@@ -1,5 +1,6 @@
 var link;
 var sessionId = "";
+var currentFile = null;
 function getSteadyResult( loadingObject ){
 	var form_file = document.getElementById("stedFile");
 	var progressBar = document.getElementById("progress");
@@ -43,7 +44,11 @@ function getSteadyResult( loadingObject ){
 
 
 function callback( responseData ){
-	addWarningText( responseData );
+	var form_file = document.getElementById("stedFile");
+	if( currentFile != form_file.files[ 0 ].name){
+		addWarningText( responseData );
+		currentFile = form_file.files[ 0 ].name;
+	}
 	
 	var jsonResponse = responseData;
 	//Clear only the data in table not header

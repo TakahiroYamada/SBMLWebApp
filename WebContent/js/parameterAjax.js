@@ -141,10 +141,10 @@ function analyzeData( loadingObject ){
 }
 
 function callback( responseData ){
-	addWarningText( responseData );
 	configureCanvas( responseData );
 	configureTable( responseData );
 	if( currentFile != $("#paraFile")[ 0 ].files[ 0 ].name){
+		addWarningText( responseData );
 		parameter_jsondata ={
 				initValue : [],
 				compartmentValue : [],
