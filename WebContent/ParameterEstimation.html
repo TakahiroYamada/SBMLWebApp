@@ -24,17 +24,17 @@
 </head>
 <body>
 	<header id = "page-header" role = "banner">
-		<div class = "header-div">
+		<div class = "container-fluid" id = "header-div">
 			<nav class = "header-nav" id = "head-navcontent" role = "navigation">
 				<a id = "page-header-nrnb" class = "nrnb"> NRNB : National Resource for Network Biology</a>
 			</nav>
 			<div class = "div-nav" id = "divnavcontent">
 				<nav class = "top-nav" id = "navcontent" role = "navigation">
-					<a class = "lf" href = "./index.html"> SWA </a>
-					<p> - Parameter Estimation </p>
-					<span id = "brc"></span>
-					<span class = "rf">
-						<ul id = "swnav">
+					<div class = "row">
+						<a class = "lf col-1" href = "./index.html"> SWA </a>
+						<p class = "analysis col-4"> - Parameter estimation </p>
+						<span id = "brc" class = "col-1"></span>
+						<ul id = "swnav" class = "col-5">
 							<li class = "first-nav"> 
 								<a href = "./index.html" title = "SWA home"> Home</a>
 							</li>
@@ -48,7 +48,7 @@
 								<a title = "help"> Help</a>
 							</li>
 						</ul>
-					</span>
+					</div>
 				</nav>
 			</div>
 		</div>

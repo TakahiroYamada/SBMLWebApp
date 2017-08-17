@@ -1,11 +1,19 @@
 @CHARSET "UTF-8";
 /* Header CSS */
+
+#header-div { padding-left : 0;
+			  padding-right : 0;
+			  margin-right : 0;
+			  margin-left : 0;
+}
 #page-header {	font-size :15px;
 				clear:both;
+				padding : 0 0 0 0 !important;
+				margin-right : 0;
+				margin-left : 0;
 				min-width:800px;
-				}
+}
 #page-header a {text-decoration : none;}
-
 #page-header .header-nav {	margin : 0 ; 
 							height : 30px;
 							width : auto;
@@ -21,12 +29,25 @@
 #divnavcontent { border : solid 1px}
 #navcontent { background-color : #EAEAEA;
 }
-#navcontent a.lf ,#navcontent p, #navcontent span{ display : inline-block;
-									 font-weight : bold;
-									 margin : 0.2em 0 0 1em;
+#navcontent a.lf , #navcontent p , #navcontent span { font-weight : bold;
+									 margin : 0 0 0 1em;
 									 font-size : 24px;
 									 border-top : inherit;
 									 background-color : #EAEAEA;
+}
+.lf { right : 0;
+	  padding-right : 0 ! important;
+}
+.analysis { margin-left : 0 ! important;
+			padding-left : 0;
+}
+#swnav { margin : 0 0 0 0;
+		 text-align : right;
+}
+#swnav li {
+			font-size : 20px;
+			border-top : inherit;
+			background-color : #EAEAEA;
 }
 #navcontent a.lf { color : black;
 }

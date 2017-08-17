@@ -204,13 +204,13 @@ function configureTable( responseData ){
 	
 	
 	var column = [
-		{ field : "Reaction" , sortable : false , title : "Reaction ID"},
-		{ field : "Parameter" , sortable : false , title : "Parameter ID"},
-		{ field : "Lower" , sortable : false , title : "Lower bound"},
-		{ field : "Start" , sortable : false , title : "Start value"},
-		{ field : "Upper" , sortable : false , title : "Upper bound"},
-		{ field : "Update" , sortable : false , title : "Updated Value"},
-		{ field : "Unit" , sortable : false , title : "Unit"}
+		{ field : "Reaction" , headerSort : true , title : "Reaction ID"},
+		{ field : "Parameter" , headerSort : true , title : "Parameter ID"},
+		{ field : "Lower" , headerSort : false , title : "Lower bound"},
+		{ field : "Start" , headerSort : false , title : "Start value"},
+		{ field : "Upper" , headerSort : false , title : "Upper bound"},
+		{ field : "Update" , headerSort : false , title : "Updated Value"},
+		{ field : "Unit" , headerSort : true , title : "Unit"}
 		];
 	
 	document.getElementById("numTable").style.display = "block";
