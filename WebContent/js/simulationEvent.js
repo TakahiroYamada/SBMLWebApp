@@ -1,3 +1,23 @@
+$("#simFile").on("change" , function(){
+	var input = $("#simFile").get(0).files[ 0 ];
+	var reader = new FileReader();
+	$(reader).on("error",function( e ){
+		if( e.target.readyState == 2){
+			errorSetting( e.target.error.message , "Change your file permission.")
+			$("#warningModal").modal("show");
+			$("#modalButton").off("click");
+			$("#modalButton").on("click" , function(){
+				$("#warningModal").modal("hide");
+				var el = $("#simFile");
+				el.after( "<input id = 'simFile' type = 'file' size = '50' accept = '.xml'>" );
+				el.remove();
+			});
+			
+		}
+	})
+	reader.readAsText( input );
+})	
+
 $("#runbottun").on("click" , function(){
 	if( !errorCheck()){
 		$(this).LoadingOverlay("show");
@@ -27,7 +47,7 @@ function errorCheck(){
 			el.before( newOne );
 			el.remove();
 			newOne.addClass("animated flash");
-		})
+		});
 		return true;
 	}
 	else if( info.isNegative ){
@@ -44,7 +64,7 @@ function errorCheck(){
 				newOne.addClass("animated flash");
 			}
 		});
-		return true
+		return true;
 	}
 	return false;
 }
