@@ -56,8 +56,8 @@ public class SteadyState_Servlet extends HttpServlet {
 		saveFileName =  path + "/result_steadystate.txt";
 		configureAnalysisEmvironment( request , upload );
 		// check the validity of given SBML model
-		SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.analyzeFile.getPath());
-		errorCheck.checkError();
+		//SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.analyzeFile.getPath());
+		//errorCheck.checkError();
 		
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( analyzeFile );
 		try {
@@ -77,14 +77,13 @@ public class SteadyState_Servlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("hoge");
 		// Execute steady state analysis with COPASI
 		if( stedParam.getLibrary().equals("copasi") ){
 			SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( stedParam , saveFileName , analyzeFile.getPath());
 			analyzeSteadyState.executeSteadyStateAnalysis();
 			SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
 			stedBeans.setSessionId( this.sessionId );
-			stedBeans.setWarningText( errorCheck.getErrorMessage() );
+			//stedBeans.setWarningText( errorCheck.getErrorMessage() );
 			String jsonSteadyState = JSON.encode( stedBeans , true );
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();

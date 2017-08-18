@@ -46,7 +46,7 @@ function getSteadyResult( loadingObject ){
 function callback( responseData ){
 	var form_file = document.getElementById("stedFile");
 	if( currentFile != form_file.files[ 0 ].name){
-		addWarningText( responseData );
+		//addWarningText( responseData );
 		currentFile = form_file.files[ 0 ].name;
 	}
 	

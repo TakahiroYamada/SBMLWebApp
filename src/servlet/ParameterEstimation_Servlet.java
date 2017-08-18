@@ -62,8 +62,8 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		configureAnalysisEmvironment(request, upload);
 		
 		//check the validity of given SBML model
-		SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.SBMLFile.getPath()  );
-		errorCheck.checkError();
+		//SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.SBMLFile.getPath()  );
+		//errorCheck.checkError();
 		
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( SBMLFile );
 		try {
@@ -100,7 +100,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		paramBeans.setSessionId(this.sessionId);
 		
 		paramBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
-		paramBeans.setWarningText( errorCheck.getErrorMessage());
+		//paramBeans.setWarningText( errorCheck.getErrorMessage());
 		// response to client side sending JSON format data
 		String jsonParamEst = JSON.encode(paramBeans, true);
 		response.setContentType("application/json;charset=UTF-8");

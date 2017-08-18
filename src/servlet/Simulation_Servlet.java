@@ -68,8 +68,8 @@ public class Simulation_Servlet extends HttpServlet {
 		configureAnalysisEmviroment( request , upload );
 		
 		// check the validity of given SBML model
-		SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.newFile.getPath()  );
-		errorCheck.checkError();
+		//SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.newFile.getPath()  );
+		//errorCheck.checkError();
 		// Get and edit parameters value in SBML model
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( newFile );
 		try {
@@ -101,7 +101,7 @@ public class Simulation_Servlet extends HttpServlet {
 				simCOPASI.getTimeSeries().save( path + "/result.csv" , false , ",");
 				this.simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
 				this.simulationBeans.setSessionId( this.sessionId);
-				this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
+				// this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
 
 			} catch( NullPointerException e){
 				e.printStackTrace();
@@ -113,7 +113,7 @@ public class Simulation_Servlet extends HttpServlet {
 			colorOfVis = new Coloring( simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
 			this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
 			this.simulationBeans.setSessionId( this.sessionId );
-			this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
+			//this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
 		}
 
 
