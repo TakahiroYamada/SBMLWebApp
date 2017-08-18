@@ -12,7 +12,6 @@ $("#simFile").on("change" , function(){
 				el.after( "<input id = 'simFile' type = 'file' size = '50' accept = '.xml'>" );
 				el.remove();
 			});
-			
 		}
 	})
 	reader.readAsText( input );

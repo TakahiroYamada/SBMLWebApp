@@ -52,6 +52,7 @@ function errorCheck(){
 			el.before( newOne );
 			el.remove();
 			newOne.addClass("animated flash");
+			newOne.focus();
 		})
 		return true;
 	}
@@ -66,6 +67,7 @@ function errorCheck(){
 			el.before( newOne );
 			el.remove();
 			newOne.addClass("animated flash");
+			newOne.focus();
 		})
 		return true;
 	}
@@ -81,6 +83,7 @@ function errorCheck(){
 				el.before( newOne);
 				el.remove();
 				newOne.addClass("animated flash");
+				newOne.focus();
 			}
 		});
 		return true
