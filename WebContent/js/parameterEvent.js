@@ -1,3 +1,22 @@
+$("#paraFile").on("change" , function(){
+	var input = $(this).get(0).files[ 0 ];
+	var reader = new FileReader();
+	$(reader).on("error",function( e ){
+		if( e.target.readyState == 2){
+			errorSetting( e.target.error.message , "Change your file permission.")
+			$("#warningModal").modal("show");
+			$("#modalButton").off("click");
+			$("#modalButton").on("click" , function(){
+				$("#warningModal").modal("hide");
+				var el = $("#paraFile");
+				el.after( "<input id = 'paraFile' type = 'file' size = '50' accept = '.xml'>" );
+				el.remove();
+			});
+			
+		}
+	})
+	reader.readAsText( input );
+})	
 $("#paramButton").on("click" , function(){
 	if( !errorCheck()){
 		$(this).LoadingOverlay("show");
