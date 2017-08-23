@@ -11,7 +11,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src = "../tether-master/dist/js/tether.min.js"></script>
 <script type="text/javascript" src="../bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
-<title>Document : Simulation - Download the result date</title>
+<title>Document : Parameter estimation - Table Contents</title>
 </head>
 <body>
 	<div id = "page-header" class = "navbar navbar-inverse navbar-fixed-top">
@@ -45,35 +45,20 @@
 		</div>
 	</div>
 	<div class = "container-fluid">
-		<h1 class = "itemize"> Download the result data</h1>
+		<h1 class = "itemize"> Check the updated value of parameter closed to lower or upper bound in table </h1>
 		<div class ="row">
-			After you execute the simulation, you can get the result on your computer pressing "Download data". The downloaded data is Zip file to contain the graph and table of the result. Default name of this file is (File name of SBML model) + "suffix". Of course you can change the name using download dialog.
+			You can check the updated value of each parameter close to upper or lower bound in the result of table. When updated value of each parameter close to upper or lower bound( the difference of this value is less than 10e-05), the color of row is red or blue respectively. Checking this result, you can change the upper or lower bound.
 		</div>
 		<div align = "center">			
 			<table>
        	 		<tbody>
        	 			<tr>
           				<td align = "center">
-          					<img class = "image_padding" src="../img/Document/Simulation/Simulation_DownloadButton.png" width = "70%" alt = "Simulation_Download">
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_LowerBound.png" width = "70%" alt = "Parameter_Table">
           				</td>
        			    </tr>
         			<tr>
-          				<td align = "center"> Fig 1 : Download form (red box).
-          				</td>
-        			</tr>
-      			</tbody>
-      		</table>
-		</div>
-		<div align = "center">			
-			<table>
-       	 		<tbody>
-       	 			<tr>
-          				<td align = "center">
-          					<img class = "image_padding" src="../img/Document/Simulation/Simulation_DownloadDialog.png" width = "70%" alt = "Simulation_Download">
-          				</td>
-       			    </tr>
-        			<tr>
-          				<td align = "center"> Fig 2 : Download dialog.
+          				<td align = "center"> Fig 1 : The example that the updated value of parameter k1 close to lower bound(red box : UI of coloring the row of table).
           				</td>
         			</tr>
       			</tbody>
@@ -82,10 +67,10 @@
 	</div>
 	<ul class="pagination pagination-lg justify-content-center">
     	<li class="page-item">
-      		<a class="page-link" href="./Simulation_LogarithmicScale.html"> &laquo; Previous</a>
+      		<a class="page-link" href="./Parameter_BeforeFitting.html"> &laquo; Previous</a>
     	</li>
-   		 <li class="page-item disabled">
-      		<a class="page-link" href="#">Next &raquo;</a>
+   		 <li class="page-item">
+      		<a class="page-link" href="./Parameter_Download.html">Next &raquo;</a>
     	</li>
   	</ul>
 	<script type = "text/javascript" src = "../MDB-Free/js/mdb.min.js"></script>

@@ -11,7 +11,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src = "../tether-master/dist/js/tether.min.js"></script>
 <script type="text/javascript" src="../bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
-<title>Document : Simulation-Change Setting</title>
+<title>Document : Parameter estimation - Change Setting</title>
 </head>
 <body>
 	<div id = "page-header" class = "navbar navbar-inverse navbar-fixed-top">
@@ -45,33 +45,85 @@
 		</div>
 	</div>
 	<div class = "container-fluid">
-		<h1 class = "itemize"> Change the setting of simulation</h1>
+		<h1 class = "itemize"> Change the setting of parameter estimation</h1>
 		<div class = "row">
-			You can set following setting parameter to execute simulation.
+			You can set following setting parameter to execute parameter estimation.
 		</div>
-		<ul>
-			<li style = "display:block"> <strong> End time</strong> : The value of finished time of simulation. It should be positive value.</li>
-			<li style = "display:block"> <strong> Number of time point</strong> : The value of time point of simulation. It should be positive value.</li>
-			<li style = "display:block"> <strong> Absolute Tolerance</strong> : The value of tolerance to execute simulation. It should be positive value.</li>
-			<li style = "display:block"> <strong> Library to analyze</strong> : Current implementation prepares COPASI and simulationCore libraries.</li>
-		</ul>
+		<div class = "image_padding" align = "center"> Table 1 : The list of setting parameters for each parameter estimation algorithm</div>
+		<table class = "table" style = "width : 50%;border:solid 1px" align = "center">
+			<thead class = "thead-inverse">
+				<tr>
+					<th> Algorithm </th>
+					<th> Parameter Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td rowspan = 2> Leven-Berg Marquardt</td>
+					<td> Iteration Limit </td>
+				</tr>
+				<tr>
+					<td> Tolerance</td>
+				</tr>
+				<tr>
+					<td rowspan = 2> NelderMead</td>
+					<td> Iteration Limit </td>
+				</tr>
+				<tr>
+					<td> Tolerance</td>
+				</tr>
+				<tr>
+					<td rowspan = 5> Particle Swarm Optimization</td>
+					<td> Iteration Limit </td>
+				</tr>
+				<tr>
+					<td> Swarm Size</td>
+				</tr>
+				<tr>
+					<td> Std. Deviation</td>
+				</tr>
+				<tr>
+					<td> Random Number Generator</td>
+				</tr>
+				<tr>
+					<td> Seed </td>
+				</tr>
+				<tr>
+					<td rowspan = 3> Differential Evolution</td>
+					<td> Population Size </td>
+				</tr>
+				<tr>
+					<td> Random Number Generator </td>
+				</tr>
+				<tr>
+					<td> Seed </td>
+				</tr>
+			</tbody>
+		</table>
 		<div align = "center">			
 			<table>
        	 		<tbody>
        	 			<tr>
           				<td align = "center">
-          					<img class = "image_padding" src="../img/Document/Simulation/Simulation_Setting.png" width = "70%" alt = "Simulation_Setting"> 
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_Setting.png" width = "70%" alt = "Parameter_Setting"> 
           				</td>
        			    </tr>
         			<tr>
-          				<td align = "center"> Fig 1 : The setting form of parameter to execute simulation( red box).
+          				<td align = "center"> Fig 1 : The setting form of parameter to execute parameter estimation( red box).
           				</td>
         			</tr>
       			</tbody>
       		</table>
 		</div>
-		
 	</div>
+	<ul class="pagination pagination-lg justify-content-center">
+    	<li class="page-item">
+      		<a class="page-link" href="./Parameter_Input.html"> &laquo; Previous</a>
+    	</li>
+   		 <li class="page-item">
+      		<a class="page-link" href="./Parameter_ChangeValue.html">Next &raquo;</a>
+    	</li>
+  	</ul>
 	<script type = "text/javascript" src = "../MDB-Free/js/mdb.min.js"></script>
 </body>
 </html>

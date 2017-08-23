@@ -45,16 +45,16 @@
 		</div>
 	</div>
 	<div class = "container-fluid">
-		<h1 class = "itemize"> Input the model and execute simulation</h1>
+		<h1 class = "itemize"> Input the model and experiment data to execute parameter estimation</h1>
 		<div class = "row">
-			This is really simple to execute simulation only &nbsp; <strong> selecting SBML model on your computer</strong>. <br/>
+			This is simple to execute parameter estimation &nbsp; <strong> selecting SBML model and experimental data on your computer</strong>. Experimental data should be "csv" or "txt" format and each column refers to the species in model and row refers to time point. <strong> The name of column should be the SBML ID in your model and of row should be positive number.</strong> <br/>
 		</div>
 		<div align = "center">			
 			<table>
        	 		<tbody>
        	 			<tr>
           				<td align = "center">
-          					<img class = "image_padding" src="../img/Document/Simulation/Simulation_Input.png" width = "70%" alt = "Simulation_Input">
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_InputModel.png" width = "70%" alt = "Parameter_Input">
           				</td>
        			    </tr>
         			<tr>
@@ -64,19 +64,16 @@
       			</tbody>
       		</table>
 		</div>
-		<div class = "row">
-			Then pressing "Execute" button, you can get the results of simulation which are graphical view and numerical table.
-		</div>
 		<div align = "center">			
 			<table>
        	 		<tbody>
        	 			<tr>
           				<td align = "center">
-          					<img class = "image_padding" src="../img/Document/Simulation/Simulation_Execution.png" width = "70%" alt = "Simulation_Input">
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_InputExperiment.png" width = "70%" alt = "Parameter_Input">
           				</td>
        			    </tr>
         			<tr>
-          				<td align = "center"> Fig 2 : Visualize graphical result.
+          				<td align = "center"> Fig 2 : Input experiment data.
           				</td>
         			</tr>
       			</tbody>
@@ -87,17 +84,58 @@
        	 		<tbody>
        	 			<tr>
           				<td align = "center">
-          					<img class = "image_padding" src="../img/Document/Simulation/Simulation_Numerical.png" width = "70%" alt = "Simulation_Input">
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_ExperimentData.png" width = "70%" alt = "Parameter_Input">
           				</td>
        			    </tr>
         			<tr>
-          				<td align = "center"> Fig 3 : Visualize numerical table.
+          				<td align = "center"> Fig 3 : The format of experiment data.
+          				</td>
+        			</tr>
+      			</tbody>
+      		</table>
+		</div>
+		<div class = "row">
+			Then pressing "Execute" button, you can get the results of parameter estimation which are graphical view and numerical table.
+		</div>
+		<div align = "center">			
+			<table>
+       	 		<tbody>
+       	 			<tr>
+          				<td align = "center">
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_Graph.png" width = "70%" alt = "Simulation_Input">
+          				</td>
+       			    </tr>
+        			<tr>
+          				<td align = "center"> Fig 4 : Visualize graphical result. The line shows the simulation results with fitted parameter and cross of plot shows the experimental data.
+          				</td>
+        			</tr>
+      			</tbody>
+      		</table>
+		</div>
+		<div align = "center">			
+			<table>
+       	 		<tbody>
+       	 			<tr>
+          				<td align = "center">
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_Table.png" width = "70%" alt = "Simulation_Input">
+          				</td>
+       			    </tr>
+        			<tr>
+          				<td align = "center"> Fig 5 : Visualize numerical table.
           				</td>
         			</tr>
       			</tbody>
       		</table>
 		</div>		
 	</div>
+	<ul class="pagination pagination-lg justify-content-center">
+    	<li class="page-item disabled">
+      		<a class="page-link" href="#"> &laquo; Previous</a>
+    	</li>
+   		 <li class="page-item">
+      		<a class="page-link" href="./Parameter_ChangeSetting.html">Next &raquo;</a>
+    	</li>
+  	</ul>
 	<script type = "text/javascript" src = "../MDB-Free/js/mdb.min.js"></script>
 </body>
 </html>

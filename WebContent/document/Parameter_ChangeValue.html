@@ -11,7 +11,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src = "../tether-master/dist/js/tether.min.js"></script>
 <script type="text/javascript" src="../bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
-<title>Document : Simulation-Change the value of parameters</title>
+<title>Document : Parameter estimation - Change the value of parameters</title>
 </head>
 <body>
 	<div id = "page-header" class = "navbar navbar-inverse navbar-fixed-top">
@@ -45,26 +45,34 @@
 		</div>
 	</div>
 	<div class = "container-fluid">
-		<h1 class = "itemize"> Change the value of model's parameter</h1>
+		<h1 class = "itemize"> Change upper and lower bound value to execute parameter estimation for each model's parameter</h1>
 		<div class = "row">
-			You can change the model's parameter and execute the simulation. On the right of canvas in "Graphical View" there are 3 types of parameters, "Species(Initial Amount)", "Compartment" and "Kinetic Parameter" which includes "Local Parameters" and "Global Parameters". You can press the tab you want to change the parameter value. <strong> Using slider or changing the value in text box, you can change the model's parameter. Then the simulation is automatically executed and the result is visualized.</strong>
+			You can change upper and lower bound to execute parameter estimation for each model's parameter. On the right of canvas in "Graphical View" there are 2 types of parameters, "Kinetic Parameter" which includes "Local Parameters" and "Global Parameters". You can press the tab you want to change the parameter value. <strong> Using slider or changing the value in text box, you can change upper and lower bound of model's parameter to search for.</strong>
 		</div>
 		<div align = "center">			
 			<table>
        	 		<tbody>
        	 			<tr>
           				<td align = "center">
-          					<img class = "image_padding" src="../img/Document/Simulation/Simulation_ModelValue.png" width = "70%" alt = "Simulation_ModelValue">
+          					<img class = "image_padding" src="../img/Document/ParameterEstimation/Parameter_ModelValue.png" width = "70%" alt = "Parameter_ModelValue">
           				</td>
        			    </tr>
         			<tr>
-          				<td align = "center"> Fig 1 : Setting form to change the model's parameter(red box) and execute simulation.
+          				<td align = "center"> Fig 1 : Setting form to change upper and lower bound to execute parameter estimation for each model's parameter(red box) and execute simulation.
           				</td>
         			</tr>
       			</tbody>
       		</table>
 		</div>
 	</div>
+	<ul class="pagination pagination-lg justify-content-center">
+    	<li class="page-item">
+      		<a class="page-link" href="./Parameter_ChangeSetting.html"> &laquo; Previous</a>
+    	</li>
+   		 <li class="page-item">
+      		<a class="page-link" href="./Parameter_BeforeFitting.html">Next &raquo;</a>
+    	</li>
+  	</ul>
 	<script type = "text/javascript" src = "../MDB-Free/js/mdb.min.js"></script>
 </body>
 </html>
