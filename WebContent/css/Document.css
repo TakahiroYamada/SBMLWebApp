@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+.itemize { padding-top : 10px;}
+.image_padding { padding-top : 20px;}
+ul { display : block;
+}
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
