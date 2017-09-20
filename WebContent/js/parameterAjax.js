@@ -93,9 +93,18 @@ function analyzeData( loadingObject ){
 	var model_file = document.getElementById("paraFile");
 	var exp_file = document.getElementById("expData");
 	var progressBar = document.getElementById("progress");
-	
 	var SBML_file = model_file.files[ 0 ];
 	var Exp_file = exp_file.files[ 0 ];
+	// If model file is changed , parameter_jsondata is initialized firstly.
+	if( currentFile != $("#paraFile")[ 0 ].files[ 0 ].name){
+		//addWarningText( responseData );
+		parameter_jsondata ={
+				initValue : [],
+				compartmentValue : [],
+				localParamValue : [],
+				paramValue : []
+		};
+	}
 	
 	// filedata contains all data transfered to Server side Servlet
 	var filedata = new FormData();
@@ -104,7 +113,7 @@ function analyzeData( loadingObject ){
 	filedata.append("SBMLFile" , SBML_file );
 	filedata.append("ExpFile" , Exp_file);
 	filedata.append("SessionId" , sessionId);
-
+	
 	// Parameter data is set to filedata(FormData)
 	configureFormData( filedata );
 	
