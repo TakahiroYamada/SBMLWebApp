@@ -16,7 +16,17 @@ $("#paraFile").on("change" , function(){
 		}
 	})
 	reader.readAsText( input );
-})	
+})
+$("#check-biomodels").on("change" , function(){
+	if( $(this)[ 0 ].checked ){
+		$("#div-localfile").hide();
+		$("#div-biomodels").show();
+	}
+	else{
+		$("#div-localfile").show();
+		$("#div-biomodels").hide();
+	}
+})
 $("#paramButton").on("click" , function(){
 	if( !errorCheck()){
 		$(this).LoadingOverlay("show");
