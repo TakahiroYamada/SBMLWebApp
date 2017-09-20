@@ -109,7 +109,6 @@ public class SBML_Manipulator {
 			
 			param_Beans[ i ].setSbmlName( document.getModel().getParameter( i ).getName() );
 			param_Beans[ i ].setSbmlID( document.getModel().getParameter( i ).getId());
-			System.out.println( document.getModel().getParameter( i ).getId() );
 		}
 		return param_Beans;
 	}

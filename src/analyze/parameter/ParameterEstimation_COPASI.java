@@ -209,6 +209,7 @@ public class ParameterEstimation_COPASI {
 		optimizedUpper = new LinkedHashMap<>();
 		paramUnit = new LinkedHashMap<>();
 		for( int i = 0 ; i < fitProblem.getOptItemList().size() ; i ++){
+			String paramSBMLId = paramList.get( i ).getObjectDisplayName().substring( paramList.get( i ).getObjectDisplayName().indexOf(")") + 2);
 			COptItem tmpOptItem = fitProblem.getOptItemList().get( i );
 			boptimizedParam.put( tmpOptItem.getObjectDisplayName() , paramList.get( i ).getDblValue() );
 			optimizedParam.put( tmpOptItem.getObjectDisplayName() , fitProblem.getSolutionVariables().get( i ));
@@ -216,8 +217,17 @@ public class ParameterEstimation_COPASI {
 			optimizedUpper.put( tmpOptItem.getObjectDisplayName() , fitProblem.getOptItemList().get( i ).getUpperBoundValue());			
 			paramUnit.put( tmpOptItem.getObjectDisplayName() , paramList.get( i ).getUnits() );
 			// The parameter value in current model is changed by following line
-			paramList.get( i ).setDblValue( fitProblem.getSolutionVariables().get( i ));
-			dataModel.getModel().updateInitialValues( paramList.get( i ));
+			// for global parameter
+			if( globalParamCheck.contains( paramSBMLId )){
+				dataModel.getModel().getModelValue( paramSBMLId ).setInitialValue( fitProblem.getSolutionVariables().get( i ));
+				dataModel.getModel().updateInitialValues( dataModel.getModel().getModelValue( paramSBMLId ));
+			}
+			// for local parameter
+			else{
+				paramList.get( i ).setDblValue( fitProblem.getSolutionVariables().get( i ));
+				dataModel.getModel().updateInitialValues( paramList.get( i ));
+			}
+			
 		}
 		
 		// Get the information of experiment
