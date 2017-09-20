@@ -10,6 +10,17 @@
         <name>ImageJ Releases Repository</name>
         <url>http://maven.imagej.net/content/repositories/releases/</url>
     </repository>
+    <repository>
+    	<id>ebi-repo</id>
+    	<name>The EBI internal repository</name>
+    	<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+    	<releases>
+      		<enabled>true</enabled>
+    	</releases>
+    	<snapshots>
+      		<enabled>false</enabled>
+    	</snapshots>
+  	</repository>
   </repositories>
   <build>
    <sourceDirectory>${basedir}/src</sourceDirectory>
@@ -86,6 +97,10 @@
   		<groupId>org.sbml.jsbml</groupId>
   		<artifactId>jsbml</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>uk.ac.ebi.biomodels</groupId>
+  		<artifactId>biomodels-wslib</artifactId>
+  	</dependency>
   </dependencies>
   <dependencyManagement>
   	<dependencies>
@@ -146,6 +161,11 @@
   			<artifactId>jsbml</artifactId>
   			<version>1.2</version>
   		</dependency>
+  		<dependency>
+      		<groupId>uk.ac.ebi.biomodels</groupId>
+      		<artifactId>biomodels-wslib</artifactId>
+      		<version>1.21</version>
+    	</dependency>
   	</dependencies>
   </dependencyManagement>
 </project>

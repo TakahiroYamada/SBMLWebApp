@@ -146,7 +146,7 @@ function analyzeData( loadingObject ){
 			$("#warningModal").modal("hide");
 			loadingObject.LoadingOverlay("hide");
 		});
-	});;
+	});
 }
 
 function callback( responseData ){

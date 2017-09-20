@@ -12,7 +12,6 @@ $("#paraFile").on("change" , function(){
 				el.after( "<input id = 'paraFile' type = 'file' size = '50' accept = '.xml'>" );
 				el.remove();
 			});
-			
 		}
 	})
 	reader.readAsText( input );
@@ -21,10 +20,22 @@ $("#check-biomodels").on("change" , function(){
 	if( $(this)[ 0 ].checked ){
 		$("#div-localfile").hide();
 		$("#div-biomodels").show();
+		if( $("#select-biomodels").children().length == 0 ){
+			$("#div-biomodels").LoadingOverlay("show");
+		}
+		else{
+			var exp_file = document.getElementById("expFile");
+			var algorithm = document.getElementById("lvparam");
+			exp_file.style.display = "block";
+			algorithm.style.display ="block";
+		}
 	}
 	else{
 		$("#div-localfile").show();
 		$("#div-biomodels").hide();
+		if( $("#select-biomodels").children().length == 0 ){
+			$("#div-biomodels").LoadingOverlay("hide");
+		}
 	}
 })
 $("#paramButton").on("click" , function(){

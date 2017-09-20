@@ -67,8 +67,10 @@
 			<div class = "col-4" id = "div-localfile">
 				<input id = "paraFile" type = "file" size = "50" accept = ".xml,.sbml">
 			</div>
-			<div class = "col-4" id = "div-biomodels">
-			
+			<div class = "col-4" id = "div-biomodels" style="display:none">
+				<div class = "form-group">
+					<select class = "selectpicker form-control" id = "select-biomodels" size = "1"></select>
+				</div>
 			</div>
 		</div>
 			<div id = "expFile" style="display:none">
@@ -288,5 +290,6 @@
 	</script>
 	<script type = "text/javascript" src="./MDB-Free/js/mdb.min.js"></script>	
 	<script type = "text/javascript" src ="./js/parameterEvent.js"></script>
+	<script type="text/javascript" src = "./js/parameterBioModelsAddition.js"> </script>
 </body>
 </html>

@@ -69,7 +69,7 @@ public class SBML_Manipulator {
 			Parameters_Beans globalParam = sbmlParam.getParamValue()[ i ];
 			document.getModel().getParameter( globalParam.getSbmlID() ).setValue( globalParam.getParameterValue() );
 		}
-		// the result is save in  sbmlFile path
+		// the result is saved in  sbmlFile path
 		writeSBML();
 	}
 	public void writeSBML() throws SBMLException, XMLStreamException, IOException , IllegalArgumentException{
