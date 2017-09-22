@@ -59,7 +59,18 @@ public class Simulation_Servlet extends HttpServlet {
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		
-		sessionCheck( request , upload );
+		// Checking session has been already opend or not.
+		try {
+			sessionCheck( request , upload );
+		} catch (FileUploadException e) {
+			response.setStatus( 400 );
+			PrintWriter out = response.getWriter();
+			out.print( e.getMessage() );
+			out.flush();
+			e.printStackTrace();
+			return;
+		}
+		
 		if( sessionId.equals("")){
 			sessionId = UniqueId.getUniqueId();
 		}
@@ -78,7 +89,12 @@ public class Simulation_Servlet extends HttpServlet {
 			sbml_Manipulator.editModelParameter( this.sbmlParam );
 		} catch (SBMLException e1) {
 			// TODO Auto-generated catch block
+			response.setStatus( 400 );
+			PrintWriter out = response.getWriter();
+			out.print( e1.getMessage() );
+			out.flush();
 			e1.printStackTrace();
+			return;
 		} catch (IllegalArgumentException e1) {
 			// TODO Auto-generated catch block
 			response.setStatus( 400 );
@@ -89,7 +105,12 @@ public class Simulation_Servlet extends HttpServlet {
 			return;
 		} catch (XMLStreamException e1) {
 			// TODO Auto-generated catch block
+			response.setStatus( 400 );
+			PrintWriter out = response.getWriter();
+			out.print( e1.getMessage() );
+			out.flush();
 			e1.printStackTrace();
+			return;
 		}
 		
 		// execute analysis of simulation with intended library
@@ -146,19 +167,15 @@ public class Simulation_Servlet extends HttpServlet {
 		out.print( jsonSimulation );
 
 	}
-	private void sessionCheck(HttpServletRequest request, ServletFileUpload upload) {
-		try {
-			this.fields = upload.parseRequest(request);
-			Iterator<FileItem> it = fields.iterator();
-			while (it.hasNext()) {
-				FileItem item = it.next();
-				if (item.getFieldName().equals("SessionId")) {
-					sessionId = item.getString();
-				}
+	private void sessionCheck(HttpServletRequest request, ServletFileUpload upload) throws FileUploadException {
+
+		this.fields = upload.parseRequest(request);
+		Iterator<FileItem> it = fields.iterator();
+		while (it.hasNext()) {
+			FileItem item = it.next();
+			if (item.getFieldName().equals("SessionId")) {
+				sessionId = item.getString();
 			}
-		} catch (FileUploadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
