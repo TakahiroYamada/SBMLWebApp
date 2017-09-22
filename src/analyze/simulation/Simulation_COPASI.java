@@ -7,6 +7,7 @@ import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
+import exception.NoDynamicSpeciesException;
 import parameter.Simulation_Parameter;
 
 
@@ -104,7 +105,7 @@ public class Simulation_COPASI {
 		return( this.simTimeSeries );
 	}
 	//Following code sum up with the Beans of JSONIC and the return value will be encoded as JSON format and responsed to Client side.
-	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis ) {
+	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis ) throws NoDynamicSpeciesException {
 		long numOfTimePoints = simTimeSeries.getRecordedSteps();
 		double maxCandidate = 0.0;
 		double minCandidate = Double.MAX_VALUE;
@@ -197,6 +198,9 @@ public class Simulation_COPASI {
 		simAllBeans.setXmax( simTimeSeries.getData( numOfTimePoints - 1 , 0));
 		simAllBeans.setYmax( maxCandidate );
 		simAllBeans.setYmin( minCandidate );
+		if( simAllBeans.getData().length == 0 ){
+			throw new NoDynamicSpeciesException();
+		}
 		return simAllBeans;
 	}
 	private ArrayList<Integer> getODESpeciesOrder(){

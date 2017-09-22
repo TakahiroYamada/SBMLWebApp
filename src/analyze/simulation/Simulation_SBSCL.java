@@ -23,6 +23,7 @@ import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
+import exception.NoDynamicSpeciesException;
 import parameter.Simulation_Parameter;
 
 public class Simulation_SBSCL {
@@ -73,7 +74,7 @@ public class Simulation_SBSCL {
 	public MultiTable getTimeSeries(){
 		return( this.solution );
 	}
-	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis){
+	public Simulation_AllBeans configureSimulationBeans(Coloring colorOfVis) throws NoDynamicSpeciesException{
 		int numOfTimePoints = solution.getTimePoints().length;
 		double maxCnadidate = 0.0;
 		double minCandidate = Double.MAX_VALUE;
@@ -166,6 +167,9 @@ public class Simulation_SBSCL {
 		simAllBeans.setXmax( solution.getTimePoint( numOfTimePoints - 1));
 		simAllBeans.setYmax( maxCnadidate );
 		simAllBeans.setYmin( minCandidate );
+		if( simAllBeans.getData().length == 0 ){
+			throw new NoDynamicSpeciesException();
+		}
 		return simAllBeans;
 	}
 	private ArrayList getSBMLIDODESpecies(){

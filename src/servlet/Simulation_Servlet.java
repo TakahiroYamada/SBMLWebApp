@@ -27,6 +27,7 @@ import beans.modelparameter.ModelParameter_Beans;
 import beans.simulation.Simulation_AllBeans;
 import coloring.Coloring;
 import errorcheck.SBML_ErrorCheck;
+import exception.NoDynamicSpeciesException;
 import general.unique_id.UniqueId;
 import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
@@ -55,7 +56,6 @@ public class Simulation_Servlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("Simulation_Servlet.doPost()");
-		//path = getServletContext().getRealPath("/tmp");
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload( factory );
 		
@@ -64,12 +64,14 @@ public class Simulation_Servlet extends HttpServlet {
 			sessionId = UniqueId.getUniqueId();
 		}
 		path = getServletContext().getRealPath("/tmp/" + sessionId);
+		
 		// Save the SBML file in server side directory
 		configureAnalysisEmviroment( request , upload );
 		
-		// check the validity of given SBML model
+		// DEPRICATED : check the validity of given SBML model
 		//SBML_ErrorCheck errorCheck = new SBML_ErrorCheck( this.newFile.getPath()  );
 		//errorCheck.checkError();
+		
 		// Get and edit parameters value in SBML model
 		SBML_Manipulator sbml_Manipulator = new SBML_Manipulator( newFile );
 		try {
@@ -90,6 +92,7 @@ public class Simulation_Servlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 		
+		// execute analysis of simulation with intended library
 		if( param.getLibrary().equals("copasi")){
 			try{
 				Simulation_COPASI simCOPASI = new Simulation_COPASI( newFile.getPath() , param);
@@ -102,54 +105,46 @@ public class Simulation_Servlet extends HttpServlet {
 				this.simulationBeans = simCOPASI.configureSimulationBeans( colorOfVis );
 				this.simulationBeans.setSessionId( this.sessionId);
 				// this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
-
 			} catch( NullPointerException e){
 				e.printStackTrace();
+			} catch (NoDynamicSpeciesException e) {
+				response.setStatus( 400 );
+				PrintWriter out = response.getWriter();
+				out.print( e.getMessage() );
+				out.flush();
+				e.printStackTrace();
+				return;
 			}
 		}
 		else if( param.getLibrary().equals("simulationcore")){
 			// TODO: implement
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
 			colorOfVis = new Coloring( simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
-			this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
+			try {
+				this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
+			} catch (NoDynamicSpeciesException e) {
+				response.setStatus( 400 );
+				PrintWriter out = response.getWriter();
+				out.print( e.getMessage() );
+				out.flush();
+				e.printStackTrace();
+				return;
+			}
 			this.simulationBeans.setSessionId( this.sessionId );
 			//this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
 		}
-
-
+		
+		
 		// add the units of each species
 		sbml_Manipulator.addUnitForEachSpecies( this.simulationBeans );
-
+		
+		// send data to client side
 		this.simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
 		String jsonSimulation = JSON.encode( this.simulationBeans , true  );
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print( jsonSimulation );
 
-		//Following code is future deleted
-
-		//for( int i = 0 ; i < simCOPASI.getTimeSeries().getNumVariables() ; i ++){
-		//	System.out.print( simCOPASI.getTimeSeries().getTitle( i ) +"\t");
-		//}
-		//System.out.println();
-		//for( int i = 0 ; i < simCOPASI.getTimeSeries().getRecordedSteps() ; i ++){
-		//	for( int j = 0 ; j < simCOPASI.getTimeSeries().getNumVariables() ; j ++){
-		//		System.out.print( simCOPASI.getTimeSeries().getConcentrationData( i , j ) + "\t");
-		//	}
-		//	System.out.println();
-		//}
-
-		//response.setHeader("Content-Disposition", "attachment; filename=result.csv");
-		//ServletContext ctx = getServletContext();
-		//InputStream is = ctx.getResourceAsStream("/tmp/result.csv");
-		//int read = 0;
-		//byte[] bytes = new byte[ 1024 ];
-		//OutputStream os = response.getOutputStream();
-		//while(( read = is.read(bytes)) != -1 ){
-		//	os.write( bytes , 0 , read);
-		//}
-		//os.flush();
-		//os.close();
 	}
 	private void sessionCheck(HttpServletRequest request, ServletFileUpload upload) {
 		try {
