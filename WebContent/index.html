@@ -62,24 +62,29 @@
 		<div class = "row" id = "tool-item">
 			<div class = "col-4 view overlay hm-blue-light">
 				<img src="./img/Simulation.png" width = "90%" alt = "Simulation">
-				<div class="mask flex-center">
+				<div class="mask flex-center link-analysis" data-url = "./SimulationFileReader.html">
         			<a href = "./SimulationFileReader.html" class = "black-text" style = "font-size:30px"> <i><strong>Simulation</strong></i></a>
     			</div>
 			</div>
 			<div class = "col-4 view overlay hm-blue-light">
 				<img src="./img/Steady.png" width = "79%" alt = "Steady State Analysis">
-				<div class = "mask flex-center">
+				<div class = "mask flex-center link-analysis" data-url = "./SteadyStateFileReader.html">
 					<a href = "./SteadyStateFileReader.html" class = "black-text" style = "font-size:30px"> <i><strong>Steady State Analysis</strong></i></a>
 				</div>
 			</div>
 			<div class = "col-4 view overlay hm-blue-light">
 				<img src="./img/ParameterEstimation.png" width = "100%" alt = "Parameter Estimation">
-				<div class = "mask flex-center">
-					<a href = "ParameterEstimation.html" class = "black-text" style = "font-size:30px"> <i><strong>Parameter Estimation</strong></i></a>
+				<div class = "mask flex-center link-analysis" data-url = "./ParameterEstimation.html">
+					<a href = "./ParameterEstimation.html" class = "black-text" style = "font-size:30px"> <i><strong>Parameter Estimation</strong></i></a>
 				</div>
 			</div>
 		</div>
 	</div>
-<script type = "text/javascript" src = "./MDB-Free/js/mdb.min.js"></script>
+	<script type = "text/javascript" src = "./MDB-Free/js/mdb.min.js"></script>
+	<script>
+		$(".link-analysis").on("click" , function(){
+			location.href = $(this).attr('data-url');
+		})
+	</script>
 </body>
 </html>
