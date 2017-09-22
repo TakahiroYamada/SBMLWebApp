@@ -63,14 +63,14 @@ function getSimulationResult( loadingObject ){
 				localParamValue : [],
 				paramValue : []
 		};
-		$("#initialValue-slider").empty();
-		$("#compartmentValue-slider").empty();
-		$("#globalParam-slider").empty();
-		$("#localParam-slider").empty();
+		// $("#initialValue-slider").empty();
+		// $("#compartmentValue-slider").empty();
+		// $("#globalParam-slider").empty();
+		// $("#localParam-slider").empty();
 		if( myChart != undefined ){
 			myChart.destroy();
 		}
-		currentFile = form_file.files[ 0 ].name;
+		// currentFile = form_file.files[ 0 ].name;
 	}
 	
 	var file = form_file.files[ 0 ];
@@ -112,14 +112,19 @@ function getSimulationResult( loadingObject ){
 
 function callback( responseData , tmpLegend ){
 	//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
+	var form_file = document.getElementById("simFile");
 	configureCanvas( responseData  , tmpLegend);
 	configureTable( responseData );
-	addInitialValueSlider( responseData );
-	addCompartmentSlider( responseData );
-	addLocalParameterValueSlider( responseData );
-	addGlobalParameterValueSlider( responseData );
+	if( currentFile != form_file.files[ 0 ].name ){
+		addInitialValueSlider( responseData );
+		addCompartmentSlider( responseData );
+		addLocalParameterValueSlider( responseData );
+		addGlobalParameterValueSlider( responseData );
+		currentFile = form_file.files[ 0 ].name;
+	}
 	$("#download").removeClass("disabled");
 }
+// currently depricated
 function addWarningText( responseData){
 	if( responseData.warningText != null){
 		warningSetting(  "Input SBML model is incorrect",responseData.warningText );
