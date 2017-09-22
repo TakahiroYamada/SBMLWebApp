@@ -194,7 +194,7 @@ function configureTable( responseData ){
 	$("#num-table").tabulator("clearData");
 	
 	var jsonNumData = [];
-	var timePoint = simData[ 0 ].data.length
+	var timePoint = simData[ 0 ].data.length;
 	
 	for( var i = 0 ; i < timePoint ; i ++){
 		var keyValueData = {};

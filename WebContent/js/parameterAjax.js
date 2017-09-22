@@ -379,15 +379,15 @@ function addLocalParamSlider( responseData ){
 			}
 		});
 		
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input").change( function(){
-			if( !errorCheck()){
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input").on("keypress",  function( e ){
+			if(e.which ==13 && !errorCheck()){
 				$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
 				$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
 			}
 		});
 		
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input").change( function(){
-			if( !errorCheck()){
+		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input").on("keypress" ,  function( e ){
+			if( e.which == 13 && !errorCheck()){
 				$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
 				$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
 			}
@@ -464,15 +464,15 @@ function addGlobalParamSlider( responseData ){
 			}
 		});
 		
-		$("#" + parameterValue[ i ].sbmlID + "_lower_input").change( function(){
-			if( !errorCheck()){
+		$("#" + parameterValue[ i ].sbmlID + "_lower_input").on("keypress" ,  function( e ){
+			if( e.which == 13 && !errorCheck()){
 				$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
 				$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
 			}
 		});
 		
-		$("#" + parameterValue[ i ].sbmlID + "_upper_input").change( function(){
-			if( !errorCheck()){
+		$("#" + parameterValue[ i ].sbmlID + "_upper_input").on("keypress" ,  function(){
+			if( e.which == 13 && !errorCheck()){
 				$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
 				$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
 			}
