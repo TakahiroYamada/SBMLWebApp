@@ -80,21 +80,24 @@ public class Simulation_SBSCL {
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
 		// The spicies information is contained in listOfSpecies
 		if( model.getNumSpecies() != 0 ){ 
-			int numOfSpecies = model.getListOfSpecies().size();
+			ArrayList<String> orderNotFixedSpecies = getSBMLIDNotFixedSpecies();
+			//int numOfSpecies = model.getListOfSpecies().size();
+			int numOfSpecies = orderNotFixedSpecies.size();
 			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
 			int speciesCount = 0;
 			for( int i = 0 ; i < numOfSpecies ; i ++){
 				for( int j = 0 ; j < solution.getColumnCount() ; j ++){
-					if( model.getListOfSpecies().get( i ).getId().equals( solution.getColumnName( j ))){
+					//if( model.getListOfSpecies().get( i ).getId().equals( solution.getColumnName( j ))){
+					if( orderNotFixedSpecies.get( i ).equals( solution.getColumnName( j ))){
 						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
-						if( !model.getListOfSpecies().get( i ).getName().equals("")){
-							allDataSets[ speciesCount ].setLabel( model.getListOfSpecies().get( i ).getName());
+						//if( !model.getListOfSpecies().get( i ).getName().equals("")){
+						if( !model.getListOfSpecies().get( orderNotFixedSpecies.get( i ) ).getName().equals("")){
+							allDataSets[ speciesCount ].setLabel( model.getListOfSpecies().get( orderNotFixedSpecies.get( i ) ).getName());
 						}
 						else{
 							allDataSets[ speciesCount ].setLabel( solution.getColumnName( j ));
 						}
 						allDataSets[ speciesCount ].setSBMLId( solution.getColumnName( j ));
-						
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
@@ -182,5 +185,22 @@ public class Simulation_SBSCL {
 		}
 		
 		return orderODESpecies;
+	}
+	private ArrayList getSBMLIDNotFixedSpecies(){
+		ArrayList< String > orderNotFixedSpecies = new ArrayList<>();
+		CCopasiDataModel cdataModel = CCopasiRootContainer.addDatamodel();
+		try {
+			cdataModel.importSBML( this.sbmlFile );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for( int i = 0 ; i < cdataModel.getModel().getNumMetabs() ; i ++){
+			if( cdataModel.getModel().getMetabolite( i ).getStatus() != 0 ){
+				orderNotFixedSpecies.add( cdataModel.getModel().getMetabolite( i ).getSBMLId() );
+			}
+		}
+		return orderNotFixedSpecies;
 	}
 }

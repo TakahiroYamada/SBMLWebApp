@@ -34,6 +34,7 @@ public class Simulation_COPASI {
 	}
 	private void simulation(){
 		CModel simModel = dataModel.getModel();
+		
 		CReportDefinitionVector simReports = dataModel.getReportDefinitionList();
 		
 		CReportDefinition simrepDefinition = simReports.createReportDefinition( "Report" , "Output for timecource");
@@ -113,8 +114,8 @@ public class Simulation_COPASI {
 		if( dataModel.getModel().getNumMetabs() != 0 ){
 			long numOfSpecies = simTimeSeries.getNumVariables();
 			int speciesCount = 0;
-			//Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) (numOfSpecies - 1)];
-			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) dataModel.getModel().getNumMetabs() ];
+			// Species with the status which is not FIXED in COPASI is visualized in client side
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ getNumNotFixedSpecies() ];
 			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
 				//j == 0 means the value of time point! this is considered as the value of x axis!
 				for( int j = 1 ; j < numOfSpecies ; j ++ ){
@@ -156,8 +157,7 @@ public class Simulation_COPASI {
 			
 			ArrayList< Integer > orderODESpeceis = getODESpeciesOrder();
 			int numOfSpeceis = orderODESpeceis.size();
-			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpeceis ];
-			
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpeceis ];			
 			for( int i = 0 ; i < numOfSpeceis ; i ++){
 				//j == 0 means the value of time point! this is considered as the value of x axis!
 				for( int j = 1 ; j < simTimeSeries.getNumVariables() ; j ++ ){
@@ -207,5 +207,14 @@ public class Simulation_COPASI {
 			}
 		}
 		return orderODESpecies;
+	}
+	private int getNumNotFixedSpecies(){
+		int count = 0;
+		for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++ ){
+			if( dataModel.getModel().getMetabolite( i ).getStatus() != 0 ){
+				count += 1;
+			}
+		}
+		return count;
 	}
 }
