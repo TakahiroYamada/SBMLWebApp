@@ -104,9 +104,14 @@ public class SBML_Manipulator {
 	private Parameters_Beans[] getParameters(){
 		Parameters_Beans[] param_Beans = new Parameters_Beans[ document.getModel().getNumParameters() ];
 		for( int i = 0 ; i < document.getModel().getNumParameters() ; i ++){
+			Double checker = new Double( document.getModel().getParameter( i ).getValue() );
 			param_Beans[ i ] = new Parameters_Beans();
-			param_Beans[ i ].setParameterValue( document.getModel().getParameter( i ).getValue() );
-			
+			if( !checker.isNaN() ){
+				param_Beans[ i ].setParameterValue( document.getModel().getParameter( i ).getValue() );
+			}
+			else{
+				param_Beans[ i ].setParameterValue( 0.0 );
+			}
 			param_Beans[ i ].setSbmlName( document.getModel().getParameter( i ).getName() );
 			param_Beans[ i ].setSbmlID( document.getModel().getParameter( i ).getId());
 		}
@@ -116,29 +121,48 @@ public class SBML_Manipulator {
 		// TODO Auto-generated method stub
 		Compartment_Beans[] comp_Beans = new Compartment_Beans[ document.getModel().getNumCompartments() ];
 		for( int i = 0 ; i < document.getModel().getNumCompartments() ; i ++){
+			Double checker = new Double( document.getModel().getCompartment( i ).getSize() );
 			comp_Beans[ i ] = new Compartment_Beans();
 			comp_Beans[ i ].setSbmlName( document.getModel().getCompartment( i ).getName());
 			comp_Beans[ i ].setSbmlID( document.getModel().getCompartment( i ).getId());
-			comp_Beans[ i ].setSize( document.getModel().getCompartment( i ).getSize() );
+			if( !checker.isNaN() ){
+				comp_Beans[ i ].setSize( document.getModel().getCompartment( i ).getSize() );
+			}
+			else{
+				comp_Beans[ i ].setSize( 0.0 );
+			}
 		}
 		return comp_Beans;
  	}
 	private InitialValue_Beans[] getInitValue(){
 		InitialValue_Beans[] init_Beans = new InitialValue_Beans[ document.getModel().getNumSpecies() ];
+		int unitStatus = 0;
 		for( int i = 0 ; i < document.getModel().getNumSpecies() ; i ++){
 			init_Beans[ i ] = new InitialValue_Beans();
-			Double checker = new Double( document.getModel().getSpecies( i ).getInitialAmount() );
+			Double checker_Amount = new Double( document.getModel().getSpecies( i ).getInitialAmount() );
+			Double checker_Concentration = new Double( document.getModel().getSpecies( i ).getInitialConcentration() );
 			init_Beans[ i ].setSbmlName( document.getModel().getSpecies( i ).getName() );
 			init_Beans[ i ].setSbmlID( document.getModel().getSpecies( i ).getId());
 			
 			// If the value of species is defined as Initial Amount
-			if( !checker.isNaN() ){
+			if( !checker_Amount.isNaN() ){
 				init_Beans[ i ].setInitialValue( document.getModel().getSpecies( i ).getInitialAmount());
 				init_Beans[ i ].setStatus( InitialValue_Beans.INIT_AMOUNT );
+				unitStatus = InitialValue_Beans.INIT_AMOUNT;
 			}
-			else{
+			else if( !checker_Concentration.isNaN() ){
 				init_Beans[ i ].setInitialValue( document.getModel().getSpecies( i ).getInitialConcentration() );
 				init_Beans[ i ].setStatus( InitialValue_Beans.INIT_CONCENTRATION );
+				unitStatus = InitialValue_Beans.INIT_CONCENTRATION;
+			}
+			else{
+				init_Beans[ i ].setInitialValue( 0.0 );
+				if( unitStatus == InitialValue_Beans.INIT_AMOUNT ){
+					init_Beans[ i ].setStatus( InitialValue_Beans.INIT_AMOUNT );
+				}
+				else if( unitStatus == InitialValue_Beans.INIT_CONCENTRATION ){
+					init_Beans[ i ].setStatus( InitialValue_Beans.INIT_CONCENTRATION );
+				}
 			}
 		}
 		return init_Beans;
@@ -149,8 +173,15 @@ public class SBML_Manipulator {
 		for( int i = 0 ; i < document.getModel().getNumReactions() ; i ++){
 			Reaction reaction = document.getModel().getReaction( i );
 			for( int j = 0 ; j < reaction.getKineticLaw().getLocalParameterCount() ; j ++){
+				Double checker = new Double( reaction.getKineticLaw().getLocalParameter( j ).getValue() );
 				localParam_Beans[ localParamCount ] = new LocalParameters_Beans();
-				localParam_Beans[ localParamCount ].setParameterValue( reaction.getKineticLaw().getLocalParameter( j ).getValue() );
+				
+				if(!checker.isNaN() ){
+					localParam_Beans[ localParamCount ].setParameterValue( reaction.getKineticLaw().getLocalParameter( j ).getValue() );
+				}
+				else{
+					localParam_Beans[ localParamCount ].setParameterValue( 0.0  );
+				}
 				
 				localParam_Beans[ localParamCount ].setReactionName( reaction.getName() );
 				localParam_Beans[ localParamCount ].setReactionID( reaction.getId() );
