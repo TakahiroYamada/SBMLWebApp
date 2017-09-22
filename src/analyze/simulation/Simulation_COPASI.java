@@ -67,8 +67,7 @@ public class Simulation_COPASI {
         simTrajekTask.setScheduled( true );
         simTrajekTask.getReport().setTarget( "SimulationResult.txt");
         simTrajekTask.getReport().setAppend( false );
-        
-        // Simulation Emvironment Configuration
+        // Simulation Environment Configuration
         
         CTrajectoryProblem simProblem = ( CTrajectoryProblem )simTrajekTask.getProblem();
         
@@ -91,15 +90,14 @@ public class Simulation_COPASI {
         boolean result=true;
         try
         {
-            result = simTrajekTask.processWithOutputFlags( true, (int)CCopasiTask.ONLY_TIME_SERIES);
+        	result = simTrajekTask.processWithOutputFlags( true, (int)CCopasiTask.ONLY_TIME_SERIES);
         }
         catch ( Exception e)
         {
         		e.printStackTrace();	
         }
         
-        simTimeSeries = simTrajekTask.getTimeSeries();
-
+        simTimeSeries = simTrajekTask.getTimeSeries();        
 	}
 	public CTimeSeries getTimeSeries(){
 		return( this.simTimeSeries );
@@ -115,7 +113,8 @@ public class Simulation_COPASI {
 		if( dataModel.getModel().getNumMetabs() != 0 ){
 			long numOfSpecies = simTimeSeries.getNumVariables();
 			int speciesCount = 0;
-			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) (numOfSpecies - 1)];
+			//Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) (numOfSpecies - 1)];
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ (int) dataModel.getModel().getNumMetabs() ];
 			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
 				//j == 0 means the value of time point! this is considered as the value of x axis!
 				for( int j = 1 ; j < numOfSpecies ; j ++ ){
@@ -128,7 +127,6 @@ public class Simulation_COPASI {
 						else{
 							allDataSets[ speciesCount ].setLabel( simTimeSeries.getSBMLId( j , dataModel));
 						}
-						
 						allDataSets[ speciesCount ].setSBMLId( simTimeSeries.getSBMLId( j , dataModel ));
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ (int) numOfTimePoints ];
 						for( int k = 0 ; k < numOfTimePoints ; k ++){

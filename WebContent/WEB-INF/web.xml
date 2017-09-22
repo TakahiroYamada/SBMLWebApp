@@ -49,4 +49,14 @@
     <servlet-name>BioModels_ModelExtraction</servlet-name>
     <url-pattern>/BioModels_ModelExtraction</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BioModels_ModelSBMLExtraction</display-name>
+    <servlet-name>BioModels_ModelSBMLExtraction</servlet-name>
+    <servlet-class>servlet.BioModels_ModelSBMLExtraction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BioModels_ModelSBMLExtraction</servlet-name>
+    <url-pattern>/BioModels_ModelSBMLExtraction</url-pattern>
+  </servlet-mapping>
 </web-app>

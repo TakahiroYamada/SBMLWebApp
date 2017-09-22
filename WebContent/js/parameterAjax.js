@@ -93,10 +93,17 @@ function analyzeData( loadingObject ){
 	var model_file = document.getElementById("paraFile");
 	var exp_file = document.getElementById("expData");
 	var progressBar = document.getElementById("progress");
-	var SBML_file = model_file.files[ 0 ];
 	var Exp_file = exp_file.files[ 0 ];
+	var SBML_file;
+	if( ! $("#check-biomodels")[ 0 ].checked ){
+		SBML_file = model_file.files[ 0 ];
+	}
+	else{
+		SBML_file = new File( [ModelSBML.SBML] , ModelSBML.SBMLId + ".xml")
+	}
+	
 	// If model file is changed , parameter_jsondata is initialized firstly.
-	if( currentFile != $("#paraFile")[ 0 ].files[ 0 ].name){
+	if( currentFile != SBML_file.name ){
 		//addWarningText( responseData );
 		parameter_jsondata ={
 				initValue : [],
@@ -136,7 +143,7 @@ function analyzeData( loadingObject ){
 	}).done( function( result ){
 		sessionId = result.sessionId;
 		responseData = result;
-		callback( responseData );
+		callback( SBML_file.name , responseData );
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
 		errorSetting( result.responseText , "Please check your input file which is really SBML.")
@@ -149,10 +156,10 @@ function analyzeData( loadingObject ){
 	});
 }
 
-function callback( responseData ){
+function callback( fileName , responseData ){
 	configureCanvas( responseData );
 	configureTable( responseData );
-	if( currentFile != $("#paraFile")[ 0 ].files[ 0 ].name){
+	if( currentFile != fileName ){
 		//addWarningText( responseData );
 		parameter_jsondata ={
 				initValue : [],
@@ -164,7 +171,7 @@ function callback( responseData ){
 		$("#localParam-slider").empty();
 		addLocalParamSlider( responseData );
 		addGlobalParamSlider( responseData );
-		currentFile = $("#paraFile")[ 0 ].files[ 0 ].name;
+		currentFile = fileName ;
 	}
 	$("#download").removeClass("disabled")
 }

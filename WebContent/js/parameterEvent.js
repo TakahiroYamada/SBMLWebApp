@@ -1,3 +1,7 @@
+var ModelSBML = {
+		SBMLId : null , 
+		SBML : null
+};
 $("#paraFile").on("change" , function(){
 	var input = $(this).get(0).files[ 0 ];
 	var reader = new FileReader();
@@ -20,23 +24,38 @@ $("#check-biomodels").on("change" , function(){
 	if( $(this)[ 0 ].checked ){
 		$("#div-localfile").hide();
 		$("#div-biomodels").show();
-		if( $("#select-biomodels").children().length == 0 ){
+		if( $("#select-biomodels").children().length == 1 ){
 			$("#div-biomodels").LoadingOverlay("show");
-		}
-		else{
-			var exp_file = document.getElementById("expFile");
-			var algorithm = document.getElementById("lvparam");
-			exp_file.style.display = "block";
-			algorithm.style.display ="block";
 		}
 	}
 	else{
 		$("#div-localfile").show();
 		$("#div-biomodels").hide();
-		if( $("#select-biomodels").children().length == 0 ){
+		if( $("#select-biomodels").children().length == 1 ){
 			$("#div-biomodels").LoadingOverlay("hide");
 		}
 	}
+})
+$("#select-biomodels").on("change", function(){
+	// Visualizing the setting form of experimental data
+	var exp_file = document.getElementById("expFile");
+	var algorithm = document.getElementById("lvparam");
+	exp_file.style.display = "block";
+	algorithm.style.display ="block";
+	
+	// Model data load
+	var selectedModel = $("#select-biomodels option:selected");
+	var modelId = $(this).val();
+	var modelName = selectedModel.attr("label");
+	
+	$.ajax("./BioModels_ModelSBMLExtraction" , {
+		async : true,
+		type : "post",
+		data : { bioModelsId : modelId } , 
+	}).done( function( result ){
+		ModelSBML.SBMLId = modelId;
+		ModelSBML.SBML = result;
+	});
 })
 $("#paramButton").on("click" , function(){
 	if( !errorCheck()){
@@ -62,7 +81,7 @@ function errorCheck(){
 	var info = checkNegativeValueinInput( $("input").each(function(index){
 	}));
 	// If file is not selected the error is visualized
-	if( $("#paraFile").val().length == 0){
+	if( $("#paraFile").val().length == 0 && (!$("#check-biomodels")[0].checked) ){
 		errorSetting("SBML model is not selected" , "Selecting SBML file in input form")
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");

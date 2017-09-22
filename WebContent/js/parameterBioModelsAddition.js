@@ -11,11 +11,5 @@ $.ajax("./BioModels_ModelExtraction" , {
 			newOption.setAttribute("label", result.biomodels_name[ i ]);
 			select.append( newOption);
 			$("#div-biomodels").LoadingOverlay("hide");
-			if( $("#div-biomodels").is(":visible")){
-				var exp_file = document.getElementById("expFile");
-				var algorithm = document.getElementById("lvparam");
-				exp_file.style.display = "block";
-				algorithm.style.display ="block";
-			}
 		}
 	});
