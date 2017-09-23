@@ -2,7 +2,6 @@ package analyze.simulation;
 import java.util.ArrayList;
 
 import org.COPASI.*;
-import org.apache.naming.java.javaURLContextFactory;
 
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;

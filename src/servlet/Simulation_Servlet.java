@@ -23,6 +23,7 @@ import org.sbml.jsbml.SBMLException;
 
 import analyze.simulation.Simulation_COPASI;
 import analyze.simulation.Simulation_SBSCL;
+import analyze.simulation.Simulation_libSBMLsim;
 import beans.modelparameter.ModelParameter_Beans;
 import beans.simulation.Simulation_AllBeans;
 import coloring.Coloring;
@@ -141,6 +142,9 @@ public class Simulation_Servlet extends HttpServlet {
 			// TODO: implement
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
 			colorOfVis = new Coloring( simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
+			
+			Simulation_libSBMLsim simlibSBMLSim = new Simulation_libSBMLsim( newFile.getPath() );
+			
 			try {
 				this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
 			} catch (NoDynamicSpeciesException e) {
