@@ -8,6 +8,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.COPASI.CCopasiDataModel;
 import org.COPASI.CCopasiRootContainer;
+import org.COPASI.CModelEntity;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLReader;
 
@@ -16,7 +17,6 @@ import beans.simulation.Simulation_DatasetsBeans;
 import beans.simulation.Simulation_XYDataBeans;
 import coloring.Coloring;
 import exception.NoDynamicSpeciesException;
-import inra.ijpb.plugins.KeepLargestLabelPlugin;
 import jp.ac.keio.bio.fun.libsbmlsim.*;
 import parameter.Simulation_Parameter;
 
@@ -87,7 +87,45 @@ public class Simulation_libSBMLsim {
 			simAllBeans.setData( allDataSets );
 		}
 		else{
-			
+			ArrayList< String > sbmlIDOfODESpecies = getSBMLIDODESpecies();
+			int numOfSpecies = sbmlIDOfODESpecies.size();
+			int speciesCount = 0;
+			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ numOfSpecies ];
+			for( int i = 0 ; i < numOfSpecies ; i ++){
+				for( int j = 0 ; j < r.getNum_of_columns_param() ; j ++){
+					if( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i ) ).getId().equals( r.getParameterNameAtIndex( j ))){
+						allDataSets[ speciesCount ] = new Simulation_DatasetsBeans();
+						
+						if( !model.getListOfParameters().get(sbmlIDOfODESpecies.get( i )).getName().equals("")){
+							allDataSets[ speciesCount ].setLabel( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i )).getName());
+						}
+						else{
+							allDataSets[ speciesCount ].setLabel( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i )).getId());
+						}
+						allDataSets[ speciesCount ].setSBMLId( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i )).getId());
+						
+						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
+						for( int k = 0 ; k < numOfTimePoints ; k ++){
+							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
+							allXYDataBeans[ k ].setX( r.getTimeValueAtIndex( k ));
+							allXYDataBeans[ k ].setY( r.getParameterValueAtIndex( r.getParameterNameAtIndex( j ), k));
+							if( maxCandidate < r.getParameterValueAtIndex( r.getParameterNameAtIndex( j ), k)){
+								maxCandidate = r.getParameterValueAtIndex( r.getParameterNameAtIndex( j ), k);
+							}
+							if( minCandidate > r.getParameterValueAtIndex( r.getParameterNameAtIndex( j ), k)){
+								minCandidate = r.getParameterValueAtIndex( r.getParameterNameAtIndex( j ), k);
+							}
+						}
+						allDataSets[ speciesCount ].setData( allXYDataBeans );
+						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointBorderColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setBackgroundColor( colorOfVis.getColor( speciesCount ));
+						allDataSets[ speciesCount ].setPointRadius( 1 );
+						speciesCount += 1;
+					}
+				}
+			}
+			simAllBeans.setData( allDataSets );
 		}
 		simAllBeans.setXmax( r.getTimeValueAtIndex( numOfTimePoints - 1));
 		simAllBeans.setYmax( maxCandidate );
@@ -115,13 +153,30 @@ public class Simulation_libSBMLsim {
 		}
 		return orderNotFixedSpecies;
 	}
+	private ArrayList getSBMLIDODESpecies(){
+		ArrayList< String > orderODESpecies = new ArrayList<>();
+		CCopasiDataModel cdataModel = CCopasiRootContainer.addDatamodel();
+		try {
+			cdataModel.importSBML( this.sbmlFile );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for( int i = 0 ; i < cdataModel.getModel().getNumModelValues() ; i ++ ){
+			if( cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE ){
+				orderODESpecies.add( cdataModel.getModel().getModelValue( i ).getSBMLId() );
+			}
+		}
+		
+		return orderODESpecies;
+	}
 	public int getNumberOfVisualizedObject(){
 		if( r.getNumOfSpecies() != 0){
-			return r.getNumOfSpecies();
+			return getSBMLIDNotFixedSpecies().size();
 		}
 		else{
-			// Future changed
-			return r.getNumOfParameters();
+			return getSBMLIDODESpecies().size();
 		}
 	}
 	public myResult getMyResult() {

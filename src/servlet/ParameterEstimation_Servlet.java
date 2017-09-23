@@ -140,7 +140,7 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		this.paramSim = new Simulation_Parameter();
 		this.paramSim.setLibrary("copasi");
 		this.paramSim.setNumTime(endTime);
-		this.paramSim.setEndTime(endTime);
+		this.paramSim.setEndTime(new Double( endTime));
 
 		colorOfVis = new Coloring((int) paramEstCopasi.getDependentData().size(), 1.0);
 		// Simulation execution using parameters before and after fitting

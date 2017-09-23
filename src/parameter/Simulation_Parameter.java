@@ -1,13 +1,13 @@
 package parameter;
 
 public class Simulation_Parameter extends Abstract_Parameter{
-	private Integer endTime;
+	private Double endTime;
 	private Integer numTime;
 	private Double tolerance;
-	public Integer getEndTime() {
+	public Double getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Integer endTime) {
+	public void setEndTime(Double endTime) {
 		this.endTime = endTime;
 	}
 	public void setNumTime(Integer numTime) {

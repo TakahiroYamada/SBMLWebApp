@@ -219,7 +219,7 @@ public class Simulation_Servlet extends HttpServlet {
 			}
 			// Parameter to analyze is set
 			else if( item.getFieldName().equals("endpoint")){
-				param.setEndTime( new Integer( Integer.parseInt( item.getString() )));
+				param.setEndTime( new Double( Integer.parseInt( item.getString() )));
 			}
 			else if( item.getFieldName().equals("numpoint")){
 				param.setNumTime( new Integer( Integer.parseInt( item.getString() )));;
