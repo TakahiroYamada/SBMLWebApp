@@ -1,0 +1,3 @@
+[submodule "lib/SimulationCore"]
+	path = lib/SimulationCore
+	url = https://github.com/cogsys-tuebingen/SBSCL.git

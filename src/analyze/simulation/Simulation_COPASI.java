@@ -2,6 +2,7 @@ package analyze.simulation;
 import java.util.ArrayList;
 
 import org.COPASI.*;
+import org.apache.naming.java.javaURLContextFactory;
 
 import beans.simulation.Simulation_AllBeans;
 import beans.simulation.Simulation_DatasetsBeans;
@@ -88,7 +89,6 @@ public class Simulation_COPASI {
         else{
         	simParameter.setDblValue( 1.0e-12 );
         }
-        
         boolean result=true;
         try
         {
@@ -98,7 +98,6 @@ public class Simulation_COPASI {
         {
         		e.printStackTrace();	
         }
-        
         simTimeSeries = simTrajekTask.getTimeSeries();        
 	}
 	public CTimeSeries getTimeSeries(){
@@ -117,7 +116,7 @@ public class Simulation_COPASI {
 			int speciesCount = 0;
 			// Species with the status which is not FIXED in COPASI is visualized in client side
 			Simulation_DatasetsBeans allDataSets[] = new Simulation_DatasetsBeans[ getNumNotFixedSpecies() ];
-			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){
+			for( int i = 0 ; i < dataModel.getModel().getNumMetabs() ; i ++){				
 				//j == 0 means the value of time point! this is considered as the value of x axis!
 				for( int j = 1 ; j < numOfSpecies ; j ++ ){
 					if( dataModel.getModel().getMetabolite( i ).getSBMLId().equals( simTimeSeries.getSBMLId( j  , dataModel ))){

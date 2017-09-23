@@ -81,7 +81,7 @@
   	<dependency>
   		<groupId>SimulationCoreLibrary_v1.5_slim.jar</groupId>
   		<artifactId>SimulationCoreLibrary_v1.5_slim.jar</artifactId>
-  		<systemPath>${basedir}/lib/SimulationCoreLibrary-1.5/SimulationCoreLibrary_v1.5_slim.jar</systemPath>
+  		<systemPath>${basedir}/lib/SimulationCore/dist/SimulationCoreLibrary-1.5/SimulationCoreLibrary_v1.5_slim.jar</systemPath>
   		<scope>system</scope>
   	</dependency>
   	<dependency>
