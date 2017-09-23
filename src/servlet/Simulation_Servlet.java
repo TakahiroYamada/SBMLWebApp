@@ -143,8 +143,6 @@ public class Simulation_Servlet extends HttpServlet {
 			Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath(), param );
 			colorOfVis = new Coloring( simSBSCL.getTimeSeries().getColumnCount() , 1.0 );
 			
-			Simulation_libSBMLsim simlibSBMLSim = new Simulation_libSBMLsim( newFile.getPath() );
-			
 			try {
 				this.simulationBeans = simSBSCL.configureSimulationBeans( colorOfVis );
 			} catch (NoDynamicSpeciesException e) {
@@ -157,6 +155,21 @@ public class Simulation_Servlet extends HttpServlet {
 			}
 			this.simulationBeans.setSessionId( this.sessionId );
 			//this.simulationBeans.setWarningText( errorCheck.getErrorMessage() );
+		}
+		else if( param.getLibrary().equals("libsbmlsim")){
+			Simulation_libSBMLsim simLibsbmlsim = new Simulation_libSBMLsim( newFile.getPath() , param );
+			colorOfVis = new Coloring( simLibsbmlsim.getNumberOfVisualizedObject() , 1.0);
+			try {
+				this.simulationBeans = simLibsbmlsim.configureSimulationBeans( colorOfVis );
+			} catch (NoDynamicSpeciesException e) {
+				response.setStatus( 400 );
+				PrintWriter out = response.getWriter();
+				out.print( e.getMessage() );
+				out.flush();
+				e.printStackTrace();
+				return;
+			}
+			this.simulationBeans.setSessionId( this.sessionId );
 		}
 		
 		
