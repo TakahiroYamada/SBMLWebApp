@@ -175,7 +175,7 @@ public class Simulation_Servlet extends HttpServlet {
 		
 		// add the units of each species
 		sbml_Manipulator.addUnitForEachSpecies( this.simulationBeans );
-		
+		sbml_Manipulator.addAmountConcentration( this.simulationBeans );
 		// send data to client side
 		this.simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
 		String jsonSimulation = JSON.encode( this.simulationBeans , true  );

@@ -28,6 +28,10 @@ var canvas_jsondata = {
 	            xAxes: [{
 	              type: 'linear',
 	              position: 'bottom',
+	              scaleLabel : {
+	            	  display : true,
+	            	  labelString : "t"
+	              },
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
@@ -35,6 +39,10 @@ var canvas_jsondata = {
 	              }
 	            }],
 	            yAxes: [{
+	              scaleLabel : {
+	            	  display : true,
+	            	  labelString : null
+	              },
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
@@ -141,6 +149,7 @@ function configureCanvas( responseData  , tmpLegend){
 	canvas_jsondata.data.datasets = tmpData.data;
 	canvas_jsondata.options.scales.xAxes[0].ticks.max = tmpData.xmax;
 	canvas_jsondata.options.scales.yAxes[0].ticks.max = tmpData.ymax;
+	canvas_jsondata.options.scales.yAxes[0].scaleLabel.labelString = tmpData.yaxisLabel; 
 	configureMyChartLegend( canvas , canvas_jsondata  , tmpLegend );
 	$("#graph-contents").show();
 	$("#tabParameter").show();

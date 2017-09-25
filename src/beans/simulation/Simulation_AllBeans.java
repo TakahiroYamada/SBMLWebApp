@@ -8,6 +8,7 @@ public class Simulation_AllBeans extends SuperClass_Beans{
 	private double Xmax;
 	private double Ymax;
 	private double Ymin;
+	private String YaxisLabel;
 	private Simulation_DatasetsBeans data[];
 	public ModelParameter_Beans getModelParameters() {
 		return modelParameters;
@@ -32,6 +33,12 @@ public class Simulation_AllBeans extends SuperClass_Beans{
 	}
 	public void setYmin(double ymin) {
 		Ymin = ymin;
+	}
+	public String getYaxisLabel() {
+		return YaxisLabel;
+	}
+	public void setYaxisLabel(String yaxisLabel) {
+		YaxisLabel = yaxisLabel;
 	}
 	public Simulation_DatasetsBeans[] getData() {
 		return data;

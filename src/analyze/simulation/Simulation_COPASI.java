@@ -69,6 +69,7 @@ public class Simulation_COPASI {
         simTrajekTask.setScheduled( true );
         simTrajekTask.getReport().setTarget( "SimulationResult.txt");
         simTrajekTask.getReport().setAppend( false );
+        
         // Simulation Environment Configuration
         
         CTrajectoryProblem simProblem = ( CTrajectoryProblem )simTrajekTask.getProblem();

@@ -101,6 +101,21 @@ public class SBML_Manipulator {
 			}
 		}
 	}
+	public void addAmountConcentration( Simulation_AllBeans allBeans ){
+		if( document.getModel().getNumSpecies() != 0 ){
+			for( int i = 0 ; i < document.getModel().getNumSpecies() ; i ++){
+				if( document.getModel().getSpecies( i ).isSetInitialAmount() ){
+					allBeans.setYaxisLabel("Amount");
+				}
+				else if( document.getModel().getSpecies( i ).isSetInitialConcentration() ){
+					allBeans.setYaxisLabel("Concentration");
+				}
+			}
+		}
+		else{
+			allBeans.setYaxisLabel("Value");
+		}
+	}
 	private Parameters_Beans[] getParameters(){
 		Parameters_Beans[] param_Beans = new Parameters_Beans[ document.getModel().getNumParameters() ];
 		for( int i = 0 ; i < document.getModel().getNumParameters() ; i ++){
