@@ -27,6 +27,10 @@ var canvas_jsondata_Before = {
 	            xAxes: [{
 	              type: 'linear',
 	              position: 'bottom',
+	              scaleLabel : {
+	            	display : true,
+	            	labelString : "t"
+	              },
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
@@ -34,6 +38,10 @@ var canvas_jsondata_Before = {
 	              }
 	            }],
 	            yAxes: [{
+	              scaleLabel : {
+	            	  display : true,
+	            	  labelString : null
+	              },
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
@@ -63,13 +71,21 @@ var canvas_jsondata_After = {
 	            xAxes: [{
 	              type: 'linear',
 	              position: 'bottom',
-	              ticks: {
+	              scaleLabel : {
+	            	  display : true,
+	            	  labelString : "t"
+	              },
+	              ticks : {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
 	                max: 100,
 	              }
 	            }],
 	            yAxes: [{
+	              scaleLabel : {
+	            	display : true,
+	            	labelString : null
+	              },
 	              ticks: {
 	            	callback : function( value ){ return (( value % 10 ) == 0)? value : ''},
 	                min: 0,
@@ -204,9 +220,11 @@ function configureCanvas( responseData ){
 	
 	canvas_jsondata_Before.options.scales.xAxes[0].ticks.max = tmpData.beforeFitting.xmax;
 	canvas_jsondata_Before.options.scales.yAxes[0].ticks.max = tmpData.beforeFitting.ymax;
+	canvas_jsondata_Before.options.scales.yAxes[0].scaleLabel.labelString = tmpData.beforeFitting.yaxisLabel;
 	
 	canvas_jsondata_After.options.scales.xAxes[0].ticks.max = tmpData.afterFitting.xmax;
 	canvas_jsondata_After.options.scales.yAxes[0].ticks.max = tmpData.afterFitting.ymax;
+	canvas_jsondata_After.options.scales.yAxes[0].scaleLabel.labelString = tmpData.afterFitting.yaxisLabel;
 	if( beforeChart != undefined ){
 		beforeChart.destroy();
 		afterChart.destroy();

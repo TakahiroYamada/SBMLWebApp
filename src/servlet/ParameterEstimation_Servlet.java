@@ -121,7 +121,10 @@ public class ParameterEstimation_Servlet extends HttpServlet {
 		// Experiment data is set to beans
 		paramBeans.setExpDataSets(paramEstCopasi.configureParamEstBeans(colorOfVis));
 		paramBeans.setUpdateParam(paramEstCopasi.configureParameterUpdateInformationBeans());
-
+		
+		sbml_Manipulator.addAmountConcentration( paramBeans.getBeforeFitting() );
+		sbml_Manipulator.addAmountConcentration( paramBeans.getAfterFitting() );
+		
 		// Session ID is set
 		paramBeans.setSessionId(this.sessionId);
 		
