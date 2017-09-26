@@ -2,24 +2,7 @@ var ModelSBML = {
 		SBMLId : null , 
 		SBML : null
 };
-$("#paraFile").on("change" , function(){
-	var input = $(this).get(0).files[ 0 ];
-	var reader = new FileReader();
-	$(reader).on("error",function( e ){
-		if( e.target.readyState == 2){
-			errorSetting( e.target.error.message , "Change your file permission.")
-			$("#warningModal").modal("show");
-			$("#modalButton").off("click");
-			$("#modalButton").on("click" , function(){
-				$("#warningModal").modal("hide");
-				var el = $("#paraFile");
-				el.after( "<input id = 'paraFile' type = 'file' size = '50' accept = '.xml'>" );
-				el.remove();
-			});
-		}
-	})
-	reader.readAsText( input );
-})
+
 $("#check-biomodels").on("change" , function(){
 	if( $(this)[ 0 ].checked ){
 		$("#div-localfile").hide();
@@ -58,14 +41,14 @@ $("#select-biomodels").on("change", function(){
 	});
 })
 $("#paramButton").on("click" , function(){
-	if( !errorCheck()){
+	if( !errorCheck_Parameter()){
 		$(this).LoadingOverlay("show");
 		analyzeData( $(this));
 	}
 })
 $(".param-param").on("keypress" , function( e ){
 	if( e.which == 13 ){
-		if( !errorCheck()){
+		if( !errorCheck_Parameter()){
 			$("#afterCanvas").LoadingOverlay("show");
 			analyzeData( $("#afterCanvas"));
 		}
@@ -74,20 +57,20 @@ $(".param-param").on("keypress" , function( e ){
 $("#algorithm").change( function(){
 	configureAlgorithmForm();
 })
-$("#paraFile").on("change" , function(){
+$("#sbml-file").on("change" , function(){
 	showExpFile();
 })
-function errorCheck(){
+function errorCheck_Parameter(){
 	var info = checkNegativeValueinInput( $("input").each(function(index){
 	}));
 	// If file is not selected the error is visualized
-	if( $("#paraFile").val().length == 0 && (!$("#check-biomodels")[0].checked) ){
+	if( $("#sbml-file").val().length == 0 && (!$("#check-biomodels")[0].checked) ){
 		errorSetting("SBML model is not selected" , "Selecting SBML file in input form")
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");
 		$("#modalButton").on("click" , function(){
 			$("#warningModal").modal("hide");
-			var el = $("#paraFile");
+			var el = $("#sbml-file");
 			newOne = el.clone( true);
 			el.before( newOne );
 			el.remove();

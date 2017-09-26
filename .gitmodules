@@ -4,3 +4,6 @@
 [submodule "lib/libSBMLsim"]
 	path = lib/libSBMLsim
 	url = https://github.com/libsbmlsim/libsbmlsim.git
+[submodule "WebContent/ScrollTrigger"]
+	path = WebContent/ScrollTrigger
+	url = https://github.com/terwanerik/ScrollTrigger.git

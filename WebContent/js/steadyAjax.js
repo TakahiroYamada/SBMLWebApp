@@ -1,8 +1,8 @@
 var link;
-var sessionId = "";
+//var sessionId = "";
 var currentFile = null;
 function getSteadyResult( loadingObject ){
-	var form_file = document.getElementById("stedFile");
+	var form_file = document.getElementById("sbml-file");
 	var progressBar = document.getElementById("progress");
 	link = document.createElement('a');
 	var file = form_file.files[ 0 ];
@@ -29,7 +29,7 @@ function getSteadyResult( loadingObject ){
 	}).done( function( result ){
 		sessionId = result.sessionId;
 		responseData = result;
-		callback( responseData );
+		callback_Steady( responseData );
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
 		errorSetting( result.responseText , "Please check your input file which is really SBML.")
@@ -43,8 +43,8 @@ function getSteadyResult( loadingObject ){
 }
 
 
-function callback( responseData ){
-	var form_file = document.getElementById("stedFile");
+function callback_Steady( responseData ){
+	var form_file = document.getElementById("sbml-file");
 	if( currentFile != form_file.files[ 0 ].name){
 		//addWarningText( responseData );
 		currentFile = form_file.files[ 0 ].name;
@@ -73,7 +73,7 @@ function callback( responseData ){
 	$("#jacobian-table").tabulator("clearData");
 	$("#jacobian-table").tabulator("setData" , jsonResponse.steadyJacobian.jacob_Amount);
 	document.getElementById("jacobian").style.display = "";
-	$("#download").removeClass("disabled")
+	$("#download-steady").removeClass("disabled")
 }
 function addWarningText( responseData){
 	if( responseData.warningText != null){
@@ -95,9 +95,9 @@ function configureStedParameter( formdata ){
 		formdata.append("itelimit" , document.getElementById("itelimit").value )
 	}
 }
-function downloadData(){
-	if( !$("#download").hasClass("disabled")){
-		var model_name = $("#stedFile")[ 0 ].files[ 0 ].name.replace(".xml" ,"");
+function downloadData_Steady(){
+	if( !$("#download-steady").hasClass("disabled")){
+		var model_name = $("#sbml-file")[ 0 ].files[ 0 ].name.replace(".xml" ,"");
 		var zip = new JSZip();
 		
 		// csv data of steady state

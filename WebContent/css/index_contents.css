@@ -6,4 +6,11 @@
 #explain-doc p{ font-size : 15px;}
 #tool-box { margin-top : 1em;}
 #tool-item div{ border : solid 2px;}
-
+#upload-file {
+	border : solid 1px;
+	margin : 1em;
+}
+#simulation-widget ,#steady-widget,#parameter-widget{
+	border : solid 1px;
+	margin : 1em;
+}

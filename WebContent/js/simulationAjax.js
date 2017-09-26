@@ -56,8 +56,9 @@ var canvas_jsondata = {
 };
 
 function getSimulationResult( loadingObject ){
+	console.log("hoge");
 	var tmpLegend = [];
-	var form_file = document.getElementById("simFile");
+	var form_file = document.getElementById("sbml-file");
 	if( myChart != undefined ){
 		for( var i = 0 ; i < myChart.data.datasets.length ; i ++){
 			tmpLegend.push( myChart.getDatasetMeta( i ).hidden);
@@ -105,9 +106,10 @@ function getSimulationResult( loadingObject ){
 	}).done( function( result ){
 		sessionId = result.sessionId;
 		responseData = JSON.parse( result );
-		callback( responseData  ,  tmpLegend);
+		callback_Simulation( responseData  ,  tmpLegend);
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
+		console.log( sessionId);
 		errorSetting( result.responseText , "Please check your input file which is really SBML.")
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");
@@ -118,9 +120,9 @@ function getSimulationResult( loadingObject ){
 	});
 }
 
-function callback( responseData , tmpLegend ){
+function callback_Simulation( responseData , tmpLegend ){
 	//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
-	var form_file = document.getElementById("simFile");
+	var form_file = document.getElementById("sbml-file");
 	configureCanvas( responseData  , tmpLegend);
 	configureTable( responseData );
 	if( currentFile != form_file.files[ 0 ].name ){
@@ -294,7 +296,7 @@ function addInitialValueSlider( responseData){
 		// text box edition
 		$("#" + initialValue[ i ].sbmlID + "_input").on("keypress" , function(e){
 			if( e.which == 13 ){
-				if( !errorCheck()){
+				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
 					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
 					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
@@ -371,7 +373,7 @@ function addGlobalParameterValueSlider(){
 		});
 		$("#" + parameterValue[ i ].sbmlID + "_input").on( "keypress", function( e ){
 			if( e.which == 13 ){
-				if( !errorCheck()){
+				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
 					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
 					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val());
@@ -448,7 +450,7 @@ function addCompartmentSlider(){
 		});
 		$("#" + compartmentValue[ i ].sbmlID + "_input").on("keypress" ,  function( e ){
 			if( e.which == 13 ){
-				if( !errorCheck()){
+				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
 					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
 					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
@@ -531,7 +533,7 @@ function addLocalParameterValueSlider(){
 		});
 		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input").on("keypress" , function( e ){
 			if( e.which == 13 ){
-				if( !errorCheck()){
+				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
 					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
 					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val());
@@ -601,7 +603,7 @@ function checkActivePanel(){
 }
 function downloadData(){
 	if( !$("#download").hasClass("disabled")){
-		var model_name = $("#simFile")[0].files[0].name.replace(".xml" , "");
+		var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
 		// Canvas
 		var canvas = document.getElementById("simulationCanvas");
 		var url = canvas.toDataURL();

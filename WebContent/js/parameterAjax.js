@@ -1,8 +1,8 @@
-var sessionId = "";
+//var sessionId = "";
 var beforeChart;
 var afterChart;
-var currentFile = null;
-var parameter_jsondata ={
+var currentFile_Parameter = null;
+var parameter_estimation_jsondata ={
 		initValue : [],
 		compartmentValue : [],
 		localParamValue : [],
@@ -106,7 +106,7 @@ function showExpFile(){
 
 function analyzeData( loadingObject ){
 	//Each form data is got as JavaScript variable
-	var model_file = document.getElementById("paraFile");
+	var model_file = document.getElementById("sbml-file");
 	var exp_file = document.getElementById("expData");
 	var progressBar = document.getElementById("progress");
 	var Exp_file = exp_file.files[ 0 ];
@@ -118,10 +118,10 @@ function analyzeData( loadingObject ){
 		SBML_file = new File( [ModelSBML.SBML] , ModelSBML.SBMLId + ".xml")
 	}
 	
-	// If model file is changed , parameter_jsondata is initialized firstly.
-	if( currentFile != SBML_file.name ){
+	// If model file is changed , parameter_estimation_jsondata is initialized firstly.
+	if( currentFile_Parameter != SBML_file.name ){
 		//addWarningText( responseData );
-		parameter_jsondata ={
+		parameter_estimation_jsondata ={
 				initValue : [],
 				compartmentValue : [],
 				localParamValue : [],
@@ -138,7 +138,7 @@ function analyzeData( loadingObject ){
 	filedata.append("SessionId" , sessionId);
 	
 	// Parameter data is set to filedata(FormData)
-	configureFormData( filedata );
+	configure_ParameterFormData( filedata );
 	
 	$.ajax("./ParameterEstimation_Servlet" , {
 		async : true ,
@@ -159,7 +159,7 @@ function analyzeData( loadingObject ){
 	}).done( function( result ){
 		sessionId = result.sessionId;
 		responseData = result;
-		callback( SBML_file.name , responseData );
+		callback_Parameter( SBML_file.name , responseData );
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
 		errorSetting( result.responseText , "Please check your input file which is really SBML.")
@@ -172,24 +172,24 @@ function analyzeData( loadingObject ){
 	});
 }
 
-function callback( fileName , responseData ){
-	configureCanvas( responseData );
-	configureTable( responseData );
-	if( currentFile != fileName ){
+function callback_Parameter( fileName , responseData ){
+	configure_ParameterCanvas( responseData );
+	configure_ParameterTable( responseData );
+	if( currentFile_Parameter != fileName ){
 		//addWarningText( responseData );
-		parameter_jsondata ={
+		parameter_estimation_jsondata ={
 				initValue : [],
 				compartmentValue : [],
 				localParamValue : [],
 				paramValue : []
 		};
-		$("#globalParam-slider").empty();
-		$("#localParam-slider").empty();
-		addLocalParamSlider( responseData );
-		addGlobalParamSlider( responseData );
-		currentFile = fileName ;
+		$("#param-globalParam-slider").empty();
+		$("#param-localParam-slider").empty();
+		addLocalParam_ParameterSlider( responseData );
+		addGlobalParam_ParameterSlider( responseData );
+		currentFile_Parameter = fileName ;
 	}
-	$("#download").removeClass("disabled")
+	$("#download-parameter").removeClass("disabled")
 }
 function addWarningText( responseData){
 	if( responseData.warningText != null){
@@ -201,9 +201,9 @@ function addWarningText( responseData){
 		});
 	}
 }
-function configureCanvas( responseData ){
-	$("#graph-contents").show();
-	$("#tabParameter").show();
+function configure_ParameterCanvas( responseData ){
+	$("#graph-param-contents").show();
+	$("#tab-param-Parameter").show();
 	var canvas_before = document.getElementById("beforeCanvas");
 	var canvas_after = document.getElementById("afterCanvas");
 	
@@ -232,7 +232,7 @@ function configureCanvas( responseData ){
 	beforeChart = new Chart(canvas_before , canvas_jsondata_Before );
 	afterChart = new Chart(canvas_after , canvas_jsondata_After );
 }
-function configureTable( responseData ){
+function configure_ParameterTable( responseData ){
 	var jsonData = responseData;
 	var parameterTransitData = jsonData.updateParam;
 	
@@ -247,9 +247,9 @@ function configureTable( responseData ){
 		{ field : "Unit" , headerSort : true , title : "Unit"}
 		];
 	
-	document.getElementById("numTable").style.display = "block";
-	$("#num-table").tabulator("setColumns" , column);
-	$("#num-table").tabulator("clearData");
+	document.getElementById("paramTable").style.display = "block";
+	$("#param-table").tabulator("setColumns" , column);
+	$("#param-table").tabulator("clearData");
 	
 	var transitData = [];
 	for( var i = 0 ; i < parameterTransitData.length ; i ++){
@@ -270,10 +270,10 @@ function configureTable( responseData ){
 		tmpData["Unit"] = parameterTransitData[ i ].unit;
 		transitData.push( tmpData );
 	}
-	$("#num-table").tabulator("setData" , transitData );
-	document.getElementById("numTable").style.display = "";
+	$("#param-table").tabulator("setData" , transitData );
+	document.getElementById("paramTable").style.display = "";
 }
-function configureFormData( formdata ){
+function configure_ParameterFormData( formdata ){
 	
 	formdata.append("algorithm" , document.getElementById("algorithm").value);
 	var algorithm = document.getElementById("algorithm");
@@ -297,7 +297,7 @@ function configureFormData( formdata ){
 		formdata.append("randomNumGenerator" , document.getElementById("difevolran").value);
 		formdata.append("seed" , document.getElementById("difevolseed").value);
 	}
-	formdata.append("parameter" , JSON.stringify( parameter_jsondata ));
+	formdata.append("parameter" , JSON.stringify( parameter_estimation_jsondata ));
 		
 }
 function configureAlgorithmForm(){
@@ -323,13 +323,13 @@ function configureAlgorithmVisualization( algorithm ){
 	
 	document.getElementById( algorithm ).style = "diplay:block";
 }
-function addLocalParamSlider( responseData ){
+function addLocalParam_ParameterSlider( responseData ){
 	var JSONResponse = responseData;
 	var parameterValue = JSONResponse.modelParameters.localParamValue;
-	var localParamSlider = document.getElementById("localParam-slider");
+	var localParamSlider = document.getElementById("param-localParam-slider");
 	
-	$("#localParam-slider").empty();
-	parameter_jsondata.localParamValue = [];
+	$("#param-localParam-slider").empty();
+	parameter_estimation_jsondata.localParamValue = [];
 	
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -350,14 +350,14 @@ function addLocalParamSlider( responseData ){
 		}
 		
 		var newParamSlider = document.createElement("div");
-		newParamSlider.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID);
+		newParamSlider.setAttribute("id", "param_" +  parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID);
 		
 		var newLowerInputText = document.createElement("input");
-		newLowerInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input");
+		newLowerInputText.setAttribute("id", "param_" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input");
 		newLowerInputText.setAttribute("type","number")
 		
 		var newUpperInputText = document.createElement("input");
-		newUpperInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input");
+		newUpperInputText.setAttribute("id", "param_" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input");
 		newUpperInputText.setAttribute("type","number")
 		
 		newLowerInputText.setAttribute("style" , "display:inline-block ;width : 20%; text-align:center")
@@ -373,8 +373,8 @@ function addLocalParamSlider( responseData ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
 		}
 		
-		parameter_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider( {
+		parameter_estimation_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
+		$("#param_" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider( {
 			min : 0 ,
 			max : parameterValue[ i ].parameterValue * 200,
 			step : stepSize,
@@ -384,7 +384,7 @@ function addLocalParamSlider( responseData ){
 				$("#" + this.id + "_lower_input").val( ui.values[0]);
 				$("#" + this.id + "_upper_input").val( ui.values[1]);
 				var sbmlId = this.id;
-				var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
+				var filtered = $.grep( parameter_estimation_jsondata.localParamValue , function( elem , index){
 					return( elem.jsID == sbmlId);
 				})
 				filtered[ 0 ].lower = ui.values[ 0 ];
@@ -397,15 +397,15 @@ function addLocalParamSlider( responseData ){
 			}
 		});
 		
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input").on("keypress",  function( e ){
-			if(e.which ==13 && !errorCheck()){
+		$("#param_" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_lower_input").on("keypress",  function( e ){
+			if(e.which ==13 && !errorCheck_Parameter()){
 				$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
 				$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
 			}
 		});
 		
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input").on("keypress" ,  function( e ){
-			if( e.which == 13 && !errorCheck()){
+		$("#param_" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_upper_input").on("keypress" ,  function( e ){
+			if( e.which == 13 && !errorCheck_Parameter()){
 				$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
 				$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
 			}
@@ -414,13 +414,13 @@ function addLocalParamSlider( responseData ){
 		
 	}
 }
-function addGlobalParamSlider( responseData ){
+function addGlobalParam_ParameterSlider( responseData ){
 	var JSONResponse = responseData;
 	var parameterValue = JSONResponse.modelParameters.paramValue;
-	var globalParamSlider = document.getElementById("globalParam-slider");
+	var globalParamSlider = document.getElementById("param-globalParam-slider");
 	
-	$("#globalParam-slider").empty();
-	parameter_jsondata.paramValue = [];
+	$("#param-globalParam-slider").empty();
+	parameter_estimation_jsondata.paramValue = [];
 	
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -435,14 +435,14 @@ function addGlobalParamSlider( responseData ){
 		}
 		
 		var newParamSlider = document.createElement("div");
-		newParamSlider.setAttribute("id", parameterValue[ i ].sbmlID);
+		newParamSlider.setAttribute("id", "param_" + parameterValue[ i ].sbmlID);
 		
 		var newLowerInputText = document.createElement("input");
-		newLowerInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_lower_input");
+		newLowerInputText.setAttribute("id", "param_" + parameterValue[ i ].sbmlID + "_lower_input");
 		newLowerInputText.setAttribute("type","number")
 		
 		var newUpperInputText = document.createElement("input");
-		newUpperInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_upper_input");
+		newUpperInputText.setAttribute("id", "param_" + parameterValue[ i ].sbmlID + "_upper_input");
 		newUpperInputText.setAttribute("type","number")
 		
 		newLowerInputText.setAttribute("style" , "display:inline-block ;width : 20%; text-align:center")
@@ -458,8 +458,8 @@ function addGlobalParamSlider( responseData ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
 		}
 		
-		parameter_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 });
-		$("#" + parameterValue[ i ].sbmlID).slider( {
+		parameter_estimation_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , upper : parameterValue[ i ].parameterValue * 100 , lower : parameterValue[ i ].parameterValue * 0.01 });
+		$("#param_" + parameterValue[ i ].sbmlID).slider( {
 			min : 0 ,
 			max : parameterValue[ i ].parameterValue * 200,
 			step : stepSize,
@@ -469,7 +469,7 @@ function addGlobalParamSlider( responseData ){
 				$("#" + this.id + "_lower_input").val( ui.values[0]);
 				$("#" + this.id + "_upper_input").val( ui.values[1]);
 				var sbmlId = this.id;
-				var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
+				var filtered = $.grep( parameter_estimation_jsondata.paramValue , function( elem , index){
 					return( elem.sbmlID == sbmlId);
 				})
 				filtered[ 0 ].lower = ui.values[ 0 ];
@@ -482,15 +482,15 @@ function addGlobalParamSlider( responseData ){
 			}
 		});
 		
-		$("#" + parameterValue[ i ].sbmlID + "_lower_input").on("keypress" ,  function( e ){
-			if( e.which == 13 && !errorCheck()){
+		$("#param_" + parameterValue[ i ].sbmlID + "_lower_input").on("keypress" ,  function( e ){
+			if( e.which == 13 && !errorCheck_Parameter()){
 				$("#" + this.id.replace("_lower_input","")).slider("option","min",$(this).val() * 0.01);
 				$("#" + this.id.replace("_lower_input","")).slider("option","values",[$(this).val(), $("#" + this.id.replace("_lower_input","") + "_upper_input").val()]);
 			}
 		});
 		
-		$("#" + parameterValue[ i ].sbmlID + "_upper_input").on("keypress" ,  function(){
-			if( e.which == 13 && !errorCheck()){
+		$("#param_" + parameterValue[ i ].sbmlID + "_upper_input").on("keypress" ,  function(){
+			if( e.which == 13 && !errorCheck_Parameter()){
 				$("#" + this.id.replace("_upper_input","")).slider("option","max",$(this).val() * 100);
 				$("#" + this.id.replace("_upper_input","")).slider("option","values",[$("#" + this.id.replace("_upper_input","") + "_lower_input").val() , $(this).val()])
 			}
@@ -508,10 +508,10 @@ function showBeforeFitting(){
 		$("#after-graph").show();
 	}
 }
-function downloadData(){
-	if(!$("#download").hasClass("disabled")){
+function downloadData_Parameter(){
+	if(!$("#download-parameter").hasClass("disabled")){
 		var zip = new JSZip();
-		var model_name = $("#paraFile")[ 0 ].files[ 0 ].name.replace(".xml" , "");
+		var model_name = $("#sbml-file")[ 0 ].files[ 0 ].name.replace(".xml" , "");
 		//Before Canvas
 		var before_canvas = document.getElementById("beforeCanvas");
 		var before_url = before_canvas.toDataURL();
@@ -528,12 +528,12 @@ function downloadData(){
 		
 		//csv data from tabulator
 		
-		var csvContent = tabulatorToCsv("#num-table");
+		var csvContent = tabulatorToCsv("#param-table");
 		var csv_blob = new Blob( [csvContent] , {type : "text/csv;charset=utf-8"})
 		zip.file( model_name + "_result.csv" , csv_blob);
 		
 		//Updated Model
-		$.ajax("./tmp/" + sessionId + "/Updated_" + $("#paraFile").prop('files')[0].name , {
+		$.ajax("./tmp/" + sessionId + "/Updated_" + $("#sbml-file").prop('files')[0].name , {
 			async : true,
 			dataType:"xml"
 		}).done( function( result){

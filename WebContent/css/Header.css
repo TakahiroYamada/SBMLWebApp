@@ -1,6 +1,10 @@
 @CHARSET "UTF-8";
 /* Header CSS */
-
+body { padding-top: 110px; 
+}
+@media screen and (max-width: 768px) {
+    body { padding-top: 0px; }
+}
 #header-div { padding-left : 0;
 			  padding-right : 0;
 			  margin-right : 0;
@@ -34,6 +38,10 @@
 									 font-size : 24px;
 									 border-top : inherit;
 									 background-color : #EAEAEA;
+}
+#analysis-navbar {
+	 background-color : #EAEAEA;
+	 border : solid 1px;
 }
 .lf { right : 0;
 	  padding-right : 0 ! important;

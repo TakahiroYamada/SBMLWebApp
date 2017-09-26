@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.compress.compressors.snappy.SnappyCompressorInputStream;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -71,7 +72,6 @@ public class Simulation_Servlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		
 		if( sessionId.equals("")){
 			sessionId = UniqueId.getUniqueId();
 		}

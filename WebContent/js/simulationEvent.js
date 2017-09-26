@@ -1,5 +1,5 @@
-$("#simFile").on("change" , function(){
-	var input = $("#simFile").get(0).files[ 0 ];
+$("#sbml-file").on("change" , function(){
+	var input = $("#sbml-file").get(0).files[ 0 ];
 	var reader = new FileReader();
 	$(reader).on("error",function( e ){
 		if( e.target.readyState == 2){
@@ -8,8 +8,8 @@ $("#simFile").on("change" , function(){
 			$("#modalButton").off("click");
 			$("#modalButton").on("click" , function(){
 				$("#warningModal").modal("hide");
-				var el = $("#simFile");
-				el.after( "<input id = 'simFile' type = 'file' size = '50' accept = '.xml'>" );
+				var el = $("#sbml-file");
+				el.after( "<input id = 'sbml-file' type = 'file' size = '50' accept = '.xml'>" );
 				el.remove();
 			});
 		}
@@ -18,30 +18,30 @@ $("#simFile").on("change" , function(){
 })	
 
 $("#runbottun").on("click" , function(){
-	if( !errorCheck()){
+	if( !errorCheck_Simulation()){
 		$(this).LoadingOverlay("show");
 		getSimulationResult( $(this) );
 	}
 })
 $(".sim-param").on("keypress" , function( e ){
 	if( e.which == 13 ){
-		if( !errorCheck()){
+		if( !errorCheck_Simulation()){
 			$("#runbottun").LoadingOverlay("show");
 			getSimulationResult( $("#runbottun") );
 		}
 	}
 })
-function errorCheck(){
+function errorCheck_Simulation(){
 	var info = checkNegativeValueinInput( $("input").each(function(index){
 	}));
 	// If file is not selected the error is visualized
-	if( $("#simFile").val().length == 0){
+	if( $("#sbml-file").val().length == 0){
 		errorSetting("SBML model is not selected" , "Selecting SBML file in input form")
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");
 		$("#modalButton").on("click" , function(){
 			$("#warningModal").modal("hide");
-			var el = $("#simFile");
+			var el = $("#sbml-file");
 			newOne = el.clone( true);
 			el.before( newOne );
 			el.remove();
