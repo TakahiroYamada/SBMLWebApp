@@ -5,9 +5,14 @@ function getSteadyResult( loadingObject ){
 	var form_file = document.getElementById("sbml-file");
 	var progressBar = document.getElementById("progress");
 	link = document.createElement('a');
-	var file = form_file.files[ 0 ];
+	if( ! $("#check-biomodels")[ 0 ].checked ){
+		SBML_file = model_file.files[ 0 ];
+	}
+	else{
+		SBML_file = new File( [ModelSBML.SBML] , ModelSBML.SBMLId + ".xml")
+	}
 	var filedata = new FormData();
-	filedata.append("file" , file );
+	filedata.append("file" , SBML_file );
 	filedata.append("SessionId" , sessionId);
 	configureStedParameter( filedata );
 	$.ajax("./SteadyState_Servlet" , {
@@ -29,7 +34,7 @@ function getSteadyResult( loadingObject ){
 	}).done( function( result ){
 		sessionId = result.sessionId;
 		responseData = result;
-		callback_Steady( responseData );
+		callback_Steady( SBML_file.name , responseData );
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
 		errorSetting( result.responseText , "Please check your input file which is really SBML.")
@@ -43,11 +48,11 @@ function getSteadyResult( loadingObject ){
 }
 
 
-function callback_Steady( responseData ){
+function callback_Steady( fileName , responseData ){
 	var form_file = document.getElementById("sbml-file");
-	if( currentFile != form_file.files[ 0 ].name){
+	if( currentFile != fileName){
 		//addWarningText( responseData );
-		currentFile = form_file.files[ 0 ].name;
+		currentFile = fileName;
 	}
 	
 	var jsonResponse = responseData;

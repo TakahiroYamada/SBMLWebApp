@@ -35,7 +35,7 @@ function errorCheck_Simulation(){
 	var info = checkNegativeValueinInput( $("input").each(function(index){
 	}));
 	// If file is not selected the error is visualized
-	if( $("#sbml-file").val().length == 0){
+	if( $("#sbml-file").val().length == 0 && (!$("#check-biomodels")[0].checked)){
 		errorSetting("SBML model is not selected" , "Selecting SBML file in input form")
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");

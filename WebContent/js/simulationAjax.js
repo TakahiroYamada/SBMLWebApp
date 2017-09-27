@@ -56,7 +56,6 @@ var canvas_jsondata = {
 };
 
 function getSimulationResult( loadingObject ){
-	console.log("hoge");
 	var tmpLegend = [];
 	var form_file = document.getElementById("sbml-file");
 	if( myChart != undefined ){
@@ -64,8 +63,15 @@ function getSimulationResult( loadingObject ){
 			tmpLegend.push( myChart.getDatasetMeta( i ).hidden);
 		}
 	}
+	
+	if( ! $("#check-biomodels")[ 0 ].checked ){
+		SBML_file = model_file.files[ 0 ];
+	}
+	else{
+		SBML_file = new File( [ModelSBML.SBML] , ModelSBML.SBMLId + ".xml")
+	}
 	//Check file change , if file is changed , JSON data and parameter contents are initialized.
-	if( currentFile != form_file.files[ 0 ].name){
+	if( currentFile != SBML_file.name){
 		parameter_jsondata ={
 				initValue : [],
 				compartmentValue : [],
@@ -81,10 +87,8 @@ function getSimulationResult( loadingObject ){
 		}
 		// currentFile = form_file.files[ 0 ].name;
 	}
-	
-	var file = form_file.files[ 0 ];
 	var filedata = new FormData();
-	filedata.append("file" , file )
+	filedata.append("file" , SBML_file )
 	configureFormData( filedata );
 	$.ajax("./Simulation_Servlet" , {
 		async : true,
@@ -106,7 +110,7 @@ function getSimulationResult( loadingObject ){
 	}).done( function( result ){
 		sessionId = result.sessionId;
 		responseData = JSON.parse( result );
-		callback_Simulation( responseData  ,  tmpLegend);
+		callback_Simulation( SBML_file.name , responseData  ,  tmpLegend);
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
 		console.log( sessionId);
@@ -120,17 +124,17 @@ function getSimulationResult( loadingObject ){
 	});
 }
 
-function callback_Simulation( responseData , tmpLegend ){
+function callback_Simulation( fileName,responseData , tmpLegend ){
 	//window.location = "/GSOC_WebMavenProject/tmp/result.csv"
 	var form_file = document.getElementById("sbml-file");
 	configureCanvas( responseData  , tmpLegend);
 	configureTable( responseData );
-	if( currentFile != form_file.files[ 0 ].name ){
+	if( currentFile != fileName ){
 		addInitialValueSlider( responseData );
 		addCompartmentSlider( responseData );
 		addLocalParameterValueSlider( responseData );
 		addGlobalParameterValueSlider( responseData );
-		currentFile = form_file.files[ 0 ].name;
+		currentFile = fileName;
 	}
 	$("#download").removeClass("disabled");
 }
