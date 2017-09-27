@@ -78,17 +78,17 @@ public class SteadyState_Servlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		// Execute steady state analysis with COPASI
-		if( stedParam.getLibrary().equals("copasi") ){
-			SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( stedParam , saveFileName , analyzeFile.getPath());
-			analyzeSteadyState.executeSteadyStateAnalysis();
-			SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
-			stedBeans.setSessionId( this.sessionId );
-			//stedBeans.setWarningText( errorCheck.getErrorMessage() );
-			String jsonSteadyState = JSON.encode( stedBeans , true );
-			response.setContentType("application/json;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.print( jsonSteadyState);
-		}
+		
+		SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( stedParam , saveFileName , analyzeFile.getPath());
+		analyzeSteadyState.executeSteadyStateAnalysis();
+		SteadyState_AllBeans stedBeans = analyzeSteadyState.configureSteadyBeans();
+		stedBeans.setSessionId( this.sessionId );
+		//stedBeans.setWarningText( errorCheck.getErrorMessage() );
+		String jsonSteadyState = JSON.encode( stedBeans , true );
+		response.setContentType("application/json;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print( jsonSteadyState);
+		
 		
 		// Output the result. In future these code should be changed to output the result file when the "download button" is pushed in client side.
 		// Moreover the visualization of the result is significant. In order to do that, class of beans will be prepared and it will send the result as JSON configuring to client side JavaScript objects.

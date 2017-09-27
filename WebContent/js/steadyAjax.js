@@ -86,14 +86,10 @@ function addWarningText( responseData){
 	}
 }
 function configureStedParameter( formdata ){
-	var library = document.getElementById("library");
-	if( library.value == "copasi"){
-		document.getElementById("copasipara").style.display = "block";
-		formdata.append("library" , library.value);
-		formdata.append("resolution" , document.getElementById("resolution").value);
-		formdata.append("derivation" , document.getElementById("derivation").value);
-		formdata.append("itelimit" , document.getElementById("itelimit").value )
-	}
+	formdata.append("resolution" , document.getElementById("resolution").value);
+	formdata.append("derivation" , document.getElementById("derivation").value);
+	formdata.append("itelimit" , document.getElementById("itelimit").value )
+	
 }
 function downloadData_Steady(){
 	if( !$("#download-steady").hasClass("disabled")){
