@@ -2,14 +2,16 @@ var link;
 //var sessionId = "";
 var currentFile = null;
 function getSteadyResult( loadingObject ){
+	var SBML_file;
 	var form_file = document.getElementById("sbml-file");
 	var progressBar = document.getElementById("progress");
 	link = document.createElement('a');
 	if( ! $("#check-biomodels")[ 0 ].checked ){
-		SBML_file = model_file.files[ 0 ];
+		SBML_file = form_file.files[ 0 ];
 	}
 	else{
-		SBML_file = new File( [ModelSBML.SBML] , ModelSBML.SBMLId + ".xml")
+		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
+		SBML_file.name =  ModelSBML.SBMLId + ".xml";
 	}
 	var filedata = new FormData();
 	filedata.append("file" , SBML_file );

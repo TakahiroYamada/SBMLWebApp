@@ -115,7 +115,8 @@ function analyzeData( loadingObject ){
 		SBML_file = model_file.files[ 0 ];
 	}
 	else{
-		SBML_file = new File( [ModelSBML.SBML] , ModelSBML.SBMLId + ".xml")
+		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
+		SBML_file.name =  ModelSBML.SBMLId + ".xml";
 	}
 	
 	// If model file is changed , parameter_estimation_jsondata is initialized firstly.
