@@ -32,3 +32,48 @@ $.ajax("./BioModels_ModelExtraction" , {
 			}
 		})
 	});
+
+$("#check-biomodels").on("change" , function(){
+	if( $(this)[ 0 ].checked ){
+		$("#div-localfile").hide();
+		$("#div-biomodels").show();
+		if( $("#select-biomodels").children().length == 1 ){
+			$("#div-biomodels").LoadingOverlay("show");
+		}
+	}
+	else{
+		$("#div-localfile").show();
+		$("#div-biomodels").hide();
+		if( $("#select-biomodels").children().length == 1 ){
+			$("#div-biomodels").LoadingOverlay("hide");
+		}
+	}
+})
+$("#select-biomodels").on("change", function(){
+	// Visualizing the setting form of experimental data
+	var customElement   = $("<div>", {
+	    text : "SBML Model Loading"
+	});
+	$.LoadingOverlay("show" , {
+		custom :  customElement
+	});
+	var exp_file = document.getElementById("expFile");
+	var algorithm = document.getElementById("lvparam");
+	exp_file.style.display = "block";
+	algorithm.style.display ="block";
+	
+	// Model data load
+	var selectedModel = $("#select-biomodels option:selected");
+	var modelId = $(this).val();
+	var modelName = selectedModel.attr("label");
+	
+	$.ajax("./BioModels_ModelSBMLExtraction" , {
+		async : true,
+		type : "post",
+		data : { bioModelsId : modelId } , 
+	}).done( function( result ){
+		ModelSBML.SBMLId = modelId;
+		ModelSBML.SBML = result;
+		$.LoadingOverlay("hide");
+	});
+})
