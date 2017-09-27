@@ -39,10 +39,10 @@ input[type=number]:focus, textarea:focus {
 .tabResult { border : solid 1px;}
 .navbar { border : solid 1px;}
 .nav-item { border: solid 1px;}
-#numTable { height : auto;
+#paramTable { height : auto;
 			overflow : scroll;
 }
-#graph-contents { border : solid : 1px;
+#graph-param-contents { border : solid : 1px;
 }
 #tabParameter { height : 35em;
 				overflow : scroll;

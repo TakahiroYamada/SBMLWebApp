@@ -82,26 +82,31 @@
 			</div>
 		</div>
 		<div class = "row"> 
-		<div class = "col-12">
-			<h3> <strong> Upload SBML model</strong></h3>
+			<div class = "col-12">
+				<h3> <strong> Upload SBML model</strong></h3>
+			</div>
 		</div>
-		<div class = "row" id = "upload-file">
+		<div id = "upload-file">
 			<div class = "row">
-			<div class = "col-4">
-				<p id = "model-upload"> Model File(SBML) : </p> BioModels <input type = "checkbox" id = "check-biomodels">
-			</div>
-			<div class = "col-4" id = "div-localfile">
-				<input id = "sbml-file" type = "file" size = "50" accept = ".xml,.sbml">
-			</div>
-			<div class = "col-4" id = "div-biomodels" style="display:none">
-				<div class = "form-group">
-					<select class = "selectpicker form-control" id = "select-biomodels" size = "1">
-						<option value = "" label = "Select model" disabled selected></option>
-					</select>
+				<div class = "col-3">
+					<p id = "model-upload"> Model File(SBML):</p>
+				</div>
+				<div class = "col-4" id = "div-localfile">
+					<input id = "sbml-file" type = "file" size = "50" accept = ".xml,.sbml">
+				</div>
+				<div class = "col-4" id = "div-biomodels" style="display:none">
+					<div class = "form-group">
+						<select class = "selectpicker form-control" id = "select-biomodels" size = "1">
+							<option value = "" disabled selected> Select model</option>
+						</select>
+					</div>
 				</div>
 			</div>
-		</div>
-		</div>
+			<div class = "row">
+				<div class = "col-3">
+				BioModels <input type = "checkbox" id = "check-biomodels">
+				</div>
+			</div>
 		</div>
 		<div class = "row" id = "tool-box">
 			<div class = "col-12">

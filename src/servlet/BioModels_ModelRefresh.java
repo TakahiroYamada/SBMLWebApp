@@ -34,6 +34,9 @@ public class BioModels_ModelRefresh extends HttpServlet {
 		BioModelsWSClient client = new BioModelsWSClient();
 		bioModelsInfo_Beans = new BioModelsInfo_Beans();
 		this.path = getServletContext().getRealPath("/tmp");
+		File tmpDir = new File( this.path );
+		tmpDir.mkdir();
+		
 		try {
 			this.allModelId = client.getAllCuratedModelsId();
 			this.allModelName = getAllCuratedModelName( client );

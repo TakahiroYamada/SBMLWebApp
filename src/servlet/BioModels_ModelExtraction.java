@@ -39,12 +39,12 @@ public class BioModels_ModelExtraction extends HttpServlet {
 		String path = getServletContext().getRealPath("/tmp");
 		bioModelsInfo_Beans = new BioModelsInfo_Beans();
 		File biomodelsFile = new File( path + "/BioModels_AllModelIDName.txt");
-		BufferedReader br = new BufferedReader( new FileReader( biomodelsFile ));
 		ArrayList<String> listModelId = new ArrayList<>();
 		ArrayList<String> listModelName = new ArrayList<>();
 		
 		String line;
 		try{
+			BufferedReader br = new BufferedReader( new FileReader( biomodelsFile ));
 			while((line = br.readLine() ) != null ){
 				String data[] = line.split(",", 0);
 				listModelId.add( data[ 0 ]);
