@@ -14,8 +14,7 @@ $(".sted-param").on("keypress" , function( e ){
 	}
 })
 function errorCheck_Steady(){
-	var info = checkNegativeValueinInput( $("input").each(function(index){
-	}));
+	var info = checkNegativeValueinInput( $(".sted-param"));
 	// If file is not selected the error is visualized
 	if( $("#sbml-file").val().length == 0 && (!$("#check-biomodels")[0].checked) ){
 		errorSetting("SBML model is not selected" , "Selecting SBML file in input form")

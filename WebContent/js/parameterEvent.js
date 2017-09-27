@@ -61,8 +61,7 @@ $("#sbml-file").on("change" , function(){
 	showExpFile();
 })
 function errorCheck_Parameter(){
-	var info = checkNegativeValueinInput( $("input").each(function(index){
-	}));
+	var info = checkNegativeValueinInput( $(".param-param"));
 	// If file is not selected the error is visualized
 	if( $("#sbml-file").val().length == 0 && (!$("#check-biomodels")[0].checked) ){
 		errorSetting("SBML model is not selected" , "Selecting SBML file in input form")
