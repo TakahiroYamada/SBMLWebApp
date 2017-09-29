@@ -61,7 +61,8 @@
 				<div class = "row">
 					<span class = "col-6"></span>
 					<ul class = "nav nav-pills nav-stacked col-6">
-						<li> Analysis tools : </li>
+						<li> Tools : </li>
+						<li> <a class = "nav-link" href ="#" id = "nav-graphview"> Model view</a> </li>
 						<li> <a class = "nav-link js-scroll-trigger" href ="#simulation-widget"> Simulation</a></li>
 						<li> <a class = "nav-link js-scroll-trigger" href ="#steady-widget"> Steady state analysis</a></li>
 						<li> <a class = "nav-link js-scroll-trigger" href ="#parameter-widget"> Parameter estimation</a></li>
@@ -480,7 +481,21 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
+	<div class="modal fade" id="modelgraph-Modal" tabindex="-1" role="dialog" aria-labelledby="modelgraph-ModalLabel">
+  		<div class="modal-dialog" role="document">
+    		<div class="modal-content" id = "modal-content">
+      			<div class="modal-header">
+         			<h4 class="modal-title" id="modelgraph-ModalLabel"></h4>
+      			</div>
+      			<div class="modal-body">
+      			</div>
+      			<div class="modal-footer">
+        			<button type="button" class="btn btn-default" id = "graphmodalButton"> OK </button>
+      			</div>
+    		</div>
+  		</div>
+  	</div>	
 	<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel">
   		<div class="modal-dialog" role="document">
     		<div class="modal-content" id = "modal-content">
@@ -529,6 +544,7 @@
 	<script type = "text/javascript" src="./js/simulationEvent.js"></script>
 	<script type = "text/javascript" src = "./js/steadyEvent.js"></script>
 	<script type = "text/javascript" src ="./js/parameterEvent.js"></script>
+	<script type = "text/javascript" src="./js/modelview_Event.js"></script>
 	<script type="text/javascript" src = "./js/parameterBioModelsAddition.js"> </script>
 </body>
 </html>
