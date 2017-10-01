@@ -7,3 +7,6 @@
 [submodule "WebContent/ScrollTrigger"]
 	path = WebContent/ScrollTrigger
 	url = https://github.com/terwanerik/ScrollTrigger.git
+[submodule "WebContent/CytoScape"]
+	path = WebContent/CytoScape
+	url = https://github.com/cytoscape/cytoscape.js.git

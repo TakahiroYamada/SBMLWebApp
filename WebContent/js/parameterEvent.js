@@ -20,9 +20,6 @@ $(".param-param").on("keypress" , function( e ){
 $("#algorithm").change( function(){
 	configureAlgorithmForm();
 })
-$("#sbml-file").on("change" , function(){
-	showExpFile();
-})
 function errorCheck_Parameter(){
 	var info = checkNegativeValueinInput( $(".param-param"));
 	// If file is not selected the error is visualized

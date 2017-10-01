@@ -74,6 +74,13 @@ $("#select-biomodels").on("change", function(){
 	}).done( function( result ){
 		ModelSBML.SBMLId = modelId;
 		ModelSBML.SBML = result;
+		var SBML_file;
+		var form_file = document.getElementById("sbml-file");
+		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
+		SBML_file.name =  ModelSBML.SBMLId + ".xml";
+		var filedata = new FormData();
+		filedata.append("file" , SBML_file );
+		getGraphViewFromServer( filedata );
 		$.LoadingOverlay("hide");
 	});
 })

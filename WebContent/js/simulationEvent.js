@@ -1,22 +1,3 @@
-$("#sbml-file").on("change" , function(){
-	var input = $("#sbml-file").get(0).files[ 0 ];
-	var reader = new FileReader();
-	$(reader).on("error",function( e ){
-		if( e.target.readyState == 2){
-			errorSetting( e.target.error.message , "Change your file permission.")
-			$("#warningModal").modal("show");
-			$("#modalButton").off("click");
-			$("#modalButton").on("click" , function(){
-				$("#warningModal").modal("hide");
-				var el = $("#sbml-file");
-				el.after( "<input id = 'sbml-file' type = 'file' size = '50' accept = '.xml'>" );
-				el.remove();
-			});
-		}
-	})
-	reader.readAsText( input );
-})	
-
 $("#runbottun").on("click" , function(){
 	if( !errorCheck_Simulation()){
 		$(this).LoadingOverlay("show");
