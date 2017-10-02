@@ -1,3 +1,4 @@
+var cy;
 $("#nav-graphview").on("click" , function(){
 	$("#modelgraph-Modal").modal("show");
 })
@@ -40,8 +41,17 @@ $("#sbml-file").on("change" , function(){
 })	
 
 function getGraphViewFromServer( form_file ){
+	
+	// If following code is not here, cy.fit function is ignored.Now I try to confirm the reason.
+	if( cy != undefined ){
+		$("#graph-cy").remove();
+		var parentDiv = document.getElementById("modelgraph-body");
+		var newDiv = document.createElement("div");
+		newDiv.setAttribute("id" , "graph-cy");
+		parentDiv.appendChild( newDiv );
+	}
 	form_file.append("SessionId" , sessionId);
-	 $.ajax({
+	$.ajax({
 	      url: "./SBMLModelView",
 	      type: "post",
 	      data: form_file,
@@ -53,7 +63,7 @@ function getGraphViewFromServer( form_file ){
 			var data = json_str.all;
 			sessionId = json_str.sessionId;
 			$("#modelgraph-Modal").modal("show");
-			var cy = cytoscape({
+			cy = cytoscape({
 				container: document.getElementById("graph-cy"),
 				boxSelectionEnabled: false,
 				autounselectify: true,
@@ -132,3 +142,6 @@ function getGraphViewFromServer( form_file ){
 				console.log('fail');
 			});
 }
+$("#modelgraph-Modal").on("shown.bs.modal" , function(){
+	cy.fit();
+})

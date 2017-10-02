@@ -1,5 +1,13 @@
 @CHARSET "UTF-8";
 /* Explanation CSS*/
+#modelgraph-body {
+	width : 100%;
+	height : 500px;
+}
+#graph-cy{
+	width: 100%;
+	height : 100%;
+}
 #explain { margin : 1em;
 }
 #explain-doc { border : solid 1px;}
