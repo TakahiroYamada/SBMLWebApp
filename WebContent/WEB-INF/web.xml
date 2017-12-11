@@ -79,4 +79,24 @@
     <servlet-name>SBMLModelView</servlet-name>
     <url-pattern>/SBMLModelView</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Producer</display-name>
+    <servlet-name>Producer</servlet-name>
+    <servlet-class>servlet.rabbitmq.Producer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Producer</servlet-name>
+    <url-pattern>/Producer</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Consumer</display-name>
+    <servlet-name>Consumer</servlet-name>
+    <servlet-class>servlet.rabbitmq.Consumer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Consumer</servlet-name>
+    <url-pattern>/Consumer</url-pattern>
+  </servlet-mapping>
 </web-app>

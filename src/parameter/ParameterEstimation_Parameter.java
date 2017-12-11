@@ -5,6 +5,7 @@ import org.COPASI.CTaskEnum;
 public class ParameterEstimation_Parameter extends Abstract_Parameter{
 	
 	private String ansData;
+	private String ansFileName;
 	// The parameters for Leven berg and Nelder method
 	private int iteLimit;
 	private double tolerance;
@@ -19,6 +20,12 @@ public class ParameterEstimation_Parameter extends Abstract_Parameter{
 	
 	// The parameters for particle swarm optimization and differential evolution
 	private int randomNumGenerator;
+	public String getAnsFileName() {
+		return ansFileName;
+	}
+	public void setAnsFileName(String ansFileName) {
+		this.ansFileName = ansFileName;
+	}
 	public String getAnsData() {
 		return ansData;
 	}
