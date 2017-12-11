@@ -22,7 +22,6 @@ public class Simulation_Parameter extends Abstract_Parameter{
 	public void setTolerance(Double tolerance) {
 		this.tolerance = tolerance;
 	}
-	@Override
 	public void setMethod(String methodName) {
 		// if the other method to analyze is added. You can add following		
 	}

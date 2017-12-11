@@ -83,7 +83,6 @@ public class ParameterEstimation_Parameter extends Abstract_Parameter{
 	public void setPopSize(int popSize) {
 		this.popSize = popSize;
 	}
-	@Override
 	public void setMethod(String methodName) {
 		// TODO Auto-generated method stub
 		if( methodName.equals("lv")){

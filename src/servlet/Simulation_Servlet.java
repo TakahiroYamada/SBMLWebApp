@@ -178,7 +178,7 @@ public class Simulation_Servlet extends HttpServlet {
 		sbml_Manipulator.addAmountConcentration( this.simulationBeans );
 		// send data to client side
 		this.simulationBeans.setModelParameters( sbml_Manipulator.getModelParameter() );
-		String jsonSimulation = JSON.encode( this.simulationBeans , true  );
+		String jsonSimulation = JSON.encode( this.simulationBeans , true );
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print( jsonSimulation );

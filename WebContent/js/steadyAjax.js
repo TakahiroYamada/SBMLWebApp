@@ -96,7 +96,7 @@ function configureStedParameter( formdata ){
 	formdata.append("resolution" , document.getElementById("resolution").value);
 	formdata.append("derivation" , document.getElementById("derivation").value);
 	formdata.append("itelimit" , document.getElementById("itelimit").value )
-	
+	formdata.append("Type" , "steady");
 }
 function downloadData_Steady(){
 	if( !$("#download-steady").hasClass("disabled")){

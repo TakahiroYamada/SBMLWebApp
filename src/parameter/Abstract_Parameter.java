@@ -1,8 +1,7 @@
 package parameter;
-
 import beans.modelparameter.ModelParameter_Beans;
 
-abstract class Abstract_Parameter {
+public class Abstract_Parameter {
 	private String FileString;
 	private String FileName;
 	private String PathToFile;
@@ -57,5 +56,4 @@ abstract class Abstract_Parameter {
 	public int getMethod() {
 		return Method;
 	}
-	abstract public void setMethod(String methodName);
 }

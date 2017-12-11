@@ -91,12 +91,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>Consumer</display-name>
-    <servlet-name>Consumer</servlet-name>
-    <servlet-class>servlet.rabbitmq.Consumer</servlet-class>
+    <display-name>AnalysisConsumer</display-name>
+    <servlet-name>AnalysisConsumer</servlet-name>
+    <servlet-class>servlet.rabbitmq.AnalysisConsumer</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Consumer</servlet-name>
-    <url-pattern>/Consumer</url-pattern>
+    <servlet-name>AnalysisConsumer</servlet-name>
+    <url-pattern>/AnalysisConsumer</url-pattern>
   </servlet-mapping>
 </web-app>

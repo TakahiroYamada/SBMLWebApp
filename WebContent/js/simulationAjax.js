@@ -93,10 +93,10 @@ function getSimulationResult( loadingObject ){
 	//filedata.append("file" , SBML_file );
 	filedata.append("file" , SBML_file );
 	configureFormData( filedata );
+	//$.ajax("./Simulation_Servlet" , {
 	$.ajax("./Simulation_Servlet" , {
 		async : true,
 		type : "post",
-		dataType : "text",
 		data : filedata,
 		processData : false,
 		contentType : false,
@@ -112,7 +112,7 @@ function getSimulationResult( loadingObject ){
 		}
 	}).done( function( result ){
 		sessionId = result.sessionId;
-		responseData = JSON.parse( result );
+		responseData = result;
 		callback_Simulation( SBML_file.name , responseData  ,  tmpLegend);
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
@@ -232,6 +232,7 @@ function configureFormData( formdata ){
 	formdata.append("library", document.getElementById("library").value);
 	formdata.append("parameter" , JSON.stringify( parameter_jsondata));
 	formdata.append("SessionId" , sessionId );
+	formdata.append("Type" , "simulation");
 }
 function addInitialValueSlider( responseData){
 	var JSONResponse = responseData;

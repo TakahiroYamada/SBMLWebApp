@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.UnsupportedLookAndFeelException;
+
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -36,6 +37,7 @@ public class Producer extends HttpServlet {
 	private String sessionId;
 	private int type;
 	private List<FileItem> fields;
+	private String responseData;
 	private static final Logger logger = Logger.getLogger( Producer.class.getName() );
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -53,17 +55,22 @@ public class Producer extends HttpServlet {
 		checkAnalysis();
 		
 		// Summing up the analysis environment to json in order to be sent to RabbitMQ and consumer.
-		transferData = getTransferedJSONData();
-		
+		getTransferedJSONData();
 		//  Using RPC to get the call back from Consumer
-		RabbitMQ_CallBack callBack = new RabbitMQ_CallBack();
-		String responseData = callBack.call( transferData );
+		RabbitMQ_CallBack callBack;
+		try {
+			callBack = new RabbitMQ_CallBack();
+			responseData = callBack.call( transferData );
+			callBack.close();
+		} catch (TimeoutException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// Returned back the result data to client side
 		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.print( responseData );
-		callBack.close();
 	}
 	private void checkAnalysis() {
 		// TODO Auto-generated method stub
@@ -101,7 +108,7 @@ public class Producer extends HttpServlet {
 		}		
 		return UniqueId.getUniqueId();
 	}
-	private String getTransferedJSONData( ) {
+	private void getTransferedJSONData( ) {
 		String pathToDirectory = getServletContext().getRealPath("/tmp/" + this.sessionId);
 		if( this.type == Task_Type.SIMULATION ){
 			Simulation_RequestReader simReq = new Simulation_RequestReader( fields , pathToDirectory );
@@ -115,7 +122,6 @@ public class Producer extends HttpServlet {
 			ParameterEstimation_RequestReader paramReq = new ParameterEstimation_RequestReader( fields , pathToDirectory );
 			this.transferData = paramReq.getparamEstParamAsJSON();
 		}		
-		return null;
 	}
 
 }

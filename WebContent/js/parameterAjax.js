@@ -299,7 +299,7 @@ function configure_ParameterFormData( formdata ){
 		formdata.append("seed" , document.getElementById("difevolseed").value);
 	}
 	formdata.append("parameter" , JSON.stringify( parameter_estimation_jsondata ));
-		
+	formdata.append("Type" , "parameter");
 }
 function configureAlgorithmForm(){
 	var algorithm = document.getElementById("algorithm");

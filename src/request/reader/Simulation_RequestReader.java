@@ -40,6 +40,7 @@ public class Simulation_RequestReader {
 		}
 	}
 	public String getSimParamAsJSON() {
+		
 		return JSON.encode( simParam );
 	}
 }
