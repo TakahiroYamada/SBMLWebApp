@@ -94,7 +94,7 @@ function getSimulationResult( loadingObject ){
 	filedata.append("file" , SBML_file );
 	configureFormData( filedata );
 	//$.ajax("./Simulation_Servlet" , {
-	$.ajax("./Simulation_Servlet" , {
+	$.ajax("./Producer" , {
 		async : true,
 		type : "post",
 		data : filedata,

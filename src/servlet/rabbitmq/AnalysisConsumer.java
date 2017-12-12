@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import javax.servlet.http.HttpServlet;
+import javax.xml.stream.XMLStreamException;
+
+import org.sbml.jsbml.SBMLException;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
@@ -18,6 +21,7 @@ import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
+import exception.NoDynamicSpeciesException;
 import general.task_manager.Task_Manager;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
@@ -45,13 +49,26 @@ public class AnalysisConsumer extends HttpServlet {
 				@Override
 				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[] body) throws UnsupportedEncodingException, IOException{
 					AMQP.BasicProperties replyProps = new AMQP.BasicProperties.Builder().correlationId( properties.getCorrelationId()).build();
-					String response = null;
+					String response = "";
 					try{
 						String message = new String( body );
-						Task_Manager manager = new Task_Manager( message );
-						
-						response = manager.getReponseData();
-						
+						Task_Manager manager;
+						try {
+							manager = new Task_Manager( message );
+							response = manager.getReponseData();
+						} catch (SBMLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (XMLStreamException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (NoDynamicSpeciesException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}finally{
 						channel.basicPublish( "", properties.getReplyTo(), replyProps , response.getBytes("UTF-8"));
 						channel.basicAck( envelope.getDeliveryTag() , false);
