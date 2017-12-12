@@ -162,7 +162,6 @@ public class Simulation_libSBMLsim {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		for( int i = 0 ; i < cdataModel.getModel().getNumModelValues() ; i ++ ){
 			if( cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE ){
 				orderODESpecies.add( cdataModel.getModel().getModelValue( i ).getSBMLId() );
