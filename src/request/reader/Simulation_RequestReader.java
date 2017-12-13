@@ -23,7 +23,7 @@ public class Simulation_RequestReader {
 			}
 			// this.simParameter to analyze is set
 			else if( item.getFieldName().equals("endpoint")){
-				this.simParam.setEndTime( new Double( Integer.parseInt( item.getString() )));
+				this.simParam.setEndTime( new Double( Double.parseDouble( item.getString() )));
 			}
 			else if( item.getFieldName().equals("numpoint")){
 				this.simParam.setNumTime( new Integer( Integer.parseInt( item.getString() )));;
