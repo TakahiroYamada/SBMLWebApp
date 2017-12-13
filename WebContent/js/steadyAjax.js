@@ -17,7 +17,7 @@ function getSteadyResult( loadingObject ){
 	filedata.append("file" , SBML_file );
 	filedata.append("SessionId" , sessionId);
 	configureStedParameter( filedata );
-	$.ajax("./SteadyState_Servlet" , {
+	$.ajax("./Producer" , {
 		async : true,
 		type : "post" ,
 		data : filedata ,

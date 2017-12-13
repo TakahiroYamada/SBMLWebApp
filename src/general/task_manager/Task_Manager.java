@@ -12,6 +12,7 @@ import exception.NoDynamicSpeciesException;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
 import task.Task_Simulation;
+import task.Task_SteadyStateAnalysis;
 
 public class Task_Manager {
 	private String message;
@@ -27,7 +28,8 @@ public class Task_Manager {
 			this.responseData = JSON.encode( simTask.getSimulationResult() );
 		}
 		else if( this.type == Task_Type.STEADY_STATE_ANALYSIS ){
-			
+			Task_SteadyStateAnalysis stedTask = new Task_SteadyStateAnalysis( message );
+			this.responseData = JSON.encode( stedTask.getSteadyStateAnalysisResult() );
 		}
 		else if( this.type == Task_Type.PARAMETER_ESTIMATION ){
 			
