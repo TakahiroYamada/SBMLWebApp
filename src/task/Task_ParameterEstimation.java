@@ -41,7 +41,7 @@ public class Task_ParameterEstimation extends Super_Task{
 		// Simulation condition is set
 		int endTime = (int) Math.ceil(paramestCOPASI.getTimeData().get(paramestCOPASI.getTimeData().size() - 1));
 		paramSim.setLibrary("copasi");
-		paramSim.setNumTime(endTime);
+		paramSim.setNumTime(endTime * (int) paramestCOPASI.getTimeData().size());
 		paramSim.setEndTime(new Double( endTime));
 
 		this.colorOfVis = new Coloring((int) paramestCOPASI.getDependentData().size(), this.TRANSPARENCY);
