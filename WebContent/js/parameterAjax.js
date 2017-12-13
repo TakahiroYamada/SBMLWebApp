@@ -141,7 +141,7 @@ function analyzeData( loadingObject ){
 	// Parameter data is set to filedata(FormData)
 	configure_ParameterFormData( filedata );
 	
-	$.ajax("./ParameterEstimation_Servlet" , {
+	$.ajax("./Producer" , {
 		async : true ,
 		type : "post" ,
 		data : filedata , 

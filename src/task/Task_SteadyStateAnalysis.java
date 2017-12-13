@@ -8,7 +8,6 @@ import org.sbml.jsbml.SBMLException;
 
 import analyze.steadystate.SteadyState_COPASI;
 import beans.steadystate.SteadyState_AllBeans;
-import manipulator.SBML_Manipulator;
 import net.arnx.jsonic.JSON;
 import parameter.SteadyStateAnalysis_Parameter;
 

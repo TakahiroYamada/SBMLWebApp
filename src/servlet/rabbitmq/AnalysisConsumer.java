@@ -68,6 +68,9 @@ public class AnalysisConsumer extends HttpServlet {
 						} catch (NoDynamicSpeciesException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}finally{
 						channel.basicPublish( "", properties.getReplyTo(), replyProps , response.getBytes("UTF-8"));

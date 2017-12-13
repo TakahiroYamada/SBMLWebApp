@@ -3,8 +3,6 @@ package task;
 import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
-
-import org.apache.jasper.tagplugins.jstl.core.Param;
 import org.sbml.jsbml.SBMLException;
 
 import analyze.simulation.Simulation_COPASI;

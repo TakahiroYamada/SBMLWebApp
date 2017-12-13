@@ -11,6 +11,7 @@ import org.sbml.jsbml.SBMLException;
 import exception.NoDynamicSpeciesException;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
+import task.Task_ParameterEstimation;
 import task.Task_Simulation;
 import task.Task_SteadyStateAnalysis;
 
@@ -18,7 +19,7 @@ public class Task_Manager {
 	private String message;
 	private String responseData;
 	private int type;
-	public Task_Manager( String message) throws SBMLException, IllegalArgumentException, IOException, XMLStreamException, NoDynamicSpeciesException{
+	public Task_Manager( String message) throws Exception{
 		this.message = message;
 		Map map = ( Map ) JSON.decode( this.message );
 		BigDecimal tmpType = (BigDecimal) map.get("type"); 
@@ -32,7 +33,8 @@ public class Task_Manager {
 			this.responseData = JSON.encode( stedTask.getSteadyStateAnalysisResult() );
 		}
 		else if( this.type == Task_Type.PARAMETER_ESTIMATION ){
-			
+			Task_ParameterEstimation paramTask = new Task_ParameterEstimation( message );
+			this.responseData = JSON.encode( paramTask.getParamestAllBeans() );
 		}
 	}
 	public String getReponseData(){
