@@ -386,7 +386,8 @@ function addLocalParam_ParameterSlider( responseData ){
 				$("#" + this.id + "_upper_input").val( ui.values[1]);
 				var sbmlId = this.id;
 				var filtered = $.grep( parameter_estimation_jsondata.localParamValue , function( elem , index){
-					return( elem.jsID == sbmlId);
+					
+					return( ("param_" + elem.jsID) == sbmlId);
 				})
 				filtered[ 0 ].lower = ui.values[ 0 ];
 				filtered[ 0 ].upper = ui.values[ 1 ];

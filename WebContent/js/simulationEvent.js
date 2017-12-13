@@ -1,3 +1,11 @@
+$("#library").on("change" , function(){
+	if( this.value == "libsbmlsim"){
+		$("#abs_tolerance").hide(500);
+	}
+	else{
+		$("#abs_tolerance").show(500);
+	}
+})
 $("#runbottun").on("click" , function(){
 	if( !errorCheck_Simulation()){
 		$(this).LoadingOverlay("show");
