@@ -39,7 +39,7 @@ function getSteadyResult( loadingObject ){
 		callback_Steady( SBML_file.name , responseData );
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
-		errorSetting( result.responseText , "Please check your input file which is really SBML.")
+		errorSetting( result.responseJSON.errorMessage , result.responseJSON.solveText);
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");
 		$("#modalButton").on("click" , function(){

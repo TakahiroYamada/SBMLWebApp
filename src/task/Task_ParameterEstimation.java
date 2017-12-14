@@ -1,9 +1,15 @@
 package task;
 
+import java.io.IOException;
+
+import javax.xml.stream.XMLStreamException;
+
 import analyze.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
 import beans.parameter.ParameterEstimation_AllBeans;
 import coloring.Coloring;
+import exception.COPASI_ExportException;
+import exception.NoDynamicSpeciesException;
 import net.arnx.jsonic.JSON;
 import parameter.ParameterEstimation_Parameter;
 import parameter.Simulation_Parameter;
@@ -13,7 +19,7 @@ public class Task_ParameterEstimation extends Super_Task{
 	private ParameterEstimation_Parameter paramestParam;
 	private ParameterEstimation_AllBeans paramestAllBeans;
 	private Coloring colorOfVis;
-	public Task_ParameterEstimation( String message) throws Exception{
+	public Task_ParameterEstimation( String message) throws IOException , XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException , IllegalArgumentException{
 		this.paramestParam = JSON.decode( message , ParameterEstimation_Parameter.class);
 		
 		super.saveFile( paramestParam.getPathToFile() , paramestParam.getFileName() , paramestParam.getFileString());
@@ -35,7 +41,7 @@ public class Task_ParameterEstimation extends Super_Task{
 		
 		paramestAllBeans.setModelParameters( super.getManipulator().getModelParameter() );
 	}
-	private void simulateFittedResult(ParameterEstimation_COPASI paramestCOPASI) throws Exception {
+	private void simulateFittedResult(ParameterEstimation_COPASI paramestCOPASI) throws NoDynamicSpeciesException, COPASI_ExportException {
 		Simulation_Parameter paramSim = new Simulation_Parameter();
 		this.paramestAllBeans = new ParameterEstimation_AllBeans();
 		// Simulation condition is set
@@ -50,7 +56,12 @@ public class Task_ParameterEstimation extends Super_Task{
 		this.paramestAllBeans.setBeforeFitting(beforeFitting.configureSimulationBeans(colorOfVis));
 		Simulation_COPASI afterFitting = new Simulation_COPASI(paramestCOPASI.getDataModel(), paramSim);
 		this.paramestAllBeans.setAfterFitting(afterFitting.configureSimulationBeans(colorOfVis));
-		paramestCOPASI.getDataModel().exportSBML( paramestParam.getPathToFile() + "/Updated_" + paramestParam.getFileName() );
+		try {
+			paramestCOPASI.getDataModel().exportSBML( paramestParam.getPathToFile() + "/Updated_" + paramestParam.getFileName() );
+		} catch (Exception e) {
+			COPASI_ExportException ce = new COPASI_ExportException();
+			throw ce;
+		}
 	}
 	public ParameterEstimation_AllBeans getParamestAllBeans() {
 		return paramestAllBeans;

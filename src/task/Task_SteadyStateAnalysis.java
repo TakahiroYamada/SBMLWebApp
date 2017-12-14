@@ -14,10 +14,9 @@ import parameter.SteadyStateAnalysis_Parameter;
 public class Task_SteadyStateAnalysis extends Super_Task{
 	private SteadyStateAnalysis_Parameter stedParam;
 	private SteadyState_AllBeans stedAllBeans;
-	public Task_SteadyStateAnalysis( String message ) throws IOException, SBMLException, IllegalArgumentException, XMLStreamException{
-		this.stedParam = JSON.decode( message , SteadyStateAnalysis_Parameter.class);
-		
-		saveFile( this.stedParam.getPathToFile() , this.stedParam.getFileName() , stedParam.getFileString());
+	public Task_SteadyStateAnalysis( String message ) throws IOException, SBMLException , IllegalArgumentException{
+		this.stedParam = JSON.decode( message , SteadyStateAnalysis_Parameter.class);		
+		super.saveFile( this.stedParam.getPathToFile() , this.stedParam.getFileName() , stedParam.getFileString());
 		
 		SteadyState_COPASI analyzeSteadyState = new SteadyState_COPASI( this.stedParam , this.stedParam.getPathToFile() + "/result_steadystate.txt", newFile.getPath() );
 		analyzeSteadyState.executeSteadyStateAnalysis();

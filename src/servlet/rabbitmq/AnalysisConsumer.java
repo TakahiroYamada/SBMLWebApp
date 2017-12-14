@@ -21,7 +21,9 @@ import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
+import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
+import general.error.Error_Message;
 import general.task_manager.Task_Manager;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
@@ -53,20 +55,38 @@ public class AnalysisConsumer extends HttpServlet {
 					try{
 						String message = new String( body );
 						Task_Manager manager;
-						try {
-							manager = new Task_Manager( message );
-							response = manager.getReponseData();
-						} catch (SBMLException e) {
-							e.printStackTrace();
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (XMLStreamException e) {
-							e.printStackTrace();
-						} catch (NoDynamicSpeciesException e) {
-							e.printStackTrace();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						manager = new Task_Manager( message );
+						response = manager.getReponseData();
+					} catch (SBMLException e) {
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( e.getMessage());
+						error.setSolveText("Please check your input file which is really SBML.");
+						response = JSON.encode( error );
+						e.printStackTrace();
+					}  catch (NoDynamicSpeciesException e) {
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( e.getMessage() );
+						error.setSolveText("Please check species in your model whether attribute of fixed is true or false.");
+						response = JSON.encode( error );
+						e.printStackTrace();
+					} catch (COPASI_ExportException e) {
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( e.getMessage() );
+						error.setSolveText("Please check your model's extention.");
+						response = JSON.encode( error );
+						e.printStackTrace();
+					} catch (IllegalArgumentException e){
+						Error_Message error = new Error_Message();
+						error.setErrorMessage("Unable to write SBML output for documents with undefined SBML Level and Version flag.");
+						error.setSolveText("Please check Level and Version of SBML.");
+						response = JSON.encode( error );
+						e.printStackTrace();
+					} catch (XMLStreamException e) {
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( e.getMessage() );
+						error.setSolveText("Please check your input file which is really xml format.");
+						response = JSON.encode( error );
+						e.printStackTrace();
 					}finally{
 						channel.basicPublish( "", properties.getReplyTo(), replyProps , response.getBytes("UTF-8"));
 						channel.basicAck( envelope.getDeliveryTag() , false);

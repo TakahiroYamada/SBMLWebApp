@@ -116,8 +116,7 @@ function getSimulationResult( loadingObject ){
 		callback_Simulation( SBML_file.name , responseData  ,  tmpLegend);
 		loadingObject.LoadingOverlay("hide");
 	}).fail( function( result ){
-		console.log( sessionId);
-		errorSetting( result.responseText , "Please check your input file which is really SBML.")
+		errorSetting( result.responseJSON.errorMessage , result.responseJSON.solveText);
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");
 		$("#modalButton").on("click" , function(){

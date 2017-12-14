@@ -59,7 +59,6 @@ function getGraphViewFromServer( form_file ){
 	      contentType: false,
 	      timeout: 10000
 	    }).done(function (json_str) {
-	      console.log("done");	      
 			var data = json_str.all;
 			sessionId = json_str.sessionId;
 			$("#modelgraph-Modal").modal("show");

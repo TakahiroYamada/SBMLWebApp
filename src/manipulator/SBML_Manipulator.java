@@ -72,7 +72,7 @@ public class SBML_Manipulator {
 		// the result is saved in  sbmlFile path
 		writeSBML();
 	}
-	public void writeSBML() throws SBMLException, XMLStreamException, IOException , IllegalArgumentException{
+	public void writeSBML() throws SBMLException, XMLStreamException, IOException {
 		SBMLWriter writer = new SBMLWriter();
 		writer.write( document, sbmlFile );
 	}

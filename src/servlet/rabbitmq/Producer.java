@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
@@ -19,8 +20,10 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import callback.RabbitMQ_CallBack;
+import general.error.Error_Message;
 import general.task_type.Task_Type;
 import general.unique_id.UniqueId;
+import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
 import request.reader.ParameterEstimation_RequestReader;
 import request.reader.Simulation_RequestReader;
@@ -49,8 +52,18 @@ public class Producer extends HttpServlet {
 		try {
 			this.sessionId = sessionCheck( request );
 		} catch (FileUploadException e) {
+			Error_Message error = new Error_Message();
+			error.setErrorMessage( e.getMessage() );
+			error.setSolveText("Please check your connection");
+			
+			response.setStatus( 400 );
+			PrintWriter out = response.getWriter();
+			out.print( JSON.encode( error ));
+			out.flush();
 			e.printStackTrace();
+			return;
 		}
+		
 		// Check the analysis type from Client side
 		checkAnalysis();
 		
@@ -61,16 +74,24 @@ public class Producer extends HttpServlet {
 		try {
 			callBack = new RabbitMQ_CallBack();
 			responseData = callBack.call( transferData );
-			callBack.close();
+			callBack.close();			
 		} catch (TimeoutException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		Map errorCheckMap = JSON.decode( responseData );
+		if( errorCheckMap.get("errorMessage") != null ){
+			response.setStatus(400);
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print( responseData );
+		}
 		// Returned back the result data to client side
-		response.setContentType("application/json;charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		out.print( responseData );
+		else{
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print( responseData );
+		}
 	}
 	private void checkAnalysis() {
 		// TODO Auto-generated method stub
