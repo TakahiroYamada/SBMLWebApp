@@ -67,10 +67,14 @@ $("#select-biomodels").on("change", function(){
 	var modelId = $(this).val();
 	var modelName = selectedModel.attr("label");
 	
-	$.ajax("./BioModels_ModelSBMLExtraction" , {
+	// configure the data sent to server
+	var filedata = new FormData();
+	filedata.append("bioModelsId" , modelId );
+	filedata.append("Type" , "model_sbmlextraction")
+	$.ajax("./Producer" , {
 		async : true,
 		type : "post",
-		data : { bioModelsId : modelId } , 
+		data : filedata
 	}).done( function( result ){
 		ModelSBML.SBMLId = modelId;
 		ModelSBML.SBML = result;

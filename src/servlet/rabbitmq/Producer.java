@@ -65,10 +65,10 @@ public class Producer extends HttpServlet {
 		}
 		
 		// Check the analysis type from Client side
-		checkAnalysis();
+		this.checkAnalysis();
 		
 		// Summing up the analysis environment to json in order to be sent to RabbitMQ and consumer.
-		getTransferedJSONData();
+		this.getTransferedJSONData();
 		//  Using RPC to get the call back from Consumer
 		RabbitMQ_CallBack callBack;
 		try {
@@ -108,6 +108,9 @@ public class Producer extends HttpServlet {
 				else if( item.getString().equals("parameter")){
 					this.type = Task_Type.PARAMETER_ESTIMATION;
 				}
+				else if( item.getString().equals("model_sbmlextraction")){
+					this.type = Task_Type.BIOMODELS_SBMLEXTRACTION;
+				}
 			}
 		}
 	}
@@ -132,17 +135,20 @@ public class Producer extends HttpServlet {
 	private void getTransferedJSONData( ) {
 		String pathToDirectory = getServletContext().getRealPath("/tmp/" + this.sessionId);
 		if( this.type == Task_Type.SIMULATION ){
-			Simulation_RequestReader simReq = new Simulation_RequestReader( fields , pathToDirectory );
+			Simulation_RequestReader simReq = new Simulation_RequestReader( fields , pathToDirectory , this.sessionId );
 			this.transferData = simReq.getSimParamAsJSON();
 		}
 		else if( this.type == Task_Type.STEADY_STATE_ANALYSIS ){
-			SteadyStateAnalysis_RequestReader stedReq = new SteadyStateAnalysis_RequestReader( fields , pathToDirectory);
+			SteadyStateAnalysis_RequestReader stedReq = new SteadyStateAnalysis_RequestReader( fields , pathToDirectory , this.sessionId);
 			this.transferData = stedReq.getstedParamAsJSON();
 		}
 		else if( this.type == Task_Type.PARAMETER_ESTIMATION ){
-			ParameterEstimation_RequestReader paramReq = new ParameterEstimation_RequestReader( fields , pathToDirectory );
+			ParameterEstimation_RequestReader paramReq = new ParameterEstimation_RequestReader( fields , pathToDirectory , this.sessionId );
 			this.transferData = paramReq.getparamEstParamAsJSON();
-		}		
+		}
+		else if( this.type == Task_Type.BIOMODELS_SBMLEXTRACTION ){
+			
+		}
 	}
 
 }

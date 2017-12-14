@@ -112,6 +112,7 @@ function getSimulationResult( loadingObject ){
 		}
 	}).done( function( result ){
 		sessionId = result.sessionId;
+		console.log( sessionId )
 		responseData = result;
 		callback_Simulation( SBML_file.name , responseData  ,  tmpLegend);
 		loadingObject.LoadingOverlay("hide");

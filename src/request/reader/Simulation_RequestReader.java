@@ -9,10 +9,11 @@ import parameter.Simulation_Parameter;
 
 public class Simulation_RequestReader {
 	private Simulation_Parameter simParam;
-	public Simulation_RequestReader( List<FileItem> fields , String path){
+	public Simulation_RequestReader( List<FileItem> fields , String path, String sessionId){
 		this.simParam = new Simulation_Parameter();
 		this.simParam.setPathToFile( path );
 		this.simParam.setType( Task_Type.SIMULATION );
+		this.simParam.setSessionInfo( sessionId );
 		Iterator< FileItem > it = fields.iterator();
 		while( it.hasNext()){
 			FileItem item = it.next();

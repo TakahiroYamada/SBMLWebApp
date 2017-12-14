@@ -13,10 +13,11 @@ import parameter.ParameterEstimation_Parameter;
 
 public class ParameterEstimation_RequestReader {
 	private ParameterEstimation_Parameter paramestParam;
-	public ParameterEstimation_RequestReader( List< FileItem > fields , String path){
+	public ParameterEstimation_RequestReader( List< FileItem > fields , String path, String sessionId){
 		this.paramestParam = new ParameterEstimation_Parameter();
 		this.paramestParam.setPathToFile( path );
 		this.paramestParam.setType( Task_Type.PARAMETER_ESTIMATION );
+		this.paramestParam.setSessionInfo( sessionId );
 		Iterator<FileItem> it = fields.iterator();
 		while (it.hasNext()) {
 			FileItem item = it.next();
