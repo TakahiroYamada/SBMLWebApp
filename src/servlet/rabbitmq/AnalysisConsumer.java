@@ -57,19 +57,14 @@ public class AnalysisConsumer extends HttpServlet {
 							manager = new Task_Manager( message );
 							response = manager.getReponseData();
 						} catch (SBMLException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (XMLStreamException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (NoDynamicSpeciesException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}finally{

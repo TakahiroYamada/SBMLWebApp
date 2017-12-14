@@ -91,13 +91,46 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>AnalysisConsumer</display-name>
-    <servlet-name>AnalysisConsumer</servlet-name>
+    <display-name>AnalysisConsumer1</display-name>
+    <servlet-name>AnalysisConsumer1</servlet-name>
     <servlet-class>servlet.rabbitmq.AnalysisConsumer</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-    <servlet-name>AnalysisConsumer</servlet-name>
-    <url-pattern>/AnalysisConsumer</url-pattern>
+    <servlet-name>AnalysisConsumer1</servlet-name>
+    <url-pattern>/AnalysisConsumer1</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AnalysisConsumer2</display-name>
+    <servlet-name>AnalysisConsumer2</servlet-name>
+    <servlet-class>servlet.rabbitmq.AnalysisConsumer</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AnalysisConsumer2</servlet-name>
+    <url-pattern>/AnalysisConsumer2</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AnalysisConsumer3</display-name>
+    <servlet-name>AnalysisConsumer3</servlet-name>
+    <servlet-class>servlet.rabbitmq.AnalysisConsumer</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AnalysisConsumer3</servlet-name>
+    <url-pattern>/AnalysisConsumer3</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AnalysisConsumer4</display-name>
+    <servlet-name>AnalysisConsumer4</servlet-name>
+    <servlet-class>servlet.rabbitmq.AnalysisConsumer</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AnalysisConsumer4</servlet-name>
+    <url-pattern>/AnalysisConsumer4</url-pattern>
   </servlet-mapping>
 </web-app>
