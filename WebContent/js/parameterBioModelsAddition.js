@@ -71,13 +71,17 @@ $("#select-biomodels").on("change", function(){
 	var filedata = new FormData();
 	filedata.append("bioModelsId" , modelId );
 	filedata.append("Type" , "model_sbmlextraction")
+	
 	$.ajax("./Producer" , {
 		async : true,
 		type : "post",
-		data : filedata
+		data : filedata,
+		processData : false,
+		contentType : false
 	}).done( function( result ){
 		ModelSBML.SBMLId = modelId;
-		ModelSBML.SBML = result;
+		ModelSBML.SBML = result.modelString;
+		sessionId = result.sessionId;
 		var SBML_file;
 		var form_file = document.getElementById("sbml-file");
 		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	

@@ -25,6 +25,7 @@ import general.task_type.Task_Type;
 import general.unique_id.UniqueId;
 import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
+import request.reader.Biomodels_SBMLExtraction_RequestReader;
 import request.reader.ParameterEstimation_RequestReader;
 import request.reader.Simulation_RequestReader;
 import request.reader.SteadyStateAnalysis_RequestReader;
@@ -135,19 +136,20 @@ public class Producer extends HttpServlet {
 	private void getTransferedJSONData( ) {
 		String pathToDirectory = getServletContext().getRealPath("/tmp/" + this.sessionId);
 		if( this.type == Task_Type.SIMULATION ){
-			Simulation_RequestReader simReq = new Simulation_RequestReader( fields , pathToDirectory , this.sessionId );
+			Simulation_RequestReader simReq = new Simulation_RequestReader( this.fields , pathToDirectory , this.sessionId );
 			this.transferData = simReq.getSimParamAsJSON();
 		}
 		else if( this.type == Task_Type.STEADY_STATE_ANALYSIS ){
-			SteadyStateAnalysis_RequestReader stedReq = new SteadyStateAnalysis_RequestReader( fields , pathToDirectory , this.sessionId);
+			SteadyStateAnalysis_RequestReader stedReq = new SteadyStateAnalysis_RequestReader( this.fields , pathToDirectory , this.sessionId);
 			this.transferData = stedReq.getstedParamAsJSON();
 		}
 		else if( this.type == Task_Type.PARAMETER_ESTIMATION ){
-			ParameterEstimation_RequestReader paramReq = new ParameterEstimation_RequestReader( fields , pathToDirectory , this.sessionId );
+			ParameterEstimation_RequestReader paramReq = new ParameterEstimation_RequestReader( this.fields , pathToDirectory , this.sessionId );
 			this.transferData = paramReq.getparamEstParamAsJSON();
 		}
 		else if( this.type == Task_Type.BIOMODELS_SBMLEXTRACTION ){
-			
+			Biomodels_SBMLExtraction_RequestReader bmsbmlReq = new Biomodels_SBMLExtraction_RequestReader( this.fields , pathToDirectory , this.sessionId );
+			this.transferData = bmsbmlReq.getBmsbmlParamAsJSON();
 		}
 	}
 

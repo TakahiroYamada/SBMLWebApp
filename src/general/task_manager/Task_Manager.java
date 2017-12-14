@@ -12,15 +12,17 @@ import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
+import task.Task_BiomodelsSBMLExtraction;
 import task.Task_ParameterEstimation;
 import task.Task_Simulation;
 import task.Task_SteadyStateAnalysis;
+import uk.ac.ebi.biomodels.ws.BioModelsWSException;
 
 public class Task_Manager {
 	private String message;
 	private String responseData;
 	private int type;
-	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException{
+	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException, BioModelsWSException{
 		this.message = message;
 		Map map = ( Map ) JSON.decode( this.message );
 		BigDecimal tmpType = (BigDecimal) map.get("type"); 
@@ -36,6 +38,10 @@ public class Task_Manager {
 		else if( this.type == Task_Type.PARAMETER_ESTIMATION ){
 			Task_ParameterEstimation paramTask = new Task_ParameterEstimation( message );
 			this.responseData = JSON.encode( paramTask.getParamestAllBeans() );
+		}
+		else if( this.type == Task_Type.BIOMODELS_SBMLEXTRACTION ){
+			Task_BiomodelsSBMLExtraction bmsbmlTask = new Task_BiomodelsSBMLExtraction( message );
+			this.responseData = JSON.encode( bmsbmlTask.getBmsbmlAllBeans() );
 		}
 	}
 	public String getReponseData(){

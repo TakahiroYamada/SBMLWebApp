@@ -27,6 +27,7 @@ import general.error.Error_Message;
 import general.task_manager.Task_Manager;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
+import uk.ac.ebi.biomodels.ws.BioModelsWSException;
 
 /**
  * Servlet implementation class Consumer
@@ -86,6 +87,8 @@ public class AnalysisConsumer extends HttpServlet {
 						error.setErrorMessage( e.getMessage() );
 						error.setSolveText("Please check your input file which is really xml format.");
 						response = JSON.encode( error );
+						e.printStackTrace();
+					} catch (BioModelsWSException e) {
 						e.printStackTrace();
 					}finally{
 						channel.basicPublish( "", properties.getReplyTo(), replyProps , response.getBytes("UTF-8"));
