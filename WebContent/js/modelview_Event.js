@@ -51,8 +51,9 @@ function getGraphViewFromServer( form_file ){
 		parentDiv.appendChild( newDiv );
 	}
 	form_file.append("SessionId" , sessionId);
+	form_file.append("Type" , "modelview");
 	$.ajax({
-	      url: "./SBMLModelView",
+	      url: "./Producer",
 	      type: "post",
 	      data: form_file,
 	      processData: false,

@@ -26,6 +26,7 @@ import general.unique_id.UniqueId;
 import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
 import request.reader.Biomodels_SBMLExtraction_RequestReader;
+import request.reader.ModelView_RequestReader;
 import request.reader.ParameterEstimation_RequestReader;
 import request.reader.Simulation_RequestReader;
 import request.reader.SteadyStateAnalysis_RequestReader;
@@ -112,6 +113,9 @@ public class Producer extends HttpServlet {
 				else if( item.getString().equals("model_sbmlextraction")){
 					this.type = Task_Type.BIOMODELS_SBMLEXTRACTION;
 				}
+				else if ( item.getString().equals("modelview")){
+					this.type = Task_Type.MODEL_VIEW;
+				}
 			}
 		}
 	}
@@ -150,6 +154,10 @@ public class Producer extends HttpServlet {
 		else if( this.type == Task_Type.BIOMODELS_SBMLEXTRACTION ){
 			Biomodels_SBMLExtraction_RequestReader bmsbmlReq = new Biomodels_SBMLExtraction_RequestReader( this.fields , pathToDirectory , this.sessionId );
 			this.transferData = bmsbmlReq.getBmsbmlParamAsJSON();
+		}
+		else if( this.type == Task_Type.MODEL_VIEW ){
+			ModelView_RequestReader viewReq = new ModelView_RequestReader( this.fields , pathToDirectory , this.sessionId );
+			this.transferData = viewReq.getModelviewParamAsJSON();
 		}
 	}
 
