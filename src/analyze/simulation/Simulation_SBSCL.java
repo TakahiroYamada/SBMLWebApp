@@ -172,7 +172,7 @@ public class Simulation_SBSCL {
 		}
 		return simAllBeans;
 	}
-	private ArrayList getSBMLIDODESpecies(){
+	private ArrayList<String> getSBMLIDODESpecies(){
 		ArrayList< String > orderODESpecies = new ArrayList<>();
 		CCopasiDataModel cdataModel = CCopasiRootContainer.addDatamodel();
 		try {
@@ -190,7 +190,7 @@ public class Simulation_SBSCL {
 		
 		return orderODESpecies;
 	}
-	private ArrayList getSBMLIDNotFixedSpecies(){
+	private ArrayList<String> getSBMLIDNotFixedSpecies(){
 		ArrayList< String > orderNotFixedSpecies = new ArrayList<>();
 		CCopasiDataModel cdataModel = CCopasiRootContainer.addDatamodel();
 		try {

@@ -70,6 +70,6 @@ public class BioModels_ModelRefresh extends HttpServlet {
 		for( int i = 0 ; i < allModelId.length ; i ++){
 			writer.println( allModelId[ i ] + "," + allModelName[ i ]);
 		}
-		
+		writer.close();
 	}
 }

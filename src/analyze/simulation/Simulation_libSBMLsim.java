@@ -153,7 +153,7 @@ public class Simulation_libSBMLsim {
 		}
 		return orderNotFixedSpecies;
 	}
-	private ArrayList getSBMLIDODESpecies(){
+	private ArrayList<String> getSBMLIDODESpecies(){
 		ArrayList< String > orderODESpecies = new ArrayList<>();
 		CCopasiDataModel cdataModel = CCopasiRootContainer.addDatamodel();
 		try {

@@ -37,6 +37,7 @@ public class SteadyState_COPASI {
 	public void executeSteadyStateAnalysis(){
 		
 		dataModel = CCopasiRootContainer.addDatamodel();
+		@SuppressWarnings("unused")
 		boolean result = true;
 	
 		

@@ -24,7 +24,6 @@ import general.error.Error_Message;
 import general.task_type.Task_Type;
 import general.unique_id.UniqueId;
 import net.arnx.jsonic.JSON;
-import parameter.Simulation_Parameter;
 import request.reader.Biomodels_SBMLExtraction_RequestReader;
 import request.reader.ModelView_RequestReader;
 import request.reader.ParameterEstimation_RequestReader;

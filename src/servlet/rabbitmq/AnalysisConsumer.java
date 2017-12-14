@@ -1,11 +1,7 @@
 package servlet.rabbitmq;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import javax.servlet.http.HttpServlet;
@@ -25,7 +21,6 @@ import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
 import general.error.Error_Message;
 import general.task_manager.Task_Manager;
-import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
 import uk.ac.ebi.biomodels.ws.BioModelsWSException;
 

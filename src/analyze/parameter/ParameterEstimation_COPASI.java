@@ -187,6 +187,7 @@ public class ParameterEstimation_COPASI {
 		
 		//Execution of parameter estimation
 		try{
+			@SuppressWarnings("unused")
 			boolean result = fitTask.processWithOutputFlags( true , ( int ) CCopasiTask.ONLY_TIME_SERIES );
 		}
 		catch(Exception ex)
@@ -385,6 +386,7 @@ public class ParameterEstimation_COPASI {
 				RowCount += 1;
 			}
 			this.ExpRow = RowCount ;
+			br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -2,10 +2,7 @@ package task;
 
 import java.io.IOException;
 
-import javax.xml.stream.XMLStreamException;
-
 import org.sbml.jsbml.SBMLException;
-
 import analyze.steadystate.SteadyState_COPASI;
 import beans.steadystate.SteadyState_AllBeans;
 import net.arnx.jsonic.JSON;

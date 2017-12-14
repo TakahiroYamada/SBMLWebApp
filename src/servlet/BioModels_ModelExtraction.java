@@ -7,22 +7,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.thoughtworks.xstream.alias.ClassMapper.Null;
 
 import beans.biomodels.BioModelsInfo_Beans;
-import ij.gui.Line;
 import net.arnx.jsonic.JSON;
-import uk.ac.ebi.biomodels.ws.BioModelsWSClient;
-import uk.ac.ebi.biomodels.ws.BioModelsWSException;
-import uk.ac.ebi.biomodels.ws.SimpleModel;
 
 /**
  * Servlet implementation class BioModels_ModelExtraction
@@ -30,7 +24,6 @@ import uk.ac.ebi.biomodels.ws.SimpleModel;
 public class BioModels_ModelExtraction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BioModelsInfo_Beans bioModelsInfo_Beans;
-	private String[] allModelId;
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -50,6 +43,7 @@ public class BioModels_ModelExtraction extends HttpServlet {
 				listModelId.add( data[ 0 ]);
 				listModelName.add( data[ 1 ]);
 			}	
+			br.close();
 		}catch( FileNotFoundException e ){
 			response.setStatus( 400 );
 			return;

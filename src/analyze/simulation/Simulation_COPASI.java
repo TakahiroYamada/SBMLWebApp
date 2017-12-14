@@ -89,7 +89,8 @@ public class Simulation_COPASI {
         else{
         	simParameter.setDblValue( 1.0e-12 );
         }
-        boolean result=true;
+        @SuppressWarnings("unused")
+		boolean result=true;
         try
         {
         	result = simTrajekTask.processWithOutputFlags( true, (int)CCopasiTask.ONLY_TIME_SERIES);
