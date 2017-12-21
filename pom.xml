@@ -94,10 +94,6 @@
   		<scope>test</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.sbml.jsbml</groupId>
-  		<artifactId>jsbml</artifactId>
-  	</dependency>
-  	<dependency>
   		<groupId>uk.ac.ebi.biomodels</groupId>
   		<artifactId>biomodels-wslib</artifactId>
   	</dependency>
@@ -110,6 +106,10 @@
   	<dependency>
   		<groupId>com.rabbitmq</groupId>
   		<artifactId>amqp-client</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.sbml.jsbml</groupId>
+  		<artifactId>jsbml</artifactId>
   	</dependency>
   </dependencies>
   <dependencyManagement>
