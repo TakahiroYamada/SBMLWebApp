@@ -8,6 +8,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.SBMLException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
 import general.task_type.Task_Type;
@@ -38,7 +40,11 @@ public class Task_Manager {
 		}
 		else if( this.type == Task_Type.PARAMETER_ESTIMATION ){
 			Task_ParameterEstimation paramTask = new Task_ParameterEstimation( message );
-			this.responseData = JSON.encode( paramTask.getParamestAllBeans() );
+			
+			ObjectMapper mapper = new ObjectMapper();
+			this.responseData = mapper.writeValueAsString( paramTask.getParamestAllBeans() );
+			
+			//this.responseData = JSON.encode( paramTask.getParamestAllBeans() );
 		}
 		else if( this.type == Task_Type.BIOMODELS_SBMLEXTRACTION ){
 			Task_BiomodelsSBMLExtraction bmsbmlTask = new Task_BiomodelsSBMLExtraction( message );
