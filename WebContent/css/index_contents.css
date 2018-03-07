@@ -1,5 +1,73 @@
 @CHARSET "UTF-8";
 /* Explanation CSS*/
+
+/* Explanation's CSS */
+#explain { margin-left : 1em;
+}
+#explain-doc { border : solid 1px;}
+#explain-doc p{ font-size : 15px;}
+
+/* Uploading file's CSS */
+#upload-file {
+	margin-right : 1em;
+	border : solid 1px;
+}
+
+/* Toolbox's CSS */
+#tool-box { margin-top : 1em;}
+#tool-item div{ border : solid 2px;}
+
+/* Analysis tool's CSS */
+#simulation-widget{
+	margin-right : 1em;
+	border : solid 1px;
+}
+#steady-widget,#parameter-widget{
+	border : solid 1px;
+	margin : 1em;
+}
+
+/* The contents in Simulation widget CSS */
+#setting { border : solid 1px;
+    	   /* position : relative; */
+    	   margin : 10px;
+}
+
+#setting p{ font-size : 15px;
+			margin-left : 10px;
+}
+
+#part-execution { margin-top : 5px;
+				  margin-left : 10px;
+}
+
+#result-container {
+	margin : 10px;
+}
+#graph input { display : inline-block;}
+#graph-contents { height : 35em;
+				  border : solid : 1px;
+}
+#canvas { width : 100%;
+		  height : 33em;
+}
+#tabParameter { height : 35em;
+				margin : 0;
+				overflow : scroll;
+}
+#tabParameter li{ padding-left : 0;
+				  padding-right : 0;
+				  margin-left : 0;
+				  margin-right : 0;
+}
+#initialValue-slider , #localParam-slider , #globalParam-slider { overflow : scroll;
+																  height : 31em;
+}
+#numTable { overflow : scroll;
+			height : 35em
+}
+
+/* modal in the window CSS */
 #modelgraph-body {
 	width : 100%;
 	height : 500px;
@@ -7,17 +75,4 @@
 #graph-cy{
 	width: 100%;
 	height : 100%;
-}
-#explain { margin : 1em;
-}
-#explain-doc { border : solid 1px;}
-#explain-doc p{ font-size : 15px;}
-#tool-box { margin-top : 1em;}
-#tool-item div{ border : solid 2px;}
-#upload-file {
-	border : solid 1px;
-}
-#simulation-widget ,#steady-widget,#parameter-widget{
-	border : solid 1px;
-	margin : 1em;
 }

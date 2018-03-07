@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 /* Header CSS */
-body { padding-top: 110px; 
+body { padding-top: 70px; 
 }
 @media screen and (max-width: 768px) {
     body { padding-top: 0px; }
