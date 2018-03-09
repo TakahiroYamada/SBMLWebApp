@@ -18,19 +18,14 @@
 #tool-item div{ border : solid 2px;}
 
 /* Analysis tool's CSS */
-#simulation-widget{
+#simulation-widget , #steady-widget, #parameter-widget{
 	margin-right : 1em;
 	border : solid 1px;
-}
-#steady-widget,#parameter-widget{
-	border : solid 1px;
-	margin : 1em;
 }
 
 /* The contents in Simulation widget CSS */
 #setting { border : solid 1px;
     	   /* position : relative; */
-    	   margin : 10px;
 }
 
 #setting p{ font-size : 15px;
@@ -65,6 +60,26 @@
 }
 #numTable { overflow : scroll;
 			height : 35em
+}
+
+/* The contents in Simulation widget CSS */
+#model-upload , #paraFile , #exp-upload , #expData { display : inline-block;}
+#canvas_item { width : 10%;
+			   margin : auto;
+}
+#result-container {
+	margin : 10px;
+}
+#paramTable { height : auto;
+			overflow : scroll;
+}
+#graph-param-contents { border : solid : 1px;
+}
+#tabParameter { height : 35em;
+				overflow : scroll;
+}
+#before-graph , #after-graph { width : auto;
+							   height : 33em;
 }
 
 /* modal in the window CSS */

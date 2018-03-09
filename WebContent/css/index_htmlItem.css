@@ -25,9 +25,17 @@ input[type=number]:focus, textarea:focus {
   border: 1px solid rgba(81, 203, 238, 1);
 }
 
+/* Drop down menu CSS*/
+.dropdown-menu{
+	background:white; 
+	color:black; 
+}
+
 /* Navigation bar CSS */
 .nav-item { border : solid 1px;}
-.navbar { padding : 0 0 0 0 !important;}
+.navbar { padding : 0 0 0 0 !important;
+		  border : solid 1px;
+}
 /* Tab CSS */
 .tabResult { border : solid 1px;}
 .tab-content { border : solid 1px;}
