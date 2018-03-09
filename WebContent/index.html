@@ -59,417 +59,471 @@
 			</div>
 		</div>
 	</nav>
-	<div class = "container-fluid" id = "explain">
-		<div class = "row">
-			<div class = "col-12">
-				<h3> <strong> SBML Web model Analyzer</strong></h3>
+	<div class="container-fluid" id="explain">
+		<div class="row">
+			<div class="col-12" id = "name-app">
+				<h3>
+					<strong> SBML Web model Analyzer</strong>
+				</h3>
 			</div>
 		</div>
-		<div class = "row">
-			<div class = "col-8" id = "explain-doc">
-				<p> <b>SWA</b> is web based application to analyze SBML model. <br/>In systems biology, it is very important to standardize the model for a given biological phenomenon and analyze the system based on this model. Such a model is most of the time based on ordinary differential equation(ODE). This application provides the analysis of <b>"Time Course Simulation"</b> , <b>"Steady State Analysis"</b> and <b>"Parameter Estimation"</b>.</p>
+		<div class="row">
+			<div class="col-8" id="explain-doc">
+				<p>
+					<b>SWA</b> is web based application to analyze SBML model. <br />In
+					systems biology, it is very important to standardize the model for
+					a given biological phenomenon and analyze the system based on this
+					model. Such a model is most of the time based on ordinary
+					differential equation(ODE). This application provides the analysis
+					of <b>"Time Course Simulation"</b> , <b>"Steady State Analysis"</b>
+					and <b>"Parameter Estimation"</b>.
+				</p>
 			</div>
 		</div>
-		<div class = "row"> 
-			<div class = "col-12">
-				<h3> <strong> Upload SBML model</strong></h3>
+		<div class="row">
+			<div class="col-12">
+				<h3>
+					<strong> Upload SBML model</strong>
+				</h3>
 			</div>
 		</div>
-		<div class = "row" id = "upload-file">
-			<div class = "col-3">
-				<p id = "model-upload"> Model File(SBML):</p>
+		<div class="row" id="upload-file">
+			<div class="col-3">
+				<p id="model-upload">Model File(SBML):</p>
 			</div>
-			<div class = "col-3">
-				BioModels <input type = "checkbox" id = "check-biomodels">
+			<div class="col-3">
+				BioModels <input type="checkbox" id="check-biomodels">
 			</div>
-			<div class = "col-4" id = "div-localfile">
-				<input id = "sbml-file" type = "file" size = "50" accept = ".xml,.sbml">
+			<div class="col-4" id="div-localfile">
+				<input id="sbml-file" type="file" size="50" accept=".xml,.sbml">
 			</div>
-			<div class = "col-4" id = "div-biomodels" style="display:none">
-				<div class = "form-group">
-					<select class = "selectpicker form-control" id = "select-biomodels" size = "1">
-						<option value = "" disabled selected> Select model</option>
+			<div class="col-4" id="div-biomodels" style="display: none">
+				<div class="form-group">
+					<select class="selectpicker form-control" id="select-biomodels"
+						size="1">
+						<option value="" disabled selected>Select model</option>
 					</select>
 				</div>
 			</div>
 		</div>
-		<div class = "row" id = "tool-box">
-			<div class = "col-12">
-				<h3> <strong> Analysis Tools</strong></h3>
-			</div>
-		</div>
-		<div class = "row" id = "simulation-widget">
-			<h3> Time course simulation : Settings of Analysis </h3>
-			<div class = "col-12" id = "setting">
+		<div class="row" id="tool-box">
+			<div class="col-12">
 				<div class = "row">
-					<div class = "col-4">
-						<p id = "set-end"> End time  :  </p> 
-					</div>
-					<div class = "col-4">
-						<input type = "number" class = "sim-param" id = "endtime" value = "100">
-					</div>
+					<h3>
+						<strong> Analysis Tools</strong>
+					</h3>
 				</div>
-				<div class = "row">
-					<div class = "col-4">
-						<p id = "set-point"> Number of time point  :  </p> 
+				<div class="card-deck">
+					<div class="card mb-4">
+						<img src="./img/Simulation.png" alt="Simulation"
+							style="width: 100%; height: 10em; border:solid 1px">
+						<div class="card-body text-center">
+							<h4 class="card-title">Time-course Simulation</h4>
+							<hr>
+							<a href="#" class="btn btn-primary start-analysis" title = "Simulation"> Get Started</a>
+						</div>
 					</div>
-					<div class = "col-4">
-						<input type ="number" class = "sim-param" id = "numpoint" value = "100">
+					<div class="card mb-4">
+						<img src="./img/Steady.png" alt="SteadyStateAnalysis"
+							style="width: 100%; height: 10em;border:solid 1px;">
+						<div class="card-body text-center">
+							<h4 class="card-title">Steady State Analysis</h4>
+							<hr>
+							<a href="#" class="btn btn-primary start-analysis" title = "Steady"> Get Started</a>
+						</div>
 					</div>
-				</div>
-				<div id = "abs_tolerance" class = "row">
-					<div class = "col-4">
-						<p id = "set-tolerance"> Absolute Tolerance  :  </p> 
-					</div>
-					<div class = "col-4">
-						<input type = "number" class = "sim-param" id = "tolerance" value = "1.0e-12" step = "1.0e-14">
-					</div>
-				</div>
-				<div class = "row">
-					<div class = "col-4">
-						<p id = "set-library"> Library to analyze  :  </p> 
-					</div>
-					<div class = "col-4">
-						<select id = "library" size = "1">
-							<option value ="copasi"> COPASI API </option>
-							<option value ="simulationcore"> Simulation Core </option>
-							<option value ="libsbmlsim"> LibSBMLsim</option>
-						</select>
+					<div class="card mb-4">
+						<img src="./img/ParameterEstimation.png" alt="ParameterEstimation"
+							style="width: 100%; height: 10em; border:solid 1px">
+						<div class="card-body text-center">
+							<h4 class="card-title">Parameter Estimation</h4>
+							<hr>
+							<a href="#" class="btn btn-primary start-analysis" title = "ParameterEstimation"> Get Started</a>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class = "col-12" id = "part-execution">
-				<button type = "button" class = "btn btn-primary" id = "runbottun" name = "simButton"> Execute</button>
-				<progress id = "progress" value = "0" max = "100"> </progress>
-			</div>
-			<div class = "col-12" id = "result-simulation">
-				<div class = "row">
-					<h3> Result of Analysis</h3>
-				</div>
-				<div class = "row" id = "result-container">
-					<div class = "tabResult">
-						<div id = "loading"></div>
-						<ul class = "nav nav-tabs">
-							<li class = "nav-item">
-								<a href="#graph" class = "nav-link" data-toggle = "tab"> Graphical View</a>
-							</li>
-							<li class = "nav-item">
-								<a href="#numTable" class = "nav-link" data-toggle = "tab"> Numerical Table</a>
-							</li>
-							<li class = "nav-item">
-								<a href="#" class = "nav-link disabled" id = "download" data-toggle = "tab" onclick = "downloadData();"> Download Data</a>
-							</li>
-						</ul>
-						<div class = "tab-content">
-							<div id = "graph" class = "tab-pane active">
-								<div class = "row">
-									<div class = "col-8" id = "graph-contents" style = "display:none">
-										<input type="checkbox" id="logarithmicY" onchange="logarithmicFigure('logarithmicY');"> log scale of Y
-										<input type = "checkbox" id = "logarithmicX" onchange = "logarithmicFigure('logarithmicX')"> log scale of X
-										<div id = "canvas">
-											<canvas id="simulationCanvas" style = "white"></canvas>
-										</div>
-									</div>
-									<div class = "col-4" id = "tabParameter" style = "display:none">
-										<nav class = "navbar">
-											<ul class = "nav nav-pills nav-stacked" id = "tab-parameter">
-												<li class="nav-item">
-													<a href="#initialValue" id = "init-item" class = "nav-link" data-toggle="tab">Species</a>
-												</li>
-												<li class = "nav-item">
-													<a href="#compartmentValue" id = "comp-item" class = "nav-link" data-toggle="tab"> Compartment</a>						
-												</li>
-												<li class ="nav-item dropdown">
-													<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
-													<div class = "dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-														<a href="#localParam" id = "local-item" class = "dropdown-item" data-toggle = "tab"> Local Parameters</a>
-														<a href="#globalParam" id = "global-item" class = "dropdown-item" data-toggle = "tab"> Global Parameters</a>
-													</div>
-												</li>
-											</ul>										
-											<div class = "tab-content">
-												<div id = "initialValue" class = "tab-pane active">
-													<div id = "initialValue-slider">
-													</div>
-												</div>
-												<div id = "compartmentValue" class = "tab-pane">
-													<div id = "compartmentValue-slider">
-													</div>
-												</div>
-												<div id = "localParam" class = "tab-pane">
-													<div id = "localParam-slider">
-													</div>
-												</div>
-												<div id = "globalParam" class = "tab-pane">
-													<div id = "globalParam-slider">
-													</div>
+		</div>
+		<div id="detail_analysis" style = "display :none">
+			<ul class="nav nav-pills">
+				<li class="nav-item"> <a id = "modelview-tab" href = "#" class = "nav-link" data-toggle ="tab">Model View</a></li>
+				<li class="nav-item"><a id="simulation-tab" href="#simulation-widget"
+					class="nav-link" data-toggle="tab"> Simulation </a></li>
+				<li class="nav-item"><a id="steady-tab" href="#steady-widget" class="nav-link"
+					data-toggle="tab"> Steady state analysis </a></li>
+				<li class="nav-item"><a id="parameter-tab" href="#parameter-widget"
+					class="nav-link" data-toggle="tab"> Parameter estimation </a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane" id="simulation-widget">
+					<h3>Settings of Analysis</h3>
+					<div class="col-12" id="setting">
+						<div class="row">
+							<div class="col-4">
+								<p id="set-end">End time :</p>
+							</div>
+							<div class="col-4">
+								<input type="number" class="sim-param" id="endtime" value="100">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-4">
+								<p id="set-point">Number of time point :</p>
+							</div>
+							<div class="col-4">
+								<input type="number" class="sim-param" id="numpoint" value="100">
+							</div>
+						</div>
+						<div id="abs_tolerance" class="row">
+							<div class="col-4">
+								<p id="set-tolerance">Absolute Tolerance :</p>
+							</div>
+							<div class="col-4">
+								<input type="number" class="sim-param" id="tolerance"
+									value="1.0e-12" step="1.0e-14">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-4">
+								<p id="set-library">Library to analyze :</p>
+							</div>
+							<div class="col-4">
+								<select id="library" size="1">
+									<option value="copasi">COPASI API</option>
+									<option value="simulationcore">Simulation Core</option>
+									<option value="libsbmlsim">LibSBMLsim</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-12" id="part-execution">
+						<button type="button" class="btn btn-primary" id="runbottun"
+							name="simButton">Execute</button>
+						<progress id="progress" value="0" max="100"> </progress>
+					</div>
+					<div class="col-12" id="result-simulation">
+						<div class="row">
+							<h3>Result of Analysis</h3>
+						</div>
+						<div class="row" id="result-container">
+							<div class="tabResult">
+								<div id="loading"></div>
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a href="#graph" class="nav-link"
+										data-toggle="tab"> Graphical View</a></li>
+									<li class="nav-item"><a href="#numTable" class="nav-link"
+										data-toggle="tab"> Numerical Table</a></li>
+									<li class="nav-item"><a href="#" class="nav-link disabled"
+										id="download" data-toggle="tab" onclick="downloadData();">
+											Download Data</a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="graph" class="tab-pane active">
+										<div class="row">
+											<div class="col-8" id="graph-contents" style="display: none">
+												<input type="checkbox" id="logarithmicY"
+													onchange="logarithmicFigure('logarithmicY');"> log
+												scale of Y <input type="checkbox" id="logarithmicX"
+													onchange="logarithmicFigure('logarithmicX')"> log
+												scale of X
+												<div id="canvas">
+													<canvas id="simulationCanvas" style=""></canvas>
 												</div>
 											</div>
-										</nav>
-									</div>
-								</div>
-							</div>
-							<div id = "numTable" class = "tab-pane">
-								<div id = "num-table">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class = "row" id = "steady-widget">
-			<h3> Steady state analysis : Settings of Analysis</h3>
-			<div class = "col-12" id = "setting">
-				<div id = "copasipara">
-					<div class = "row">
-						<div class = "col-4">
-							<p id = "set-resolution"> Resolution : </p> 
-						</div>
-						<div class = "col-4">
-							<input id = "resolution" class = "sted-param" type = "number" step = "1.0e-12" value = "1.0e-9">
-						</div>
-					</div>
-					<div class = "row">
-						<div class ="col-4">
-							<p id = "set-derivationfactor"> Derivation Factor : </p> 
-						</div>
-						<div class = "col-4">
-							<input id = "derivation" class = "sted-param" type = "number" step = "1.0e-5"  value = "1.0e-3">
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							<p id = "set-iterationlimit">Iteration Limit : </p> 
-						</div>
-						<div class ="col-4">
-							<input id = "itelimit" class = "sted-param" type = "number" value = "50">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class = "col-12" id = "part-execution">
-				<button type = "button" class = "btn btn-primary" id = "stedButton" name = "stedButton"> Execute </button>
-				<progress id = "progress" value = "0"> </progress>
-			</div>
-			<div class = "col-12" id = "result-steady">
-				<div class = "row">
-					<h3> Results of Analysis</h3>
-				</div>
-				<div class = "tabResult">
-					<ul class = "nav nav-tabs">
-						<li class ="nav-item">
-							<a href="#stedAmount" class = "nav-link" data-toggle = "tab"> Species</a>
-						</li>
-						<li class ="nav-item">
-							<a href="#jacobian" class = "nav-link" data-toggle = "tab"> Jacobian Matrix</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link disabled" id = "download-steady" data-toggle = "tab" onclick="downloadData_Steady();"> Download Data</a>
-						</li>
-					</ul>
-					<div class = "tab-content">
-						<div id = "stedAmount" class = "tab-pane active">
-							<div id = "sted-table">
-							</div>
-						</div>
-						<div id = "jacobian" class = "tab-pane">
-							<div id = "jacobian-table">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class = "row" id = "parameter-widget">
-			<h3> Parameter estimation : settings of Analysis</h3>
-			<div id = "setting" class = "col-12">
-				<div id = "expFile" style="display:none">
-					<div class = "row">
-						<div class = "col-4">
-							<p id = "exp-upload"> Experiment Data : </p>
-						</div>
-						<div class = "col-4">
-							<input id = "expData" type = "file" size = "50" accept = ".txt , .csv">
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							<p> Algorithm </p> 
-						</div>
-						<div class = "col-4">
-							<select id = "algorithm" size = "1">
-								<option value = "lv">Leven-Berg Marquardt</option>
-								<option value = "nelder"> NelderMead </option>
-								<option value = "particleSwarm"> Particle Swarm Optimization</option>
-								<option value = "diffEvol"> Differential Evolution</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div id = "lvparam" style = "display:none">
-					<div class = "row">
-						<div class = "col-4">
-							Iteration Limit : 
-						</div>
-						<div class = "col-4">
-							<input id = "lvite" class = "param-param" type = "number" value = "2000">
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Tolerance :
-						</div>
-						<div class = "col-4">
-				 			<input id = "lvtol" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> 
-						</div>
-					</div>
-				</div>
-				<div id = "nelparam" style = "display:none">
-					<div class = "row">
-						<div class = "col-4">
-							Iteration Limit : 
-						</div>
-						<div class = "col-4">
-							<input id = "nelite" class = "param-param" type = "number" value = "2000"> 
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Tolerance : 
-						</div>
-						<div class = "col-4">
-							<input id = "neltol" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> 
-						</div>
-					</div>
-				</div>
-				<div id = "partparam" style = "display:none">
-					<div class = "row">
-						<div class = "col-4">
-							Iteration Limit : 
-						</div>
-						<div class = "col-4">
-							<input id = "partite" class = "param-param" type = "number" value = "2000"> 
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Swarm Size :
-						</div>
-						<div class = "col-4">
-					 		<input id = "partsize" class = "param-param" type = "number" value = "50">
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Std. Deviation : 
-						</div>
-						<div class = "col-4">
-							<input id = "partstd" class = "param-param" type = "number" value = "1.0e-6" step = "1.0e-9"> 
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Random Number Generator : 
-						</div>
-						<div class = "col-4">
-							<input id = "partran" class = "param-param"  type = "number"  value = "1"> 
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Seed : 
-						</div>
-						<div class = "col-4">
-							<input id = "partseed" class = "param-param" type = "number" value = "0">
-						</div>
-					</div>
-				</div>
-				<div id = "difevolparam" style = "display:none">
-					<div class = "row">
-						<div class = "col-4">
-							Population Size : 
-						</div>
-						<div class = "col-4">
-							<input id = "difevolpopu" class = "param-param" type = "number" value = "10"> 
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Random Number Generator : 
-						</div>
-						<div class = "col-4">
-							<input id = "difevolran" class = "param-param" type = "number" value = "1"> 
-						</div>
-					</div>
-					<div class = "row">
-						<div class = "col-4">
-							Seed :  
-						</div>
-						<div class = "col-4">
-							<input id = "difevolseed" class = "param-param" type = "number" value = "0"> 
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class = "col-12" id = "part-execution">
-				<button type = "button" class = "btn btn-primary" id = "paramButton" name = "paramButton"> Execute </button>
-				<progress id = "progress" value = "0" max = "100"> </progress>
-			</div>
-			<div class = "col-12" id = "result-parameter">
-				<h3> Result of Analysis</h3>
-				<div class = "row" id = "result-container">
-					<div class = "tabResult">
-						<ul class = "nav nav-tabs">
-							<li class = "nav-item">
-								<a href="#graph-param" class = "nav-link" data-toggle = "tab"> Graphical View </a>
-							</li>
-							<li class = "nav-item">	
-								<a href="#paramTable" class = "nav-link" data-toggle = "tab" > Numerical Table</a>
-							</li>
-							<li class = "nav-item">
-								<a href="#" class = "nav-link disabled" id = "download-parameter" data-toggle = "tab" onclick = "downloadData_Parameter();"> Download Data</a>
-							</li>
-						</ul>
-						<div class = "tab-content">
-							<div id = "graph-param" class = "tab-pane active">
-								<div class = "row">
-									<div class = "col-8" id = "graph-param-contents" style = "display:none">
-										<input type="checkbox" id = "before-fitting" onchange="showBeforeFitting();"> Before Fitting
-										<div id="before-graph" style="display:none">
-											<canvas id="beforeCanvas"></canvas>
-										</div>
-										<div id = "after-graph" style="display:block">
-											<canvas id="afterCanvas"></canvas>
-										</div>
-									</div>
-									<div class = "col-4" id = "tab-param-Parameter" style = "display:none">
-										<nav class = "navbar">
-											<ul class = "nav nav-pills nav-stacked" id = "tab-parameter">
-												<li class = "nav-item dropdown">
-													<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
-													<ul class = "dropdown-menu">
-														<li><a href="#param-localParam" id = "local-item" class = "dropdown-item" data-toggle =  "tab"> Local Parameters</a></li>
-														<li><a href="#param-globalParam" id = "global-item" class = "dropdown-item" data-toggle =  "tab"> Global Parameters</a></li>
-													</ul>									
-												</li>
-											</ul>
-											<div class = "tab-content">
-												<div id = "param-localParam" class = "tab-pane active">
-													<div id = "param-localParam-slider">
+											<div class="col-4" id="tabParameter" style="display: none">
+												<nav class="navbar">
+													<ul class="nav nav-pills nav-stacked" id="tab-parameter">
+														<li class="nav-item"><a href="#initialValue"
+															id="init-item" class="nav-link" data-toggle="tab">Species</a>
+														</li>
+														<li class="nav-item"><a href="#compartmentValue"
+															id="comp-item" class="nav-link" data-toggle="tab">
+																Compartment</a></li>
+														<li class="nav-item dropdown"><a
+															class="nav-link dropdown-toggle" data-toggle="dropdown"
+															href="#" aria-haspopup="true" aria-expanded="false">Kinetic
+																Parameter</a>
+															<div class="dropdown-menu dropdown-primary"
+																aria-labelledby="navbarDropdownMenuLink">
+																<a href="#localParam" id="local-item"
+																	class="dropdown-item" data-toggle="tab"> Local
+																	Parameters</a> <a href="#globalParam" id="global-item"
+																	class="dropdown-item" data-toggle="tab"> Global
+																	Parameters</a>
+															</div></li>
+													</ul>
+													<div class="tab-content">
+														<div id="initialValue" class="tab-pane active">
+															<div id="initialValue-slider"></div>
+														</div>
+														<div id="compartmentValue" class="tab-pane">
+															<div id="compartmentValue-slider"></div>
+														</div>
+														<div id="localParam" class="tab-pane">
+															<div id="localParam-slider"></div>
+														</div>
+														<div id="globalParam" class="tab-pane">
+															<div id="globalParam-slider"></div>
+														</div>
 													</div>
+												</nav>
+											</div>
+										</div>
+									</div>
+									<div id="numTable" class="tab-pane">
+										<div id="num-table"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="steady-widget">
+					<h3>Settings of Analysis</h3>
+					<div class="col-12" id="setting">
+						<div id="copasipara">
+							<div class="row">
+								<div class="col-4">
+									<p id="set-resolution">Resolution :</p>
+								</div>
+								<div class="col-4">
+									<input id="resolution" class="sted-param" type="number"
+										step="1.0e-12" value="1.0e-9">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<p id="set-derivationfactor">Derivation Factor :</p>
+								</div>
+								<div class="col-4">
+									<input id="derivation" class="sted-param" type="number"
+										step="1.0e-5" value="1.0e-3">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<p id="set-iterationlimit">Iteration Limit :</p>
+								</div>
+								<div class="col-4">
+									<input id="itelimit" class="sted-param" type="number"
+										value="50">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12" id="part-execution">
+						<button type="button" class="btn btn-primary" id="stedButton"
+							name="stedButton">Execute</button>
+						<progress id="progress" value="0"> </progress>
+					</div>
+					<div class="col-12" id="result-steady">
+						<div class="row">
+							<h3>Results of Analysis</h3>
+						</div>
+						<div class="tabResult">
+							<ul class="nav nav-tabs">
+								<li class="nav-item"><a href="#stedAmount" class="nav-link"
+									data-toggle="tab"> Species</a></li>
+								<li class="nav-item"><a href="#jacobian" class="nav-link"
+									data-toggle="tab"> Jacobian Matrix</a></li>
+								<li class="nav-item"><a href="#" class="nav-link disabled"
+									id="download-steady" data-toggle="tab"
+									onclick="downloadData_Steady();"> Download Data</a></li>
+							</ul>
+							<div class="tab-content">
+								<div id="stedAmount" class="tab-pane active">
+									<div id="sted-table"></div>
+								</div>
+								<div id="jacobian" class="tab-pane">
+									<div id="jacobian-table"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="parameter-widget">
+					<h3>Settings of Analysis</h3>
+					<div id="setting" class="col-12">
+						<div id="expFile" style="display: none">
+							<div class="row">
+								<div class="col-4">
+									<p id="exp-upload">Experiment Data :</p>
+								</div>
+								<div class="col-4">
+									<input id="expData" type="file" size="50" accept=".txt , .csv">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">
+									<p>Algorithm</p>
+								</div>
+								<div class="col-4">
+									<select id="algorithm" size="1">
+										<option value="lv">Leven-Berg Marquardt</option>
+										<option value="nelder">NelderMead</option>
+										<option value="particleSwarm">Particle Swarm
+											Optimization</option>
+										<option value="diffEvol">Differential Evolution</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div id="lvparam" style="display: none">
+							<div class="row">
+								<div class="col-4">Iteration Limit :</div>
+								<div class="col-4">
+									<input id="lvite" class="param-param" type="number"
+										value="2000">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Tolerance :</div>
+								<div class="col-4">
+									<input id="lvtol" class="param-param" type="number"
+										value="1.0e-6" step="1.0e-9">
+								</div>
+							</div>
+						</div>
+						<div id="nelparam" style="display: none">
+							<div class="row">
+								<div class="col-4">Iteration Limit :</div>
+								<div class="col-4">
+									<input id="nelite" class="param-param" type="number"
+										value="2000">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Tolerance :</div>
+								<div class="col-4">
+									<input id="neltol" class="param-param" type="number"
+										value="1.0e-6" step="1.0e-9">
+								</div>
+							</div>
+						</div>
+						<div id="partparam" style="display: none">
+							<div class="row">
+								<div class="col-4">Iteration Limit :</div>
+								<div class="col-4">
+									<input id="partite" class="param-param" type="number"
+										value="2000">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Swarm Size :</div>
+								<div class="col-4">
+									<input id="partsize" class="param-param" type="number"
+										value="50">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Std. Deviation :</div>
+								<div class="col-4">
+									<input id="partstd" class="param-param" type="number"
+										value="1.0e-6" step="1.0e-9">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Random Number Generator :</div>
+								<div class="col-4">
+									<input id="partran" class="param-param" type="number" value="1">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Seed :</div>
+								<div class="col-4">
+									<input id="partseed" class="param-param" type="number"
+										value="0">
+								</div>
+							</div>
+						</div>
+						<div id="difevolparam" style="display: none">
+							<div class="row">
+								<div class="col-4">Population Size :</div>
+								<div class="col-4">
+									<input id="difevolpopu" class="param-param" type="number"
+										value="10">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Random Number Generator :</div>
+								<div class="col-4">
+									<input id="difevolran" class="param-param" type="number"
+										value="1">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-4">Seed :</div>
+								<div class="col-4">
+									<input id="difevolseed" class="param-param" type="number"
+										value="0">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-12" id="part-execution">
+						<button type="button" class="btn btn-primary" id="paramButton"
+							name="paramButton">Execute</button>
+						<progress id="progress" value="0" max="100"> </progress>
+					</div>
+					<div class="col-12" id="result-parameter">
+						<h3>Result of Analysis</h3>
+						<div class="row" id="result-container">
+							<div class="tabResult">
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a href="#graph-param"
+										class="nav-link" data-toggle="tab"> Graphical View </a></li>
+									<li class="nav-item"><a href="#paramTable"
+										class="nav-link" data-toggle="tab"> Numerical Table</a></li>
+									<li class="nav-item"><a href="#" class="nav-link disabled"
+										id="download-parameter" data-toggle="tab"
+										onclick="downloadData_Parameter();"> Download Data</a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="graph-param" class="tab-pane active">
+										<div class="row">
+											<div class="col-8" id="graph-param-contents"
+												style="display: none">
+												<input type="checkbox" id="before-fitting"
+													onchange="showBeforeFitting();"> Before Fitting
+												<div id="before-graph" style="display: none">
+													<canvas id="beforeCanvas"></canvas>
 												</div>
-												<div id = "param-globalParam" class = "tab-pane">
-													<div id = "param-globalParam-slider">
-													</div>
+												<div id="after-graph" style="display: block">
+													<canvas id="afterCanvas"></canvas>
 												</div>
 											</div>
-										</nav>
+											<div class="col-4" id="tab-param-Parameter"
+												style="display: none">
+												<nav class="navbar">
+													<ul class="nav nav-pills nav-stacked" id="tab-parameter">
+														<li class="nav-item dropdown"><a
+															class="nav-link dropdown-toggle" data-toggle="dropdown"
+															href="#" role="button" aria-haspopup="true"
+															aria-expanded="false">Kinetic Parameter</a>
+															<ul class="dropdown-menu">
+																<li><a href="#param-localParam" id="local-item"
+																	class="dropdown-item" data-toggle="tab"> Local
+																		Parameters</a></li>
+																<li><a href="#param-globalParam" id="global-item"
+																	class="dropdown-item" data-toggle="tab"> Global
+																		Parameters</a></li>
+															</ul></li>
+													</ul>
+													<div class="tab-content">
+														<div id="param-localParam" class="tab-pane active">
+															<div id="param-localParam-slider"></div>
+														</div>
+														<div id="param-globalParam" class="tab-pane">
+															<div id="param-globalParam-slider"></div>
+														</div>
+													</div>
+												</nav>
+											</div>
+										</div>
 									</div>
-								</div>	
-							</div>
-							<div id = "paramTable" class = "tab-pane">
-								<div id = "param-table">
+									<div id="paramTable" class="tab-pane">
+										<div id="param-table"></div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -477,62 +531,90 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade bd-exampl-lg" id="modelgraph-Modal" tabindex="-1" role="dialog" aria-labelledby="modelgraph-ModalLabel">
-  			<div class="modal-dialog modal-lg" id="modelgraph-dialog" role="document">
-    			<div class="modal-content" id = "modalgraph-content">
-      				<div class="modal-header">
-         				<h4 class="modal-title" id="modelgraph-ModalLabel"> SBML Model View</h4>
-      				</div>
-      				<div class="modal-body" id = "modelgraph-body">
-      					<div id="graph-cy">
-      					</div>
-      				</div>
-      				<div class="modal-footer">
-        				<button type="button" class="btn btn-default" id = "graphmodalButton"> OK </button>
-      				</div>
-    			</div>
-  			</div>
-  		</div>	
-		<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel">
-  			<div class="modal-dialog" role="document">
-    			<div class="modal-content" id = "modal-content">
-      				<div class="modal-header">
-         				<h4 class="modal-title" id="warningModalLabel"></h4>
-      				</div>
-      				<div class="modal-body">
-      				</div>
-      				<div class="modal-footer">
-        				<button type="button" class="btn btn-default" id = "modalButton"> Confirm</button>
-      				</div>
-    			</div>
-  			</div>
-  		</div>
-  	</div>
+		<div class="modal fade bd-exampl-lg" id="modelgraph-Modal"
+			tabindex="-1" role="dialog" aria-labelledby="modelgraph-ModalLabel">
+			<div class="modal-dialog modal-lg" id="modelgraph-dialog"
+				role="document">
+				<div class="modal-content" id="modalgraph-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modelgraph-ModalLabel">SBML Model
+							View</h4>
+					</div>
+					<div class="modal-body" id="modelgraph-body">
+						<div id="graph-cy"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default"
+							id="graphmodalButton">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="warningModal" tabindex="-1" role="dialog"
+			aria-labelledby="warningModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content" id="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="warningModalLabel"></h4>
+					</div>
+					<div class="modal-body"></div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" id="modalButton">
+							Confirm</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
-		$("#num-table").tabulator({ fitColumns : true,});
-		$("#sted-table").tabulator({
-			  fitColumns: true , 
-			  columns:[
-			    {title:"Name",field:"name",  sortable:true, width:100},
-			    {title:"Type", field:"type", sortable:true , width:100},
-			    {title:"Concentration", field:"concentration", sortable:true},
-			    {title:"Rate", field:"rate", sortable:true},
-			    {title:"Transition Time", field:"transition", sortable:true },
-			  ]
-			});
-		$("#jacobian-table").tabulator({ fitColumns:true,});
-		$("#param-table").tabulator({ fitColumns : true,
-			rowFormatter:function(row){
-		        var data = row.getData();
-		        if(Math.abs( data.Upper - data.Update ) < 1.0e-5){
-		        	row.getElement().css({"background-color":"red"});
-		        }
-		        else if( Math.abs( data.Lower - data.Update) < 1.0e-5){
-		        	row.getElement().css({"background-color":"blue"});
-		        }
-		    }
+		$("#num-table").tabulator({
+			fitColumns : true,
 		});
-		$(".link-analysis").on("click" , function(){
+		$("#sted-table").tabulator({
+			fitColumns : true,
+			columns : [ {
+				title : "Name",
+				field : "name",
+				sortable : true,
+				width : 100
+			}, {
+				title : "Type",
+				field : "type",
+				sortable : true,
+				width : 100
+			}, {
+				title : "Concentration",
+				field : "concentration",
+				sortable : true
+			}, {
+				title : "Rate",
+				field : "rate",
+				sortable : true
+			}, {
+				title : "Transition Time",
+				field : "transition",
+				sortable : true
+			}, ]
+		});
+		$("#jacobian-table").tabulator({
+			fitColumns : true,
+		});
+		$("#param-table").tabulator({
+			fitColumns : true,
+			rowFormatter : function(row) {
+				var data = row.getData();
+				if (Math.abs(data.Upper - data.Update) < 1.0e-5) {
+					row.getElement().css({
+						"background-color" : "red"
+					});
+				} else if (Math.abs(data.Lower - data.Update) < 1.0e-5) {
+					row.getElement().css({
+						"background-color" : "blue"
+					});
+				}
+			}
+		});
+		$(".link-analysis").on("click", function() {
 			location.href = $(this).attr('data-url');
 		})
 	</script>
@@ -543,5 +625,6 @@
 	<script type = "text/javascript" src ="./js/parameterEvent.js"></script>
 	<script type = "text/javascript" src="./js/modelview_Event.js"></script>
 	<script type="text/javascript" src = "./js/parameterBioModelsAddition.js"> </script>
+	<script type="text/javascript" src = "./js/generalEvent.js"> </script>
 </body>
 </html>

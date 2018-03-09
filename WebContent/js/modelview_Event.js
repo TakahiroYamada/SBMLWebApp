@@ -1,5 +1,5 @@
 var cy;
-$("#nav-graphview").on("click" , function(){
+$("#modelview-tab").on("click" , function(){
 	$("#modelgraph-Modal").modal("show");
 })
 $("#graphmodalButton").on("click" , function(){

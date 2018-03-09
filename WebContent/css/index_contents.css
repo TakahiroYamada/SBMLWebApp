@@ -19,10 +19,12 @@
 
 /* Analysis tool's CSS */
 #simulation-widget , #steady-widget, #parameter-widget{
-	margin-right : 1em;
 	border : solid 1px;
 }
 
+#detail_analysis {
+	margin-top : 10px;
+}
 /* The contents in Simulation widget CSS */
 #setting { border : solid 1px;
     	   /* position : relative; */
