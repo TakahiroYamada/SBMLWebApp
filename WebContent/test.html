@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+	<p> REST Test </p>
+	<input type = "file" id = "file" name = "file">
+</body>
+<script>
+	$("#file").on("change" , function( e ){
+		var form_file = document.getElementById("file");
+		var filedata = new FormData();
+		filedata.append("file" , form_file.files[ 0 ]);
+		$.ajax("./rest/producer/model",{
+			async : true,
+			type : "post",
+			data : filedata,
+			processData : false,
+			contentType : false
+		}).done(function( result ){
+			console.log( result );
+		});
+	});
+</script>
+</html>

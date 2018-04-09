@@ -15,6 +15,8 @@ import exception.NoDynamicSpeciesException;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
 import task.Task_BiomodelsSBMLExtraction;
+import task.Task_ModelDelete;
+import task.Task_ModelSave;
 import task.Task_ModelView;
 import task.Task_ParameterEstimation;
 import task.Task_Simulation;
@@ -53,6 +55,14 @@ public class Task_Manager {
 		else if( this.type == Task_Type.MODEL_VIEW ){
 			Task_ModelView modelviewTask = new Task_ModelView( message );
 			this.responseData = JSON.encode( modelviewTask.getModelviewAllBeans() );
+		}
+		else if( this.type == Task_Type.REST_MODEL_SAVE){
+			Task_ModelSave modelSaveTask = new Task_ModelSave( message );
+			this.responseData = "Correctly Saved.";
+		}
+		else if( this.type == Task_Type.REST_MODEL_DELETE ){
+			Task_ModelDelete modelDeleteTask = new Task_ModelDelete( message );
+			this.responseData = "Correctly Deleted.";
 		}
 	}
 	public String getReponseData(){

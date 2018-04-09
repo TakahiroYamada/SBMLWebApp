@@ -10,6 +10,15 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
+  	<servlet-name>RESTProducer</servlet-name>
+  	<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>    
+    <init-param>
+        <param-name>jersey.config.server.provider.classnames</param-name>
+        <param-value>servlet.rabbitmq.RESTProducer , org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
     <description></description>
     <display-name>BioModels_ModelExtraction</display-name>
     <servlet-name>BioModels_ModelExtraction</servlet-name>
@@ -102,5 +111,9 @@
   <servlet-mapping>
     <servlet-name>AnalysisConsumer4</servlet-name>
     <url-pattern>/AnalysisConsumer4</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RESTProducer</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
 </web-app>

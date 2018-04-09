@@ -119,6 +119,18 @@
   		<groupId>com.fasterxml.jackson.core</groupId>
   		<artifactId>jackson-databind</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>org.glassfish.jersey.media</groupId>
+  		<artifactId>jersey-media-multipart</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.glassfish.jersey.containers</groupId>
+  		<artifactId>jersey-container-servlet</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.glassfish.jersey.inject</groupId>
+  		<artifactId>jersey-hk2</artifactId>
+  	</dependency>
   </dependencies>
   <dependencyManagement>
   	<dependencies>
@@ -203,6 +215,21 @@
   			<groupId>com.fasterxml.jackson.core</groupId>
   			<artifactId>jackson-databind</artifactId>
   			<version>2.9.3</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.glassfish.jersey.media</groupId>
+  			<artifactId>jersey-media-multipart</artifactId>
+  			<version>2.26</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.glassfish.jersey.containers</groupId>
+  			<artifactId>jersey-container-servlet</artifactId>
+  			<version>2.26</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.glassfish.jersey.inject</groupId>
+  			<artifactId>jersey-hk2</artifactId>
+  			<version>2.26</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>
