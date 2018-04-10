@@ -19,6 +19,7 @@ import com.rabbitmq.client.Envelope;
 
 import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
+import exception.SessionIDPrefixException;
 import general.error.Error_Message;
 import general.task_manager.Task_Manager;
 import net.arnx.jsonic.JSON;
@@ -84,6 +85,13 @@ public class AnalysisConsumer extends HttpServlet {
 						response = JSON.encode( error );
 						e.printStackTrace();
 					} catch (BioModelsWSException e) {
+						e.printStackTrace();
+					} catch (SessionIDPrefixException e) {
+						// TODO Auto-generated catch block
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( e.getMessage() );
+						error.setSolveText("Please check the prefix of session ID is 'ID'.");
+						response = JSON.encode( error );
 						e.printStackTrace();
 					}finally{
 						channel.basicPublish( "", properties.getReplyTo(), replyProps , response.getBytes("UTF-8"));

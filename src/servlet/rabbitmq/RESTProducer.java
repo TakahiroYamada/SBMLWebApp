@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import javax.print.attribute.standard.Media;
@@ -32,7 +33,7 @@ import parameter.Abstract_Parameter;
 
 @Path("producer")
 public class RESTProducer {
-	
+	private String responseData;
 	@POST
 	@Path("model")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -78,25 +79,31 @@ public class RESTProducer {
 	}
 	
 	@DELETE
-	@Path("delete/sessionId-{sessionId}/file-{file}")
+	@Path("delete/sessionId-{sessionId}")
 	@Produces( MediaType.TEXT_PLAIN)
-	//public String deleteFile( @FormDataParam("sessionId") String sessionID ,@FormDataParam("file") String file ){
-	public String deleteFile( @PathParam("sessionId") String sessionId , @PathParam("file") String file){
+	public String deleteFile( @PathParam("sessionId") String sessionId){
 		Abstract_Parameter deleteModel = new Abstract_Parameter();
 		String pathToFile = new File(".").getAbsoluteFile().getParent() + "/" + sessionId;
 		
 		deleteModel.setSessionInfo( sessionId );
-		deleteModel.setFileName( file );
 		deleteModel.setType( Task_Type.REST_MODEL_DELETE );
 		deleteModel.setPathToFile( pathToFile );
 		RabbitMQ_CallBack callBack;
 		try{
 			callBack = new RabbitMQ_CallBack();
-			callBack.call( JSON.encode( deleteModel ));
+			responseData = callBack.call( JSON.encode( deleteModel ));
 			callBack.close();
 		} catch( IOException | TimeoutException | JSONException | InterruptedException e){
 			e.printStackTrace();
 		}
-		return "Correctly Deleted!";
+		
+		Map errorCheckMap = JSON.decode( responseData );
+		
+		if( errorCheckMap.get("errorMessage") != null){
+			return responseData;
+		}
+		else{
+			return "Correctly Deleted!";
+		}
 	}
 }

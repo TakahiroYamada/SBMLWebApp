@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
+import exception.SessionIDPrefixException;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
 import task.Task_BiomodelsSBMLExtraction;
@@ -27,7 +28,7 @@ public class Task_Manager {
 	private String message;
 	private String responseData;
 	private int type;
-	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException, BioModelsWSException{
+	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException, BioModelsWSException, SessionIDPrefixException{
 		this.message = message;
 		Map map = ( Map ) JSON.decode( this.message );
 		BigDecimal tmpType = (BigDecimal) map.get("type"); 
