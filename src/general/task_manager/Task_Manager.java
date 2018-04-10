@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
+import exception.NoFileInSessionIDException;
 import exception.SessionIDPrefixException;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
@@ -28,7 +29,7 @@ public class Task_Manager {
 	private String message;
 	private String responseData;
 	private int type;
-	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException, BioModelsWSException, SessionIDPrefixException{
+	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException, BioModelsWSException, SessionIDPrefixException, NoFileInSessionIDException{
 		this.message = message;
 		Map map = ( Map ) JSON.decode( this.message );
 		BigDecimal tmpType = (BigDecimal) map.get("type"); 
@@ -59,7 +60,7 @@ public class Task_Manager {
 		}
 		else if( this.type == Task_Type.REST_MODEL_SAVE){
 			Task_ModelSave modelSaveTask = new Task_ModelSave( message );
-			this.responseData = "Correctly Saved.";
+			this.responseData = "sessionId-" + modelSaveTask.getModelParam().getSessionInfo() + "/file-" +  modelSaveTask.getModelParam().getFileName();
 		}
 		else if( this.type == Task_Type.REST_MODEL_DELETE ){
 			Task_ModelDelete modelDeleteTask = new Task_ModelDelete( message );

@@ -4,6 +4,12 @@ public class Simulation_Parameter extends Abstract_Parameter{
 	private Double endTime;
 	private Integer numTime;
 	private Double tolerance;
+	public Simulation_Parameter(){
+		this.endTime = 100.0;
+		this.numTime = 100;
+		this.tolerance = 1.0e-12;
+		super.setLibrary("copasi");
+	}
 	public Double getEndTime() {
 		return endTime;
 	}

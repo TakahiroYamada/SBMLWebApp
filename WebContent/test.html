@@ -14,7 +14,7 @@
 		var form_file = document.getElementById("file");
 		var filedata = new FormData();
 		filedata.append("file" , form_file.files[ 0 ]);
-		$.ajax("./rest/producer/model",{
+		$.ajax("./rest/produce/model",{
 			async : true,
 			type : "post",
 			data : filedata,

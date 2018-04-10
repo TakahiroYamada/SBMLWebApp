@@ -10,6 +10,13 @@ public class Task_ModelSave extends Super_Task {
 	public Task_ModelSave( String message ) throws IOException{
 		this.modelParam = JSON.decode( message , Abstract_Parameter.class );
 		super.saveFile( modelParam.getPathToFile() , modelParam.getFileName() , modelParam.getFileString() );
+		
+		super.getNewFile().setReadable( true , false);
+		super.getNewFile().setWritable( true , false );
+		
+	}
+	public Abstract_Parameter getModelParam() {
+		return modelParam;
 	}
 
 }

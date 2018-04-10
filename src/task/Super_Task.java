@@ -23,9 +23,13 @@ public class Super_Task {
 		
 		String fileNameWithPath = filePath + "/" + fileName;
 		this.newFile = new File( fileNameWithPath );
-		BufferedWriter writer = new BufferedWriter( new FileWriter( newFile ));
-		writer.write( fileString );
-		writer.close();
+		
+		// REST : fileString is null because model string has been already saved by POST method
+		if( fileString != null ){
+			BufferedWriter writer = new BufferedWriter( new FileWriter( newFile ));
+			writer.write( fileString );
+			writer.close();
+		}
 	}
 	protected void saveExperimentData( String filePath , String fileName , String fileString) throws IOException{
 		File tmpDir = new File( filePath );
@@ -40,6 +44,9 @@ public class Super_Task {
 	protected void manipulateSBMLModel( ModelParameter_Beans sbmlParam) throws SBMLException, IllegalArgumentException, XMLStreamException, IOException{
 		this.manipulator = new SBML_Manipulator( this.newFile );
 		this.manipulator.editModelParameter( sbmlParam );
+	}
+	public File getNewFile() {
+		return newFile;
 	}
 	protected void postProcess( Simulation_AllBeans allBeans ){
 		this.manipulator.addUnitForEachSpecies( allBeans );

@@ -19,6 +19,7 @@ import com.rabbitmq.client.Envelope;
 
 import exception.COPASI_ExportException;
 import exception.NoDynamicSpeciesException;
+import exception.NoFileInSessionIDException;
 import exception.SessionIDPrefixException;
 import general.error.Error_Message;
 import general.task_manager.Task_Manager;
@@ -91,6 +92,13 @@ public class AnalysisConsumer extends HttpServlet {
 						Error_Message error = new Error_Message();
 						error.setErrorMessage( e.getMessage() );
 						error.setSolveText("Please check the prefix of session ID is 'ID'.");
+						response = JSON.encode( error );
+						e.printStackTrace();
+					} catch (NoFileInSessionIDException e) {
+						// TODO Auto-generated catch block
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( e.getMessage() );
+						error.setSolveText("Please confirm the session ID and your file name.");
 						response = JSON.encode( error );
 						e.printStackTrace();
 					}finally{
