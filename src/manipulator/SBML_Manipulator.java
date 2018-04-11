@@ -70,7 +70,7 @@ public class SBML_Manipulator {
 			document.getModel().getParameter( globalParam.getSbmlID() ).setValue( globalParam.getParameterValue() );
 		}
 		// the result is saved in  sbmlFile path
-		writeSBML();
+		// writeSBML();
 	}
 	public void writeSBML() throws SBMLException, XMLStreamException, IOException {
 		SBMLWriter writer = new SBMLWriter();

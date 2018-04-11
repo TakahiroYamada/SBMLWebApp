@@ -19,6 +19,7 @@ public class Simulation_COPASI {
 		this.simParam = simParam;
 		
 		dataModel = CCopasiRootContainer.addDatamodel();
+		
 		try {
 			dataModel.importSBML( sbmlFile );
 			
@@ -198,6 +199,7 @@ public class Simulation_COPASI {
 		simAllBeans.setXmax( simTimeSeries.getData( numOfTimePoints - 1 , 0));
 		simAllBeans.setYmax( maxCandidate );
 		simAllBeans.setYmin( minCandidate );
+		
 		if( simAllBeans.getData().length == 0 ){
 			throw new NoDynamicSpeciesException();
 		}

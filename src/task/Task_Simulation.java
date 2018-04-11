@@ -47,6 +47,7 @@ public class Task_Simulation extends Super_Task{
 		simCOPASI.getTimeSeries().save( this.simParam.getPathToFile() + "/result.csv" , false , ",");
 		this.simAllBeans = simCOPASI.configureSimulationBeans( colorOfVis );
 		this.simAllBeans.setSessionId( this.simParam.getSessionInfo() );
+		
 	}
 	private void executeSimulationWithSimulationCore() throws NoDynamicSpeciesException {
 		Simulation_SBSCL simSBSCL = new Simulation_SBSCL( newFile.getPath() , this.simParam);

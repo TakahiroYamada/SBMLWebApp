@@ -80,6 +80,7 @@ public class Simulation_SBSCL {
 		double minCandidate = Double.MAX_VALUE;
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
 		// The spicies information is contained in listOfSpecies
+		
 		if( model.getNumSpecies() != 0 ){ 
 			ArrayList<String> orderNotFixedSpecies = getSBMLIDNotFixedSpecies();
 			//int numOfSpecies = model.getListOfSpecies().size();

@@ -14,6 +14,8 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
+import net.sourceforge.sizeof.SizeOf;
+
 public class RabbitMQ_CallBack {
 	private Connection connection;
     private Channel channel;
@@ -31,6 +33,9 @@ public class RabbitMQ_CallBack {
 		AMQP.BasicProperties props = new AMQP.BasicProperties.Builder().correlationId( corrId ).replyTo( replyQueueName ).build();
 		
 		System.out.println(" [x] Sent '" + message + "'");
+		SizeOf.skipStaticField(true);
+	    SizeOf.setMinSizeToLog(10);
+		System.out.println(" [x] Size " + SizeOf.deepSizeOf( message ));
 		channel.basicPublish("", requestQueueName, props, message.getBytes());
 		final BlockingQueue< String > response_RPC = new ArrayBlockingQueue<>( 1 );
 		

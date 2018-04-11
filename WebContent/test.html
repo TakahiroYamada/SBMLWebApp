@@ -21,7 +21,25 @@
 			processData : false,
 			contentType : false
 		}).done(function( result ){
-			console.log( result );
+			console.log( result )
+			for( var i = 0 ; i < 5 ; i ++){
+				//const d1 = new Date();
+				//while (true) {
+				//  const d2 = new Date();
+				//  if (d2 - d1 > 2000) {
+				//    break;
+				//  }
+				//}
+				$.ajax("http://localhost:8080/GSOC_WebMavenProject/rest/produce/simulation/" + result +"/condition/end=1-lib=copasi-num=10000" , {
+					async : true,
+					type : "get",
+					processData : false,
+					contentType : false
+				}).done( function( results){
+					console.log( results )
+				})
+				console.log( i )
+			}
 		});
 	});
 </script>

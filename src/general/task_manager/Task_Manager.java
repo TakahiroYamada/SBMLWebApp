@@ -44,7 +44,6 @@ public class Task_Manager {
 		}
 		else if( this.type == Task_Type.PARAMETER_ESTIMATION ){
 			Task_ParameterEstimation paramTask = new Task_ParameterEstimation( message );
-			
 			ObjectMapper mapper = new ObjectMapper();
 			this.responseData = mapper.writeValueAsString( paramTask.getParamestAllBeans() );
 			
@@ -60,7 +59,7 @@ public class Task_Manager {
 		}
 		else if( this.type == Task_Type.REST_MODEL_SAVE){
 			Task_ModelSave modelSaveTask = new Task_ModelSave( message );
-			this.responseData = "sessionId-" + modelSaveTask.getModelParam().getSessionInfo() + "/file-" +  modelSaveTask.getModelParam().getFileName();
+			this.responseData = "sessionId=" + modelSaveTask.getModelParam().getSessionInfo() + "/file=" +  modelSaveTask.getModelParam().getFileName();
 		}
 		else if( this.type == Task_Type.REST_MODEL_DELETE ){
 			Task_ModelDelete modelDeleteTask = new Task_ModelDelete( message );
