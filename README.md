@@ -44,8 +44,8 @@ This repository includes the following files and directories
 * `pom.xml` Maven pom file
 
 ### Additional information
-GitHub: https://github.com/TakahiroYamada/SBMLWebApp
-Blog: http://gsoc2017developwebservice.blogspot.jp
+GitHub: https://github.com/TakahiroYamada/SBMLWebApp  
+Blog: http://gsoc2017developwebservice.blogspot.jp  
 PivotalTracker: https://www.pivotaltracker.com/n/projects/2020229
 
 ## Installation
