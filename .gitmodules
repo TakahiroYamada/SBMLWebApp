@@ -10,3 +10,6 @@
 [submodule "WebContent/CytoScape"]
 	path = WebContent/CytoScape
 	url = https://github.com/cytoscape/cytoscape.js.git
+[submodule "WebContent/FileSaver.js"]
+	path = WebContent/FileSaver.js
+	url = git@github.com:eligrey/FileSaver.js.git
