@@ -25,7 +25,6 @@ import database.BioModelsConnectionService;
 import database.biomodels.CuratedModelsResponse;
 import database.biomodels.ModelSummary;
 import net.arnx.jsonic.JSON;
-import uk.ac.ebi.biomodels.ws.BioModelsWSClient;
 
 /**
  * Servlet implementation class BioModels_ModelRefresh
@@ -36,14 +35,12 @@ public class BioModels_ModelRefresh extends HttpServlet {
 	private String path;
 	private List<String> allModelId;
 	private List<String> allModelName;
-    //private String[] allModelId;
-    //private String[] allModelName;
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		BioModelsWSClient client = new BioModelsWSClient();
 		bioModelsInfo_Beans = new BioModelsInfo_Beans();
 		this.path = getServletContext().getRealPath("/tmp");
 		File tmpDir = new File( this.path );
