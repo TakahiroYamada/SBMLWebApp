@@ -100,7 +100,12 @@ function configureStedParameter( formdata ){
 }
 function downloadData_Steady(){
 	if( !$("#download-steady").hasClass("disabled")){
-		var model_name = $("#sbml-file")[ 0 ].files[ 0 ].name.replace(".xml" ,"");
+		if( !$("#check-biomodels")[0].checked ){
+			var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
+		}
+		else{
+			var model_name = ModelSBML.SBMLId
+		}
 		var zip = new JSZip();
 		
 		// csv data of steady state

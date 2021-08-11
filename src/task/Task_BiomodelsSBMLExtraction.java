@@ -1,7 +1,16 @@
+/**
+* @author Akira Funahashi <funa@symbio.jst.go.jp>
+* @author Takahiro G. Yamada <yamada@fun.bio.keio.ac.jp>
+*/
+
 package task;
 
 
+import java.awt.print.Printable;
+
 import beans.biomodels_sbmlextraction.BioModels_SBMLInfo_Beans;
+import database.BioModelsConnectionService;
+import database.biomodels.ModelFileResponse;
 import net.arnx.jsonic.JSON;
 import parameter.BiomodelsSBMLModelExtraction_Parameter;
 import uk.ac.ebi.biomodels.ws.BioModelsWSClient;
@@ -14,8 +23,17 @@ public class Task_BiomodelsSBMLExtraction extends Super_Task{
 		this.bmsbmlParam = JSON.decode( message , BiomodelsSBMLModelExtraction_Parameter.class );
 		this.bmsbmlAllBeans = new BioModels_SBMLInfo_Beans();
 		
-		BioModelsWSClient client = new BioModelsWSClient();
-		bmsbmlAllBeans.setModelString( client.getModelSBMLById( this.bmsbmlParam.getModelId() ));
+		try (BioModelsConnectionService bioModelsService = new BioModelsConnectionService()){
+			ModelFileResponse mfr = bioModelsService.getModelFile( this.bmsbmlParam.getModelId());
+			StringBuffer sbuf = new StringBuffer();
+			sbuf.append( mfr.getFileContent());
+			
+			bmsbmlAllBeans.setModelString( sbuf.toString() );
+			sbuf = null;
+			
+		} catch( Exception e){
+			e.printStackTrace();
+		}		
 		bmsbmlAllBeans.setSessionId( bmsbmlParam.getSessionInfo() );
 	}
 	public BioModels_SBMLInfo_Beans getBmsbmlAllBeans() {

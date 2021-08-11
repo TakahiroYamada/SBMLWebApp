@@ -71,7 +71,6 @@ $("#select-biomodels").on("change", function(){
 	var filedata = new FormData();
 	filedata.append("bioModelsId" , modelId );
 	filedata.append("Type" , "model_sbmlextraction")
-	
 	$.ajax("./Producer" , {
 		async : true,
 		type : "post",

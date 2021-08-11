@@ -513,7 +513,12 @@ function showBeforeFitting(){
 function downloadData_Parameter(){
 	if(!$("#download-parameter").hasClass("disabled")){
 		var zip = new JSZip();
-		var model_name = $("#sbml-file")[ 0 ].files[ 0 ].name.replace(".xml" , "");
+		if( !$("#check-biomodels")[0].checked ){
+			var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
+		}
+		else{
+			var model_name = ModelSBML.SBMLId
+		}
 		//Before Canvas
 		var before_canvas = document.getElementById("beforeCanvas");
 		var before_url = before_canvas.toDataURL();

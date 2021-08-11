@@ -610,7 +610,12 @@ function checkActivePanel(){
 }
 function downloadData(){
 	if( !$("#download").hasClass("disabled")){
-		var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
+		if( !$("#check-biomodels")[0].checked ){
+			var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
+		}
+		else{
+			var model_name = ModelSBML.SBMLId
+		}
 		// Canvas
 		var canvas = document.getElementById("simulationCanvas");
 		var url = canvas.toDataURL();
