@@ -81,13 +81,13 @@ $("#select-biomodels").on("change", function(){
 		ModelSBML.SBMLId = modelId;
 		ModelSBML.SBML = result.modelString;
 		sessionId = result.sessionId;
+		
 		var SBML_file;
 		var form_file = document.getElementById("sbml-file");
 		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
-		SBML_file.name =  ModelSBML.SBMLId + ".xml";
-		var filedata = new FormData();
-		filedata.append("file" , SBML_file );
-		getGraphViewFromServer( filedata );
+		var filedata_forSBML = new FormData();
+		filedata_forSBML.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
+		getGraphViewFromServer( filedata_forSBML );
 		$.LoadingOverlay("hide");
 	});
 })

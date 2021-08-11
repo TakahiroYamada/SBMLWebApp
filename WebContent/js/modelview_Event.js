@@ -52,6 +52,7 @@ function getGraphViewFromServer( form_file ){
 	}
 	form_file.append("SessionId" , sessionId);
 	form_file.append("Type" , "modelview");
+	
 	$.ajax({
 	      url: "./Producer",
 	      type: "post",

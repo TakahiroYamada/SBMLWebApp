@@ -5,9 +5,6 @@
 
 package task;
 
-
-import java.awt.print.Printable;
-
 import beans.biomodels_sbmlextraction.BioModels_SBMLInfo_Beans;
 import database.BioModelsConnectionService;
 import database.biomodels.ModelFileResponse;

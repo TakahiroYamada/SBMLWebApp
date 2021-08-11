@@ -59,6 +59,8 @@ function getSimulationResult( loadingObject ){
 	var SBML_file;
 	var tmpLegend = [];
 	var form_file = document.getElementById("sbml-file");
+	var filedata = new FormData();
+	
 	if( myChart != undefined ){
 		for( var i = 0 ; i < myChart.data.datasets.length ; i ++){
 			tmpLegend.push( myChart.getDatasetMeta( i ).hidden);
@@ -67,10 +69,11 @@ function getSimulationResult( loadingObject ){
 	
 	if( ! $("#check-biomodels")[ 0 ].checked ){
 		SBML_file = form_file.files[ 0 ];
+		filedata.append("file" , SBML_file );
 	}
 	else{
 		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
-		SBML_file.name =  ModelSBML.SBMLId + ".xml";
+		filedata.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
 	}
 	// Check file change , if file is changed , JSON data and parameter contents are initialized.
 	if( currentFile != SBML_file.name){
@@ -89,9 +92,6 @@ function getSimulationResult( loadingObject ){
 		}
 		// currentFile = form_file.files[ 0 ].name;
 	}
-	var filedata = new FormData();
-	//filedata.append("file" , SBML_file );
-	filedata.append("file" , SBML_file );
 	configureFormData( filedata );
 	//$.ajax("./Simulation_Servlet" , {
 	$.ajax("./Producer" , {

@@ -20,7 +20,7 @@ public class Task_Simulation extends Super_Task{
 	private Simulation_AllBeans simAllBeans;
 	public Task_Simulation( String message ) throws IOException, SBMLException,XMLStreamException, NoDynamicSpeciesException, IllegalArgumentException{
 		this.simParam = JSON.decode( message , Simulation_Parameter.class );
-		
+		System.out.println("GEHO : " + this.simParam.getPathToFile());
 		super.saveFile( this.simParam.getPathToFile() , this.simParam.getFileName() , this.simParam.getFileString() );
 		super.manipulateSBMLModel( this.simParam.getSbmlParam() );
 		

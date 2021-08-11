@@ -53,7 +53,6 @@ public class BioModels_ModelRefresh extends HttpServlet {
 			this.allModelName = new ArrayList<String>();
 			for( Iterator<ModelSummary> it = modelSet.iterator() ; it.hasNext();){
 				ModelSummary modelSummary = it.next();
-				System.out.println(modelSummary.getId() + " : " + modelSummary.getName());
 				this.allModelId.add( modelSummary.getId() );
 				this.allModelName.add( modelSummary.getName());
 			}
