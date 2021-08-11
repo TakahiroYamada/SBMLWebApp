@@ -24,7 +24,6 @@ public class Task_ModelView extends Super_Task {
 	private Abstract_Parameter modelviewParam;
 	private SBMLModelViewer_AllBeans modelviewAllBeans;
 	public Task_ModelView( String message) throws IOException, XMLStreamException{
-		System.out.println( "HOGE" + message );
 		this.modelviewParam = JSON.decode( message , Abstract_Parameter.class );
 		super.saveFile( this.modelviewParam.getPathToFile() , this.modelviewParam.getFileName() , this.modelviewParam.getFileString() );
 		this.addSBMLObjects( super.newFile.getPath());
