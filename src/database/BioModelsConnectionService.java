@@ -1,6 +1,3 @@
-/**
-* @author Akira Funahashi <funa@symbio.jst.go.jp>
-*/
 package database;
 
 import org.apache.http.client.methods.HttpGet;

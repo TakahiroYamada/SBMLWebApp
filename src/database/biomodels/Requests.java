@@ -1,6 +1,3 @@
-/**
-* @author Akira Funahashi <funa@symbio.jst.go.jp>
-*/
 package database.biomodels;
 
 import org.apache.commons.compress.harmony.unpack200.bytecode.forms.ThisFieldRefForm;
@@ -15,7 +12,7 @@ import java.util.Objects;
 public final class Requests {
     // can also use the Caltech instance: http://biomodels.caltech.edu/
     public static final String BIOMODELS_EBI_BASE = "https://www.ebi.ac.uk/biomodels/";
-    public static final String SEARCH_CMD = "search?query=modelformat%3A%22SBML%22%20AND%20curationstatus%3AManually%20curated%20AND%20levelversion%3AL2V*&sort=id-desc";
+    public static final String SEARCH_CMD = "search?query=modelformat%3A%22SBML%22%20AND%20curationstatus%3AManually%20curated%20AND%20levelversion%3AL2V4%20OR%20levelversion%3AL3V1&sort=id-desc";
     public static final String GET_FILES_CMD = "model/files/";
     public static final String DLD_MODEL_CMD = "model/download/";
     public static final int SEARCH_RESULTS_PER_PAGE = 100;

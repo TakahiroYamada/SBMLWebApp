@@ -1,7 +1,3 @@
-/**
-* @author Akira Funahashi <funa@symbio.jst.go.jp>
-*/
-
 package database.biomodels;
 
 /**

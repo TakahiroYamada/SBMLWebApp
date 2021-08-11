@@ -1,5 +1,5 @@
 /**
-* @author Akira Funahashi <funa@symbio.jst.go.jp>
+* @author Akira Funahashi <funa@bio.keio.ac.jp>
 * @author Takahiro G. Yamada <yamada@fun.bio.keio.ac.jp>
 */
 
