@@ -10,6 +10,7 @@ import analyze.simulation.Simulation_SBSCL;
 import analyze.simulation.Simulation_libSBMLsim;
 import beans.simulation.Simulation_AllBeans;
 import coloring.Coloring;
+import exception.JSBML_ReadException;
 import exception.NoDynamicSpeciesException;
 import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
@@ -18,7 +19,7 @@ public class Task_Simulation extends Super_Task{
 	private double TRANSPARENCY = 1.0;
 	private Simulation_Parameter simParam;
 	private Simulation_AllBeans simAllBeans;
-	public Task_Simulation( String message ) throws IOException, SBMLException,XMLStreamException, NoDynamicSpeciesException, IllegalArgumentException{
+	public Task_Simulation( String message ) throws IOException, SBMLException,XMLStreamException, NoDynamicSpeciesException, IllegalArgumentException, JSBML_ReadException{
 		this.simParam = JSON.decode( message , Simulation_Parameter.class );
 		super.saveFile( this.simParam.getPathToFile() , this.simParam.getFileName() , this.simParam.getFileString() );
 		super.manipulateSBMLModel( this.simParam.getSbmlParam() );

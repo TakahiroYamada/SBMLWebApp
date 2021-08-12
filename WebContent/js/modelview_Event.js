@@ -139,8 +139,14 @@ function getGraphViewFromServer( form_file ){
 						}
 					],
 				});
-			}).fail(function () {
-				console.log('fail');
+			}).fail(function ( result ) {
+				errorSetting( result.responseJSON.errorMessage , result.responseJSON.solveText);
+				$("#warningModal").modal("show");
+				$("#modalButton").off("click");
+				$("#modalButton").on("click" , function(){
+					$("#warningModal").modal("hide");
+					loadingObject.LoadingOverlay("hide");
+				});
 			});
 }
 $("#modelgraph-Modal").on("shown.bs.modal" , function(){

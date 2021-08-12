@@ -18,6 +18,7 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
 import exception.COPASI_ExportException;
+import exception.JSBML_ReadException;
 import exception.NoDynamicSpeciesException;
 import general.error.Error_Message;
 import general.task_manager.Task_Manager;
@@ -84,6 +85,13 @@ public class AnalysisConsumer extends HttpServlet {
 						response = JSON.encode( error );
 						e.printStackTrace();
 					} catch (BioModelsWSException e) {
+						e.printStackTrace();
+					} catch (JSBML_ReadException e) {
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( e.getMessage() );
+						error.setSolveText("Please check your input file which is readable by JSBML (Your SBML file may include the unsupported packages in SBML).");
+						response = JSON.encode( error );
+						e.printStackTrace();
 						e.printStackTrace();
 					}finally{
 						channel.basicPublish( "", properties.getReplyTo(), replyProps , response.getBytes("UTF-8"));

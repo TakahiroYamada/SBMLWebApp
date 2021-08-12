@@ -17,24 +17,30 @@ import beans_modelviewer.SBMLModelViewer_AllBeans;
 import beans_modelviewer.SBMLModelViewer_ReactionBeans;
 import beans_modelviewer.SBMLModelViewer_ReactionNodeBeans;
 import beans_modelviewer.SBMLModelViewer_SpeciesBeans;
+import exception.JSBML_ReadException;
 import net.arnx.jsonic.JSON;
 import parameter.Abstract_Parameter;
 
 public class Task_ModelView extends Super_Task {
 	private Abstract_Parameter modelviewParam;
 	private SBMLModelViewer_AllBeans modelviewAllBeans;
-	public Task_ModelView( String message) throws IOException, XMLStreamException{
+	public Task_ModelView( String message) throws IOException, XMLStreamException, JSBML_ReadException{
 		this.modelviewParam = JSON.decode( message , Abstract_Parameter.class );
 		super.saveFile( this.modelviewParam.getPathToFile() , this.modelviewParam.getFileName() , this.modelviewParam.getFileString() );
 		this.addSBMLObjects( super.newFile.getPath());
 		this.modelviewAllBeans.setSessionId( this.modelviewParam.getSessionInfo() );
 	}
-	private void addSBMLObjects(String filepath) throws XMLStreamException, IOException {
+	private void addSBMLObjects(String filepath) throws XMLStreamException, IOException, JSBML_ReadException {
 		this.modelviewAllBeans = new SBMLModelViewer_AllBeans();
+		try{
 		SBMLDocument d = SBMLReader.read( new File( filepath ) );
 		Model m = d.getModel();
 		addSpecies( m );
 		addReactions( m );
+		} catch( NullPointerException e){
+			e.printStackTrace();
+			throw new JSBML_ReadException( e );
+		}
 	}
 
 	private void addReactions(Model m) {

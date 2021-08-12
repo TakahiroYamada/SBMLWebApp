@@ -9,6 +9,7 @@ import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.SBMLException;
 
 import exception.COPASI_ExportException;
+import exception.JSBML_ReadException;
 import exception.NoDynamicSpeciesException;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
@@ -23,7 +24,7 @@ public class Task_Manager {
 	private String message;
 	private String responseData;
 	private int type;
-	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException, BioModelsWSException{
+	public Task_Manager( String message) throws SBMLException, IOException,XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException, BioModelsWSException, JSBML_ReadException{
 		this.message = message;
 		Map map = ( Map ) JSON.decode( this.message );
 		BigDecimal tmpType = (BigDecimal) map.get("type"); 

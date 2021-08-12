@@ -18,11 +18,12 @@ import beans.modelparameter.LocalParameters_Beans;
 import beans.modelparameter.ModelParameter_Beans;
 import beans.modelparameter.Parameters_Beans;
 import beans.simulation.Simulation_AllBeans;
+import exception.JSBML_ReadException;
 
 public class SBML_Manipulator {
 	private File sbmlFile;
 	private SBMLDocument document;
-	public SBML_Manipulator( File file ){
+	public SBML_Manipulator( File file ) throws JSBML_ReadException{
 		this.sbmlFile = file;
 		try {
 			this.document = SBMLReader.read( sbmlFile );
@@ -32,6 +33,9 @@ public class SBML_Manipulator {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch( NullPointerException e){
+			e.printStackTrace();
+			throw new JSBML_ReadException( e );
 		}
 	}
 	public ModelParameter_Beans getModelParameter(){

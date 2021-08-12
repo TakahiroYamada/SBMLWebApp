@@ -11,6 +11,7 @@ import org.sbml.jsbml.SBMLException;
 
 import beans.modelparameter.ModelParameter_Beans;
 import beans.simulation.Simulation_AllBeans;
+import exception.JSBML_ReadException;
 import manipulator.SBML_Manipulator;
 
 public class Super_Task {
@@ -37,7 +38,7 @@ public class Super_Task {
 		writer.write( fileString );
 		writer.close();
 	}
-	protected void manipulateSBMLModel( ModelParameter_Beans sbmlParam) throws SBMLException, IllegalArgumentException, XMLStreamException, IOException{
+	protected void manipulateSBMLModel( ModelParameter_Beans sbmlParam) throws SBMLException, IllegalArgumentException, XMLStreamException, IOException, JSBML_ReadException{
 		this.manipulator = new SBML_Manipulator( this.newFile );
 		this.manipulator.editModelParameter( sbmlParam );
 	}

@@ -4,11 +4,14 @@ import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.SBMLException;
+
 import analyze.parameter.ParameterEstimation_COPASI;
 import analyze.simulation.Simulation_COPASI;
 import beans.parameter.ParameterEstimation_AllBeans;
 import coloring.Coloring;
 import exception.COPASI_ExportException;
+import exception.JSBML_ReadException;
 import exception.NoDynamicSpeciesException;
 import net.arnx.jsonic.JSON;
 import parameter.ParameterEstimation_Parameter;
@@ -19,7 +22,7 @@ public class Task_ParameterEstimation extends Super_Task{
 	private ParameterEstimation_Parameter paramestParam;
 	private ParameterEstimation_AllBeans paramestAllBeans;
 	private Coloring colorOfVis;
-	public Task_ParameterEstimation( String message) throws IOException , XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException , IllegalArgumentException{
+	public Task_ParameterEstimation( String message) throws IOException , XMLStreamException, NoDynamicSpeciesException, COPASI_ExportException , IllegalArgumentException, SBMLException, JSBML_ReadException{
 		this.paramestParam = JSON.decode( message , ParameterEstimation_Parameter.class);
 		
 		super.saveFile( paramestParam.getPathToFile() , paramestParam.getFileName() , paramestParam.getFileString());
