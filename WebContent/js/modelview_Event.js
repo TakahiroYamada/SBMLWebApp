@@ -1,3 +1,4 @@
+var exampleFrag = false;
 var cy;
 $("#nav-graphview").on("click" , function(){
 	$("#modelgraph-Modal").modal("show");
@@ -7,6 +8,7 @@ $("#graphmodalButton").on("click" , function(){
 });
 
 $("#sbml-file").on("change" , function(){
+	exampleFrag = false;
 	var input = $("#sbml-file").get(0).files[ 0 ];
 	var reader = new FileReader();
 	$(reader).on("error",function( e ){
@@ -152,6 +154,7 @@ function getGraphViewFromServer( form_file ){
 }
 
 $("#example-model").on("click", function(){
+	exampleFrag = true;
 	var form_file = new FormData();
 	form_file.append("SessionId" , sessionId);
 	$.ajax({
@@ -170,7 +173,7 @@ $("#example-model").on("click", function(){
 			var form_file = document.getElementById("sbml-file");
 			SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
 			var filedata_forSBML = new FormData();
-			filedata_forSBML.append("file" , SBML_file , ModelSBML.SBMLId);
+			filedata_forSBML.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
 			getGraphViewFromServer( filedata_forSBML );
 	    })
 })

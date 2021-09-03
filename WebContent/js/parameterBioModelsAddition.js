@@ -51,6 +51,7 @@ $("#check-biomodels").on("change" , function(){
 })
 $("#select-biomodels").on("change", function(){
 	// Visualizing the setting form of experimental data
+	exampleFrag = false;
 	var customElement   = $("<div>", {
 	    text : "SBML Model Loading"
 	});

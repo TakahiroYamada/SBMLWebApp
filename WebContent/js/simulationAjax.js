@@ -67,7 +67,7 @@ function getSimulationResult( loadingObject ){
 		}
 	}
 	
-	if( ! $("#check-biomodels")[ 0 ].checked ){
+	if( ! ($("#check-biomodels")[ 0 ].checked || exampleFrag)){
 		SBML_file = form_file.files[ 0 ];
 		filedata.append("file" , SBML_file );
 	}
@@ -610,7 +610,7 @@ function checkActivePanel(){
 }
 function downloadData(){
 	if( !$("#download").hasClass("disabled")){
-		if( !$("#check-biomodels")[0].checked ){
+		if( !($("#check-biomodels")[0].checked || examplFrag) ){
 			var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
 		}
 		else{

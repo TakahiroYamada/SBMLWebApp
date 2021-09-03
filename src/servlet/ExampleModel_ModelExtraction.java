@@ -47,7 +47,7 @@ public class ExampleModel_ModelExtraction extends HttpServlet {
 		String path = getServletContext().getRealPath("/example");
 		
 		this.exampleModelBeans = new BioModels_SBMLInfo_Beans();
-		this.exampleModelBeans.setModelFileName("SBMLModel_Sample.xml");
+		this.exampleModelBeans.setModelFileName("SBMLModel_Sample");
 		
 		byte[] encoded = Files.readAllBytes( Paths.get( path + "/SBMLModel/SBMLModel_Sample.xml"));
 		this.exampleModelBeans.setModelString( new String( encoded , StandardCharsets.US_ASCII));
