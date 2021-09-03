@@ -103,4 +103,14 @@
     <servlet-name>AnalysisConsumer4</servlet-name>
     <url-pattern>/AnalysisConsumer4</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ExampleModel_ModelExtraction</display-name>
+    <servlet-name>ExampleModel_ModelExtraction</servlet-name>
+    <servlet-class>servlet.ExampleModel_ModelExtraction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExampleModel_ModelExtraction</servlet-name>
+    <url-pattern>/ExampleModel_ModelExtraction</url-pattern>
+  </servlet-mapping>
 </web-app>
