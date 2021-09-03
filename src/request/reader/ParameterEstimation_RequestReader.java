@@ -24,11 +24,17 @@ public class ParameterEstimation_RequestReader {
 			if (item.getFieldName().equals("SBMLFile")) {
 				this.paramestParam.setFileString( item.getString() );
 				this.paramestParam.setFileName( item.getName() );
+				System.out.println( item.getString() );
+				System.out.println( item.getName() );
+				
 			}
 			// Experiment Data file is inputed
 			else if (item.getFieldName().equals("ExpFile")) {
 				this.paramestParam.setAnsData( item.getString() );
 				this.paramestParam.setAnsFileName( item.getName() );
+				System.out.println( item.getString() );
+				System.out.println( item.getName() );
+				
 			} 
 			else if( item.getFieldName().equals("parameter")){
 				this.paramestParam.setSbmlParam( JSON.decode( item.getString() , ModelParameter_Beans.class ));

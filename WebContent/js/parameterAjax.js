@@ -109,14 +109,23 @@ function analyzeData( loadingObject ){
 	var model_file = document.getElementById("sbml-file");
 	var exp_file = document.getElementById("expData");
 	var progressBar = document.getElementById("progress");
-	var Exp_file = exp_file.files[ 0 ];
 	var SBML_file;
-	if( ! $("#check-biomodels")[ 0 ].checked ){
+	var Exp_file;
+
+	// filedata contains all data transfered to Server side Servlet
+	var filedata = new FormData();
+	if( ! ($("#check-biomodels")[ 0 ].checked || exampleFrag )){
 		SBML_file = model_file.files[ 0 ];
+		Exp_file = exp_file.files[ 0 ];
+		filedata.append("SBMLFile" , SBML_file );
+		filedata.append("ExpFile" , Exp_file);
 	}
 	else{
 		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
-		SBML_file.name =  ModelSBML.SBMLId + ".xml";
+		filedata.append("SBMLFile" , SBML_file , ModelSBML.SBMLId + ".xml");
+		
+		Exp_file = new Blob( [ExpData.Data] , {type : "text/csv;charset=utf-8"});
+		filedata.append("ExpFile" , Exp_file , ExpData.ExpId + ".csv");
 	}
 	
 	// If model file is changed , parameter_estimation_jsondata is initialized firstly.
@@ -129,13 +138,9 @@ function analyzeData( loadingObject ){
 				paramValue : []
 		};
 	}
-	
-	// filedata contains all data transfered to Server side Servlet
-	var filedata = new FormData();
+		
 	
 	//Transfered data is added in filedata
-	filedata.append("SBMLFile" , SBML_file );
-	filedata.append("ExpFile" , Exp_file);
 	filedata.append("SessionId" , sessionId);
 	
 	// Parameter data is set to filedata(FormData)
@@ -513,7 +518,7 @@ function showBeforeFitting(){
 function downloadData_Parameter(){
 	if(!$("#download-parameter").hasClass("disabled")){
 		var zip = new JSZip();
-		if( !$("#check-biomodels")[0].checked ){
+		if( !($("#check-biomodels")[0].checked || exampleFrag )){
 			var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
 		}
 		else{

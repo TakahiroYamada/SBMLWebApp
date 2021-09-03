@@ -113,4 +113,14 @@
     <servlet-name>ExampleModel_ModelExtraction</servlet-name>
     <url-pattern>/ExampleModel_ModelExtraction</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ExampleModel_ExpDataExtraction</display-name>
+    <servlet-name>ExampleModel_ExpDataExtraction</servlet-name>
+    <servlet-class>servlet.ExampleModel_ExpDataExtraction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExampleModel_ExpDataExtraction</servlet-name>
+    <url-pattern>/ExampleModel_ExpDataExtraction</url-pattern>
+  </servlet-mapping>
 </web-app>

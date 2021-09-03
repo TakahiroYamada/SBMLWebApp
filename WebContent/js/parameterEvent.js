@@ -3,6 +3,11 @@ var ModelSBML = {
 		SBML : null
 };
 
+var ExpData = {
+		ExpId : null,
+		Data : null
+};
+
 $("#paramButton").on("click" , function(){
 	if( !errorCheck_Parameter()){
 		$(this).LoadingOverlay("show");
@@ -23,7 +28,7 @@ $("#algorithm").change( function(){
 function errorCheck_Parameter(){
 	var info = checkNegativeValueinInput( $(".param-param"));
 	// If file is not selected the error is visualized
-	if( $("#sbml-file").val().length == 0 && (!$("#check-biomodels")[0].checked) ){
+	if( $("#sbml-file").val().length == 0 && (!$("#check-biomodels")[0].checked) && !(exampleFrag)){
 		errorSetting("SBML model is not selected" , "Selecting SBML file in input form")
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");
@@ -38,7 +43,7 @@ function errorCheck_Parameter(){
 		})
 		return true;
 	}
-	else if( $("#expData").val().length == 0 ){
+	else if( $("#expData").val().length == 0 && !(exampleFrag)){
 		errorSetting("Experiment data is not selected" , "Selecting experiment data in input form")
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");

@@ -6,15 +6,16 @@ function getSteadyResult( loadingObject ){
 	var form_file = document.getElementById("sbml-file");
 	var progressBar = document.getElementById("progress");
 	link = document.createElement('a');
+	var filedata = new FormData();
 	if( ! ($("#check-biomodels")[ 0 ].checked || exampleFrag) ){
 		SBML_file = form_file.files[ 0 ];
+		filedata.append("file" , SBML_file );
 	}
 	else{
 		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
-		SBML_file.name =  ModelSBML.SBMLId + ".xml";
+		filedata.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
 	}
-	var filedata = new FormData();
-	filedata.append("file" , SBML_file );
+
 	filedata.append("SessionId" , sessionId);
 	configureStedParameter( filedata );
 	$.ajax("./Producer" , {

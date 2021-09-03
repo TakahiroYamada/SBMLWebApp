@@ -175,5 +175,16 @@ $("#example-model").on("click", function(){
 			var filedata_forSBML = new FormData();
 			filedata_forSBML.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
 			getGraphViewFromServer( filedata_forSBML );
-	    })
+	    });
+	
+	$.ajax({
+		url : "./ExampleModel_ExpDataExtraction",
+		type : "post",
+		processData : false,
+		contentType : false,
+		timeout : 10000
+	}).done( function( result ){
+		ExpData.ExpId = result.expFileName;
+		ExpData.Data = result.expData;
+	});
 })
