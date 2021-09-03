@@ -6,7 +6,7 @@ function getSteadyResult( loadingObject ){
 	var form_file = document.getElementById("sbml-file");
 	var progressBar = document.getElementById("progress");
 	link = document.createElement('a');
-	if( ! $("#check-biomodels")[ 0 ].checked ){
+	if( ! ($("#check-biomodels")[ 0 ].checked || exampleFrag) ){
 		SBML_file = form_file.files[ 0 ];
 	}
 	else{
@@ -100,7 +100,7 @@ function configureStedParameter( formdata ){
 }
 function downloadData_Steady(){
 	if( !$("#download-steady").hasClass("disabled")){
-		if( !$("#check-biomodels")[0].checked ){
+		if( !($("#check-biomodels")[0].checked || exampleFrag)){
 			var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
 		}
 		else{
