@@ -545,7 +545,7 @@ function downloadData_Parameter(){
 		zip.file( model_name + "_result.csv" , csv_blob);
 		
 		//Updated Model
-		$.ajax("./tmp/" + sessionId + "/Updated_" + $("#sbml-file").prop('files')[0].name , {
+		$.ajax("./tmp/" + sessionId + "/Updated_" + model_name + ".xml" , {
 			async : true,
 			dataType:"xml"
 		}).done( function( result){

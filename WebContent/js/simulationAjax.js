@@ -610,7 +610,7 @@ function checkActivePanel(){
 }
 function downloadData(){
 	if( !$("#download").hasClass("disabled")){
-		if( !($("#check-biomodels")[0].checked || examplFrag) ){
+		if( !($("#check-biomodels")[0].checked || exampleFrag) ){
 			var model_name = $("#sbml-file")[0].files[0].name.replace(".xml" , "");
 		}
 		else{
