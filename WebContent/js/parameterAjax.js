@@ -122,6 +122,7 @@ function analyzeData( loadingObject ){
 	}
 	else{
 		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
+		SBML_file.name = ModelSBML.SBMLId + ".xml";
 		filedata.append("SBMLFile" , SBML_file , ModelSBML.SBMLId + ".xml");
 		
 		Exp_file = new Blob( [ExpData.Data] , {type : "text/csv;charset=utf-8"});

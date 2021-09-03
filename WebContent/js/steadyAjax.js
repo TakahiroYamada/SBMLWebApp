@@ -13,6 +13,7 @@ function getSteadyResult( loadingObject ){
 	}
 	else{
 		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
+		SBML_file.name = ModelSBML.SBMLId + ".xml";
 		filedata.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
 	}
 

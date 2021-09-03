@@ -72,7 +72,8 @@ function getSimulationResult( loadingObject ){
 		filedata.append("file" , SBML_file );
 	}
 	else{
-		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});	
+		SBML_file = new Blob( [ModelSBML.SBML] , {type : "text/csv;charset=utf-8"});
+		SBML_file.name = ModelSBML.SBMLId + ".xml";
 		filedata.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
 	}
 	// Check file change , if file is changed , JSON data and parameter contents are initialized.
@@ -83,10 +84,6 @@ function getSimulationResult( loadingObject ){
 				localParamValue : [],
 				paramValue : []
 		};
-		// $("#initialValue-slider").empty();
-		// $("#compartmentValue-slider").empty();
-		// $("#globalParam-slider").empty();
-		// $("#localParam-slider").empty();
 		if( myChart != undefined ){
 			myChart.destroy();
 		}
@@ -131,6 +128,7 @@ function callback_Simulation( fileName,responseData , tmpLegend ){
 	var form_file = document.getElementById("sbml-file");
 	configureCanvas( responseData  , tmpLegend);
 	configureTable( responseData );
+
 	if( currentFile != fileName ){
 		addInitialValueSlider( responseData );
 		addCompartmentSlider( responseData );
