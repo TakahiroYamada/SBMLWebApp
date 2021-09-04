@@ -28,6 +28,8 @@ function errorCheck_Steady(){
 			el.remove();
 			newOne.addClass("animated flash");
 			newOne.focus();
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		})
 		return true;
 	}
@@ -45,6 +47,8 @@ function errorCheck_Steady(){
 				newOne.addClass("animated flash");
 				newOne.focus();
 			}
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		});
 		return true
 	}

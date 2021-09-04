@@ -29,6 +29,8 @@ function errorCheck_Simulation(){
 		$("#warningModal").modal("show");
 		$("#modalButton").off("click");
 		$("#modalButton").on("click" , function(){
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 			$("#warningModal").modal("hide");
 			var el = $("#sbml-file");
 			newOne = el.clone( true);
@@ -36,6 +38,8 @@ function errorCheck_Simulation(){
 			el.remove();
 			newOne.addClass("animated flash");
 			newOne.focus();
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		});
 		return true;
 	}
@@ -53,6 +57,8 @@ function errorCheck_Simulation(){
 				newOne.addClass("animated flash");
 				newOne.focus();
 			}
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		});
 		return true;
 	}

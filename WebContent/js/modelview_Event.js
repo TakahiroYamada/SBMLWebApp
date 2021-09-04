@@ -21,6 +21,8 @@ $("#sbml-file").on("change" , function(){
 				var el = $("#sbml-file");
 				el.after( "<input id = 'sbml-file' type = 'file' size = '50' accept = '.xml'>" );
 				el.remove();
+				$(".modal-body").empty();
+				$("#modal-content").removeClass();
 			});
 		}
 	})
@@ -67,6 +69,9 @@ function getGraphViewFromServer( form_file ){
 			sessionId = json_str.sessionId;
 			$("#modelgraph-Modal").modal("show");
 			$("#modelgraph-Modal").on("shown.bs.modal" , function(){
+				if( $("#modelgraph-body").children('div').length == 0 ){
+					$("#modelgraph-body").append("<div id=\"graph-cy\"></div>");
+				}
 				cy = cytoscape({
 					container: document.getElementById("graph-cy"),
 					boxSelectionEnabled: false,
@@ -149,6 +154,8 @@ function getGraphViewFromServer( form_file ){
 				$("#modalButton").on("click" , function(){
 					$("#warningModal").modal("hide");
 					loadingObject.LoadingOverlay("hide");
+					$(".modal-body").empty();
+					$("#modal-content").removeClass();
 				});
 			});
 }

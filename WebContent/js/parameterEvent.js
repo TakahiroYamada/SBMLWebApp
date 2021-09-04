@@ -40,6 +40,8 @@ function errorCheck_Parameter(){
 			el.remove();
 			newOne.addClass("animated flash");
 			newOne.focus();
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		})
 		return true;
 	}
@@ -55,6 +57,8 @@ function errorCheck_Parameter(){
 			el.remove();
 			newOne.addClass("animated flash");
 			newOne.focus();
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		})
 		return true;
 	}
@@ -72,6 +76,8 @@ function errorCheck_Parameter(){
 				newOne.addClass("animated flash");
 				newOne.focus();
 			}
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		});
 		return true
 	}
