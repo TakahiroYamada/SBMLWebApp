@@ -108,7 +108,7 @@ function analyzeData( loadingObject ){
 	//Each form data is got as JavaScript variable
 	var model_file = document.getElementById("sbml-file");
 	var exp_file = document.getElementById("expData");
-	var progressBar = document.getElementById("progress");
+	var progressBar = document.getElementById("para-progress");
 	var SBML_file;
 	var Exp_file;
 
@@ -158,7 +158,7 @@ function analyzeData( loadingObject ){
 			if( XHR.upload){
 				XHR.upload.addEventListener("progress" , function( e ){
 					per_progress = parseInt( e.loaded/e.total*10000)/100;
-					$("#progress").val( per_progress);
+					$("#para-progress").val( per_progress);
 				});
 			}
 			return XHR;

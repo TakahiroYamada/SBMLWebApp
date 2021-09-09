@@ -10,7 +10,7 @@ var currentFile = null;
 function getSteadyResult( loadingObject ){
 	var SBML_file;
 	var form_file = document.getElementById("sbml-file");
-	var progressBar = document.getElementById("progress");
+	var progressBar = document.getElementById("sted-progress");
 	link = document.createElement('a');
 	var filedata = new FormData();
 	if( ! ($("#check-biomodels")[ 0 ].checked || exampleFrag) ){
@@ -36,7 +36,7 @@ function getSteadyResult( loadingObject ){
 			if( XHR.upload){
 				XHR.upload.addEventListener("progress" , function( e ){
 					per_progress = parseInt( e.loaded/e.total*10000)/100;
-					$("#progress").val( per_progress);
+					$("#sted-progress").val( per_progress);
 				})
 			}
 			return XHR;

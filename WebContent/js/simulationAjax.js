@@ -102,7 +102,7 @@ function getSimulationResult( loadingObject ){
 			if( XHR.upload){
 				XHR.upload.addEventListener("progress" , function( e ){
 					per_progress = parseInt( e.loaded/e.total*10000)/100;
-					$("#progress").val( per_progress);
+					$("#sim-progress").val( per_progress);
 				});
 			}
 			return XHR;
