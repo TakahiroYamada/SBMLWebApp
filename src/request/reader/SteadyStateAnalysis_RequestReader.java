@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 
+import beans.modelparameter.ModelParameter_Beans;
 import general.task_type.Task_Type;
 import net.arnx.jsonic.JSON;
 import parameter.SteadyStateAnalysis_Parameter;
@@ -34,6 +35,9 @@ public class SteadyStateAnalysis_RequestReader {
 			}
 			else if( item.getFieldName().equals("itelimit")){
 				stedParam.setIterationLimit( Integer.parseInt( item.getString()));
+			}
+			else if( item.getFieldName().equals("parameter")){
+				stedParam.setSbmlParam( JSON.decode( item.getString() , ModelParameter_Beans.class));
 			}
 		}
 	}

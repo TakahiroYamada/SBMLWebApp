@@ -2,6 +2,7 @@ var Ymin;
 var sessionId= "";
 var currentTab = "graph";
 var currentFile = null;
+var sted_currentFile = null;
 var myChart;
 var parameter_jsondata ={
 		initValue : [],
@@ -276,8 +277,12 @@ function addInitialValueSlider( responseData, analysis){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( initialValue[ i ].initialValue )) - 1));
 		}
 		// JSON format edition
-		parameter_jsondata.initValue.push({sbmlID : initialValue[ i ].sbmlID , initialValue : initialValue[ i ].initialValue , status : initialValue[ i ].status});
-		
+		if( analysis == "sted-"){
+			sted_parameter_jsondata.initValue.push({sbmlID : initialValue[ i ].sbmlID , initialValue : initialValue[ i ].initialValue , status : initialValue[ i ].status});
+		}
+		else{
+			parameter_jsondata.initValue.push({sbmlID : initialValue[ i ].sbmlID , initialValue : initialValue[ i ].initialValue , status : initialValue[ i ].status});
+		}
 		// slider edition
 		$("#" + analysis + initialValue[ i ].sbmlID).slider({
 			min : 0,
@@ -290,10 +295,12 @@ function addInitialValueSlider( responseData, analysis){
 				
 				if( sbmlId.indexOf("sted-") >= 0){
 					sbmlId = sbmlId.replace("sted-" , "")
-					var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
+					var filtered = $.grep( sted_parameter_jsondata.initValue , function( elem , index){
 						return( elem.sbmlID == sbmlId);
 					});
 					filtered[ 0 ].initialValue = ui.value;
+					$("#stedButton").LoadingOverlay("show");
+					getSteadyResult( $("#stedButton") );
 				}
 				else{
 					var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
@@ -366,8 +373,12 @@ function addGlobalParameterValueSlider( responseData , analysis ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
 		}
 		
-		parameter_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue});
-		
+		if( analysis == "sted-"){
+			sted_parameter_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue});
+		}
+		else{
+			parameter_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue});
+		}
 		$("#" + analysis + parameterValue[ i ].sbmlID).slider({
 			min : 0,
 			max : parameterValue[ i ].parameterValue * 2,
@@ -379,10 +390,12 @@ function addGlobalParameterValueSlider( responseData , analysis ){
 				
 				if( sbmlId.indexOf("sted-") >= 0){
 					sbmlId = sbmlId.replace("sted-" , "")
-					var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
+					var filtered = $.grep( sted_parameter_jsondata.paramValue , function( elem , index){
 						return( elem.sbmlID == sbmlId);
 					});
 					filtered[ 0 ].parameterValue = ui.value;
+					$("#stedButton").LoadingOverlay("show");
+					getSteadyResult( $("#stedButton") );
 				}
 				else{
 					var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
@@ -453,8 +466,12 @@ function addCompartmentSlider( responseData , analysis){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( compartmentValue[ i ].size )) - 1));
 		}
 		
-		parameter_jsondata.compartmentValue.push({sbmlID : compartmentValue[ i ].sbmlID , size : compartmentValue[ i ].size});
-		
+		if( analysis == "sted-"){
+			sted_parameter_jsondata.compartmentValue.push({sbmlID : compartmentValue[ i ].sbmlID , size : compartmentValue[ i ].size});
+		}
+		else{
+			parameter_jsondata.compartmentValue.push({sbmlID : compartmentValue[ i ].sbmlID , size : compartmentValue[ i ].size});
+		}
 		$("#" + analysis + compartmentValue[ i ].sbmlID).slider({
 			min : 0,
 			max : compartmentValue[ i ].size * 2,
@@ -465,10 +482,12 @@ function addCompartmentSlider( responseData , analysis){
 				var sbmlId = this.id;
 				if( sbmlId.indexOf("sted-") >= 0 ){
 					sbmlId = sbmlId.replace("sted-" , "")
-					var filtered = $.grep( parameter_jsondata.compartmentValue , function( elem , index){
+					var filtered = $.grep( sted_parameter_jsondata.compartmentValue , function( elem , index){
 						return( elem.sbmlID == sbmlId);
 					});
 					filtered[ 0 ].size = ui.value;
+					$("#stedButton").LoadingOverlay("show");
+					getSteadyResult( $("#stedButton") );
 				}
 				else{
 					var filtered = $.grep( parameter_jsondata.compartmentValue , function( elem , index){
@@ -545,8 +564,13 @@ function addLocalParameterValueSlider( responseData , analysis){
 		if( parameterValue[ i ].parameterValue != 0.0 ){
 			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
 		}
-		parameter_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
 		
+		if( analysis == "sted-"){
+			sted_parameter_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
+		}
+		else{
+			parameter_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
+		}
 		$("#" + analysis + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider({
 			min : 0,
 			max : parameterValue[ i ].parameterValue * 2,
@@ -558,10 +582,12 @@ function addLocalParameterValueSlider( responseData , analysis){
 				
 				if( sbmlId.indexOf("sted-") >= 0){
 					sbmlId = sbmlId.replace("sted-" , "")
-					var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
+					var filtered = $.grep( sted_parameter_jsondata.localParamValue , function( elem , index){
 						return( elem.jsID == sbmlId);
 					});
 					filtered[ 0 ].parameterValue = ui.value;
+					$("#stedButton").LoadingOverlay("show");
+					getSteadyResult( $("#stedButton") );
 				}
 				else{
 					var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){

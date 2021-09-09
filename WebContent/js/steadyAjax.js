@@ -6,7 +6,7 @@ sted_parameter_jsondata = {
 		paramValue : []
 }
 //var sessionId = "";
-var currentFile = null;
+var currentFile_Steady = null;
 function getSteadyResult( loadingObject ){
 	var SBML_file;
 	var form_file = document.getElementById("sbml-file");
@@ -60,9 +60,12 @@ function getSteadyResult( loadingObject ){
 
 function callback_Steady( fileName , responseData ){
 	var form_file = document.getElementById("sbml-file");
-	if( currentFile != fileName){
-		//addWarningText( responseData );
-		currentFile = fileName;
+	if( currentFile_Steady != fileName){
+		addInitialValueSlider( responseData , "sted-");
+		addCompartmentSlider( responseData , "sted-");
+		addLocalParameterValueSlider( responseData , "sted-");
+		addGlobalParameterValueSlider( responseData , "sted-");
+		currentFile_Steady = fileName;
 	}
 	
 	var jsonResponse = responseData;
@@ -108,6 +111,7 @@ function configureStedParameter( formdata ){
 	formdata.append("resolution" , document.getElementById("resolution").value);
 	formdata.append("derivation" , document.getElementById("derivation").value);
 	formdata.append("itelimit" , document.getElementById("itelimit").value )
+	formdata.append("parameter" , JSON.stringify( sted_parameter_jsondata));
 	formdata.append("Type" , "steady");
 }
 function downloadData_Steady(){

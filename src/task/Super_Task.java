@@ -11,6 +11,7 @@ import org.sbml.jsbml.SBMLException;
 
 import beans.modelparameter.ModelParameter_Beans;
 import beans.simulation.Simulation_AllBeans;
+import beans.steadystate.SteadyState_AllBeans;
 import exception.JSBML_ReadException;
 import manipulator.SBML_Manipulator;
 
@@ -45,6 +46,9 @@ public class Super_Task {
 	protected void postProcess( Simulation_AllBeans allBeans ){
 		this.manipulator.addUnitForEachSpecies( allBeans );
 		this.manipulator.addAmountConcentration( allBeans );
+		allBeans.setModelParameters( this.manipulator.getModelParameter() );
+	}
+	protected void postProcess( SteadyState_AllBeans allBeans ){
 		allBeans.setModelParameters( this.manipulator.getModelParameter() );
 	}
 	public SBML_Manipulator getManipulator() {

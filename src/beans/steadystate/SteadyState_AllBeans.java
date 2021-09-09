@@ -1,13 +1,21 @@
 package beans.steadystate;
 
+import beans.modelparameter.ModelParameter_Beans;
 import beans.superclass_beans.SuperClass_Beans;
 
 public class SteadyState_AllBeans extends SuperClass_Beans{
+	private ModelParameter_Beans modelParameters;
 	private SteadyState_SteadyAmountBeans steadyAmount[];
 	private SteadyState_JacobianBeans steadyJacobian;
 	private String concentrationUnit;
 	private String rateUnit;
 	private String transitiontimeUnit;
+	public ModelParameter_Beans getModelParameters() {
+		return modelParameters;
+	}
+	public void setModelParameters(ModelParameter_Beans modelParameters) {
+		this.modelParameters = modelParameters;
+	}
 	public SteadyState_SteadyAmountBeans[] getSteadyAmount() {
 		return steadyAmount;
 	}
