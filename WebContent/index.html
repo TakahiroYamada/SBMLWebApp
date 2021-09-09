@@ -188,8 +188,8 @@
 				</li>
 			</ul>
 			<div class = "tab-content">
-				<div id = "graph" class = "tab-pane active">
-					<div class = "row">
+			  <div id = "graph" class = "tab-pane active">
+			    <div class = "row">
 						<div class = "col-8" id = "graph-contents" style = "display:none">
 							<input type="checkbox" id="logarithmicY" onchange="logarithmicFigure('logarithmicY');"> log scale of Y
 							<input type = "checkbox" id = "logarithmicX" onchange = "logarithmicFigure('logarithmicX')"> log scale of X
@@ -279,27 +279,68 @@
 	<br/>
 	<h3> Results of Analysis</h3>
 	<div class = "tabResult">
-		<ul class = "nav nav-tabs">
-			<li class ="nav-item">
-				<a href="#stedAmount" class = "nav-link" data-toggle = "tab"> Species</a>
-			</li>
-			<li class ="nav-item">
-				<a href="#jacobian" class = "nav-link" data-toggle = "tab"> Jacobian Matrix</a>
-			</li>
-			<li class="nav-item">
-				<a href="#" class="nav-link disabled" id = "download-steady" data-toggle = "tab" onclick="downloadData_Steady();"> Download Data</a>
-			</li>
-		</ul>
-		<div class = "tab-content">
-			<div id = "stedAmount" class = "tab-pane active">
-				<div id = "sted-table">
-				</div>
+          <ul class = "nav nav-tabs">
+	    <li class ="nav-item">
+	      <a href="#stedAmount" class = "nav-link" data-toggle = "tab"> Species</a>
+	    </li>
+	    <li class ="nav-item">
+	      <a href="#jacobian" class = "nav-link" data-toggle = "tab"> Jacobian Matrix</a>
+	    </li>
+	    <li class="nav-item">
+	      <a href="#" class="nav-link disabled" id = "download-steady" data-toggle = "tab" onclick="downloadData_Steady();"> Download Data</a>
+	    </li>
+	  </ul>
+          <div class = "tab-content">
+            <div id = "stedAmount" class = "tab-pane active">
+              <div class="row">
+                <div class = "col-8" id = "sted-contents" style = "display:none">
+	          <div id = "sted-table">
+	          </div>
+                </div>
+                <div class = "col-4" id = "sted-tabs" style = "display:none">
+                  <nav class = "navbar">
+		    <ul class = "nav nav-pills nav-stacked" id = "sted-tab-parameter">
+		      <li class="nav-item">
+			<a href="#sted-initialValue" id = "sted-init-item" class = "nav-link" data-toggle="tab">Species</a>
+		      </li>
+		      <li class = "nav-item">
+			<a href="#sted-compartmentValue" id = "sted-comp-item" class = "nav-link" data-toggle="tab"> Compartment</a>						
+		      </li>
+		      <li class ="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">Kinetic Parameter</a>
+			<div class = "dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+			  <a href="#sted-localParam" id = "sted-local-item" class = "dropdown-item" data-toggle = "tab"> Local Parameters</a>
+			  <a href="#sted-globalParam" id = "sted-global-item" class = "dropdown-item" data-toggle = "tab"> Global Parameters</a>
 			</div>
-			<div id = "jacobian" class = "tab-pane">
-				<div id = "jacobian-table">
-				</div>
+		      </li>
+		    </ul>
+		    <div class = "tab-content">
+		      <div id = "sted-initialValue" class = "tab-pane active">
+			<div id = "sted-initialValue-slider">
 			</div>
-		</div>
+		      </div>
+		      <div id = "sted-compartmentValue" class = "tab-pane">
+			<div id = "sted-compartmentValue-slider">
+			</div>
+		      </div>
+		      <div id = "sted-localParam" class = "tab-pane">
+			<div id = "sted-localParam-slider">
+			</div>
+		      </div>
+		      <div id = "sted-globalParam" class = "tab-pane">
+			<div id = "sted-globalParam-slider">
+			</div>
+		      </div>
+		    </div>
+		  </nav>
+                </div>
+	      </div>
+            </div>
+	    <div id = "jacobian" class = "tab-pane" style = "display:none">
+	      <div id = "jacobian-table">
+	      </div>
+	    </div>
+	  </div>
 	</div>
 	</div>
 	<div id = "parameter-widget">

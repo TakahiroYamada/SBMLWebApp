@@ -130,10 +130,10 @@ function callback_Simulation( fileName,responseData , tmpLegend ){
 	configureTable( responseData );
 
 	if( currentFile != fileName ){
-		addInitialValueSlider( responseData );
-		addCompartmentSlider( responseData );
-		addLocalParameterValueSlider( responseData );
-		addGlobalParameterValueSlider( responseData );
+		addInitialValueSlider( responseData , "");
+		addCompartmentSlider( responseData , "");
+		addLocalParameterValueSlider( responseData , "");
+		addGlobalParameterValueSlider( responseData , "");
 		currentFile = fileName;
 	}
 	$("#download").removeClass("disabled");
@@ -231,18 +231,18 @@ function configureFormData( formdata ){
 	formdata.append("SessionId" , sessionId );
 	formdata.append("Type" , "simulation");
 }
-function addInitialValueSlider( responseData){
+function addInitialValueSlider( responseData, analysis){
 	var JSONResponse = responseData;
 	var initialValue = JSONResponse.modelParameters.initValue;
-	var initValueSlider = document.getElementById("initialValue-slider");
-	$("#initialValue-slider").empty();
+	var initValueSlider = document.getElementById(analysis + "initialValue-slider");
+	$("#" + analysis + "initialValue-slider").empty();
 	parameter_jsondata.initValue = [];
 	if( initialValue.length == 0){
-		$("#init-item").addClass("disabled");
-		$("#initialValue").removeClass("active")
+		$("#" + analysis + "init-item").addClass("disabled");
+		$("#" + analysis + "initialValue").removeClass("active")
 	}
 	else{
-		$("#init-item").removeClass("disabled");
+		$("#" + analysis + "init-item").removeClass("disabled");
 	}
 	for( var i = 0 ; i < initialValue.length ; i ++){
 		// html dynamical setting
@@ -256,10 +256,10 @@ function addInitialValueSlider( responseData){
 			newParam.appendChild( document.createTextNode( initialValue[ i ].sbmlID));
 		}
 		var newParamSlider = document.createElement("div");
-		newParamSlider.setAttribute("id", initialValue[ i ].sbmlID);
+		newParamSlider.setAttribute("id", analysis + initialValue[ i ].sbmlID);
 		
 		var newInputText = document.createElement("input");
-		newInputText.setAttribute("id", initialValue[ i ].sbmlID + "_input");
+		newInputText.setAttribute("id", analysis + initialValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
@@ -279,7 +279,7 @@ function addInitialValueSlider( responseData){
 		parameter_jsondata.initValue.push({sbmlID : initialValue[ i ].sbmlID , initialValue : initialValue[ i ].initialValue , status : initialValue[ i ].status});
 		
 		// slider edition
-		$("#" + initialValue[ i ].sbmlID).slider({
+		$("#" + analysis + initialValue[ i ].sbmlID).slider({
 			min : 0,
 			max : initialValue[ i ].initialValue * 2,
 			step : stepSize,
@@ -287,19 +287,30 @@ function addInitialValueSlider( responseData){
 			change : function( e , ui ){
 				$( "#" + this.id + "_input").val( ui.value);
 				var sbmlId = this.id;
-				var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
+				
+				if( sbmlId.indexOf("sted-") >= 0){
+					sbmlId = sbmlId.replace("sted-" , "")
+					var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
+						return( elem.sbmlID == sbmlId);
+					});
+					filtered[ 0 ].initialValue = ui.value;
+				}
+				else{
+					var filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
 					return( elem.sbmlID == sbmlId);
-				});
-				filtered[ 0 ].initialValue = ui.value;
-				$("#simulationCanvas").LoadingOverlay("show");
-				getSimulationResult( $("#simulationCanvas") );
+					});
+					filtered[ 0 ].initialValue = ui.value;
+					
+					$("#simulationCanvas").LoadingOverlay("show");
+					getSimulationResult( $("#simulationCanvas") );
+				}
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
 		// text box edition
-		$("#" + initialValue[ i ].sbmlID + "_input").on("keypress" , function(e){
+		$("#" + analysis + initialValue[ i ].sbmlID + "_input").on("keypress" , function(e){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
@@ -311,18 +322,18 @@ function addInitialValueSlider( responseData){
 	}
 }
 
-function addGlobalParameterValueSlider(){
+function addGlobalParameterValueSlider( responseData , analysis ){
 	var JSONResponse = responseData;
 	var parameterValue = JSONResponse.modelParameters.paramValue;
-	var globalParamSlider = document.getElementById("globalParam-slider");
-	$("#globalParam-slider").empty();
+	var globalParamSlider = document.getElementById(analysis + "globalParam-slider");
+	$("#" + analysis + "globalParam-slider").empty();
 	parameter_jsondata.paramValue = [];
 	if( parameterValue.length == 0){
-		$("#global-item").addClass("disabled");
-		$("#globalParam").removeClass("active");
+		$("#" + analysis + "global-item").addClass("disabled");
+		$("#" + analysis + "globalParam").removeClass("active");
 	}
 	else{
-		$("#global-item").removeClass("disabled");
+		$("#" + analysis + "global-item").removeClass("disabled");
 	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -336,10 +347,10 @@ function addGlobalParameterValueSlider(){
 			newParam.appendChild( document.createTextNode( parameterValue[ i ].sbmlID));
 		}
 		var newParamSlider = document.createElement("div");
-		newParamSlider.setAttribute("id", parameterValue[ i ].sbmlID);
+		newParamSlider.setAttribute("id", analysis + parameterValue[ i ].sbmlID);
 		
 		var newInputText = document.createElement("input");
-		newInputText.setAttribute("id", parameterValue[ i ].sbmlID + "_input");
+		newInputText.setAttribute("id", analysis + parameterValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
@@ -357,7 +368,7 @@ function addGlobalParameterValueSlider(){
 		
 		parameter_jsondata.paramValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue});
 		
-		$("#" + parameterValue[ i ].sbmlID).slider({
+		$("#" + analysis + parameterValue[ i ].sbmlID).slider({
 			min : 0,
 			max : parameterValue[ i ].parameterValue * 2,
 			step : stepSize,
@@ -365,18 +376,28 @@ function addGlobalParameterValueSlider(){
 			change : function( e , ui ){
 				$( "#" + this.id + "_input").val( ui.value);
 				var sbmlId = this.id;
-				var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
-					return( elem.sbmlID == sbmlId);
-				});
-				filtered[ 0 ].parameterValue = ui.value;
-				$("#simulationCanvas").LoadingOverlay("show")
-				getSimulationResult($("#simulationCanvas"));
+				
+				if( sbmlId.indexOf("sted-") >= 0){
+					sbmlId = sbmlId.replace("sted-" , "")
+					var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
+						return( elem.sbmlID == sbmlId);
+					});
+					filtered[ 0 ].parameterValue = ui.value;
+				}
+				else{
+					var filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
+						return( elem.sbmlID == sbmlId);
+					});
+					filtered[ 0 ].parameterValue = ui.value;
+					$("#simulationCanvas").LoadingOverlay("show")
+					getSimulationResult($("#simulationCanvas"));
+				}
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
-		$("#" + parameterValue[ i ].sbmlID + "_input").on( "keypress", function( e ){
+		$("#" + analysis + parameterValue[ i ].sbmlID + "_input").on( "keypress", function( e ){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
@@ -387,18 +408,18 @@ function addGlobalParameterValueSlider(){
 		});
 	}
 }
-function addCompartmentSlider(){
+function addCompartmentSlider( responseData , analysis){
 	var JSONResponse = responseData;
 	var compartmentValue = JSONResponse.modelParameters.compartmentValue;
-	var compartmentSlider = document.getElementById("compartmentValue-slider");
+	var compartmentSlider = document.getElementById(analysis + "compartmentValue-slider");
 	if( compartmentValue.length == 0){
-		$("#comp-item").addClass("disabled");
-		$("#compartmentValue").removeClass("active");
+		$("#" + analysis + "comp-item").addClass("disabled");
+		$("#" + analysis + "compartmentValue").removeClass("active");
 	}
 	else{
-		$("#comp-item").removeClass("disabled");
+		$("#" + analysis + "comp-item").removeClass("disabled");
 	}
-	$("#compartmentValue-slider").empty();
+	$("#" + analysis + "compartmentValue-slider").empty();
 	parameter_jsondata.compartmentValue = [];
 
 	for( var i = 0 ; i < compartmentValue.length ; i ++){
@@ -413,10 +434,10 @@ function addCompartmentSlider(){
 			newParam.appendChild( document.createTextNode( compartmentValue[ i ].sbmlID));
 		}
 		var newParamSlider = document.createElement("div");
-		newParamSlider.setAttribute("id", compartmentValue[ i ].sbmlID);
+		newParamSlider.setAttribute("id", analysis + compartmentValue[ i ].sbmlID);
 		
 		var newInputText = document.createElement("input");
-		newInputText.setAttribute("id", compartmentValue[ i ].sbmlID + "_input");
+		newInputText.setAttribute("id", analysis + compartmentValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
@@ -434,7 +455,7 @@ function addCompartmentSlider(){
 		
 		parameter_jsondata.compartmentValue.push({sbmlID : compartmentValue[ i ].sbmlID , size : compartmentValue[ i ].size});
 		
-		$("#" + compartmentValue[ i ].sbmlID).slider({
+		$("#" + analysis + compartmentValue[ i ].sbmlID).slider({
 			min : 0,
 			max : compartmentValue[ i ].size * 2,
 			step : stepSize,
@@ -442,18 +463,27 @@ function addCompartmentSlider(){
 			change : function( e , ui ){
 				$( "#" + this.id + "_input").val( ui.value);
 				var sbmlId = this.id;
-				var filtered = $.grep( parameter_jsondata.compartmentValue , function( elem , index){
-					return( elem.sbmlID == sbmlId);
-				});
-				filtered[ 0 ].size = ui.value;
-				$("#simulationCanvas").LoadingOverlay("show");
-				getSimulationResult($("#simulationCanvas"));
+				if( sbmlId.indexOf("sted-") >= 0 ){
+					sbmlId = sbmlId.replace("sted-" , "")
+					var filtered = $.grep( parameter_jsondata.compartmentValue , function( elem , index){
+						return( elem.sbmlID == sbmlId);
+					});
+					filtered[ 0 ].size = ui.value;
+				}
+				else{
+					var filtered = $.grep( parameter_jsondata.compartmentValue , function( elem , index){
+						return( elem.sbmlID == sbmlId);
+					});
+					filtered[ 0 ].size = ui.value;
+					$("#simulationCanvas").LoadingOverlay("show");
+					getSimulationResult($("#simulationCanvas"));
+				}
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
-		$("#" + compartmentValue[ i ].sbmlID + "_input").on("keypress" ,  function( e ){
+		$("#" + analysis + compartmentValue[ i ].sbmlID + "_input").on("keypress" ,  function( e ){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
@@ -465,18 +495,18 @@ function addCompartmentSlider(){
 	}
 }
 
-function addLocalParameterValueSlider(){
+function addLocalParameterValueSlider( responseData , analysis){
 	var JSONResponse = responseData;
 	var parameterValue = JSONResponse.modelParameters.localParamValue;
-	var localParamSlider = document.getElementById("localParam-slider");
-	$("#localParam-slider").empty();
+	var localParamSlider = document.getElementById(analysis + "localParam-slider");
+	$("#" + analysis + "localParam-slider").empty();
 	parameter_jsondata.localParamValue = [];
 	if( parameterValue.length == 0){
-		$("#local-item").addClass("disabled");
-		$("#localParam").removeClass("active");
+		$("#" + analysis + "local-item").addClass("disabled");
+		$("#" + analysis + "localParam").removeClass("active");
 	}
 	else{
-		$("#local-item").removeClass("disabled");
+		$("#" + analysis + "local-item").removeClass("disabled");
 	}
 	for( var i = 0 ; i < parameterValue.length ; i ++){
 		var stepSize = 0;
@@ -497,10 +527,10 @@ function addLocalParameterValueSlider(){
 			newParam.appendChild( document.createTextNode( parameterValue[ i ].reactionID + " : " +parameterValue[ i ].sbmlID));
 		}
 		var newParamSlider = document.createElement("div");
-		newParamSlider.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID);
+		newParamSlider.setAttribute("id", analysis + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID);
 		
 		var newInputText = document.createElement("input");
-		newInputText.setAttribute("id", parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input");
+		newInputText.setAttribute("id", analysis + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input");
 		newInputText.setAttribute("type","number")
 		
 		newParam.setAttribute("style","display:inline-block;width:20%;text-align:center");
@@ -517,7 +547,7 @@ function addLocalParameterValueSlider(){
 		}
 		parameter_jsondata.localParamValue.push({sbmlID : parameterValue[ i ].sbmlID , parameterValue : parameterValue[ i ].parameterValue , reactionID : parameterValue[ i ].reactionID , jsID : (parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID)});
 		
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider({
+		$("#" + analysis + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID).slider({
 			min : 0,
 			max : parameterValue[ i ].parameterValue * 2,
 			step : stepSize,
@@ -525,18 +555,28 @@ function addLocalParameterValueSlider(){
 			change : function( e , ui ){
 				$( "#" + this.id + "_input").val( ui.value);
 				var sbmlId = this.id;
-				var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
-					return( elem.jsID == sbmlId);
-				});
-				filtered[ 0 ].parameterValue = ui.value;
-				$("#simulationCanvas").LoadingOverlay("show")
-				getSimulationResult($("#simulationCanvas"));
+				
+				if( sbmlId.indexOf("sted-") >= 0){
+					sbmlId = sbmlId.replace("sted-" , "")
+					var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
+						return( elem.jsID == sbmlId);
+					});
+					filtered[ 0 ].parameterValue = ui.value;
+				}
+				else{
+					var filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
+						return( elem.jsID == sbmlId);
+					});
+					filtered[ 0 ].parameterValue = ui.value;
+					$("#simulationCanvas").LoadingOverlay("show")
+					getSimulationResult($("#simulationCanvas"));
+				}
 			},
 			create : function( e , ui){
 				$( "#" + this.id + "_input").val($(this).slider('option','value'));
 			}
 		});
-		$("#" + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input").on("keypress" , function( e ){
+		$("#" + analysis + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input").on("keypress" , function( e ){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
 					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));

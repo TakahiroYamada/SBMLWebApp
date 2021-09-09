@@ -1,4 +1,10 @@
 var link;
+sted_parameter_jsondata = {
+		initValue : [],
+		compartmentValue : [],
+		localParamValue : [],
+		paramValue : []
+}
 //var sessionId = "";
 var currentFile = null;
 function getSteadyResult( loadingObject ){
@@ -62,6 +68,9 @@ function callback_Steady( fileName , responseData ){
 	var jsonResponse = responseData;
 	//Clear only the data in table not header
 	document.getElementById("stedAmount").style.display = "block";
+	$("#sted-contents").show();
+	$("#sted-tabs").show();
+	
 	var columnStedTable = $("#sted-table").tabulator("getColumnDefinitions");
 	columnStedTable[ 2 ].title = "Concentration (" + jsonResponse.concentrationUnit + ")";
 	columnStedTable[ 3 ].title = "Rate (" + jsonResponse.rateUnit + ")";
@@ -83,6 +92,7 @@ function callback_Steady( fileName , responseData ){
 	$("#jacobian-table").tabulator("setData" , jsonResponse.steadyJacobian.jacob_Amount);
 	document.getElementById("jacobian").style.display = "";
 	$("#download-steady").removeClass("disabled")
+
 }
 function addWarningText( responseData){
 	if( responseData.warningText != null){
