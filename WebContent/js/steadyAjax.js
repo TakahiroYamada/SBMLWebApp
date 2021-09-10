@@ -22,7 +22,17 @@ function getSteadyResult( loadingObject ){
 		SBML_file.name = ModelSBML.SBMLId + ".xml";
 		filedata.append("file" , SBML_file , ModelSBML.SBMLId + ".xml");
 	}
-
+	
+	if( currentFile_Steady != SBML_file.name ){
+		sted_parameter_jsondata ={
+				initValue : [],
+				compartmentValue : [],
+				localParamValue : [],
+				paramValue : []
+		};
+	}
+	
+	
 	filedata.append("SessionId" , sessionId);
 	configureStedParameter( filedata );
 	$.ajax("./Producer" , {
@@ -94,8 +104,58 @@ function callback_Steady( fileName , responseData ){
 	$("#jacobian-table").tabulator("clearData");
 	$("#jacobian-table").tabulator("setData" , jsonResponse.steadyJacobian.jacob_Amount);
 	document.getElementById("jacobian").style.display = "";
-	$("#download-steady").removeClass("disabled")
+	
+	// Set the result of stability information for this equiribrium point
+	stabilityInfo = responseData.steadyStability
+	
+	$("#stability-content").empty();
+	$("#stability-content").append("<h3> KINETIC STABILITY ANALYSIS </h3>");
+	$("#stability-content").append("<p> The linear stability analysis based on the eigenvalues of the Jacobian matrix is only valid for steady states.</p>")
+	
+	$("#stability-content").append("<h4> Summary: </h4>");
+	
+	if( stabilityInfo.mMaxrealpart > stabilityInfo.mResolution){
+		$("#stability-content").append("<p> This state is <span style='color: red; '>unstable. </span></p>");
+	}
+	else if( stabilityInfo.mMaxrealpart < - stabilityInfo.mResolution){
+		$("#stability-content").append("<p> This state is <span style='color: blue; '>asymptotically stable.</span> </p>");
+	}
+	else{
+		$("#stability-content").append("<p> This state's stability is <span style='color: green; '>undetermined.</span></p>");
+	}
+	
+	if( stabilityInfo.mMaximagpart > stabilityInfo.mResolution ){
+		$("#stability-content").append("<p> Transient states in its vicinity have <span style='color: navy; '>oscillatory components. </span></p>");
+	}
 
+	$("#stability-content").append("<br/>");
+	
+	$("#stability-content").append("<h4> Eigenvalue statistics: </h4>");
+	$("#stability-content").append("<p> Largest real part:  " + stabilityInfo.mMaxrealpart + "</p>");
+	
+	$("#stability-content").append("<p> Largest absolute imaginary part:  " + stabilityInfo.mMaximagpart + "</p>");
+	
+	if( stabilityInfo.mImagOfMaxComplex > stabilityInfo.mResolution ){
+		$("#stability-content").append("<p> The complex eigenvalues with the largest real part are:  " + stabilityInfo.mMaxRealOfComplex + "+|-" + stabilityInfo.mImagOfMaxComplex + " i</p>");
+	}
+	
+	$("#stability-content").append( "<p>" + stabilityInfo.mNreal + " are purely real</p>");
+	
+	$("#stability-content").append( "<p>" + stabilityInfo.mNimag + " are purely imaginary</p>" );
+	
+	$("#stability-content").append( "<p>" + stabilityInfo.mNcplxconj + " are complex</p>");
+	
+	$("#stability-content").append( "<p>" + stabilityInfo.mNzero + " are equal to zero </p>" );
+	
+	$("#stability-content").append( "<p>" + stabilityInfo.mNposreal + " have positive real part </p>" );
+	
+	$("#stability-content").append( "<p>" + stabilityInfo.mNnegreal + " have negative real part </p>" );
+	
+	$("#stability-content").append("<p> stiffness = " + stabilityInfo.mStiffness + "</p>");
+	
+	$("#stability-content").append("<p> time hierarchy = " + stabilityInfo.mHierarchy + "</p>");
+	document.getElementById("stability").style.display = "";
+	$("#download-steady").removeClass("disabled")
 }
 function addWarningText( responseData){
 	if( responseData.warningText != null){

@@ -2,7 +2,6 @@ var Ymin;
 var sessionId= "";
 var currentTab = "graph";
 var currentFile = null;
-var sted_currentFile = null;
 var myChart;
 var parameter_jsondata ={
 		initValue : [],
