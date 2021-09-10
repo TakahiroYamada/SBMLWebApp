@@ -193,6 +193,9 @@ function downloadData_Steady(){
 		var jacob_csvContent = tabulatorToCsv("#jacobian-table")
 		var jacob_blob = new Blob([jacob_csvContent] , {type : "text/csv;charset=utf-8"});
 		zip.file(model_name + "_result_JacobianMatrix.csv" , jacob_blob);
+		
+		var stability_blob = new Blob( [document.getElementById("stability-content").innerHTML] , {type : "text/html;charset=utf-8"})
+		zip.file(model_name + "_result_Stability.html", stability_blob );
 		zip.generateAsync({type:"blob"}).then( function( content){
 			saveAs( content , model_name + "_result.zip");
 		});
