@@ -7,6 +7,7 @@ public class SteadyState_AllBeans extends SuperClass_Beans{
 	private ModelParameter_Beans modelParameters;
 	private SteadyState_SteadyAmountBeans steadyAmount[];
 	private SteadyState_JacobianBeans steadyJacobian;
+	private SteadyState_StabilityBeans steadyStability;
 	private String concentrationUnit;
 	private String rateUnit;
 	private String transitiontimeUnit;
@@ -27,6 +28,12 @@ public class SteadyState_AllBeans extends SuperClass_Beans{
 	}
 	public void setSteadyJacobian(SteadyState_JacobianBeans steadyJacobian) {
 		this.steadyJacobian = steadyJacobian;
+	}
+	public SteadyState_StabilityBeans getSteadyStability() {
+		return steadyStability;
+	}
+	public void setSteadyStability(SteadyState_StabilityBeans steadyStability) {
+		this.steadyStability = steadyStability;
 	}
 	public String getConcentrationUnit() {
 		return concentrationUnit;

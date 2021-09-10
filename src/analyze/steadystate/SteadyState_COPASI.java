@@ -8,18 +8,25 @@ import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import javax.swing.border.MatteBorder;
+
 import org.COPASI.CArrayAnnotation;
 import org.COPASI.CCopasiDataModel;
 import org.COPASI.CCopasiParameter;
 import org.COPASI.CCopasiRootContainer;
 import org.COPASI.CCopasiTask;
+import org.COPASI.CEigen;
 import org.COPASI.CModelEntity;
 import org.COPASI.CSteadyStateTask;
 import org.COPASI.SizeTStdVector;
 import org.COPASI.StringStdVector;
+import org.simulator.math.PearsonCorrelation;
+import org.w3c.dom.css.ElementCSSInlineStyle;
+
 import beans.steadystate.SteadyState_AllBeans;
 import beans.steadystate.SteadyState_JacobianBeans;
 import beans.steadystate.SteadyState_JacobianColumnBeans;
+import beans.steadystate.SteadyState_StabilityBeans;
 import beans.steadystate.SteadyState_SteadyAmountBeans;
 import parameter.SteadyStateAnalysis_Parameter;
 
@@ -28,6 +35,7 @@ public class SteadyState_COPASI {
 	private String sbmlModelName;
 	private CCopasiDataModel dataModel;
 	private SteadyStateAnalysis_Parameter stedParam;
+	private SteadyState_StabilityBeans stabilityBeans;
 	private CSteadyStateTask task;
 	public SteadyState_COPASI( SteadyStateAnalysis_Parameter stedParam , String saveFilePath , String filename){
 		this.stedParam = stedParam;
@@ -92,7 +100,7 @@ public class SteadyState_COPASI {
 				pw.println("");
 				pw.print("\t");
 				for (int i = 0; i < annotations.size(); ++i){
-			           pw.printf("%7s\t",annotations.get(i));
+					pw.printf("%7s\t",annotations.get(i));
 			    }
 				pw.println("");
 				for( int i = 0 ; i < annotations.size() ; i ++){
@@ -104,6 +112,11 @@ public class SteadyState_COPASI {
 					}
 					pw.println("");
 				}
+				
+				// Get the stability information of extracted steady state point
+				this.getStability();
+				this.saveStability( pw );
+				
 			}
 			pw.close();
 		} catch (IOException e) {
@@ -168,12 +181,111 @@ public class SteadyState_COPASI {
 			allBeans.setConcentrationUnit( dataModel.getModel().getMetabolite( 0 ).getConcentrationReference().getUnits() );
 			allBeans.setRateUnit( dataModel.getModel().getMetabolite( 0 ).getRateReference().getUnits().replaceFirst("#", allBeans.getConcentrationUnit() ));
 			allBeans.setTransitiontimeUnit( dataModel.getModel().getMetabolite( 0 ).getTransitionTimeReference().getUnits() );
+			
+			allBeans.setSteadyStability( this.getStabilityBeans() );
 		}
 		//if species information is contained in listOfParameters( The ordinal format of SBML for FBA)
 		else{
 			
 		}
 		return allBeans;
+	}
+	private void getStability(){
+		this.stabilityBeans = new SteadyState_StabilityBeans();
+		CEigen tmpEigen = this.task.getEigenValues();
+		this.stabilityBeans.setmMaxrealpart( tmpEigen.getMaxrealpart());
+		this.stabilityBeans.setmMaximagpart( tmpEigen.getMaximagpart());
+		this.stabilityBeans.setmResolution( this.task.getMethod().getParameter("Resolution").getDblValue());		
+		this.stabilityBeans.setmNreal( tmpEigen.getNreal() );
+		this.stabilityBeans.setmNimag( tmpEigen.getNimag() );
+		this.stabilityBeans.setmNcplxconj( tmpEigen.getNcplxconj());
+		this.stabilityBeans.setmNzero( tmpEigen.getNzero() );
+		this.stabilityBeans.setmNposreal( tmpEigen.getNposreal() );
+		this.stabilityBeans.setmNnegreal( tmpEigen.getNnegreal() );
+		this.stabilityBeans.setmStiffness( tmpEigen.getStiffness() );
+		this.stabilityBeans.setmHierarchy( tmpEigen.getHierarchy() );
+		
+		double tmpImagOfMaxComplex;
+		double tmpMaxRealOfComplex;
+		tmpImagOfMaxComplex = Math.abs( tmpEigen.getI().get( 0 ));
+		tmpMaxRealOfComplex = tmpEigen.getR().get( 0 );
+		
+		for( int i = 0 ; i < tmpEigen.getI().size() ; i ++){
+			if( tmpImagOfMaxComplex < Math.abs( tmpEigen.getI().get( i ))){
+				tmpImagOfMaxComplex = Math.abs( tmpEigen.getI().get( i ));
+				tmpMaxRealOfComplex = tmpEigen.getR().get( i );
+			}
+		}
+		
+		this.stabilityBeans.setmImagOfMaxComplex( tmpImagOfMaxComplex );
+		this.stabilityBeans.setmMaxRealOfComplex( tmpMaxRealOfComplex );
+	}
+	private SteadyState_StabilityBeans getStabilityBeans(){
+		return this.stabilityBeans;
+	}
+
+	private void saveStability( PrintWriter pw){
+		pw.println("");
+		pw.println("KINETIC STABILITY ANALYSIS");
+		pw.println("The linear stability analysis based on the eigenvalues");
+		pw.println("of the Jacobian matrix is only valid for steady states.");
+		
+		pw.println("Summary:");
+		pw.print("This state ");
+		
+		if( this.stabilityBeans.getmMaxrealpart() > this.stabilityBeans.getmResolution()){
+			pw.print("is unstable");
+		}
+		else if( this.stabilityBeans.getmMaxrealpart() < - this.stabilityBeans.getmResolution()){
+			pw.print("is asymptotically stable");
+		}
+		else{
+			pw.print("'s stability is undetermined");
+		}
+		
+		if( this.stabilityBeans.getmMaximagpart() > this.stabilityBeans.getmResolution() ){
+			pw.println(",");
+			pw.print("transient states in its vicinity have oscillatory components");
+		}
+		
+		pw.println(".");
+		pw.println();
+		
+		pw.println("Eigenvalue statistics:");
+		pw.print("Largest real part:  ");
+		pw.printf("%6f\n", this.stabilityBeans.getmMaxrealpart());
+		
+		pw.print("Largest absolute imaginary part:  ");
+		pw.printf("%6f\n", this.stabilityBeans.getmMaximagpart());
+		
+		if( this.stabilityBeans.getmImagOfMaxComplex() > this.stabilityBeans.getmResolution() ){
+			pw.print("The complex eigenvalues with the largest real part are:  ");
+			pw.printf("%6f +|- %6f i\n", this.stabilityBeans.getmMaxRealOfComplex() , this.stabilityBeans.getmImagOfMaxComplex() );
+		}
+		
+		pw.print( this.stabilityBeans.getmNreal() );
+		pw.println(" are purely real");
+		
+		pw.print( this.stabilityBeans.getmNimag() );
+		pw.println(" are purely imaginary");
+		
+		pw.print( this.stabilityBeans.getmNcplxconj() );
+		pw.println(" are complex");
+		
+		pw.print( this.stabilityBeans.getmNzero() );
+		pw.println(" are equal to zero");
+		
+		pw.print( this.stabilityBeans.getmNposreal() );
+		pw.println(" have positive real part");
+		
+		pw.print( this.stabilityBeans.getmNnegreal() );
+		pw.println(" have negative real part");
+		
+		pw.print("stiffness = ");
+		pw.println( this.stabilityBeans.getmStiffness() );
+		
+		pw.print("time hierarchy = ");
+		pw.println( this.stabilityBeans.getmHierarchy() );
 	}
 }
 
