@@ -12,6 +12,7 @@ import beans.simulation.Simulation_AllBeans;
 import coloring.Coloring;
 import exception.JSBML_ReadException;
 import exception.NoDynamicSpeciesException;
+import jp.ac.keio.bio.fun.libsbmlsim.libsbmlsim;
 import net.arnx.jsonic.JSON;
 import parameter.Simulation_Parameter;
 

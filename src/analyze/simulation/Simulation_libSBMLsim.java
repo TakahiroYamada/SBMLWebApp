@@ -45,6 +45,7 @@ public class Simulation_libSBMLsim {
 		int numOfTimePoints = this.r.getNumOfRows();
 		double maxCandidate = 0.0;
 		double minCandidate = Double.MAX_VALUE;
+		
 		Simulation_AllBeans simAllBeans = new Simulation_AllBeans();
 		
 		if( r.getNumOfSpecies() != 0 ){
@@ -73,7 +74,7 @@ public class Simulation_libSBMLsim {
 							}
 							if( minCandidate > r.getSpeciesValueAtIndex( r.getSpeciesNameAtIndex( j ), k)){
 								minCandidate = r.getSpeciesValueAtIndex( r.getSpeciesNameAtIndex( j ), k);
-							}
+							}							
 						}
 						allDataSets[ speciesCount ].setData( allXYDataBeans );
 						allDataSets[ speciesCount ].setBorderColor( colorOfVis.getColor( speciesCount ));
@@ -103,8 +104,8 @@ public class Simulation_libSBMLsim {
 							allDataSets[ speciesCount ].setLabel( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i )).getId());
 						}
 						allDataSets[ speciesCount ].setSBMLId( model.getListOfParameters().get( sbmlIDOfODESpecies.get( i )).getId());
-						
 						Simulation_XYDataBeans allXYDataBeans[] = new Simulation_XYDataBeans[ numOfTimePoints ];
+						
 						for( int k = 0 ; k < numOfTimePoints ; k ++){
 							allXYDataBeans[ k ] = new Simulation_XYDataBeans();
 							allXYDataBeans[ k ].setX( r.getTimeValueAtIndex( k ));
@@ -163,7 +164,7 @@ public class Simulation_libSBMLsim {
 			e.printStackTrace();
 		}
 		for( int i = 0 ; i < cdataModel.getModel().getNumModelValues() ; i ++ ){
-			if( cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE ){
+			if( cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE || cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ASSIGNMENT  ){
 				orderODESpecies.add( cdataModel.getModel().getModelValue( i ).getSBMLId() );
 			}
 		}

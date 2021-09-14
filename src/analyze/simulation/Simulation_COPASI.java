@@ -206,10 +206,10 @@ public class Simulation_COPASI {
 	private ArrayList<Integer> getODESpeciesOrder(){
 		ArrayList<Integer> orderODESpecies = new ArrayList<Integer>();
 		for( int i = 0 ; i < dataModel.getModel().getNumModelValues() ; i ++){
-			if( dataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE){
+			if( dataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE || dataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ASSIGNMENT ){
 				orderODESpecies.add( new Integer( i ));
 			}
-		}
+		}		
 		return orderODESpecies;
 	}
 	private int getNumNotFixedSpecies(){

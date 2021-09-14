@@ -183,7 +183,7 @@ public class Simulation_SBSCL {
 		}
 		
 		for( int i = 0 ; i < cdataModel.getModel().getNumModelValues() ; i ++ ){
-			if( cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE ){
+			if( cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ODE || cdataModel.getModel().getModelValue( i ).getStatus() == CModelEntity.ASSIGNMENT  ){
 				orderODESpecies.add( cdataModel.getModel().getModelValue( i ).getSBMLId() );
 			}
 		}
