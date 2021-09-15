@@ -119,6 +119,8 @@ function getSimulationResult( loadingObject ){
 		$("#modalButton").on("click" , function(){
 			$("#warningModal").modal("hide");
 			loadingObject.LoadingOverlay("hide");
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		});
 	});
 }
@@ -146,6 +148,8 @@ function addWarningText( responseData){
 		$("#modalButton").off("click");
 		$("#modalButton").on("click" , function(){
 			$("#warningModal").modal("hide");
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		});
 	}
 }
@@ -273,7 +277,8 @@ function addInitialValueSlider( responseData, analysis){
 		
 		
 		if( initialValue[ i ].initialValue != 0.0 ){
-			stepSize = Math.pow( 10 , (Math.floor( Math.log10( initialValue[ i ].initialValue )) - 1));
+			stepSize = getDigits(initialValue[ i ].initialValue);
+			newInputText.setAttribute("step", stepSize);
 		}
 		// JSON format edition
 		if( analysis == "sted-"){
@@ -319,9 +324,41 @@ function addInitialValueSlider( responseData, analysis){
 		$("#" + analysis + initialValue[ i ].sbmlID + "_input").on("keypress" , function(e){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
-					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+					if( Number($(this).val()) < 1.0e-05){
+						var sbmlId = this.id.replace("_input","");
+						var filtered;
+						if( this.id.indexOf("sted-") >= 0){
+							sbmlId = sbmlId.replace("sted-" , "")
+							filtered = $.grep( sted_parameter_jsondata.initValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].initialValue = Number($(this).val());
+							$("#stedButton").LoadingOverlay("show");
+							getSteadyResult( $("#stedButton") );
+						}
+						else{
+							filtered = $.grep( parameter_jsondata.initValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].initialValue = Number($(this).val());
+							$("#simulationCanvas").LoadingOverlay("show");
+							getSimulationResult( $("#simulationCanvas") );
+						}
+						warningSetting("The slider will not be available for the specified value.", "");
+						$("#warningModal").modal("show");
+						$("#modalButton").off("click");
+						$("#modalButton").on("click" , function(){
+							$("#warningModal").modal("hide");
+							$(".modal-body").empty();
+							$("#modal-content").removeClass();
+						});
+					}
+					else{
+						this.step = getDigits(Number($(this).val()));
+						$("#" + this.id.replace("_input","")).slider("option","step" , getDigits(Number($(this).val())));
+						$("#" + this.id.replace("_input","")).slider("option","max",Number($(this).val() * 2));
+						$("#" + this.id.replace("_input","")).slider("option","value",Number($(this).val()));
+					}
 				}
 			}
 		});
@@ -369,7 +406,8 @@ function addGlobalParameterValueSlider( responseData , analysis ){
 		globalParamSlider.appendChild( newDiv );
 		
 		if( parameterValue[ i ].parameterValue != 0.0 ){
-			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
+			stepSize = getDigits(parameterValue[ i ].parameterValue);
+			newInputText.setAttribute("step", stepSize);
 		}
 		
 		if( analysis == "sted-"){
@@ -412,9 +450,41 @@ function addGlobalParameterValueSlider( responseData , analysis ){
 		$("#" + analysis + parameterValue[ i ].sbmlID + "_input").on( "keypress", function( e ){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
-					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val());
+					if( Number($(this).val()) < 1.0e-05){
+						var sbmlId = this.id.replace("_input","");
+						var filtered;
+						if( this.id.indexOf("sted-") >= 0){
+							sbmlId = sbmlId.replace("sted-" , "")
+							filtered = $.grep( sted_parameter_jsondata.paramValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].parameterValue = Number($(this).val());
+							$("#stedButton").LoadingOverlay("show");
+							getSteadyResult( $("#stedButton") );
+						}
+						else{
+							filtered = $.grep( parameter_jsondata.paramValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].parameterValue = Number($(this).val());
+							$("#simulationCanvas").LoadingOverlay("show");
+							getSimulationResult( $("#simulationCanvas") );
+						}
+						warningSetting("The slider will not be available for the specified value.", "");
+						$("#warningModal").modal("show");
+						$("#modalButton").off("click");
+						$("#modalButton").on("click" , function(){
+							$("#warningModal").modal("hide");
+							$(".modal-body").empty();
+							$("#modal-content").removeClass();
+						});
+					}
+					else{
+						this.step = getDigits(Number($(this).val()));
+						$("#" + this.id.replace("_input","")).slider("option","step" , getDigits(Number($(this).val())));
+						$("#" + this.id.replace("_input","")).slider("option","max",Number($(this).val()) * 2);
+						$("#" + this.id.replace("_input","")).slider("option","value",Number($(this).val()));
+					}				
 				}
 			}
 		});
@@ -462,7 +532,8 @@ function addCompartmentSlider( responseData , analysis){
 		compartmentSlider.appendChild( newDiv );
 		
 		if( compartmentValue[ i ].size != 0.0 ){
-			stepSize = Math.pow( 10 , (Math.floor( Math.log10( compartmentValue[ i ].size )) - 1));
+			stepSize = getDigits(compartmentValue[ i ].size);
+			newInputText.setAttribute("step", stepSize);
 		}
 		
 		if( analysis == "sted-"){
@@ -504,9 +575,41 @@ function addCompartmentSlider( responseData , analysis){
 		$("#" + analysis + compartmentValue[ i ].sbmlID + "_input").on("keypress" ,  function( e ){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
-					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val())
+					if( Number($(this).val()) < 1.0e-05){
+						var sbmlId = this.id.replace("_input","");
+						var filtered;
+						if( this.id.indexOf("sted-") >= 0){
+							sbmlId = sbmlId.replace("sted-" , "")
+							filtered = $.grep( sted_parameter_jsondata.compartmentValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].size = Number($(this).val());
+							$("#stedButton").LoadingOverlay("show");
+							getSteadyResult( $("#stedButton") );
+						}
+						else{
+							filtered = $.grep( parameter_jsondata.compartmentValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].size = Number($(this).val());
+							$("#simulationCanvas").LoadingOverlay("show");
+							getSimulationResult( $("#simulationCanvas") );
+						}
+						warningSetting("The slider will not be available for the specified value.", "");
+						$("#warningModal").modal("show");
+						$("#modalButton").off("click");
+						$("#modalButton").on("click" , function(){
+							$("#warningModal").modal("hide");
+							$(".modal-body").empty();
+							$("#modal-content").removeClass();
+						});
+					}
+					else{
+						this.step = getDigits(Number($(this).val()));
+						$("#" + this.id.replace("_input","")).slider("option","step" , getDigits(Number($(this).val())));
+						$("#" + this.id.replace("_input","")).slider("option","max",Number($(this).val()) * 2);
+						$("#" + this.id.replace("_input","")).slider("option","value",Number($(this).val()));
+					}
 				}
 			}
 		});
@@ -561,7 +664,9 @@ function addLocalParameterValueSlider( responseData , analysis){
 		localParamSlider.appendChild( newDiv );
 		
 		if( parameterValue[ i ].parameterValue != 0.0 ){
-			stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
+			//stepSize = Math.pow( 10 , (Math.floor( Math.log10( parameterValue[ i ].parameterValue )) - 1));
+			stepSize = getDigits(parameterValue[ i ].parameterValue );
+			newInputText.setAttribute("step", stepSize);
 		}
 		
 		if( analysis == "sted-"){
@@ -604,9 +709,41 @@ function addLocalParameterValueSlider( responseData , analysis){
 		$("#" + analysis + parameterValue[ i ].reactionID + parameterValue[ i ].sbmlID + "_input").on("keypress" , function( e ){
 			if( e.which == 13 ){
 				if( !errorCheck_Simulation()){
-					$("#" + this.id.replace("_input","")).slider("option","step" , Math.pow( 10 , (Math.floor( Math.log10( $(this).val())) - 1)));
-					$("#" + this.id.replace("_input","")).slider("option","max",$(this).val() * 2);
-					$("#" + this.id.replace("_input","")).slider("option","value",$(this).val());
+					if( Number($(this).val()) < 1.0e-05){
+						var sbmlId = this.id.replace("_input","");
+						var filtered;
+						if( this.id.indexOf("sted-") >= 0){
+							sbmlId = sbmlId.replace("sted-" , "")
+							filtered = $.grep( sted_parameter_jsondata.localParamValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].parameterValue = Number($(this).val());
+							$("#stedButton").LoadingOverlay("show");
+							getSteadyResult( $("#stedButton") );
+						}
+						else{
+							filtered = $.grep( parameter_jsondata.localParamValue , function( elem , index){
+							return( elem.sbmlID == sbmlId);
+							});
+							filtered[ 0 ].parameterValue = Number($(this).val());
+							$("#simulationCanvas").LoadingOverlay("show");
+							getSimulationResult( $("#simulationCanvas") );
+						}
+						warningSetting("The slider will not be available for the specified value.", "");
+						$("#warningModal").modal("show");
+						$("#modalButton").off("click");
+						$("#modalButton").on("click" , function(){
+							$("#warningModal").modal("hide");
+							$(".modal-body").empty();
+							$("#modal-content").removeClass();
+						});
+					}
+					else{
+						this.step = getDigits(Number($(this).val()));
+						$("#" + this.id.replace("_input","")).slider("option","step" , getDigits(Number($(this).val())));
+						$("#" + this.id.replace("_input","")).slider("option","max",Number($(this).val()) * 2);
+						$("#" + this.id.replace("_input","")).slider("option","value",Number($(this).val()));
+					};
 				}
 			}
 		});

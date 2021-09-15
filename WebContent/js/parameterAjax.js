@@ -175,6 +175,8 @@ function analyzeData( loadingObject ){
 		$("#modalButton").on("click" , function(){
 			$("#warningModal").modal("hide");
 			loadingObject.LoadingOverlay("hide");
+			$(".modal-body").empty();
+			$("#modal-content").removeClass();
 		});
 	});
 }

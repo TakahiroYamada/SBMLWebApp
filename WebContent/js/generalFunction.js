@@ -98,3 +98,29 @@ function errorSetting( errorText , solveText){
 	newErrorContents.append( solveErrorText );
 	$(".modal-body").append( newErrorContents);
 }
+
+function getDigits( val ){
+	var fullDigits = Math.floor( Math.log10( val ));
+	var valStr = val.toString().replace(".","");
+	var wDigits = 0;
+	if( valStr[0] == 0){
+		var i = 0;
+		while( valStr[ i ] == "0"){
+			i = i + 1;
+		}
+		wDigits = valStr.length - i
+		return( Math.pow( 10 , fullDigits - wDigits));;
+	}
+	else if( valStr[ valStr.length - 1] == 0 ){
+		var i = valStr.length
+		while( valStr[ i ] == "0"){
+			i = i - 1;
+		}
+		wDigits = valStr.length - i;
+		return( Math.pow( 10 , fullDigits - wDigits - 1));
+	}
+	else{
+		wDigits = valStr.length;
+		return( Math.pow( 10 , fullDigits - wDigits + 1));
+	}
+}
