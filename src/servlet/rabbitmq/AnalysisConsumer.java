@@ -69,7 +69,7 @@ public class AnalysisConsumer extends HttpServlet {
 					} catch (COPASI_ExportException e) {
 						Error_Message error = new Error_Message();
 						error.setErrorMessage( e.getMessage() );
-						error.setSolveText("Please check your model's extention.");
+						error.setSolveText("Please check your model's extention. Current COPASI version does not support the export of SBML including Global Parameters.");
 						response = JSON.encode( error );
 						e.printStackTrace();
 					} catch (IllegalArgumentException e){

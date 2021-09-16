@@ -60,7 +60,7 @@ public class Task_ParameterEstimation extends Super_Task{
 		Simulation_COPASI afterFitting = new Simulation_COPASI(paramestCOPASI.getDataModel(), paramSim);
 		this.paramestAllBeans.setAfterFitting(afterFitting.configureSimulationBeans(colorOfVis));
 		try {
-			paramestCOPASI.getDataModel().exportSBML( paramestParam.getPathToFile() + "/Updated_" + paramestParam.getFileName() );
+			paramestCOPASI.getDataModel().exportSBML( paramestParam.getPathToFile() + "/Updated_" + paramestParam.getFileName() , false, 2, 4 );
 		} catch (Exception e) {
 			COPASI_ExportException ce = new COPASI_ExportException();
 			throw ce;
