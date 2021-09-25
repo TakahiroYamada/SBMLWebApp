@@ -99,7 +99,7 @@ Docker installation : https://docs.docker.com/engine/installation/
 Docker-compose installation : https://docs.docker.com/compose/install/
 
 1. `cd docker`
-1. `export LOCAL_HOST_IP=/sbin/ifconfig en0 | awk '/inet / { print $2 }'` or `export LOCAL_HOST_IP=(Your Private IP Address)`
+1. `export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }')` or `export LOCAL_HOST_IP=(Your Private IP Address)`
 1. `docker-compose up -d`
 
 
