@@ -98,10 +98,21 @@ Docker installation : https://docs.docker.com/engine/installation/
 
 Docker-compose installation : https://docs.docker.com/compose/install/
 
-1. `cd docker`
-1. `export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }')` or `export LOCAL_HOST_IP=(Your Private IP Address)`
-1. `docker-compose up -d`
+1. for macOS
+```sh
+$ cd docker
+$ export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
+$ docker-compose up -d
+```
 
+2. for Linux
+```sh
+$ cd docker
+$ export DEV_ETHER=$(/sbin/route | grep default | awk '{print $8}')
+$ export LOCAL_HOST_IP=$(/sbin/ifconfig $DEV_ETHER | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
+$ unset DEV_ETHER
+$ docker-compose up -d
+```
 
 Then you can execute analysis using your favorite browser with the URL of `http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/`
 
