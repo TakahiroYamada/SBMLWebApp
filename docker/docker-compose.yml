@@ -1,0 +1,32 @@
+version: '3'
+services:
+        rabbitmq:
+                image: rabbitmq:3-management
+                container_name: rabbit
+                hostname: my-rabbit
+                restart: always
+                expose:
+                        - "15672"
+                        - "5672"
+                ports:
+                        - "15672:15672"
+                        - "5672:5672"
+                healthcheck:
+                        test: exit 0
+                        interval: 20s
+                        timeout: 10s
+                        retries: 3
+                        start_period: 10s
+        sbmlwebapp:
+                image: takahiroyamada/gsoc_sbmlanalysis
+                container_name: sbmlwebapp
+                restart: always
+                extra_hosts:
+                        - "localhost:${LOCAL_HOST_IP}"
+                ports:
+                        - "80:8080"
+                depends_on:
+                        rabbitmq:
+                                condition: service_healthy
+                
+

@@ -92,11 +92,17 @@ After finishing the tomcat configuration one can run the server in Eclipse via:
 see also https://www.jetbrains.com/help/idea/2017.1/run-debug-configuration-tomcat-server.html
 
 ### Docker Image
-Docker Image of this application has been already prepared. If you felt annoying when you use this application via our server, installing this image and create the container based on it and executing analysis is better for you.
+Docker composed container of this application has been already prepared. If you felt annoying when you use this application via our server, running composed containers and and executing analysis is better for you.
 
 Docker installation : https://docs.docker.com/engine/installation/
 
-1. `docker pull takahiroyamada/gsoc_sbmlanalysis`
-1. `docker run -it --rm -p 80:8080 takahiroyamada/gsoc_sbmlanalysis`
+Docker-compose installation : https://docs.docker.com/compose/install/
 
-Then you can execute analysis using your favorite browser with the URL of "http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/"
+1. `cd docker`
+1. `export LOCAL_HOST_IP=/sbin/ifconfig en0 | awk '/inet / { print $2 }'` or `export LOCAL_HOST_IP=(Your Private IP Address)`
+1. `docker-compose up -d`
+
+
+Then you can execute analysis using your favorite browser with the URL of `http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/`
+
+When you want to finish it, please type `docker-compose down`.
