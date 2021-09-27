@@ -131,9 +131,9 @@ The followoing steps are only necesary if you cannot find the subfolders `CytoSc
 
 Next, please rename the folder `cytoscape.js` to `CytoScape` and make sure that the right versions are present by checking out the following specific git tags within the correspoinding sub-repositories:
 
-* FileSaver.js : v2.0.4
-* cytoscape.js : v3.2.3
-* ScrollTrigger : v0.3.6
+* FileSaver.js : v2.0.4 -> move to the folder and use `git checkout tags/v2.0.4`
+* cytoscape.js : v3.2.3 -> move to the folder and use `git checkout tags/v3.2.3`
+* ScrollTrigger : v0.3.6 -> move to the folder and use `git checkout tags/v0.3.6`
 
 Now, you should navigate back to the project's root folder where you can run
 ```
