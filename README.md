@@ -131,9 +131,9 @@ The followoing steps are only necesary if you cannot find the subfolders `CytoSc
 
 Next, please rename the folder `cytoscape.js` to `CytoScape` and make sure that the right versions are present by checking out the following specific git tags within the correspoinding sub-repositories:
 
-* FileSaver.js : v2.0.4 -> move to the folder and use `git checkout tags/v2.0.4`
-* cytoscape.js : v3.2.3 -> move to the folder and use `git checkout tags/v3.2.3`
-* ScrollTrigger : v0.3.6 -> move to the folder and use `git checkout tags/v0.3.6`
+* FileSaver.js : v2.0.4 → move to the folder and use `git checkout tags/v2.0.4`
+* cytoscape.js : v3.2.3 → move to the folder and use `git checkout tags/v3.2.3`
+* ScrollTrigger : v0.3.6 → move to the folder and use `git checkout tags/v0.3.6`
 
 Now, you should navigate back to the project's root folder where you can run
 ```
@@ -152,3 +152,7 @@ On many systems you may need to build libSBMLsim yourself and place it in the ri
 Before proceeding, you may want to run `mvn clean` before attempting another build process with `mvn package`.
 
 If everything worked as supposed, you should now find the `war` file in the subfolder `target` of the project's root.
+The next steps are:
+1. Distributing created `war` file under target directory to the apache tomcat `webapp` directory
+2. Running RabbitMQ with `rabbitmq-server` after the configuration written before.
+3. Running TomCat with executing `startup.sh` under `bin` directory of apache tomcat.
