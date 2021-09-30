@@ -111,7 +111,7 @@ $ cd docker
 $ export DEV_ETHER=$(/sbin/route | grep default | awk '{print $8}')
 $ export LOCAL_HOST_IP=$(/sbin/ifconfig $DEV_ETHER | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
 $ unset DEV_ETHER
-$ docker-compose up -d
+$ sudo LOCAL_HOST_IP=$LOCAL_HOST_IP docker-compose up -d
 ```
 
 Then you can execute analysis using your favorite browser with the URL of `http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/`
