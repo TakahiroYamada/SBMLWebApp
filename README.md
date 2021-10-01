@@ -92,27 +92,34 @@ After finishing the tomcat configuration one can run the server in Eclipse via:
 see also https://www.jetbrains.com/help/idea/2017.1/run-debug-configuration-tomcat-server.html
 
 ### Docker Image
-Docker composed container of this application has been already prepared. If you felt annoying when you use this application via our server, running composed containers and and executing analysis is better for you.
+Docker composed container of this application has been already prepared. If you felt annoying when you use this application via our server, running composed containers and executing analysis is better for you.
 
 Docker installation : https://docs.docker.com/engine/installation/
 
 Docker-compose installation : https://docs.docker.com/compose/install/
 
+We have confirmed that the docker image works in the following environment.
+
+  . | OS version | docker | docker-compose 
+-- | -- | -- | --
+macOS | macOS Mojave 10.14.6 x86_64 | 20.10.7 | 1.29.2
+Linux | Ubuntu 18.04.6 LTS x86_64 | 20.10.8 | 1.17.1
+
 1. for macOS
-```sh
-$ cd docker
-$ export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
-$ docker-compose up -d
-```
+  ```sh
+  $ cd docker
+  $ export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
+  $ docker-compose up -d
+  ```
 
 2. for Linux
-```sh
-$ cd docker
-$ export DEV_ETHER=$(/sbin/route | grep default | awk '{print $8}')
-$ export LOCAL_HOST_IP=$(/sbin/ifconfig $DEV_ETHER | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
-$ unset DEV_ETHER
-$ sudo LOCAL_HOST_IP=$LOCAL_HOST_IP docker-compose up -d
-```
+  ```sh
+  $ cd docker
+  $ export DEV_ETHER=$(/sbin/route | grep default | awk '{print $8}')
+  $ export LOCAL_HOST_IP=$(/sbin/ifconfig $DEV_ETHER | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
+  $ unset DEV_ETHER
+  $ sudo LOCAL_HOST_IP=$LOCAL_HOST_IP docker-compose up -d
+  ```
 
 Then you can execute analysis using your favorite browser with the URL of `http://localhost/SBMLWebApp/`
 
