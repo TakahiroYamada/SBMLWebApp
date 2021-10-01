@@ -45,6 +45,7 @@
         </configuration>
       </plugin>
     </plugins>
+     <finalName>SBMLWebApp</finalName>
   </build>
   <dependencies>
 	  <dependency>
