@@ -116,13 +116,13 @@
                       </tr>
                     </tbody>
                   </table>
-                  <h5 class= "col-sm-12"> <u> for macOS </u> (confirmed to work properly with macOS Mojave 10.14.6)</h5>
+                  <h5 class= "col-sm-12"> <u> for macOS </u> </h5>
 		  <code style = "border:solid 1px;">
                     % cd docker <br/>
                     % export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address) <br/>
                     % docker-compose up -d                                
 	          </code>
-                  <h5 class= "col-sm-12"> <u> for Linux </u> (confirmed to work properly on Ubuntu 18.04.6) </h5>
+                  <h5 class= "col-sm-12"> <u> for Linux </u> </h5>
 		  <code style = "border:solid 1px;">
                     % cd docker <br/>
                     % export DEV_ETHER=$(/sbin/route | grep default | awk '{print $8}') <br/>
