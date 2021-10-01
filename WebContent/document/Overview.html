@@ -84,12 +84,30 @@
 			<h4> <u> Docker run </u></h4>
 		</div>
 		<div class = "row">
-			Docker Image of this application has been already prepared. If you felt annoying when you use this application via our server, installing this image and create the container based on it and executing analysis is better for you.
-			<code style = "border:solid 1px;">
-				docker pull takahiroyamada/gsoc_sbmlanalysis <br/>
-				docker run -it --rm -p 80:8080 takahiroyamada/gsoc_sbmlanalysis
-			</code>
-			Then you can execute analysis using your favorite browser with the URL of "http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/"</div>	
+                  <p>
+		    Docker composed container of this application has been already prepared. If you felt annoying when you use this application via our server, running composed containers and and executing analysis is better for you. <br/>
+                    Docker installation : <a href="https://docs.docker.com/engine/installation/"> https://docs.docker.com/engine/installation/</a> <br/>
+                    Docker-compose installation : <a href="https://docs.docker.com/compose/install/"> https://docs.docker.com/compose/install/ </a>
+                  </p>
+                  <h5 class= "col-sm-12"> <u> for macOS </u> </h5>
+		  <code style = "border:solid 1px;">
+                    % cd docker <br/>
+                    % export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address) <br/>
+                    % docker-compose up -d                                
+	          </code>
+                  <h5 class= "col-sm-12"> <u> for Linux </u> </h5>
+		  <code style = "border:solid 1px;">
+                    % cd docker <br/>
+                    % export DEV_ETHER=$(/sbin/route | grep default | awk '{print $8}') <br/>
+                    % export LOCAL_HOST_IP=$(/sbin/ifconfig $DEV_ETHER | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address) <br/>
+                    % unset DEV_ETHER <br/>
+                    % sudo LOCAL_HOST_IP=$LOCAL_HOST_IP docker-compose up -d
+	          </code>
+                  <p>
+		    Then you can execute analysis using your favorite browser with the URL of "http://localhost/SBMLWebApp/" <br/>
+                    When you want to finish it, please type <code style="display:inline"> docker-compose down</code>.
+                  </p>
+                </div>	
 		<div class = "row itemize">
 			<h1> How to use this application </h1>
 		</div>
