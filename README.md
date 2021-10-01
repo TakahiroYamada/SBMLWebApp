@@ -114,7 +114,7 @@ $ unset DEV_ETHER
 $ sudo LOCAL_HOST_IP=$LOCAL_HOST_IP docker-compose up -d
 ```
 
-Then you can execute analysis using your favorite browser with the URL of `http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/`
+Then you can execute analysis using your favorite browser with the URL of `http://localhost/SBMLWebApp/`
 
 When you want to finish it, please type `docker-compose down`.
 
