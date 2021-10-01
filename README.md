@@ -98,11 +98,61 @@ Docker installation : https://docs.docker.com/engine/installation/
 
 Docker-compose installation : https://docs.docker.com/compose/install/
 
-1. `cd docker`
-1. `export LOCAL_HOST_IP=/sbin/ifconfig en0 | awk '/inet / { print $2 }'` or `export LOCAL_HOST_IP=(Your Private IP Address)`
-1. `docker-compose up -d`
+1. for macOS
+```sh
+$ cd docker
+$ export LOCAL_HOST_IP=$(/sbin/ifconfig en0 | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
+$ docker-compose up -d
+```
 
+2. for Linux
+```sh
+$ cd docker
+$ export DEV_ETHER=$(/sbin/route | grep default | awk '{print $8}')
+$ export LOCAL_HOST_IP=$(/sbin/ifconfig $DEV_ETHER | awk '/inet / { print $2 }') # or export LOCAL_HOST_IP=(Your Private IP Address)
+$ unset DEV_ETHER
+$ sudo LOCAL_HOST_IP=$LOCAL_HOST_IP docker-compose up -d
+```
 
 Then you can execute analysis using your favorite browser with the URL of `http://localhost/GSOC_WebMavenProject-0.0.1-SNAPSHOT/`
 
 When you want to finish it, please type `docker-compose down`.
+
+#### Building the project via Maven
+
+After checking out the project using `git clone` make sure the folder `WebContent/` contains required third-party applications.
+In some cases, recursive cloning might not work properly.
+
+The followoing steps are only necesary if you cannot find the subfolders `CytoScape`, `ScrollTrigger`, and `FileSaver.js` within the folder `WebContent/` or if they are empty, please navigate to `WebContent/` and use `git clone` for these three:
+
+1. `git clone https://github.com/terwanerik/ScrollTrigger.git`
+2. `git clone https://github.com/eligrey/FileSaver.js.git` and
+3. `git clone https://github.com/cytoscape/cytoscape.js.git`
+
+Next, please rename the folder `cytoscape.js` to `CytoScape` and make sure that the right versions are present by checking out the following specific git tags within the correspoinding sub-repositories:
+
+* FileSaver.js : v2.0.4 → move to the folder and use `git checkout tags/v2.0.4`
+* cytoscape.js : v3.2.3 → move to the folder and use `git checkout tags/v3.2.3`
+* ScrollTrigger : v0.3.6 → move to the folder and use `git checkout tags/v0.3.6`
+
+Now, you should navigate back to the project's root folder where you can run
+```
+mvn package
+```
+to build the project.
+
+The main problems that might prevent it from succesfully compiling the project could be missing links to required dependencies.
+Your system might not find the [Systems Biology Simulation Core Library (SBSCL)](https://github.com/draeger-lab/SBSCL) version 1.5, libSBML, or libSBMLsim.
+For the libSBML dependency, it is, on most systems, sufficient to set the environment variable `LD_LIBRARY_PATH` to the directory where libSBML is installed on your system.
+LibSBMLsim and SBSCL can be copied over to the subfolder `lib` if missing:
+* `lib/SimulationCore/dist/SimulationCoreLibrary-1.5/SimulationCoreLibrary_v1.5_slim.jar`
+* `lib/libSBMLsim/build/src/bindings/java/libsbmlsimj.jar`.
+You can download SBSCL version 1.5 from the [corresponding project](https://github.com/draeger-lab/SBSCL/tree/v1.5.0) and name it `SimulationCoreLibrary_v1.5_slim.jar` after placing it at the specified location.
+On many systems you may need to build libSBMLsim yourself and place it in the right folder (see the [build instructions](https://github.com/libsbmlsim/libsbmlsim)).
+Before proceeding, you may want to run `mvn clean` before attempting another build process with `mvn package`.
+
+If everything worked as supposed, you should now find the `war` file in the subfolder `target` of the project's root.
+The next steps are:
+1. Distributing created `war` file under target directory to the apache tomcat `webapp` directory
+2. Running RabbitMQ with `rabbitmq-server` after the configuration written before.
+3. Running TomCat with executing `startup.sh` under `bin` directory of apache tomcat.
