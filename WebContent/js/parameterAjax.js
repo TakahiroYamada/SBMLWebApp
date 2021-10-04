@@ -125,8 +125,14 @@ function analyzeData( loadingObject ){
 		SBML_file.name = ModelSBML.SBMLId + ".xml";
 		filedata.append("SBMLFile" , SBML_file , ModelSBML.SBMLId + ".xml");
 		
-		Exp_file = new Blob( [ExpData.Data] , {type : "text/csv;charset=utf-8"});
-		filedata.append("ExpFile" , Exp_file , ExpData.ExpId + ".csv");
+		if( exampleFrag ){
+			Exp_file = new Blob( [ExpData.Data] , {type : "text/csv;charset=utf-8"});
+			filedata.append("ExpFile" , Exp_file , ExpData.ExpId + ".csv");
+		}
+		else{
+			Exp_file = exp_file.files[ 0 ];
+			filedata.append("ExpFile" , Exp_file);
+		}
 	}
 	
 	// If model file is changed , parameter_estimation_jsondata is initialized firstly.
