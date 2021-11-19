@@ -240,7 +240,13 @@ function addInitialValueSlider( responseData, analysis){
 	var initialValue = JSONResponse.modelParameters.initValue;
 	var initValueSlider = document.getElementById(analysis + "initialValue-slider");
 	$("#" + analysis + "initialValue-slider").empty();
-	parameter_jsondata.initValue = [];
+	if( analysis == "sted-"){
+		sted_parameter_jsondata.initValue = [];
+	}
+	else{
+		parameter_jsondata.initValue = [];
+	}
+
 	if( initialValue.length == 0){
 		$("#" + analysis + "init-item").addClass("disabled");
 		$("#" + analysis + "initialValue").removeClass("active")
@@ -370,7 +376,12 @@ function addGlobalParameterValueSlider( responseData , analysis ){
 	var parameterValue = JSONResponse.modelParameters.paramValue;
 	var globalParamSlider = document.getElementById(analysis + "globalParam-slider");
 	$("#" + analysis + "globalParam-slider").empty();
-	parameter_jsondata.paramValue = [];
+	if( analysis == "sted-"){
+		sted_parameter_jsondata.paramValue = [];
+	}
+	else{
+		parameter_jsondata.paramValue = [];
+	}
 	if( parameterValue.length == 0){
 		$("#" + analysis + "global-item").addClass("disabled");
 		$("#" + analysis + "globalParam").removeClass("active");
@@ -502,7 +513,12 @@ function addCompartmentSlider( responseData , analysis){
 		$("#" + analysis + "comp-item").removeClass("disabled");
 	}
 	$("#" + analysis + "compartmentValue-slider").empty();
-	parameter_jsondata.compartmentValue = [];
+	if( analysis == "sted-"){
+		sted_parameter_jsondata.compartmentValue = [];
+	}
+	else{
+		parameter_jsondata.compartmentValue = [];
+	}
 
 	for( var i = 0 ; i < compartmentValue.length ; i ++){
 		var stepSize = 0;
@@ -621,7 +637,12 @@ function addLocalParameterValueSlider( responseData , analysis){
 	var parameterValue = JSONResponse.modelParameters.localParamValue;
 	var localParamSlider = document.getElementById(analysis + "localParam-slider");
 	$("#" + analysis + "localParam-slider").empty();
-	parameter_jsondata.localParamValue = [];
+	if( analysis == "sted-"){
+		sted_parameter_jsondata.localParamValue = [];
+	}
+	else{
+		parameter_jsondata.localParamValue = [];
+	}
 	if( parameterValue.length == 0){
 		$("#" + analysis + "local-item").addClass("disabled");
 		$("#" + analysis + "localParam").removeClass("active");
