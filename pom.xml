@@ -5,16 +5,6 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <repositories>
-    <repository> 
-  		<id>dependency-snapshots-repo</id> 
-  		<url>https://oss.sonatype.org/content/repositories/snapshots</url> 
-  		<releases> 
-  			<enabled>false</enabled> 
-  		</releases> 
-  		<snapshots> 
-  			<enabled>true</enabled> 
-  		</snapshots>
-  	</repository>
   	<repository>
   		<id>ImageJ Public</id>
   		<url> http://maven.imagej.net/content/repositories/public/</url>
@@ -206,14 +196,14 @@
   			<version>2.8.7</version>
   		</dependency>
   		<dependency>
-  			<groupId>org.sbml.jsbml</groupId>
-  			<artifactId>jsbml</artifactId>
-  			<version>1.6-SNAPSHOT</version>
-  		</dependency>
-  		<dependency>
   			<groupId>com.github.ijpb</groupId>
   			<artifactId>MorphoLibJ</artifactId>
   			<version>v1.3.2</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.sbml.jsbml</groupId>
+  			<artifactId>jsbml</artifactId>
+  			<version>1.6.1</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>
