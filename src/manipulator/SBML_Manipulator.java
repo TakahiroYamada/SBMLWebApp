@@ -82,6 +82,7 @@ public class SBML_Manipulator {
 	}
 	public void addUnitForEachSpecies( Simulation_AllBeans allBeans ){
 		for( int i = 0 ; i < allBeans.getData().length ; i ++){
+			
 			if( document.getModel().getSpecies( allBeans.getData()[ i ].getSBMLId()) != null ){
 				Species tmpSpecies = document.getModel().getSpecies( allBeans.getData()[ i ].getSBMLId());
 				if( !tmpSpecies.getUnits().isEmpty() ){

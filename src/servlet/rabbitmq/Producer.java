@@ -79,7 +79,6 @@ public class Producer extends HttpServlet {
 		} catch (TimeoutException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 		Map errorCheckMap = JSON.decode( responseData );
 		if( errorCheckMap.get("errorMessage") != null ){
 			response.setStatus(400);

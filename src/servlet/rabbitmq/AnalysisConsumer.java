@@ -92,8 +92,14 @@ public class AnalysisConsumer extends HttpServlet {
 						error.setSolveText("Please check your input file which is readable by JSBML (Your SBML file may include the unsupported packages in SBML).");
 						response = JSON.encode( error );
 						e.printStackTrace();
+					} catch( Exception e){
+						Error_Message error = new Error_Message();
+						error.setErrorMessage( "Unknown error happen!" );
+						error.setSolveText("Please contact the developers.");
+						response = JSON.encode( error );
 						e.printStackTrace();
-					}finally{
+					}
+					finally{
 						channel.basicPublish( "", properties.getReplyTo(), replyProps , response.getBytes("UTF-8"));
 						channel.basicAck( envelope.getDeliveryTag() , false);
 					}
